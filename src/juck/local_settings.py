@@ -27,7 +27,7 @@ LOGGING = {
 }
 
 
-BASEPATH      = '/Users/alirezasadeghi/Projects/DjangoProjects/Juck'
+BASEPATH      ='/home/alireza/Documents/Juck'
 STATIC_ROOT   = BASEPATH + 'static/'
 SITE_URL      = 'http://127.0.0.1:8000/'
 LOGIN_URL     = '/accounts/login/'
