@@ -50,7 +50,7 @@ SECRET_KEY    = 'alkdj./alekjtl1j35ljad/madgljhad?A?D:GA:DA"GADLg135;kadf'
 DATABASES = {
 		'default': {
 			'ENGINE':   'django.db.backends.sqlite3',
-			'NAME':     'reza.sqlite',
+			'NAME':     'Juck.sqlite',
 			'USER':     'root',
 			'PASSWORD': '',
 			'HOST':     '',
