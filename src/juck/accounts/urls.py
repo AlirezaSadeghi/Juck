@@ -4,7 +4,7 @@ from django.contrib.auth.views import logout
 #from django.contrib.auth.views import  password_change, password_change_done
 
 urlpatterns = patterns('juck.accounts.views',
-                       url(r'$', 'homepage', name='homepage'),
+                       url(r'^$', 'homepage', name='homepage'),
 
                        url(r'^about/$', 'about_us', {}, name='about'),
                        url(r'^contact-us/$', 'contact_us', {}, name='contact_us'),

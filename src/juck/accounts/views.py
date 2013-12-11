@@ -142,8 +142,7 @@ def password_recover(request):
 
 
 def js_registration(request):
-    if request.method == "GET":
-        return HttpResponse("Okay")
+    return HttpResponse("Okay")
 
 
 def employer_registration(request):
