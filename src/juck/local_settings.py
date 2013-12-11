@@ -26,7 +26,6 @@ LOGGING = {
 }
 
 BASEPATH = '/Users/alirezasadeghi/Projects/DjangoProjects/Juck'
-STATIC_ROOT = BASEPATH + 'static/'
 SITE_URL = 'http://127.0.0.1:8000/'
 LOGIN_URL = '/accounts/login/'
 
@@ -40,7 +39,6 @@ TEMPLATE_DIRS = ( # in here JUST import django admin templates
                   'C:/Python27/Lib/site-packages/django/contrib/admin/templates/', # for windows users
 )
 
-SERVE_STATIC_FILES = True
 
 SECRET_KEY = 'alkdj./alekjtl1j35ljad/madgljhad?A?D:GA:DA"GADLg135;kadf'
 

@@ -1,0 +1,368 @@
+@font-face {
+    font-family: 'BYekan';
+    src: url('../fonts/BYekan.eot');
+    src: local('?'), url('../fonts/BYekan.woff') format('woff'), url('../fonts/BYekan.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mj_Liner Screen Bd';
+    src: url('../fonts/Mj_Liner Screen Bd.eot');
+    src: local('?'), url('../fonts/Mj_Liner Screen Bd.woff') format('woff'), url('../fonts/Mj_Liner Screen Bd.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+.starred {
+    color: red;
+    font-size: 20px;
+    margin-top: -4px;
+    margin-right: -13px;
+    float: right;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+    height: 100%;
+    font-family: 'BYekan', tahoma;
+    background: #f2f2f2;
+}
+
+a {
+    text-decoration: none;
+}
+
+.clr {
+    clear: both;
+}
+
+.center {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.flr {
+    float: right;
+}
+
+.page {
+    min-height: 100%;
+}
+
+/*--Main--*/
+.hdr {
+    position: relative;
+    min-height: 150px;
+    width: 100%;
+    background: url('../images/body-bg.gif') repeat #353535;
+}
+
+.hdr-logo {
+    width: 285px;
+    height: 80px;
+    float: right;
+    display: inline-block;
+    /*text-indent: -9999px;*/
+    /*background: url('../images/logo.png') no-repeat center;*/
+    /*margin: 35px 0;*/
+}
+
+#login-div {
+    display: none;
+}
+
+ul.user-menu {
+    clear: both;
+    box-shadow: 0 1px 4px #999;
+    width: 100%;
+    background: #108edc;
+    height: 50px;
+    margin: 100px 0 0;
+    list-style-type: none;
+}
+
+#breadcrumbs {
+    font: 14px "BYekan", "Mj_Liner Screen Bd";
+    display: inline-block;
+    position: absolute;
+    top: 231px;
+    right: 500px;
+    border-right: 3px solid gray;
+    padding-right: 15px;
+}
+
+#breadcrumbs a, #breadcrumbs span {
+    font: 13px "BYekan", "Mj_Liner Screen Bd";
+    background-color: #eaeaea;
+    padding: 7px 10px;
+    border-radius: 3px;
+    color: #444444;
+    cursor: pointer;
+}
+
+#breadcrumbs span:hover, #breadcrumbs a:hover {
+    background-color: #108EDC;
+}
+
+/*Home Page */
+
+.index {
+    padding-bottom: 50px;
+    width: 100%;
+    background: url('../images/body-bg.gif') repeat #353535;
+}
+
+.ctn-index-wrp {
+    width: 900px;
+    margin: auto;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+}
+
+.info-box {
+    background: rgba(150, 150, 150, 0.1);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    padding: 20px 30px;
+}
+
+.info-box-left {
+    padding-top: 10px;
+    float: left;
+}
+
+.info-box-img {
+    float: right;
+    width: 41px;
+    height: 45px;
+    background: url(../images/info-box.png) no-repeat center;
+}
+
+.info-box-txt {
+    color: #CECECE;
+    font-size: 15px;
+    line-height: 22px;
+    margin: 1px 80px 0 150px;
+}
+
+.center {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.hdr-login {
+    float: left;
+    margin-top: 33px;
+    position: relative;
+    width: 300px;
+    direction: ltr;
+}
+
+.forgot-pswd {
+    font: 13px/15px 'BYekan', tahoma;
+    color: #888;
+    display: inline-block;
+    text-decoration: none;
+    margin-bottom: 0;
+    margin-right: 0px;
+    float: right;
+    margin-top: 15px;
+}
+
+.hdr-login .ui.segment {
+    position: absolute;
+    width: 300px;
+    border-radius: 2px;
+    z-index: 10000;
+    background-color: #444;
+    margin-top: 8px;
+}
+
+.forgot-pswd:hover {
+    color: #178edc;
+}
+
+.asterisk {
+    color: red;
+}
+
+.page-container {
+    min-height: 100%;
+    height: auto !important;
+    margin: 0 auto -4em;
+    margin-bottom: -30px;
+    direction: rtl;
+}
+
+.ctn-box {
+    width: 880px;
+    box-shadow: 0 0 3px #ccc;
+    background: #fff;
+    padding: 10px;
+    margin: 30px 0;
+}
+
+.page-content {
+    background-color: #eaeaea;
+    padding: 15px;
+}
+
+.ftr {
+    height: 50px;
+    width: 100%;
+    background: #108edc;
+    margin: 100px 0 0;
+}
+
+.ftr ul {
+    list-style-type: none;
+}
+
+.ftr ul li {
+    float: right;
+}
+
+.ftr ul li a, .ftr ul li.li-separator {
+    display: block;
+    font: 14px/50px 'BYekan', tahoma;
+    color: #fff;
+    text-shadow: 0 1px 0 #195e88;
+    margin: 0 10px;
+}
+
+.ftr ul li a:hover {
+}
+
+.sign {
+    width: 100%;
+    height: 50px;
+    background: #a1a1a1;
+}
+
+.index-main {
+    padding: 30px 0 50px;
+    text-align: center;
+}
+
+.index-column {
+    cursor: default;
+    transition: 0.2s;
+    text-align: center;
+    width: 250px;
+    height: 425px;
+    display: inline-block;
+    margin: 0 20px;
+    border-radius: 3px;
+    padding: 30px 40px;
+}
+
+.index-column .ui.button {
+    padding: 10px;
+    width: 100px !important;
+    margin: 5px;
+    color: #F2F2F2;
+    background-color: #535353;
+}
+
+.index-column:hover {
+    background: rgba(150, 150, 150, 0.1);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}
+
+.index-column h2 {
+    transition: 0.2s;
+    color: #f2f2f2;
+    margin: 10px 0;
+    text-shadow: 0 1px 2px #222;
+    font: 25px "Mj_Liner Screen Bd", "BYekan";
+}
+
+.index-column:hover h2 {
+    color: #49b6d9;
+}
+
+.index-column img {
+    transition: 0.2s;
+    width: 188px;
+    height: auto;
+}
+
+.index-column:hover img {
+    width: 200px;
+    height: auto;
+}
+
+.index-column .index-column-desc {
+    color: #cecece;
+    font-size: 15px;
+    margin-bottom: 40px;
+}
+
+.index-info {
+    color: #cecece;
+    font-size: 15px;
+    margin-bottom: 40px;
+}
+
+.index-column a {
+    transition: 0.2s;
+    display: inline-block;
+    width: 68px;
+}
+
+.index-column:hover .register-btn {
+    background: #177897;
+    opacity: .8;
+}
+
+.hdr-login-txt {
+    display: inline-block;
+    font: 11px/15px 'BYekan', Tahoma;
+    color: #727272;
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 1px solid #727272;
+}
+
+.employer-column-image {
+    background: url('../images/employer.png') no-repeat center;
+    background-size: 100%;
+    width: 188px;
+    height: 215px;
+    margin: 0 auto;
+    transition: all .2s;
+}
+
+.jobseeker-column-image {
+    background: url('../images/jobseeker.png') no-repeat center;
+    background-size: 100%;
+    width: 188px;
+    height: 215px;
+    margin: 0 auto;
+    transition: all .2s;
+}
+
+.elem-hidden {
+    display: none !important;
+}
+
+/**
+    New Styles For Semantic UI Components
+*/
+
+.ui.segment {
+    border-radius: 2px;
+}

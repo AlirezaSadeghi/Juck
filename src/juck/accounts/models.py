@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, UserManager
 from django.db import models
 from django.utils import timezone
 from juck.image.models import JuckImage
+
 
 class State(models.Model):
     class Meta:
@@ -31,7 +32,7 @@ class City(models.Model):
         verbose_name_plural = u'شهرها'
 
     state = models.ForeignKey(State, related_name='cities', verbose_name=u'نام استان')
-    
+
     name = models.CharField(max_length=100, verbose_name=u'نام شهر')
 
 
@@ -83,13 +84,36 @@ class EmployerProfile(models.Model):
     approved = models.BooleanField(verbose_name=u'وضعیت تایید', default=False)
 
 
+class JuckUserManager(UserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        now = timezone.now()
+        if not email:
+            raise ValueError(u'رایانامه باید تعیین شود')
+
+        email = UserManager.normalize_email(email)
+        user = self.model(email=email, is_active=True, is_admin=False,
+                          last_login=now, date_joined=now, **extra_fields)
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        u = self.create_user(email, password, **extra_fields)
+        u.is_active = True
+        u.is_admin = True
+        u.save(using=self._db)
+        return u
+
+
+
 class JuckUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = u'کاربر'
         verbose_name_plural = u'کاربران'
 
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name='پست الکترونیک',
         max_length=255,
         unique=True,
         db_index=True,
@@ -103,8 +127,9 @@ class JuckUser(AbstractBaseUser, PermissionsMixin):
 
     date_joined = models.DateTimeField(u'date joined', default=timezone.now)
 
+    objects = JuckUserManager()
+
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['email']
 
     def get_full_name(self):
         return u' '.join([self.first_name, self.last_name])
@@ -131,6 +156,9 @@ class Manager(JuckUser):
     class Meta:
         verbose_name = u'مدیر'
         verbose_name_plural = u'مدیران'
+        permissions = (
+            ('superuser', u'مشاهده موارد مدیریتی'),
+        )
 
 
 class Employer(JuckUser):
@@ -154,3 +182,17 @@ class JobSeeker(JuckUser):
         return self.name
 
     profile = models.OneToOneField(JobSeekerProfile, verbose_name=u'پروفایل کارجو', related_name='jobseeker')
+
+
+class TemporaryLink(models.Model):
+    class Meta:
+        verbose_name = u'لینک موقت'
+        verbose_name_plural = u'لینک های موقت'
+
+
+    url_hash = models.CharField(u'لینک', max_length=120, unique=True)
+    expire_date = models.DateTimeField(u'زمان ابطال')
+    email = models.EmailField(u'پست الکترونیکی')
+
+    def __unicode__(self):
+        return self.email + str(self.expire_date.date())

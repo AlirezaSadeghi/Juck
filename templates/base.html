@@ -1,0 +1,135 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        {% block title %}
+            جاک |‌ خوش آمدید
+        {% endblock %}
+    </title>
+    <meta charset="UTF-8"/>
+
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/png">
+
+    {% block css %}
+        <style>
+            #breadcrumbs {
+                display: none;
+            }
+            #signup {
+                display: none;
+            }
+            .ftr {
+                margin: 0px !important;
+            }
+        </style>
+    {% endblock %}
+
+    <link type="text/css" href="{% static 'css/base.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'css/semantic.css' %}" rel="stylesheet"/>
+    <script type="text/javascript" src="{% static 'js/jQuery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/semantic.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+
+    {% block js %}
+
+    {% endblock %}
+
+</head>
+<body>
+<div class="page-container">
+    {% block header %}
+        <div class="hdr">
+            <div class="center">
+                <div class="hdr-logo">
+                    <a href="{% url 'homepage' %}"></a>
+                </div>
+
+                <div class="hdr-login">
+                    <div class="ui buttons-tmp">
+                        <i class="ui button down arrow linkedin small" id="sign-in">ورود</i>
+                        <i class="ui button small green" id="signup">ثبت نام</i>
+                        <span class="hdr-login-txt">
+                            اگر قبلاً ثبت نام کرده‌اید
+                        </span>
+                    </div>
+                    <div class="ui form segment" id="login-div">
+                        <div class="field">
+                            <div class="ui left labeled icon input">
+                                <input autofocus="true" type="text" placeholder="نام کاربری">
+                                <i class="user icon"></i>
+
+                                <div class="ui corner label">
+                                    <i class="asterisk icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left labeled icon input">
+                                <input type="password" placeholder="کلمه عبور">
+                                <i class="lock icon"></i>
+
+                                <div class="ui corner label">
+                                    <i class="asterisk icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui linkedin submit button small">ورود</div>
+                        <a href="javascript:void(0);" class="forgot-pswd">کلمه عبورم را فراموش کرده ام </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block page_title %}
+
+    {% endblock %}
+
+    <div class="ctn">
+        {% block content %}
+            <div class="index">
+                <div class="center">
+                    <div class="ctn-index-wrp">
+                        <div class="index-main">
+                            <div class="index-column">
+                                <div class="jobseeker-column-image"></div>
+                                <h2>کارجو</h2>
+
+                                <div class="index-info">
+                                    در صورتی که به دنبال اشتغال هستید، ثبت نام کنید.
+                                </div>
+                                <a class="ui button small elem-hidden">بیشتر بدانید</a>
+                                <a class="ui button small green" href="{% url 'jobseeker_registration' %}">ثبت نام</a>
+                            </div>
+                            <div class="index-column">
+                                <div class="employer-column-image"></div>
+                                <h2>کارفرما</h2>
+
+                                <div class="index-info">
+                                    در صورتی که به دنبال جذب کارمند متخصص هستید، ثبت نام کنید.
+                                </div>
+                                <a class="ui button small elem-hidden">بیشتر بدانید</a>
+                                <a class="ui button small green" href="{% url 'employer_registration' %}">ثبت
+                                    نام</a>
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+    <div class="clr"></div>
+</div>
+
+<div class="ftr">
+    <div class="center">
+        {% block footer %}
+            {#            {% render_bottom_menu request.user %}#}
+        {% endblock %}
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,5 +1,4 @@
-# Django settings for Juck project.
-
+# -*- coding: utf-8 -*-
 
 from local_settings import *
 
@@ -40,7 +39,7 @@ ALLOWED_HOSTS = []
 LANGUAGE_CODE = 'fa-IR'
 TIME_ZONE     = 'Iran'
 
-AUTH_USER_MODULE = 'accounts.JuckUser'
+AUTH_USER_MODEL = 'accounts.JuckUser'
 
 SITE_ID = 1
 
@@ -76,18 +75,56 @@ LOGOUT_URL          = '/accounts/logout/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+#STATIC_ROOT   = BASEPATH + 'static/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
+STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    BASEPATH + '/static',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
+
+
+def generate_captcha():
+    import random
+    words_list  = [u'ا', u'ب', u'پ',u'ت',u'س',u'ج',u'چ',u'ه',u'خ',u'د',u'ذ',u'ر',u'ز',u'ژ',u'س',u'ش',
+                   u'ص',u'ض',u'ط',u'ظ',u'ع',u'غ',u'ف',u'ق',u'ک',u'گ',u'ل',u'م',u'ن',u'و',u'ه',u'ی',
+                   ]
+
+    captcha     = u''
+    for i in range(4):
+        captcha += words_list[random.randint(0, len(words_list)-1)]
+
+    return captcha, captcha[::-1]
+
+CAPTCHA_CHALLENGE_FUNCT     = generate_captcha
+PROJECT_INAGURATION_YAER    = 1392
+
+from datetime import datetime
+PROJECT_INAGURATION_EXACT_DATE  = datetime.utcfromtimestamp(0)
+
+
+CAPTCHA_LENGTH  = 4
+CAPTCHA_NOISE_FUNCTIONS  = ()
+CAPTCHA_BACKGROUND_COLOR ='#C0C0C0'
+CAPTCHA_LETTER_ROTATION  = (-35, 35)
+
+
+#TODO => Boji ( The R&D Guy ) - Gmail works, see if there's sth better :-bd
+
+EMAIL_USE_TLS   = True
+EMAIL_HOST      = 'BojasWillFindSthCool.com'
+EMAIL_PORT      = 587
+EMAIL_HOST_USER = 'BojasWillFindSthCool.com'
+EMAIL_SENDER    = 'BojasWillFindSthCool.com'
+EMAIL_HOST_PASSWORD = 'BojasWillFindSthCool.com'
+
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -113,17 +150,16 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'juck.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'Juck.wsgi.application'
+WSGI_APPLICATION = 'juck.wsgi.application'
 
-import os
-TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),)
+TEMPLATE_DIRS = (BASEPATH + '/templates',)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -133,8 +169,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'captcha',
+    'crumbs',
+    'debug_toolbar',
     'accounts',
     'image',
+    'log',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
