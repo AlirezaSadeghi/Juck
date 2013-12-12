@@ -8,7 +8,6 @@ class LoginForm(forms.Form):
     username = forms.CharField(required=True, label=u'نام کاربری')
     password = forms.CharField(required=True, widget=forms.PasswordInput(render_value=False), label=u'رمز عبور')
 
-
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
 

@@ -3,7 +3,6 @@
 from local_settings import *
 
 
-
 LOGGING.update({
     'version': 1,
     'disable_existing_loggers': False,
