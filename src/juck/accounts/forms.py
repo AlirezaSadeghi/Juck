@@ -24,3 +24,6 @@ class CaptchaForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(CaptchaForm, self).__init__(*args, **kwargs)
 
+
+class JobSeekerRegisterForm1(forms.Form):
+    pass
