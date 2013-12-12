@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+
+    جاک | مشروح اخبار
+
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#more-info').click(function () {
+                $('.test.modal').modal('show');
+            });
+
+            $('.ui.rating').rating();
+            $('.ui.rating').rating('enable');
+
+
+        });
+    </script>
+
+{% endblock %}
+
+{% block css %}
+    <link href="news_description.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block page_title %}
+    مشروح خبر
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="center">
+    <div class="ui secondary pointing menu">
+        <a class="item" href="homepage.html">
+            <i class="home icon"></i> خانه
+        </a>
+        <a class="item" href="p_list.html">
+            <i class="cart icon"></i> لیست محصولات
+        </a>
+        <a class="item" href="p_add.html">
+            <i class="add icon"></i> اضافه کردن محصول
+        </a>
+        <a class="item">
+            <i class="search icon"></i>جستجو پیشرفته
+        </a>
+
+        <div class="left menu">
+            <div class="item">
+                <div class="ui icon input">
+                    <input type="text" placeholder="جستجو" id="menu-search">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ctn-box">
+        <div class="celled grid">
+
+            <div class="row ">
+                <div class="ui sixteen column wide ">
+                    <div class="ui attached message">
+                        <div class="ui header ">
+                            {% block news_title %}
+                            <div class="my_title">
+                                دستگیر شدن اف جی
+                            </div>
+                            {% endblock %}
+                        </div>
+
+                    </div>
+                    <!--</div>-->
+                    <!--<div class="row ">-->
+                    <div class="ui attached fluid segment ">
+                        <!--<div dir="rtl" style="display: inline-block ">-->
+                        {% block picture %}
+                            <!--<div class="news_image">-->
+                            <img src="../images/b.jpg" class="news_image">
+                            <!--</div>-->
+                        {% endblock %}
+                        <!--</div>-->
+                        {% block description %}
+                            <p dir="rtl">
+
+                                اپل که آی پد را مجموعه از بهترین دستاوردهای این کمپانی می داند، قدم به قدم و نسل به
+                                نسل
+                                به
+                                توسعه و تکامل هوشمندانه این محصول پرطرفدار پرداخت. تکیه استراتژیک و بلند مدت آی پد
+                                بر
+                                اریکه
+                                قدرت در دنیای تبلت ها، نشانه برنامه بلند مدت و مشخص اپل برای iPad است. امسال نیز در
+                                طی
+                                مراسم
+                                رسمی اپل که در مقر اصلی این کمپانی در کوپرتینو برگزار شد، اپل کنایه ای داشت به عدم
+                                برنامه و
+                                پلن مشخص رقیبانش در مارکت تبلت ها و دقیقا آن را نقطه مقابل آی پد دانست. در اوایل
+                                پاییز
+                                امسال
+                                نیز به رسم هر ساله اپل از نسل جدید تبلت هایش رونمایی کرد. در حالی که همگان منتظر آی
+                                پدی
+                                با
+                                عنوان iPad 5 بودند، اپل با سنت شکنی در شیوه نام گذاری آی پد هایش، بر اساس ویژگی های
+                                آی
+                                پد
+                                تازه وارد آن را iPad Air نامید. بی شک عنوان Air شما رابه یاد الترابوک های فوق باریک
+                                اپل
+                                می
+                                اندازد و باید بگوییم همین ویژگی ها توسط آی پد تازه وارد نیز میزبانی می شود و شما آی
+                                پدی
+                                سبک
+                                تر، نازک تر و البته هوشمند تر را ملاقات خواهید کرد. در تحریریه دیجی کالا این شانس را
+                                داشتیم
+                                که یکی از نخستین مدل های وارد شده به ایران را از نزدیک ملاقات کنیم. اگر به دنبال
+                                اطلاعات
+                                بیشتر از این محصول فوق العاده هستید در ادامه این بررسی همراهمان باشید.
+                                <br>
+
+                                اپل که آی پد را مجموعه از بهترین دستاوردهای این کمپانی می داند، قدم به قدم و نسل به
+                                نسل
+                                به
+                                توسعه و تکامل هوشمندانه این محصول پرطرفدار پرداخت. تکیه استراتژیک و بلند مدت آی پد
+                                بر
+                                اریکه
+                                قدرت در دنیای تبلت ها، نشانه برنامه بلند مدت و مشخص اپل برای iPad است. امسال نیز در
+                                طی
+                                مراسم
+                                رسمی اپل که در مقر اصلی این کمپانی در کوپرتینو برگزار شد، اپل کنایه ای داشت به عدم
+                                برنامه و
+                                پلن مشخص رقیبانش در مارکت تبلت ها و دقیقا آن را نقطه مقابل آی پد دانست. در اوایل
+                                پاییز
+                                امسال
+                                نیز به رسم هر ساله اپل از نسل جدید تبلت هایش رونمایی کرد. در حالی که همگان منتظر آی
+                                پدی
+                                با
+                                عنوان iPad 5 بودند، اپل با سنت شکنی در شیوه نام گذاری آی پد هایش، بر اساس ویژگی های
+                                آی
+                                پد
+                                تازه وارد آن را iPad Air نامید. بی شک عنوان Air شما رابه یاد الترابوک های فوق باریک
+                                اپل
+                                می
+                                اندازد و باید بگوییم همین ویژگی ها توسط آی پد تازه وارد نیز میزبانی می شود و شما آی
+                                پدی
+                                سبک
+                                تر، نازک تر و البته هوشمند تر را ملاقات خواهید کرد. در تحریریه دیجی کالا این شانس را
+                                داشتیم
+                                که یکی از نخستین مدل های وارد شده به ایران را از نزدیک ملاقات کنیم. اگر به دنبال
+                                اطلاعات
+                                بیشتر از این محصول فوق العاده هستید در ادامه این بررسی همراهمان باشید.
+
+                            </p>
+                        {% endblock %}
+                    </div>
+
+                    <div class="ui bottom form attached info message">
+                        <div class="two fields">
+                            {% block date %}
+                                <div class="field my_date date">
+                                    15/2/92
+                                </div>
+                            {% endblock %}
+
+                            <div class="field">
+                                <!--<label>ssss</label>-->
+                                <div class="ui large star rating">
+                                    <i class="icon"></i>
+                                    <i class="icon"></i>
+                                    <i class="icon"></i>
+                                    <i class="icon"></i>
+                                    <i class="icon"></i>
+
+                                </div>
+                                {% block score %}
+                                    <div class="score">
+                                        4.5 از 5000 رای
+                                    </div>
+                                {% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  ">
+                    <div class="ui sixteen column wide segment">
+                        <!--<div class="segment">-->
+                        <h3 class="ui header">
+                            <i class="icon inverted circular blue comment"></i> نظرات
+                        </h3>
+
+                        <div class="ui comments  ">
+                            <div class="ui fitted divider"></div>
+                            {% block comments %}
+                                <div class="comment">
+                                    <a class="avatar right_alignment">
+                                        <img src="../images/a.jpg">
+                                    </a>
+
+                                    <div class="content">
+                                        <a class="author">جبار نژاد</a>
+
+                                        <div class="metadata">
+                                            <div class="date">2 روز پیش</div>
+                                        </div>
+                                        <div class="text">
+                                            من یانی دوست دارم.
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="ui fitted divider"></div>
+
+
+                                <div class="comment">
+                                    <a class="avatar right_alignment">
+                                        <img src="../images/b.jpg">
+                                    </a>
+
+                                    <div class="content">
+                                        <a class="author">بجست پور</a>
+
+                                        <div class="metadata">
+                                            <div class="date">2 ساعت قبل</div>
+                                        </div>
+                                        <div class="text">
+                                            من مخالفم. :|
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endblock %}
+                            <form class="ui reply form">
+                                <div class="field">
+                                    <textarea></textarea>
+                                </div>
+                                <div class="ui button teal submit labeled icon">
+                                    <i class="icon edit"></i> ارسال نظر
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clr"></div>
+    </div>
+
+
+{% endblock %}
