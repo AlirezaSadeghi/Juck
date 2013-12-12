@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.db import models
 from django.utils import timezone
 from juck.image.models import JuckImage
+from django.conf import settings
 
 
 class State(models.Model):
@@ -71,6 +72,7 @@ class EmployerProfile(models.Model):
     company_name = models.CharField(max_length=200, verbose_name=u'نام سازمان')
     company_type = models.CharField(max_length=150, verbose_name=u'نوع سازمان')
     foundation_year = models.IntegerField(verbose_name=u'سال تاسیس')
+    image = models.ForeignKey(JuckImage, verbose_name=u'لوگو سازمان', null=True, blank=True)
     reg_num = models.CharField(max_length=100, verbose_name=u'شماره ثبت')
     manager = models.CharField(max_length=250, verbose_name=u'مشخصات مدیر عامل', null=True, blank=True)
     user_rank = models.CharField(max_length=150, verbose_name=u'سمت شخص رابط', null=True, blank=True)
@@ -104,7 +106,6 @@ class JuckUserManager(UserManager):
         u.is_admin = True
         u.save(using=self._db)
         return u
-
 
 
 class JuckUser(AbstractBaseUser, PermissionsMixin):
@@ -182,6 +183,63 @@ class JobSeeker(JuckUser):
         return self.name
 
     profile = models.OneToOneField(JobSeekerProfile, verbose_name=u'پروفایل کارجو', related_name='jobseeker')
+    resume = models.OneToOneField('Resume', verbose_name=u'رزومه', null=True, blank=True)
+
+
+class Education(models.Model):
+    class Meta:
+        verbose_name_plural = u'اطلاعات تحصیلات'
+        verbose_name = u'اطلاعات تحصیلی'
+
+    certificate = models.CharField(verbose_name=u'مدرک تحصیلی', max_length=100,
+                                   choices=(
+                                       ('under_grad', u'کارشناسی'),
+                                       ('grad', u'کارشناسی ارشد'),
+                                       ('phd', u'دکتری'),
+                                       ('post_doc', u'پست دکتری'),
+                                   ))
+    status = models.CharField(verbose_name=u'وضعیت تحصیلی', max_length=100)
+    major = models.CharField(verbose_name=u'رشته تحصیلی', max_length=200)
+    orientation = models.CharField(verbose_name=u'گرایش تحصیلی', max_length=150)
+
+
+class Experience(models.Model):
+    class Meta:
+        verbose_name = u'سابقه'
+        verbose_name_plural = u'سوابق'
+
+    resume = models.ForeignKey('Resume', verbose_name=u'رزومه', related_name='experiences')
+
+    title = models.CharField(max_length=200, verbose_name=u'عنوان سابقه')
+    place = models.CharField(max_length=200, verbose_name=u'سازمان یا دانشگاه مربوطه')
+    from_date = models.DateField(verbose_name=u'از تاریخ')
+    to_date = models.DateField(verbose_name=u'تا تاریخ')
+    description = models.TextField(verbose_name=u'توضیحات', null=True, blank=True)
+    cooperation_type = models.CharField(verbose_name=u'نوع همکاری', max_length=150)
+    exit_reason = models.CharField(verbose_name=u'دلیل قطع همکاری', max_length=200, null=True, blank=True)
+
+
+class Skill(models.Model):
+    class Meta:
+        verbose_name = u'مهارت'
+        verbose_name_plural = u'مهارت‌ها'
+
+    title = models.CharField(max_length=150, verbose_name=u'عنوان')
+    level = models.CharField(max_length=100, verbose_name=u'سطح تسلط')
+    description = models.CharField(max_length=250, verbose_name=u'توضیح', null=True, blank=True)
+
+
+class Resume(models.Model):
+    class Meta:
+        verbose_name = u'رزومه'
+        verbose_name_plural = u'رزومه‌ها'
+
+    resume_file = models.FileField(verbose_name=u'فایل رزومه', null=True, blank=True,
+                                   upload_to=settings.MEDIA_ROOT + "user_resume")
+    about_me = models.TextField(verbose_name=u'درباره من', null=True, blank=True)
+    download_count = models.IntegerField(verbose_name=u'دفعات بارگیری', default=0)
+
+    education = models.ManyToManyField(Education, verbose_name=u'تحصیلات')
 
 
 class TemporaryLink(models.Model):
