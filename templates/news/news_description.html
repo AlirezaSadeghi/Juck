@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+
+    جاک | مشروح اخبار
+
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#more-info').click(function () {
+                $('.test.modal').modal('show');
+            });
+
+            $('.ui.rating').rating();
+            $('.ui.rating').rating('enable');
+
+        });
+    </script>
+
+{% endblock %}
+
+{% block css %}
+    <link href="news_description.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block page_title %}
+    مشروح خبر
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="center">
+    <div class="ui secondary pointing menu">
+        <a class="item" href="homepage.html">
+            <i class="home icon"></i> خانه
+        </a>
+        <a class="item" href="p_list.html">
+            <i class="cart icon"></i> لیست محصولات
+        </a>
+        <a class="item" href="p_add.html">
+            <i class="add icon"></i> اضافه کردن محصول
+        </a>
+        <a class="item">
+            <i class="search icon"></i>جستجو پیشرفته
+        </a>
+
+        <div class="left menu">
+            <div class="item">
+                <div class="ui icon input">
+                    <input type="text" placeholder="جستجو" id="menu-search">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ctn-box">
+        <div class="celled grid">
+
+            <div class="row ">
+                <div class="ui sixteen column wide ">
+                    <div class="ui attached message">
+                        <div class="ui header ">
+                            <div class="my_title">
+                                {{ news.title }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--</div>-->
+                    <!--<div class="row ">-->
+                    <div class="ui attached fluid segment ">
+                        <!--<div dir="rtl" style="display: _inline-block ">-->
+                            <!--<div class="news_image">-->
+                            <img src="{{ news.image.image.url }}" class="news_image">
+                            <!--</div>-->
+                        <!--</div>-->
+                            <p dir="rtl">
+                                {{ news.content }}
+                            </p>
+                    </div>
+
+                    <div class="ui bottom form attached info message">
+                        <div class="two fields">
+                                <div class="field my_date date">
+                                    {{ news.get_persian_date }}
+                                </div>
+
+                            <div class="field">
+                                <!--<label>ssss</label>-->
+                                <div class="ui large star rating">
+                                    <i class="icon"></i>
+                                    <i class="icon"></i>
+                                    <i class="icon"></i>
+                                    <i class="icon"></i>
+                                    <i class="icon"></i>
+
+                                </div>
+                                    <div class="score">
+                                        {{ news.calculate_score }}
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  ">
+                    <div class="ui sixteen column wide segment">
+                        <!--<div class="segment">-->
+                        <h3 class="ui header">
+                            <i class="icon inverted circular blue comment"></i> نظرات
+                        </h3>
+
+                        <div class="ui comments  ">
+                            <div class="ui fitted divider"></div>
+                            {% for item in comments %}
+                                <div class="comment">
+                                    <a class="avatar right_alignment">
+                                        <img src="../images/a.jpg">
+                                    </a>
+
+                                    <div class="content">
+                                        <a class="author">{{ item.user.get_full_name }}</a>
+
+                                        <div class="metadata">
+                                            <div class="date">{{ item.get_persian_date }}</div>
+                                        </div>
+                                        <div class="text">
+                                            {{ item.content }}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="ui fitted divider"></div>
+                            {% endfor %}
+                            <form class="ui reply form">
+                                <div class="field">
+                                    <textarea></textarea>
+                                </div>
+                                <div class="ui button teal submit labeled icon">
+                                    <i class="icon edit"></i> ارسال نظر
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clr"></div>
+    </div>
+
+
+{% endblock %}
