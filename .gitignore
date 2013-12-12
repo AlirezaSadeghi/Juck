@@ -1,0 +1,14 @@
+/.project
+/.pydevproject
+/.settings
+/.idea
+*.prefs
+*.pyc
+*local_settings.py
+/media/uploads/*
+*~
+*.sql
+*.db
+*.sqlite
+*.sh
+.DS_Store

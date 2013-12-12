@@ -1,9 +1,15 @@
 #!/usr/bin/env python
+from os.path import dirname, abspath
 import os
 import sys
 
+
+sys.path.insert(0, dirname(dirname(abspath(__file__))))
+sys.path.insert(0, '/Users/alirezasadeghi/Projects/DjangoProjects/jaber/lib')
+sys.path.insert(0, '/Users/alirezasadeghi/Projects/DjangoProjects/jaber')
+
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Juck.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "juck.settings")
 
     from django.core.management import execute_from_command_line
 

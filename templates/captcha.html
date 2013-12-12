@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title %}
+
+    جاک | کد امنیتی
+
+{% endblock %}
+
+{% block page_title %}
+    <div class="page-title">
+        <div class="center">
+            <span class="main">کد امنیتی</span>
+            <span class="sub">با وارد کردن کد امنیتی زیر به سامانه جابر در جلوگیری از رفتار مخرب کمک کنید.</span>
+        </div>
+    </div>
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block js %}
+
+    <script type="text/javascript" src="{% static 'js/accounts.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+    <div class="center">
+        <div class="ctn-box">
+            <form action="" method="POST">
+            {% csrf_token %}
+                <div class="ctn-field-cont">
+                    <div class="ctn-field-captcha">
+                        <div class="ctn-field-label">{{ form.captcha.label }}</div>
+                        {{ form.captcha }}
+                        <a href="javascript:void(0);"
+                           onclick="refreshCaptcha(this);"
+                           class="refresh-captcha"></a>
+                    </div>
+                    {% if form.captcha.errors %}
+                        <div class="ctn-field-alert">{{ form.captcha.errors }}</div>
+                        <div class="ctn-field-tips">دقت داشته باشید که حروف بدون فاصله نوشته شده باشند: م۳هر</div>
+                    {% endif %}
+                </div>
+                <input type="submit" value="من ربات نیستم" class="submit submit-active" style="margin-right: 135px;">
+            </form>
+        </div>
+    </div>
+{% endblock %}

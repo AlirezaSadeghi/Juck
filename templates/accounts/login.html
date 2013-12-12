@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+
+    جاک | ورود
+
+{% endblock %}
+
+{% block page_title %}
+    <div class="page-title">
+        <div class="center">
+            <span class="main">ورود به سامانه جاک</span>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="center">
+        <div class="ctn-box">
+            <div class="page-content">
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+
+
+                    <input type="hidden" value="{{ next }}" name="next">
+
+                    <div class="ctn-field-cont">
+                        <div class="ctn-field-label">نام کاربری</div>
+                        <input class="login-page-input" id="id_login_username" name="login_username"
+                               placeholder="نام کاربری" type="text">
+                        {% if form.login_username.errors %}
+                            <div class="ctn-field-alert">{{ form.login_username.errors }}</div>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="ctn-field-cont">
+                        <div class="ctn-field-label">رمز عبور</div>
+                        <input class="login-page-input" id="id_login_password" name="login_password"
+                               placeholder="رمز عبور" type="password">
+                        {% if form.login_password.errors %}
+                            <div class="ctn-field-alert">{{ form.login_password.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="right">
+                        <input type="submit" id='enter' class="submit submit-active" value="ورود به سامانه"/>
+                        <input type="hidden" name="next" value="{{ next }}"/>
+                    </div>
+                </form>
+
+
+                <button class="submit"
+                        onclick="$(this).siblings('.recover-form').slideToggle(); $('#enter').toggleClass('submit-active');">
+                    رمز عبور خود را فراموش
+                    کرده ام !
+                </button>
+                <div class="recover-form hidden">
+                    <form action="{% url 'password_recover' %}" method="post">
+                        {% csrf_token %}
+                        <div class="ctn-field-cont">
+                            <div class="ctn-field-label">پست الکترونیک</div>
+                            <input type="text" name="email" id="id_email" class="login-page-input"> <br>
+                        </div>
+                        <input type="submit" value="ارسال رایانامه تغییر رمز عبور" class="submit submit-active">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
