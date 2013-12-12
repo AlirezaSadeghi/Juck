@@ -66,103 +66,30 @@
                 <div class="ui sixteen column wide ">
                     <div class="ui attached message">
                         <div class="ui header ">
-                            {% block news_title %}
                             <div class="my_title">
-                                دستگیر شدن اف جی
+                                {{ news.title }}
                             </div>
-                            {% endblock %}
                         </div>
 
                     </div>
                     <!--</div>-->
                     <!--<div class="row ">-->
                     <div class="ui attached fluid segment ">
-                        <!--<div dir="rtl" style="display: inline-block ">-->
-                        {% block picture %}
+                        <!--<div dir="rtl" style="display: _inline-block ">-->
                             <!--<div class="news_image">-->
-                            <img src="../images/b.jpg" class="news_image">
+                            <img src="{{ news.image.image.url }}" class="news_image">
                             <!--</div>-->
-                        {% endblock %}
                         <!--</div>-->
-                        {% block description %}
                             <p dir="rtl">
-
-                                اپل که آی پد را مجموعه از بهترین دستاوردهای این کمپانی می داند، قدم به قدم و نسل به
-                                نسل
-                                به
-                                توسعه و تکامل هوشمندانه این محصول پرطرفدار پرداخت. تکیه استراتژیک و بلند مدت آی پد
-                                بر
-                                اریکه
-                                قدرت در دنیای تبلت ها، نشانه برنامه بلند مدت و مشخص اپل برای iPad است. امسال نیز در
-                                طی
-                                مراسم
-                                رسمی اپل که در مقر اصلی این کمپانی در کوپرتینو برگزار شد، اپل کنایه ای داشت به عدم
-                                برنامه و
-                                پلن مشخص رقیبانش در مارکت تبلت ها و دقیقا آن را نقطه مقابل آی پد دانست. در اوایل
-                                پاییز
-                                امسال
-                                نیز به رسم هر ساله اپل از نسل جدید تبلت هایش رونمایی کرد. در حالی که همگان منتظر آی
-                                پدی
-                                با
-                                عنوان iPad 5 بودند، اپل با سنت شکنی در شیوه نام گذاری آی پد هایش، بر اساس ویژگی های
-                                آی
-                                پد
-                                تازه وارد آن را iPad Air نامید. بی شک عنوان Air شما رابه یاد الترابوک های فوق باریک
-                                اپل
-                                می
-                                اندازد و باید بگوییم همین ویژگی ها توسط آی پد تازه وارد نیز میزبانی می شود و شما آی
-                                پدی
-                                سبک
-                                تر، نازک تر و البته هوشمند تر را ملاقات خواهید کرد. در تحریریه دیجی کالا این شانس را
-                                داشتیم
-                                که یکی از نخستین مدل های وارد شده به ایران را از نزدیک ملاقات کنیم. اگر به دنبال
-                                اطلاعات
-                                بیشتر از این محصول فوق العاده هستید در ادامه این بررسی همراهمان باشید.
-                                <br>
-
-                                اپل که آی پد را مجموعه از بهترین دستاوردهای این کمپانی می داند، قدم به قدم و نسل به
-                                نسل
-                                به
-                                توسعه و تکامل هوشمندانه این محصول پرطرفدار پرداخت. تکیه استراتژیک و بلند مدت آی پد
-                                بر
-                                اریکه
-                                قدرت در دنیای تبلت ها، نشانه برنامه بلند مدت و مشخص اپل برای iPad است. امسال نیز در
-                                طی
-                                مراسم
-                                رسمی اپل که در مقر اصلی این کمپانی در کوپرتینو برگزار شد، اپل کنایه ای داشت به عدم
-                                برنامه و
-                                پلن مشخص رقیبانش در مارکت تبلت ها و دقیقا آن را نقطه مقابل آی پد دانست. در اوایل
-                                پاییز
-                                امسال
-                                نیز به رسم هر ساله اپل از نسل جدید تبلت هایش رونمایی کرد. در حالی که همگان منتظر آی
-                                پدی
-                                با
-                                عنوان iPad 5 بودند، اپل با سنت شکنی در شیوه نام گذاری آی پد هایش، بر اساس ویژگی های
-                                آی
-                                پد
-                                تازه وارد آن را iPad Air نامید. بی شک عنوان Air شما رابه یاد الترابوک های فوق باریک
-                                اپل
-                                می
-                                اندازد و باید بگوییم همین ویژگی ها توسط آی پد تازه وارد نیز میزبانی می شود و شما آی
-                                پدی
-                                سبک
-                                تر، نازک تر و البته هوشمند تر را ملاقات خواهید کرد. در تحریریه دیجی کالا این شانس را
-                                داشتیم
-                                که یکی از نخستین مدل های وارد شده به ایران را از نزدیک ملاقات کنیم. اگر به دنبال
-                                اطلاعات
-                                بیشتر از این محصول فوق العاده هستید در ادامه این بررسی همراهمان باشید.
-
+                                {{ news.content }}
                             </p>
-                        {% endblock %}
                     </div>
 
                     <div class="ui bottom form attached info message">
                         <div class="two fields">
-                            {% block date %}
                                 <div class="field my_date date">
-                                    15/2/92
+                                    {{ news.get_persian_date }}
                                 </div>
-                            {% endblock %}
 
                             <div class="field">
                                 <!--<label>ssss</label>-->
@@ -174,11 +101,9 @@
                                     <i class="icon"></i>
 
                                 </div>
-                                {% block score %}
                                     <div class="score">
-                                        4.5 از 5000 رای
+                                        {{ news.calculate_score }}
                                     </div>
-                                {% endblock %}
                             </div>
                         </div>
                     </div>
@@ -192,46 +117,26 @@
 
                         <div class="ui comments  ">
                             <div class="ui fitted divider"></div>
-                            {% block comments %}
+                            {% for item in comments %}
                                 <div class="comment">
                                     <a class="avatar right_alignment">
                                         <img src="../images/a.jpg">
                                     </a>
 
                                     <div class="content">
-                                        <a class="author">جبار نژاد</a>
+                                        <a class="author">{{ item.user.get_full_name }}</a>
 
                                         <div class="metadata">
-                                            <div class="date">2 روز پیش</div>
+                                            <div class="date">{{ item.get_persian_date }}</div>
                                         </div>
                                         <div class="text">
-                                            من یانی دوست دارم.
+                                            {{ item.content }}
                                         </div>
 
                                     </div>
                                 </div>
-
                                 <div class="ui fitted divider"></div>
-
-
-                                <div class="comment">
-                                    <a class="avatar right_alignment">
-                                        <img src="../images/b.jpg">
-                                    </a>
-
-                                    <div class="content">
-                                        <a class="author">بجست پور</a>
-
-                                        <div class="metadata">
-                                            <div class="date">2 ساعت قبل</div>
-                                        </div>
-                                        <div class="text">
-                                            من مخالفم. :|
-
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endblock %}
+                            {% endfor %}
                             <form class="ui reply form">
                                 <div class="field">
                                     <textarea></textarea>

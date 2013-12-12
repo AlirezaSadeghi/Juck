@@ -55,7 +55,6 @@ class JuckImage(models.Model):
     image = models.ImageField(upload_to=create_upload_path, verbose_name=u'عکس', max_length=250)
     file_name = models.CharField(max_length=60, verbose_name=u'نام عکس')
     size = models.IntegerField(verbose_name=u'حجم عکس')
-
     thumbnail = models.ImageField(upload_to=create_small_thumbnail_upath, editable=False, max_length=250)
 
 
