@@ -15,7 +15,7 @@ def show_news_list(request):
 
 def show_news_description(request):
     if request.method == "GET":
-        pk = request.GET['pk']
+        pk = request.GET.get('pk', 1)
         try:
             news = News.objects.get(pk=pk)
             comments = []
