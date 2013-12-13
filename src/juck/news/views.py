@@ -48,22 +48,23 @@ def submit_news(request):
 
         author = Manager.objects.all()[0] # must be user how use the system now
         title = request.POST.get('title','')
+        name  = request.POST.get('name','')
         description = request.POST.get('description', '')
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             image = request.FILES['image']
             picture = JuckImage(upload_root='news')
             picture.create_picture(image)
-            picture.file_name = '12435'
-            ji = picture.save()
+            picture.file_name = name
+            picture.save()
 
-            new_news = News(title=title,content=description,author=author , image=ji)
+            new_news = News(title=title,content=description,author=author , image=picture)
 
         else:
             new_news = News(title=title,content=description,author=author)
 
         new_news.save()
-        return HttpResponseRedirect('')
+        return HttpResponseRedirect("/news/news_list")
 
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))

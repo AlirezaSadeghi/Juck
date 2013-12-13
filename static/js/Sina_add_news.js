@@ -41,11 +41,19 @@ function final_submit2() {
     var description = $("#news_des")[0];
     description = description.value;
 
+    var name2 = $("#news_image");
+    name2 = name2[0];
+    if (name2.files.length != 0)
+        name2 = name2.files[0].name;
+
+    console.log(name2);
+
     var tk = $('input[name="csrfmiddlewaretoken"]').val();
 
     var ajaxData = {
         title: title,
         description: description,
+        name: name2,
         csrfmiddlewaretoken: tk
     };
     $("#sinaForm").ajaxSubmit({
