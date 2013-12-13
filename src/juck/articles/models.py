@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from persian_date.gregorian_persian_convertor import create_persian_date
+#from persian_date.gregorian_persian_convertor import create_persian_date
 from django.conf import settings
 
 # Create your models here.
@@ -23,9 +23,9 @@ class Article(models.Model):
     def __unicode__(self):
         return u'مقاله: ' + self.title
 
-    def get_persian_date(self):
-        tup = create_persian_date(self.publish_date.date())
-        return tup
+    # def get_persian_date(self):
+    #     tup = create_persian_date(self.publish_date.date())
+    #     return tup
 
     def calculate_score(self):
         pass
