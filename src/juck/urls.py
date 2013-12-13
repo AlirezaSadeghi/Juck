@@ -10,5 +10,6 @@ urlpatterns = patterns('',
                        url(r'', include('juck.accounts.urls')),
                        url(r'^accounts/', include('juck.accounts.urls')),
                        url(r'^news/', include('juck.news.urls')),
+                       url(r'^article/', include('juck.articles.urls')),
                        url(r'^admin/', include(admin.site.urls)),
 )
