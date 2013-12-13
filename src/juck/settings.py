@@ -36,7 +36,7 @@ ALLOWED_HOSTS = []
 # In a Windows environment this must be set to your system time zone.
 
 LANGUAGE_CODE = 'fa-IR'
-TIME_ZONE     = 'Iran'
+TIME_ZONE     = 'IRAN'
 
 AUTH_USER_MODEL = 'accounts.JuckUser'
 
@@ -51,7 +51,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"

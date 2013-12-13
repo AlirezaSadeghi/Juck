@@ -7,9 +7,12 @@ from juck.accounts.models import Manager
 from juck.image.models import JuckImage
 from persian_date.gregorian_persian_convertor import create_persian_date
 
+MONTHS = (
+    u"فروردين", u"ارديبهشت", u"خرداد", u"تير"
+    , u"مرداد", u"شهريور", u"مهر", u"آبان", u"آذر", u"دي", u"بهمن", u"اسفند", )
+
 
 class News(models.Model):
-
     class Meta:
         verbose_name = u'خبر'
         verbose_name_plural = u'اخبار'
@@ -18,14 +21,14 @@ class News(models.Model):
     content = models.TextField(verbose_name=u'متن خبر')
     publish_date = models.DateTimeField(verbose_name=u'زمان انتشار', auto_now=True)
     author = models.ForeignKey(Manager, verbose_name=u'نویسنده', related_name='news')
-    image  = models.ForeignKey(JuckImage, verbose_name=u'عکس', null=True, blank=True)
+    image = models.ForeignKey(JuckImage, verbose_name=u'عکس', null=True, blank=True)
 
     def __unicode__(self):
         return u'خبر: ' + self.title
 
     def get_persian_date(self):
-        tup = create_persian_date(self.publish_date.date())
-        return tup
+        year, month, day = create_persian_date(self.publish_date)
+        return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (str(self.publish_date.time().hour)+ ":" + str(self.publish_date.time().minute)))
 
     def calculate_score(self):
         pass
