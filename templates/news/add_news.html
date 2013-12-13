@@ -8,15 +8,71 @@
 {% endblock %}
 
 
+
+{% block css %}
+    <link href="../../static/css/news_description.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
 {% block page_title %}
     اضافه کردن خبر
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="../../static/js/jquery.form.js"></script>
+    <script type="text/javascript" src="../../static/js/Sina_add_news.js"></script>
+
 {% endblock %}
 
 
 {% block content %}
 
-    <div>
-    Helloooo
+    {% csrf_token %}
+    <div class="center">
+        <div class="ui celled grid">
+
+            <div class="row">
+
+                <div class="ui nine wide column">
+
+                    <div class="ui fluid form segment right_alignment">
+                        <div class="field ">
+                            <label class="right_alignment">
+                                عنوان خبر
+                            </label>
+                            <input placeholder="عنوان خبر"type="text" id="news_title">
+                        </div>
+
+                        <div class="field right_alignment">
+                            <label>شرح خبر</label>
+                            <textarea  placeholder="شرح خبر" id="news_des" > </textarea>
+                        </div>
+
+                        <div class="ui blue submit button " onclick="final_submit2()" id="submit-button">اضافه شدن محصول
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="ui eight wide column  ">
+
+                    <div class="right_alignment">
+                        <div class="field">
+                            <img class="ui medium image make-pointer news_image" id="upfile1"
+                                 src="../../static/images/pic-before-load.gif" alt="">
+
+                        </div>
+                        <div class="field">
+                            <div class="ui blue button " onclick="" id="pic-button"> اضافه کردن عکس</div>
+                        </div>
+
+                        <form id="sinaForm" enctype="multipart/form-data">
+                            <input name="image" type="file" id="news_image" onchange="submit_news_pic()"
+                                   hidden="true">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

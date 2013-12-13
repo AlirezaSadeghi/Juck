@@ -32,3 +32,4 @@ class News(models.Model):
 
     def calculate_score(self):
         pass
+

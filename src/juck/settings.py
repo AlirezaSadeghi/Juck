@@ -10,16 +10,16 @@ LOGGING.update({
         'null': {
             'level': 'DEBUG',
             'class': 'django.utils.log.NullHandler',
-            },
+        },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            },
+        },
         'mail_admin': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
             'include_html': True,
-            }
+        }
     },
 })
 
@@ -36,7 +36,7 @@ ALLOWED_HOSTS = []
 # In a Windows environment this must be set to your system time zone.
 
 LANGUAGE_CODE = 'fa-IR'
-TIME_ZONE     = 'IRAN'
+TIME_ZONE = 'IRAN'
 
 AUTH_USER_MODEL = 'accounts.JuckUser'
 
@@ -63,11 +63,11 @@ MEDIA_ROOT = BASEPATH + 'media/'
 
 MEDIA_URL = SITE_URL + 'media/'
 
-UPLOAD_URL          = 'uploads'
-UPLOAD_ROOT          = MEDIA_ROOT + 'uploads'
-LOGIN_REDIRECT_URL  = '/'
-LOGIN_URL           = '/accounts/login/'
-LOGOUT_URL          = '/accounts/logout/'
+UPLOAD_URL = 'uploads'
+UPLOAD_ROOT = MEDIA_ROOT + 'uploads'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/logout/'
 
 
 # Absolute path to the directory static files should be collected to.
@@ -92,36 +92,38 @@ STATICFILES_DIRS = (
 
 def generate_captcha():
     import random
-    words_list  = [u'ا', u'ب', u'پ',u'ت',u'س',u'ج',u'چ',u'ه',u'خ',u'د',u'ذ',u'ر',u'ز',u'ژ',u'س',u'ش',
-                   u'ص',u'ض',u'ط',u'ظ',u'ع',u'غ',u'ف',u'ق',u'ک',u'گ',u'ل',u'م',u'ن',u'و',u'ه',u'ی',
-                   ]
 
-    captcha     = u''
+    words_list = [u'ا', u'ب', u'پ', u'ت', u'س', u'ج', u'چ', u'ه', u'خ', u'د', u'ذ', u'ر', u'ز', u'ژ', u'س', u'ش',
+                  u'ص', u'ض', u'ط', u'ظ', u'ع', u'غ', u'ف', u'ق', u'ک', u'گ', u'ل', u'م', u'ن', u'و', u'ه', u'ی',
+    ]
+
+    captcha = u''
     for i in range(4):
-        captcha += words_list[random.randint(0, len(words_list)-1)]
+        captcha += words_list[random.randint(0, len(words_list) - 1)]
 
     return captcha, captcha[::-1]
 
-CAPTCHA_CHALLENGE_FUNCT     = generate_captcha
-PROJECT_INAGURATION_YAER    = 1392
+
+CAPTCHA_CHALLENGE_FUNCT = generate_captcha
+PROJECT_INAGURATION_YAER = 1392
 
 from datetime import datetime
-PROJECT_INAGURATION_EXACT_DATE  = datetime.utcfromtimestamp(0)
 
+PROJECT_INAGURATION_EXACT_DATE = datetime.utcfromtimestamp(0)
 
-CAPTCHA_LENGTH  = 4
-CAPTCHA_NOISE_FUNCTIONS  = ()
-CAPTCHA_BACKGROUND_COLOR ='#C0C0C0'
-CAPTCHA_LETTER_ROTATION  = (-35, 35)
+CAPTCHA_LENGTH = 4
+CAPTCHA_NOISE_FUNCTIONS = ()
+CAPTCHA_BACKGROUND_COLOR = '#C0C0C0'
+CAPTCHA_LETTER_ROTATION = (-35, 35)
 
 
 #TODO => Boji ( The R&D Guy ) - Gmail works, see if there's sth better :-bd
 
-EMAIL_USE_TLS   = True
-EMAIL_HOST      = 'BojasWillFindSthCool.com'
-EMAIL_PORT      = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'BojasWillFindSthCool.com'
+EMAIL_PORT = 587
 EMAIL_HOST_USER = 'BojasWillFindSthCool.com'
-EMAIL_SENDER    = 'BojasWillFindSthCool.com'
+EMAIL_SENDER = 'BojasWillFindSthCool.com'
 EMAIL_HOST_PASSWORD = 'BojasWillFindSthCool.com'
 
 
@@ -130,7 +132,7 @@ EMAIL_HOST_PASSWORD = 'BojasWillFindSthCool.com'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -140,7 +142,7 @@ SECRET_KEY = 'g8pvqpbr(-d!bntm&^*1s=n@tf0eq%q%=pyrw_@c*ezir_pru7'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -178,3 +180,6 @@ INSTALLED_APPS = (
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+
+FILE_UPLOAD_HANDLERS = ("django.core.files.uploadhandler.MemoryFileUploadHandler",
+   "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
