@@ -175,6 +175,7 @@ INSTALLED_APPS = (
     'image',
     'log',
     'news',
+    'articles',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

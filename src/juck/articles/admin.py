@@ -2,4 +2,4 @@ from models import *
 from django.contrib import admin
 
 
-admin.site.register(Articles)
+admin.site.register(Article)

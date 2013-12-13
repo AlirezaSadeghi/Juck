@@ -1,9 +1,149 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-</body>
-</html>
+{% block title %}
+    جاک | جزئیات مقاله
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="../../static/css/article_description.css"/>
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#more-info').click(function () {
+                $('.test.modal').modal('show');
+            });
+            var x = $('.ui.rating');
+            x.rating('enable');
+            x.modal('set rating',2);
+        });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+    <div class="celled grid">
+
+                <div class="row ">
+                    <div class="ui sixteen column wide ">
+                        <div class="ui attached message">
+                            <div class="ui header ">
+
+                                <div class="my_title">
+                                    {{ article.title }}
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--</div>-->
+                        <!--<div class="row ">-->
+                        <div class="ui attached fluid segment ">
+
+                            <p dir="rtl" class="indent">
+                                {{ article.summary }}
+                            </p>
+                        </div>
+
+                        <div class="ui bottom form attached info message">
+
+                            <!--FJ-->
+                                <div class="dl-btn" dir="ltr">
+                                    <div class="ui icon small blue button">
+                                        <i class="download disk icon"></i>
+                                        بارگذاری
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="authors">
+                                            <span class="authors-label">نویسندگان:</span>
+                                            {% for author in article.authors %}
+                                            <a class="ui small label authors-name">{{ author.full_name }}</a>
+                                            {% endfor %}
+                                    </div>
+                                </div>
+                            <div class="field">
+                                <div class="tags">
+                                <label>برچسب ها:</label>
+                                {% for tag in article.tags %}
+                                <a class="ui black small label">
+                                {{ tag.name }}
+                                </a>
+                                {% endfor %}
+                                </div>
+                            </div>
+<!--FJ-->
+
+<div class="two fields">
+                                <div class="field my_date date">
+                                    {{ article.get_persian_date }}
+                                </div>
+
+                                <div class="field">
+                                    <!--<label>ssss</label>-->
+                                    <div class="ui large star rating">
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+
+                                    </div>
+
+                                    <div class="score">
+                                        {{ article.calculate_score  }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  ">
+                        <div class="ui sixteen column wide segment">
+                            <!--<div class="segment">-->
+                            <h3 class="ui header">
+                                <i class="icon inverted circular blue comment"></i> نظرات
+                            </h3>
+
+                            <div class="ui comments  ">
+                                <div class="ui fitted divider"></div>
+                                {% for item in comments %}
+                                <div class="comment">
+                                    <a class="avatar right_alignment">
+                                        <img src="../images/a.jpg">
+                                    </a>
+
+                                    <div class="content">
+                                        <a class="author">{{ item.user.get_full_name }}</a>
+
+                                        <div class="metadata">
+                                            <div class="date">{{ item.get_persian_date }}</div>
+                                        </div>
+                                        <div class="text">
+                                            {{ item.content }}
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="ui fitted divider"></div>
+                                {% endfor %}
+
+                                <form class="ui reply form">
+                                    <div class="field">
+                                        <textarea></textarea>
+                                    </div>
+                                    <div class="ui button teal submit labeled icon">
+                                        <i class="icon edit"></i> ارسال نظر
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+{% endblock %}
