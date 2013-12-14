@@ -64,6 +64,8 @@ function final_submit2() {
         type: 'POST',
         data: ajaxData,
         success: function (data, err, xhr, tk) {
+            window.location.assign("/news/news_list");
+
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(" Status: " + textStatus + "Error: " + errorThrown);

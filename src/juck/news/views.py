@@ -55,7 +55,6 @@ def submit_news(request):
             image = request.FILES['image']
             picture = JuckImage(upload_root='news')
             picture.create_picture(image)
-            picture.file_name = name
             picture.save()
 
             new_news = News(title=title,content=description,author=author , image=picture)
@@ -67,8 +66,11 @@ def submit_news(request):
         new_news.save()
 
         print("here")
-        return HttpResponseRedirect("/news/news_list")
-
+        news = News.objects.all()
+        #return "1"
+        return render_to_response('news/news-list.html', {'news': news}, context_instance=RequestContext(request))
+        #return HttpResponseRedirect("/news/news_list")
+    print("3")
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 

@@ -48,7 +48,7 @@
 
                         </div>
                         <div class="ui attached fluid segment ">
-                            <img src="{{ news.image.image.url }}" class="news_image">
+                            <img src="news/uploads/{{ news.image.image }}" class="news_image">
                             <p dir="rtl">
                                 {{ news.content }}
                             </p>
@@ -87,7 +87,7 @@
                                 {% for item in comments %}
                                     <div class="comment">
                                         <a class="avatar float_right">
-                                            <img src="../images/a.jpg">
+                                            <img src="../../static/images/jobseeker.png">
                                         </a>
 
                                         <div class="content">
