@@ -45,8 +45,11 @@ function final_submit2() {
     name2 = name2[0];
     if (name2.files.length != 0)
         name2 = name2.files[0].name;
-
+    else {
+        name2 = ""
+    }
     console.log(name2);
+
 
     var tk = $('input[name="csrfmiddlewaretoken"]').val();
 

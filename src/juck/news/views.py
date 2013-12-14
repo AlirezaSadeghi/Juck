@@ -59,21 +59,19 @@ def submit_news(request):
             picture.save()
 
             new_news = News(title=title,content=description,author=author , image=picture)
-
+            print("1")
         else:
+            print("2")
             new_news = News(title=title,content=description,author=author)
 
         new_news.save()
+
+        print("here")
         return HttpResponseRedirect("/news/news_list")
 
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
-
-def create_JUCK_image(I_url):
-    temp_image = models.ImageField(upload_to=I_url, verbose_name=u'عکس', max_length=250)
-    new_image = JuckImage.create_picture(JuckImage(),temp_image)
-    return new_image
 
 def upload_news_pic(request):
 

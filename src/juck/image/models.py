@@ -50,7 +50,8 @@ class JuckImage(models.Model):
 
 
     def create_upload_path(self, filename ):
-        s = settings.MEDIA_ROOT + '/' + '/'.join([(self.upload_root + "/uploads"), self.file_name])
+        #s = settings.MEDIA_ROOT + '/' + '/'.join([(self.upload_root + "/uploads"), self.file_name])
+        s = '/'.join([(self.upload_root + "/uploads"), self.file_name])
         return s
 
 
