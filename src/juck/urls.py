@@ -11,6 +11,8 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
+                       url(r'^$', 'juck.accounts.views.homepage', name='homepage'),
+
                        url(r'', include('juck.accounts.urls')),
                        url(r'^accounts/', include('juck.accounts.urls')),
                        url(r'^news/', include('juck.news.urls')),

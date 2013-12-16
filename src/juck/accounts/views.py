@@ -10,7 +10,7 @@ from django.template.context import RequestContext
 from juck.accounts.forms import LoginForm, CaptchaForm
 from django.contrib import auth
 from django.conf import settings
-from juck.accounts.models import TemporaryLink
+from juck.accounts.models import TemporaryLink, JuckUser
 from juck.log.models import ActionLog
 from utils import json_response, send_html_mail
 import hashlib
@@ -65,10 +65,10 @@ def login(request):
 
 def ajax_login(request):
     if request.is_ajax():
-        username = request.POST.get('login_username')
-        password = request.POST.get('login_password')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         redirect_to_url = settings.LOGIN_REDIRECT_URL
-        if User.objects.filter(username=username).count():
+        if JuckUser.objects.filter(email=username).count():
             user = auth.authenticate(username=username, password=password)
             if user is not None:
                 if user.is_active:

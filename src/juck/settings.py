@@ -155,6 +155,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = ('accounts.auth.JuckAuthenticationBackend',)
+
+
 ROOT_URLCONF = 'juck.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
