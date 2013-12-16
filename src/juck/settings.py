@@ -102,12 +102,10 @@ def generate_captcha():
 
     return captcha, captcha[::-1]
 
+CAPTCHA_FONT_PATH = BASEPATH + '/static/fonts/BYekan.ttf'
+
 CAPTCHA_CHALLENGE_FUNCT     = generate_captcha
 PROJECT_INAGURATION_YAER    = 1392
-
-from datetime import datetime
-PROJECT_INAGURATION_EXACT_DATE  = datetime.utcfromtimestamp(0)
-
 
 CAPTCHA_LENGTH  = 4
 CAPTCHA_NOISE_FUNCTIONS  = ()
@@ -134,7 +132,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'g8pvqpbr(-d!bntm&^*1s=n@tf0eq%q%=pyrw_@c*ezir_pru7'
+SECRET_KEY = 'k_2g%nx&10-jq$BejesritdoYou2n9&=-bxc*pvSuck1uf(d&*a^kumFjoq+bs|t;h-Bit0t^@I*chIy=fre~30!a+%kna/y'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

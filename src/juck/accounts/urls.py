@@ -2,7 +2,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import logout
 #from django.contrib.auth.views import  password_change, password_change_done
-from juck.accounts.wizard import JobSeekerWizard, FORMS
+from juck.accounts.wizard import JobSeekerWizard, EMPLOYER_FORMS, JOB_SEEKER_FORMS, EmployerWizard
 
 urlpatterns = patterns('juck.accounts.views',
                        url(r'^about/$', 'about_us', {}, name='about'),
@@ -15,10 +15,11 @@ urlpatterns = patterns('juck.accounts.views',
                        url(r'password_recover/$', 'password_recover', name='password_recover'),
 
                        url(r'jobseeker_registration/$',
-                           JobSeekerWizard.as_view(FORMS, ), {},
+                           JobSeekerWizard.as_view(JOB_SEEKER_FORMS, ), {},
                            name='jobseeker_registration'),
 
-                       url(r'employer_registration/$', 'employer_registration', name='employer_registration'),
+                       url(r'employer_registration/$', EmployerWizard.as_view(EMPLOYER_FORMS, ), {},
+                           name='employer_registration'),
 
                        #url(r'^confirm_registration/(?P<hash_value>\w+)$', 'confirm_registration' , {} , name='confirm-registration'),
                        #url(r'^change_password/$', 'change_password', {}, name='change_password'),
