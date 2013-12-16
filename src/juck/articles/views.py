@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render_to_response
+from django.core.urlresolvers import reverse
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import render_to_response, render
 from django.template.context import RequestContext
-from juck.articles.models import Article
-
+from juck.articles.models import Article, Author, Tag
+from forms import ArticleForm
 
 # Create your views here.
 
@@ -36,3 +38,24 @@ def show_add_article(request):
         return render_to_response('articles/add_article.html', {}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
+
+
+def add_article(request):
+    form = ArticleForm()
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            article = form.save(commit=False)
+            authors = request.POST.get('authors', '').split(',')
+            tags = request.POST.get('tags', '').split(',')
+
+            for author in authors:
+                article.authors.add(Author.objects.get_or_create(full_name=author)[0])
+
+            for tag in tags:
+                article.tag.add(Tag.objects.get_or_create(name=tag)[0])
+
+            article.save(commit=True)
+            return HttpResponseRedirect(reverse('articles_list'))
+
+    return render_to_response('articles/add_article.html',{'form':form}, content_type=RequestContext(request))

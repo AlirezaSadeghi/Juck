@@ -6,15 +6,16 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="FJ.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/css/FJ.css"/>
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="rf.js"></script>
+    <script type="text/javascript" src="../../static/js/rf.js"></script>
 {% endblock %}
 
 {% block content %}
     <!-- rezaFJ-->
+    <div class="center">
                 <div class="ui icon input left small">
                 <input type="text" placeholder="جستجو...">
                 <i class="inverted search icon"></i>
@@ -63,6 +64,7 @@
                 </div>
 
                 <div class="news_list">
+                {% if articles %}
                     {% for item in articles %}
                     <div class="news_item ui raised segment">
                         <h2 class="article-header">{{ item.title }}</h2>
@@ -90,7 +92,7 @@
                             </div>
                             <div class="tags">
                                 <label>برچسب ها:</label>
-                                {% for tag in item.tags %}
+                                {% for tag in item.tags.all %}
                                     <a class="ui black small label">
                                     {{ tag.name }}
                                     </a>
@@ -115,31 +117,34 @@
                     {% endfor %}
                 </div>
 
-    <div class="ui pagination menu" style="width:100%;text-align:center;margin-top:10px;">
-        <a class="disabled icon item">
-            <i class="icon right arrow"></i>
-        </a>
-        <a class="active item">
-            1
-        </a>
-        <a class="item">
-            2
-        </a>
-
-        <div class="disabled item">
-            ...
-        </div>
-        <a class="item">
-            11
-        </a>
-        <a class="item">
-            12
-        </a>
-        <a class="icon item">
-            <i class="icon left arrow"></i>
-        </a>
-
-    </div>
-
+{#    <div class="ui pagination menu" style="width:100%;text-align:center;margin-top:10px;">#}
+{#        <a class="disabled icon item">#}
+{#            <i class="icon right arrow"></i>#}
+{#        </a>#}
+{#        <a class="active item">#}
+{#            1#}
+{#        </a>#}
+{#        <a class="item">#}
+{#            2#}
+{#        </a>#}
+{##}
+{#        <div class="disabled item">#}
+{#            ...#}
+{#        </div>#}
+{#        <a class="item">#}
+{#            11#}
+{#        </a>#}
+{#        <a class="item">#}
+{#            12#}
+{#        </a>#}
+{#        <a class="icon item">#}
+{#            <i class="icon left arrow"></i>#}
+{#        </a>#}
+{##}
+{#    </div>#}
+    {% else %}
+        <div class="ui error message">مقاله‌ای وجود ندارد</div>
+    {% endif %}
+</div>
     <!-- reza.fj & rf-->
 {% endblock %}

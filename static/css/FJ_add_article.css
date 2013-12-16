@@ -45,3 +45,22 @@
 textarea {
     resize: none;
 }
+
+input{
+    width: 200px !important;
+}
+
+.add-icon{
+    color: white;
+    background-color: #119000;
+    width: 20px !important;
+    height: 20px !important;
+    cursor: pointer;
+    border-radius: 50%;
+    padding-top: 2px;
+}
+
+.add-icon:hover{
+    color: #119000;
+    background-color: #F1F1F1;
+}

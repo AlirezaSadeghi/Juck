@@ -2,23 +2,27 @@
 from django.db import models
 #from persian_date.gregorian_persian_convertor import create_persian_date
 from django.conf import settings
+from django.forms import ModelForm
 
 # Create your models here.
 
 
 class Article(models.Model):
-
     class Meta:
         verbose_name = u'مقاله'
         verbose_name_plural = u'مقالات'
 
+
+    tags = models.ManyToManyField('Tag', through='ArticleTags')
+    authors = models.ManyToManyField('Author', through='ArticleAuthors')
+
     title = models.CharField(max_length=200, verbose_name=u'عنوان')
     summary = models.TextField(verbose_name=u'خلاصه')
     publish_date = models.DateTimeField(verbose_name=u'زمان انتشار', auto_now=True)
-    source_file = models.FileField(max_length=200, verbose_name=u'فایل', upload_to=settings.MEDIA_ROOT + "articles")
+    source_file = models.FileField(max_length=200, verbose_name=u'فایل', upload_to=settings.MEDIA_ROOT + "articles",
+                                   null=True, blank=True)
     downloads_count = models.IntegerField(default=0, verbose_name=u'دفعات بارگیری')
-    tags = models.ManyToManyField('Tag', through='Article_tags')
-    authors = models.ManyToManyField('Author', through='Article_authors')
+
 
     def __unicode__(self):
         return u'مقاله: ' + self.title
@@ -32,7 +36,6 @@ class Article(models.Model):
 
 
 class Tag(models.Model):
-
     class Meta:
         verbose_name = u'برچسب'
         verbose_name_plural = u'برچسب ها'
@@ -41,7 +44,6 @@ class Tag(models.Model):
 
 
 class Author(models.Model):
-
     class Meta:
         verbose_name = u'نویسنده'
         verbose_name_plural = u'نویسندگان'
@@ -49,11 +51,11 @@ class Author(models.Model):
     full_name = models.CharField(max_length=200, verbose_name=u'نام و نام خانوادگی')
 
 
-class Article_tags(models.Model):
+class ArticleTags(models.Model):
     tag = models.ForeignKey(Tag)
     article = models.ForeignKey(Article)
 
 
-class Article_authors(models.Model):
+class ArticleAuthors(models.Model):
     author = models.ForeignKey(Author)
     article = models.ForeignKey(Article)

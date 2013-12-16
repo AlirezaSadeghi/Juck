@@ -4,7 +4,7 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-admin.autodiscover()
+# admin.autodiscover()
 
 urlpatterns = patterns('',
                        url(r'', include('juck.accounts.urls')),
