@@ -26,3 +26,21 @@ class CaptchaForm(forms.Form):
 
 class JobSeekerRegisterForm1(forms.Form):
     pass
+
+class JobSeekerRegisterForm2(forms.Form):
+    pass
+
+class JobSeekerRegisterForm3(forms.Form):
+    pass
+
+class JobSeekerRegisterForm4(forms.Form):
+    pass
+
+class EmployerRegisterForm1(forms.Form):
+    pass
+
+class EmployerRegisterForm2(forms.Form):
+    pass
+
+class EmployerRegisterForm3(forms.Form):
+    pass

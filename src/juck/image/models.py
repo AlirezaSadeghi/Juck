@@ -45,11 +45,11 @@ class JuckImage(models.Model):
             pass
 
     def create_upload_path(self, filename):
-        s = settings.UPLOAD_URL + '/' + '/'.join([(self.upload_root + "/uploads"), self.file_name])
+        s = settings.UPLOAD_ROOT + '/' + '/'.join([(self.upload_root + "/uploads"), self.file_name])
         return s
 
     def create_small_thumbnail_upath(self, filename):
-        return settings.UPLOAD_URL + '/' + '/'.join([(self.upload_root + "/small_thumbnails"), self.file_name])
+        return settings.UPLOAD_ROOT + '/' + '/'.join([(self.upload_root + "/small_thumbnails"), self.file_name])
 
 
     image = models.ImageField(upload_to=create_upload_path, verbose_name=u'عکس', max_length=250)

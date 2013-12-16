@@ -47,9 +47,10 @@
     {% block header %}
         <div class="hdr">
             <div class="center">
-                <div class="hdr-logo">
-                    <a href="{% url 'homepage' %}"></a>
-                </div>
+                <a href="{% url 'homepage' %}">
+                    <div class="hdr-logo">
+                    </div>
+                </a>
 
                 <div class="hdr-login">
                     <div class="ui buttons-tmp">
@@ -62,7 +63,7 @@
                     <div class="ui form segment" id="login-div">
                         <div class="field">
                             <div class="ui left labeled icon input">
-                                <input autofocus="true" type="text" placeholder="نام کاربری">
+                                <input id="login-username" autofocus="true" type="text" placeholder="نام کاربری">
                                 <i class="user icon"></i>
 
                                 <div class="ui corner label">
@@ -72,7 +73,7 @@
                         </div>
                         <div class="field">
                             <div class="ui left labeled icon input">
-                                <input type="password" placeholder="کلمه عبور">
+                                <input id="login-password" type="password" placeholder="کلمه عبور">
                                 <i class="lock icon"></i>
 
                                 <div class="ui corner label">
@@ -80,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ui linkedin submit button small">ورود</div>
+                        <div class="ui linkedin submit button small" id="login-btn">ورود</div>
                         <a href="{% url 'password_recover' %}" class="forgot-pswd">کلمه عبورم را فراموش کرده ام </a>
                     </div>
                 </div>
@@ -94,6 +95,7 @@
 
     <div class="ctn">
         {% block content %}
+            {% csrf_token %}
             <div class="index">
                 <div class="center">
                     <div class="ctn-index-wrp">
@@ -131,9 +133,32 @@
 
 <div class="ftr">
     <div class="center">
-        {% block footer %}
-            {#            {% render_bottom_menu request.user %}#}
-        {% endblock %}
+        <ul class="menu">
+            <div>
+                <li><a href="/"> <span> صفحه اصلی</span></a></li>
+            </div>
+            <li class="li-separator"> .</li>
+            <div>
+                <li><a href="/search/"> <span> مقالات</span></a></li>
+            </div>
+            <li class="li-separator"> .</li>
+            <div>
+                <li><a href="/news/latest/"> <span> اخبار</span></a></li>
+            </div>
+            <li class="li-separator"> .</li>
+            <div>
+                <li><a href="/question/common/"> <span> سوالات</span></a>
+                </li>
+            </div>
+            <li class="li-separator"> .</li>
+            <div>
+                <li><a href="/about/"> <span> درباره ما</span></a></li>
+            </div>
+            <li class="li-separator"> .</li>
+            <div>
+                <li><a href="/contact-us/"> <span> تماس</span></a></li>
+            </div>
+        </ul>
     </div>
 </div>
 
