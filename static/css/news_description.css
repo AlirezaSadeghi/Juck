@@ -6,6 +6,10 @@
     display: inline-block;
 }
 
+.ui.celled.grid {
+    background-color: #eee;
+}
+
 .float_right {
     /*text-align: right;*/
     float: right !important;
@@ -41,3 +45,4 @@
 .my_margin_top {
     margin-top: 20px;
 }
+
