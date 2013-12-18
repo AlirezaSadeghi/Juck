@@ -11,6 +11,9 @@
 
 {% block css %}
     <link href="../../static/css/news_description.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../static/js/jQuery-File-Upload-9.5.2/css/style.css">
+<link rel="stylesheet" href="../../static/js/jQuery-File-Upload-9.5.2/css/jquery.fileupload.css">
 {% endblock %}
 
 {% block page_title %}
@@ -20,6 +23,15 @@
 {% block js %}
     <script type="text/javascript" src="../../static/js/jquery.form.js"></script>
     <script type="text/javascript" src="../../static/js/Sina_add_news.js"></script>
+    <script src="../../static/js/jQuery-File-Upload-9.5.2/js/vendor/jquery.ui.widget.js"></script>
+    <script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js"></script>
+    <script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="../../static/js/jQuery-File-Upload-9.5.2/js/jquery.iframe-transport.js"></script>
+    <script src="../../static/js/jQuery-File-Upload-9.5.2/js/jquery.fileupload.js"></script>
+    <script src="../../static/js/jQuery-File-Upload-9.5.2/js/jquery.fileupload-process.js"></script>
+    <script src="../../static/js/jQuery-File-Upload-9.5.2/js/jquery.fileupload-image.js"></script>
+    <script src="../../static/js/jQuery-File-Upload-9.5.2/js/jquery.fileupload-validate.js"></script>
 
 {% endblock %}
 
@@ -62,16 +74,18 @@
                                 {{ form.content.errors }}
                             </div>
 
-                            <div style=" margin-right: 106px; display: block">
-                                <img class="ui medium image make-pointer news_image" id="upImage"
-                                     src="../../static/images/pic-before-load.gif" alt="" style="display: block">
+                            <div style=" margin-right: 106px; display: block" id="image_place">
+{#                                <img class="ui medium image make-pointer news_image" id="upImage"#}
+{#                                     src="../../static/images/pic-before-load.gif" alt="" style="display: block">#}
+                                <div class="ui medium image make-pointer news_image" style="background-image:url('../../static/images/pic-before-load.gif')  ;width: 220px;height: 220px;display: block" id="files" class="files"></div>
                             </div>
-                            {#                            <form id="sinaForm" enctype="multipart/form-data">#}
+{#                                                        <form id="sinaForm" enctype="multipart/form-data">#}
                             <input type="file" id="news_image" onchange="submit_news_pic()"
-                                   hidden="true" name="image">
-                            {#                            </form>#}
+                                   hidden="true"style="display: none;" name="image">
+{#                                                        </form>#}
                             <div class="field " style="margin-right: 105px; ">
-                                <input type="submit" value="افزودن خبر" class="ui button linkedin small" style="margin-top: 20px">
+                                <input type="submit" value="افزودن خبر" class="ui button linkedin small"
+                                       style="margin-top: 20px">
                             </div>
                         </form>
                     </div>
