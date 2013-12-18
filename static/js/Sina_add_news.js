@@ -3,25 +3,19 @@
  */
 
 $(document).ready(function () {
-    $("#upfile1").click(function () {
+    $("#upImage").click(function () {
         $("#news_image").trigger('click');
     });
-
-    $("#pic-button").click(function () {
-        $("#news_image").trigger('click');
-    });
-
-
-
 });
 
 function submit_news_pic() {
-
+    console.log("sssssssssssssssssssss")
     var tk = $('input[name="csrfmiddlewaretoken"]').val();
+    var file = $("#news_image")[0];
     var ajaxData = {
         csrfmiddlewaretoken: tk
     };
-    $("#sinaForm").ajaxSubmit({
+    $.ajax({
         url: "/news/upload_image/",
         type: "POST",
         data: ajaxData,

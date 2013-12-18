@@ -49,31 +49,23 @@ def add_news(request):
         if form.is_valid():
             news = form.save(commit=False)
             news.author = author
-            image = request.FILES['image']
-            picture = JuckImage(upload_root='news')
-            picture.create_picture(image)
-            picture.save()
-            news.image = picture
+            image = request.FILES.get('image', '')
+            if image:
+                picture = JuckImage(upload_root='news')
+                picture.create_picture(image)
+                picture.save()
+                news.image = picture
             news.save()
             #
             #new_news = News(title=title,content=description,author=author , image=picture)
-            print("1")
-        else:
-
-            print("2")
-            #new_news = News(title=title,content=description,author=author)
-
-        #new_news.save()
-
-        print("here")
-        #news = News.objects.all()
-        #return HttpResponseRedirect(reverse('news_list'))
+            return HttpResponseRedirect(reverse('news_list'))
 
     return render_to_response('news/add_news.html', {'form' : form}, context_instance=RequestContext(request))
 
 
 def upload_news_pic(request):
     if request.method == 'POST':
+        print("xxxxxxxxxxxxxx")
         print(request.FILES)
         form = ImageUploadForm(request.POST, request.FILES)
         #if form.is_valid():

@@ -31,40 +31,48 @@
         <div class="ctn-box">
             <div class="ui celled grid">
 
-                <div class="row ">
+                <div class="row">
 
                     <div class="ui nine wide  column ">
 
-                        <form class="ui fluid form  right_alignment" style="width: 855px;" method="POST">
+                        <form class="ui fluid form  right_alignment" style="width: 855px;" method="POST"
+                              enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="field">
                                 <label class="right_alignment" style="display: inline-block; width: 100px">
                                     عنوان خبر:
                                 </label>
 
-                                {{ form.title }}
+                                <div style="width: 660px; display: inline-block">
+                                    {{ form.title }}
+                                </div>
                                 {{ form.title.errors }}
-{#                                <input placeholder="عنوان خبر" type="text" id="news_title"#}
-{#                                       style="display: inline-block ; width: 600px" name="title"> {{ title.News }}#}
+                                {#                                <input placeholder="عنوان خبر" type="text" id="news_title"#}
+                                {#                                       style="display: inline-block ; width: 600px" name="title"> {{ title.News }}#}
                             </div>
 
                             <div class="field right_alignment">
                                 <label style="display: inline-block; width: 100px">شرح خبر</label>
-                                {{ form.content }}
-{#                                <textarea placeholder="شرح خبر" id="news_des" name="content"#}
-{#                                          style="display: inline-block; width: 600px"> {{ content.News }}</textarea>#}
+
+                                <div style="width: 660px; display: inline-block">
+                                    {{ form.content }}
+                                </div>
+                                {#                                <textarea placeholder="شرح خبر" id="news_des" name="content"#}
+                                {#                                          style="display: inline-block; width: 600px"> {{ content.News }}</textarea>#}
                                 {{ form.content.errors }}
                             </div>
 
-                            <img class="ui medium image make-pointer news_image" id="upfile1"
-                                 src="../../static/images/pic-before-load.gif" alt="" style="display: block">
-
+                            <div style=" margin-right: 106px; display: block">
+                                <img class="ui medium image make-pointer news_image" id="upImage"
+                                     src="../../static/images/pic-before-load.gif" alt="" style="display: block">
+                            </div>
                             {#                            <form id="sinaForm" enctype="multipart/form-data">#}
-                            <input name="image" type="image" id="news_image" onchange="submit_news_pic()"
+                            <input type="file" id="news_image" onchange="submit_news_pic()"
                                    hidden="true" name="image">
                             {#                            </form>#}
-
-                            <input type="submit" value="افزودن خبر" class="ui button linkedin small">
+                            <div class="field " style="margin-right: 105px; ">
+                                <input type="submit" value="افزودن خبر" class="ui button linkedin small" style="margin-top: 20px">
+                            </div>
                         </form>
                     </div>
                     {
