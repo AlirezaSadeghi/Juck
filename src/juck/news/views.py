@@ -41,18 +41,21 @@ def add_news(request):
     print "SADSAD"
     print request.FILES
     if request.method == "POST":
-        form = NewsForm(request.POST)
+        form = NewsForm(request.POST )
         author = Manager.objects.get(pk=request.user.pk) # must be user how use the system now
         #title = request.POST.get('title','')
         #name  = request.POST.get('name','')
         #description = request.POST.get('description', '')
         #form = ImageUploadForm(request.POST, request.FILES)
-
+        print ("1111111111")
         if form.is_valid():
             news = form.save(commit=False)
             news.author = author
+
             image = request.FILES.get('image', '')
+            print ("2222222222")
             if image:
+                print ("3333333333333")
                 picture = JuckImage(upload_root='news')
                 picture.create_picture(image)
                 picture.save()

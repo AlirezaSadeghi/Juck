@@ -65,8 +65,8 @@ $(function () {
         // send Blob objects via XHR requests:
         disableImageResize: /Android(?!.*Chrome)|Opera/
             .test(window.navigator.userAgent),
-        previewMaxWidth: 500,
-        previewMaxHeight: 500,
+        previewMaxWidth: 250,
+        previewMaxHeight: 250,
         previewCrop: true
     }).on('fileuploadadd', function (e, data) {
 //            $("#image_place").innerHTML = "";
