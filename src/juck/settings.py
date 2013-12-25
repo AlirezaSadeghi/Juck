@@ -115,6 +115,9 @@ CAPTCHA_LENGTH = 4
 CAPTCHA_NOISE_FUNCTIONS = ()
 CAPTCHA_BACKGROUND_COLOR = '#C0C0C0'
 CAPTCHA_LETTER_ROTATION = (-35, 35)
+CAPTCHA_FONT_PATH = BASEPATH + '/static/fonts/BYekan.ttf'
+
+
 
 
 #TODO => Boji ( The R&D Guy ) - Gmail works, see if there's sth better :-bd
@@ -136,7 +139,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'g8pvqpbr(-d!bntm&^*1s=n@tf0eq%q%=pyrw_@c*ezir_pru7'
+SECRET_KEY = 'k_2g%nx&10-jq$BejesritdoYou2n9&=-bxc*pvSuck1uf(d&*a^kumFjoq+bs|t;h-Bit0t^@I*chIy=fre~30!a+%kna/y'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

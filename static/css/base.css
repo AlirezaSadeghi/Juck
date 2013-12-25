@@ -64,7 +64,7 @@ a {
 /*--Main--*/
 .hdr {
     position: relative;
-    min-height: 140px;
+    height: 120px;
     width: 100%;
     background: url('../images/body-bg.gif') repeat #353535;
 }

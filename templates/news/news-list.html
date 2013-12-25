@@ -62,7 +62,7 @@
         <div class="news_list">
             {% for item in news %}
                 <div class="news_item ui raised segment">
-                    <img src="{{ item.image.image.url }}"/>
+                    <img src="{{ item.image.thumbnail.url|default:'/static/images/news.jpg' }}" />
 
                     <h2>{{ item.title }}</h2>
 
@@ -74,7 +74,9 @@
                     </div>
                     <div class="news_other">
                         <div class="authors">
-                            <span class="authors-label">نویسنده:</span>
+                            <span class="authors-label">
+نویسنده:
+                            </span>
                             <a class="ui small label authors-name">{{ item.author.get_full_name }}</a>
                         </div>
                         <div class="date_rate">

@@ -82,6 +82,8 @@ body{
 	/*border: 1px solid #333;*/
 	float: right;
 	margin: 10px 0 0 10px;
+    width: 120px;
+    height: 120px;
 }
 .news_item .news_other .date_rate{
 	color: #7A8784;
@@ -103,7 +105,6 @@ body{
     position: absolute;
 	bottom: 50px;
 	right: 45px;   
-    color
 }
 
 .tags{
@@ -119,4 +120,8 @@ body{
 .authors-label{
     float: right;
     margin-left: 5px;
+}
+
+.news_item.ui.raised.segment{
+    min-height: 230px;
 }

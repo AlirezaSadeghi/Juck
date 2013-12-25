@@ -5,7 +5,8 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.http import HttpResponseRedirect
 from django import forms
-from django.db import models
+
+from django.conf import settings
 
 from juck.accounts.models import Manager
 from juck.news.models import News
@@ -56,7 +57,7 @@ def add_news(request):
             print ("2222222222")
             if image:
                 print ("3333333333333")
-                picture = JuckImage(upload_root='news')
+                picture = JuckImage(upload_root="news")
                 picture.create_picture(image)
                 picture.save()
                 news.image = picture
