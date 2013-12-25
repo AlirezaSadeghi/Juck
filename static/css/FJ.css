@@ -8,12 +8,24 @@ body{
 
 }
 
+.advanced_search_panel.ui.segment{
+    background-color: #EFEFEF;
+}
+
+.article-header{
+	padding-right: 10px;
+}
+
 .advanced_search:hover{
 	/*alaki*/
 	color: blue;
 }
 .advanced_search_panel input[type='number']{
 	width: 143px !important;
+}
+
+.advanced_search_panel.ui.segment.form{
+	margin-top: 20px;
 }
 
 .advanced_search_panel{
@@ -71,10 +83,10 @@ body{
 }
 
 .news_content{
-	padding: 5px 20px;
+	padding: 5px 10px;
 	color: #444A49;
 	text-align: justify;
-	margin:0 10px 40px 0; 
+	margin:0 0px 40px 0; 
     
 }
 
@@ -95,7 +107,7 @@ body{
 }
 
 .light_margined{
-	margin: -5px 150px 5px 0 !important;
+	margin: -5px 0px 5px 0 !important;
 }
 
 .authors{
@@ -103,12 +115,11 @@ body{
     position: absolute;
 	bottom: 50px;
 	right: 45px;   
-    color
 }
 
 .tags{
     position: absolute;
-    right: 240px;
+    right: 260px;
     bottom: 15px;
 }
 
@@ -119,4 +130,98 @@ body{
 .authors-label{
     float: right;
     margin-left: 5px;
+}
+
+.user_buttons{
+    position: absolute;
+    width: 200px;
+    margin: 10px;
+    direction: ltr;
+    left: 0;
+    top: 0;
+}
+
+.user_buttons .button {
+    margin-top: 5px;
+}
+
+.user_list .user_number{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: solid 1px;
+    vertical-align: top;
+    box-shadow: 0 0 4px black;
+    text-align: center;
+    line-height: 30px;
+    background: black;
+    color: white;
+    font-size: 18px;
+    margin-left: 10px;
+    -webkit-user-select: none;
+    cursor: default;
+}
+
+.user_list .single_user:nth-child(3n){
+    background-color: #EFEFEF;
+}
+
+.user_list .single_user:nth-child(3n+1){
+    background-color: #e3e3e3;
+}
+
+.user_list .single_user {
+    min-height: 104px;
+    padding-bottom: 0.7em !important;
+    margin-top: 10px !important;
+}
+.user_list .single_user:hover .user_buttons {
+    opacity: 1;
+}
+.user_list .single_user .user_buttons {
+    opacity: 0;
+    transition: opacity 500ms;
+    -webkit-transition: opacity 500ms;
+}
+
+.user_list .single_user .user_buttons .button{
+    width: 140px !important;
+}
+
+.inlineblock{
+    display: inline-block;
+}
+
+.user_list .user_info2{
+    margin-top: 17px;
+}
+
+.user_list .user_data{
+    vertical-align: top;
+    margin: 12px;
+}
+
+.user_list img{
+    width: 80px;
+    height: 80px;
+    -webkit-box-shadow: 0 8px 6px -6px black;
+	   -moz-box-shadow: 0 8px 6px -6px black;
+	        box-shadow: 0 8px 6px -6px black;
+    border-radius: 5px;
+}
+
+.inlinemiddle,img {
+    vertical-align: middle !important;
+
+}
+
+.user_list .user_info1 span{
+    margin-left: 50px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.user_list .user_info2 span{
+    margin-left: 40px;
+    font-size: 12px;
 }

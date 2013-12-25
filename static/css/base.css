@@ -40,6 +40,10 @@ body {
     background: #f2f2f2;
 }
 
+textarea, input {
+    font-family: 'BYekan', tahoma;
+}
+
 a {
     text-decoration: none;
 }
