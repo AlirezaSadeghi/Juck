@@ -31,4 +31,6 @@ urlpatterns = patterns('juck.accounts.views',
                        #url(r'^upload_profile_picture/$', 'upload_profile_picture', {}, name='upload_profile_picture'),
                        url(r'^refresh_captcha', 'refresh_captcha', {}, name='refresh_captcha'),
                        url(r'^dos_prevention', 'dos_prevention', {}, name='dos_prevention'),
+                       url(r'^user_panel/', 'user_panel'),
+
 )

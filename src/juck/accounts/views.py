@@ -10,15 +10,18 @@ from django.template.context import RequestContext
 from juck.accounts.forms import LoginForm, CaptchaForm
 from django.contrib import auth
 from django.conf import settings
-from juck.accounts.models import TemporaryLink, JuckUser
+from juck.accounts.models import TemporaryLink, JuckUser, Manager, JobSeeker, Employer
 from juck.log.models import ActionLog
 from utils import json_response, send_html_mail
 import hashlib
 from html_builder import HtmlBuilder
 
 
+def user_panel(request):
+    return render_to_response('accounts/user_panel.html', {}, context_instance=RequestContext(request, ))
+
 def about_us(request):
-    return render_to_response('about.html', {}, context_instnace=RequestContext(request, ))
+    return render_to_response('about.html', {}, context_instance=RequestContext(request, ))
 
 
 def contact_us(request):
@@ -29,7 +32,16 @@ def homepage(request):
     if request.user.is_authenticated():
         if request.user.is_superuser:
             return HttpResponseRedirect('/admin/')
-        return render_to_response("accounts/homepage.html", {}, context_instance=RequestContext(request, ))
+        user = request.user
+        user_type = ''
+        if type(user, Manager):
+            user_type = 'manager'
+        elif type(user, Employer):
+            user_type = 'employer'
+        else:
+            user_type = 'job_seeker'
+        
+        return render_to_response("accounts/user_panel.html", {'user_type': user_type}, context_instance=RequestContext(request, ))
     return render_to_response("base.html", {}, context_instance=RequestContext(request))
 
 
