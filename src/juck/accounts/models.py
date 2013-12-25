@@ -114,7 +114,7 @@ class JuckUser(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = u'کاربران'
 
     email = models.EmailField(
-        verbose_name='پست الکترونیک',
+        verbose_name=u'نام کاربری',
         max_length=255,
         unique=True,
         db_index=True,
@@ -169,7 +169,7 @@ class Employer(JuckUser):
 
 
     def __unicode__(self):
-        return self.name
+        return self.profile.company_name
 
     profile = models.OneToOneField(EmployerProfile, verbose_name=u'پروفایل کارفرما', related_name='employer')
 
