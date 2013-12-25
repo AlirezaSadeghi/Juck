@@ -4,6 +4,7 @@
 /.idea
 *.prefs
 *.pyc
+*manage.py
 *local_settings.py
 /media/uploads/*
 *~

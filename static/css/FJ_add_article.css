@@ -24,6 +24,10 @@
     margin-right: 20px;
 }
 
+.inlineblock {
+    display: inline-block;
+}
+
 .news_image{
     max-width: 330px;
     max-height: 330px;
@@ -46,9 +50,9 @@ textarea {
     resize: none;
 }
 
-input{
-    width: 200px !important;
-}
+/*input {*/
+    /*width: 200px !important;*/
+/*}*/
 
 .add-icon{
     color: white;
@@ -63,4 +67,26 @@ input{
 .add-icon:hover{
     color: #119000;
     background-color: #F1F1F1;
+}
+
+add-icon.plus.icon{
+    vertical-align: text-top;
+}
+
+.tag{
+    width: 150px !important;
+    margin-left: 5px !important;;
+}
+
+.author{
+    width: 200px !important;
+    -webkit-transition: all 1s !important;
+}
+
+.newfield {
+    width: 10px !important;
+}
+
+.clr input{
+    margin-left: 13px !important;
 }

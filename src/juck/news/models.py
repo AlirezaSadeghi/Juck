@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 from juck.accounts.models import Manager
 from juck.image.models import JuckImage
-#from persian_date.gregorian_persian_convertor import create_persian_date
+from persian_date.gregorian_persian_convertor import create_persian_date
 
 
 class News(models.Model):
@@ -23,9 +23,9 @@ class News(models.Model):
     def __unicode__(self):
         return u'خبر: ' + self.title
 
-    # def get_persian_date(self):
-    #     tup = create_persian_date(self.publish_date.date())
-    #     return tup
+    def get_persian_date(self):
+        tup = create_persian_date(self.publish_date.date())
+        return tup
 
     def calculate_score(self):
         pass

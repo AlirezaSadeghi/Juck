@@ -19,88 +19,104 @@
             <div class="row">
 
                 <div class="ui nine wide column">
+                    <form method="POST" onsubmit="addTagsAndAuthors();" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="ui  form segment right_alignment" dir="rlt">
+                            <div class="field">
+                                {{ form.source_file }}
+                            </div>
+                            <div class="field">
+                                <label class="right_alignment">
+                                    عنوان مقاله
+                                </label>
+                                {{ form.title }}
+                            </div>
+                            <div class="field">
+                                <label class="right_alignment">
+                                    خلاصه مقاله
+                                </label>
+                                {{ form.summary }}
+                            </div>
 
-                    <div class="ui  form segment right_alignment" dir="rlt">
-                        <div class="field">
-                            <label class="right_alignment">
-                                عنوان مقاله
-                            </label>
-                            {{ form.title }}
-                        </div>
-                        <div class="field">
-                            <label class="right_alignment">
-                                خلاصه مقاله
-                            </label>
-                            {{ form.summary }}
-                        </div>
-                        <div class="three fields">
-                            <div class="field ">
+                            <div class="clr">
+                            <div class="field inlineblock">
                                 <label class="right_alignment">
                                     نویسندگان
                                 </label>
-                                <input placeholder="نویسنده"type="text" id="author1">
-                                <i class="add-icon plus icon"></i>
+                                <input placeholder="نویسنده" type="text" id="author1" class="author">
                             </div>
-                        </div>
-
-                        <div class="five fields right_alignment">
-                            <div class="field ">
+                            <i class="add-icon plus icon" id="add_author"></i>
+                            </div>
+{#                            <div class="inline fields">#}
+{#                                <label>Phone Number</label>#}
+{#                                <div class="field">#}
+{#                                  <input type="text" placeholder="(xxx)">#}
+{#                                </div>#}
+{#                                <div class="field">#}
+{#                                  <input type="text" placeholder="(xxx)">#}
+{#                                </div>#}
+{#                              </div>#}
+                            <div class="clr">
+                            <div class="field inlineblock">
                                 <label class="right_alignment">
                                     برچسب ها
                                 </label>
-                                <input placeholder="برچسب"type="text" id="tag1" >
-                                <i class="add-icon plus icon"></i>
+                                <input placeholder="برچسب" type="text" id="tag1" class="tag">
                             </div>
+                            <i class="add-icon plus icon" id="add_tag"></i>
+                            </div>
+
+                            <input type="hidden" name="authors" value="" id="id_authors"/>
+                            <input type="hidden" name="tags" value="" id="id_tags"/>
+
+                            {#                        {{ form.as_p }}#}
+                            {#                        <div class="field">#}
+                            {#                            <label class="right_alignment">#}
+                            {#                                فایل مقاله#}
+                            {#                            </label>#}
+                            {#                            <input placeholder="فایل مقاله"type="file" id="news_title">#}
+                            {#                        </div>#}
+                            {##}
+                            {#                        <div class="field">#}
+                            {#                            <label class="right_alignment">#}
+                            {#                                           عنوان مقاله#}
+                            {#                            </label>#}
+                            {#                            <input placeholder="عنوان مقاله"type="text" id="news_title">#}
+                            {#                        </div>#}
+                            {##}
+                            {#                        <div class="three fields">#}
+                            {#                            <div class="field ">#}
+                            {#                                <label class="right_alignment">#}
+                            {#                                    نویسندگان#}
+                            {#                                </label>#}
+                            {#                                <input placeholder="نویسنده"type="text" id="news_title">#}
+                            {#                                <i class="add-icon plus icon"></i>#}
+                            {#                            </div>#}
+                            {##}
+                            {#                        </div>#}
+                            {##}
+                            {#                        <div class="five fields">#}
+                            {#                            <div class="field ">#}
+                            {#                                <label class="right_alignment">#}
+                            {#                                    برچسب ها#}
+                            {#                                </label>#}
+                            {#                                <input placeholder="برچسب"type="text" id="news_title" >#}
+                            {#                                <i class="add-icon plus icon"></i>#}
+                            {#                            </div>#}
+                            {#                        </div>#}
+                            {##}
+                            {#                        <div class="field right_alignment">#}
+                            {#                            <label>خلاصه مقاله</label>#}
+                            {#                            <textarea  placeholder="خلاصه مقاله" id="news_des" > </textarea>#}
+                            {#                            <div class="ui pointing label">#}
+                            {#                                حداکثر ۳۰۰ کاراکتر#}
+                            {#                            </div>#}
+                            {#                        </div>#}
+
+                            <input class="ui blue submit button" type="submit" value="افزودن مقاله">
+
                         </div>
-
-{#                        {{ form.as_p }}#}
-{#                        <div class="field">#}
-{#                            <label class="right_alignment">#}
-{#                                فایل مقاله#}
-{#                            </label>#}
-{#                            <input placeholder="فایل مقاله"type="file" id="news_title">#}
-{#                        </div>#}
-{##}
-{#                        <div class="field">#}
-{#                            <label class="right_alignment">#}
-{#                                           عنوان مقاله#}
-{#                            </label>#}
-{#                            <input placeholder="عنوان مقاله"type="text" id="news_title">#}
-{#                        </div>#}
-{##}
-{#                        <div class="three fields">#}
-{#                            <div class="field ">#}
-{#                                <label class="right_alignment">#}
-{#                                    نویسندگان#}
-{#                                </label>#}
-{#                                <input placeholder="نویسنده"type="text" id="news_title">#}
-{#                                <i class="add-icon plus icon"></i>#}
-{#                            </div>#}
-{##}
-{#                        </div>#}
-{##}
-{#                        <div class="five fields">#}
-{#                            <div class="field ">#}
-{#                                <label class="right_alignment">#}
-{#                                    برچسب ها#}
-{#                                </label>#}
-{#                                <input placeholder="برچسب"type="text" id="news_title" >#}
-{#                                <i class="add-icon plus icon"></i>#}
-{#                            </div>#}
-{#                        </div>#}
-{##}
-{#                        <div class="field right_alignment">#}
-{#                            <label>خلاصه مقاله</label>#}
-{#                            <textarea  placeholder="خلاصه مقاله" id="news_des" > </textarea>#}
-{#                            <div class="ui pointing label">#}
-{#                                حداکثر ۳۰۰ کاراکتر#}
-{#                            </div>#}
-{#                        </div>#}
-
-                        <div class="ui blue submit button" type="submit" id="submit-button">افزودن مقاله
-                        </div>
-
-                    </div>
+                    </form>
                 </div>
 
             </div>

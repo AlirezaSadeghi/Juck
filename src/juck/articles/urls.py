@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 
 urlpatterns = patterns('juck.articles.views',
     url(r'^articles_list/$', 'show_articles_list', {}, name='articles_list'),

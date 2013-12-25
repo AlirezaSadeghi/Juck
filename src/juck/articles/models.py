@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-#from persian_date.gregorian_persian_convertor import create_persian_date
+from persian_date.gregorian_persian_convertor import create_persian_date
 from django.conf import settings
-from django.forms import ModelForm
 
 # Create your models here.
 
@@ -13,8 +12,8 @@ class Article(models.Model):
         verbose_name_plural = u'مقالات'
 
 
-    tags = models.ManyToManyField('Tag', through='ArticleTags')
-    authors = models.ManyToManyField('Author', through='ArticleAuthors')
+    tags = models.ManyToManyField('Tag')
+    authors = models.ManyToManyField('Author')
 
     title = models.CharField(max_length=200, verbose_name=u'عنوان')
     summary = models.TextField(verbose_name=u'خلاصه')
@@ -23,13 +22,12 @@ class Article(models.Model):
                                    null=True, blank=True)
     downloads_count = models.IntegerField(default=0, verbose_name=u'دفعات بارگیری')
 
-
     def __unicode__(self):
         return u'مقاله: ' + self.title
 
-    # def get_persian_date(self):
-    #     tup = create_persian_date(self.publish_date.date())
-    #     return tup
+    def get_persian_date(self):
+        tup = create_persian_date(self.publish_date.date())
+        return tup
 
     def calculate_score(self):
         pass
@@ -49,13 +47,3 @@ class Author(models.Model):
         verbose_name_plural = u'نویسندگان'
 
     full_name = models.CharField(max_length=200, verbose_name=u'نام و نام خانوادگی')
-
-
-class ArticleTags(models.Model):
-    tag = models.ForeignKey(Tag)
-    article = models.ForeignKey(Article)
-
-
-class ArticleAuthors(models.Model):
-    author = models.ForeignKey(Author)
-    article = models.ForeignKey(Article)
