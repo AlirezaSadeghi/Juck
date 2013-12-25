@@ -133,32 +133,34 @@
 
 <div class="ftr">
     <div class="center">
-        <ul class="menu">
-            <div>
-                <li><a href="/"> <span> صفحه اصلی</span></a></li>
-            </div>
-            <li class="li-separator"> .</li>
-            <div>
-                <li><a href="/search/"> <span> مقالات</span></a></li>
-            </div>
-            <li class="li-separator"> .</li>
-            <div>
-                <li><a href="/news/latest/"> <span> اخبار</span></a></li>
-            </div>
-            <li class="li-separator"> .</li>
-            <div>
-                <li><a href="/question/common/"> <span> سوالات</span></a>
-                </li>
-            </div>
-            <li class="li-separator"> .</li>
-            <div>
-                <li><a href="/about/"> <span> درباره ما</span></a></li>
-            </div>
-            <li class="li-separator"> .</li>
-            <div>
-                <li><a href="/contact-us/"> <span> تماس</span></a></li>
-            </div>
-        </ul>
+        {% block ftr %}
+            <ul class="menu">
+                <div>
+                    <li><a href="/"> <span> صفحه اصلی</span></a></li>
+                </div>
+                <li class="li-separator"> .</li>
+                <div>
+                    <li><a href="/search/"> <span> مقالات</span></a></li>
+                </div>
+                <li class="li-separator"> .</li>
+                <div>
+                    <li><a href="/news/latest/"> <span> اخبار</span></a></li>
+                </div>
+                <li class="li-separator"> .</li>
+                <div>
+                    <li><a href="/question/common/"> <span> سوالات</span></a>
+                    </li>
+                </div>
+                <li class="li-separator"> .</li>
+                <div>
+                    <li><a href="/about/"> <span> درباره ما</span></a></li>
+                </div>
+                <li class="li-separator"> .</li>
+                <div>
+                    <li><a href="/contact-us/"> <span> تماس</span></a></li>
+                </div>
+            </ul>
+        {% endblock %}
     </div>
 </div>
 
