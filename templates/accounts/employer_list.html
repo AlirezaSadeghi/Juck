@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    جاک | لیست کارفرمایان
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="../../static/css/FJ.css"/>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="../../static/js/rf.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="center">
+        <div class="ctn-box">
+            <div class="ui icon input left small">
+                <input type="text" placeholder="جستجو...">
+                <i class="inverted search icon"></i>
+                </div>
+
+                <small class="advanced_search">جستجوی پیشرفته </small>
+
+                <div class="advanced_search_panel ui segment form">
+                    <div class="container">
+                        <div class="advanced_search_form">
+                        <form>
+                            <div class="inline field">
+                                <label class="input_labels">زمینه فعالیت: </label><input type="text" name="min_rate" placeholder="از ۵">
+                            </div>
+                            <div class="inline field">
+                                <label class="input_labels">نوع شرکت: </label><input type="number" name="min_age" placeholder="سن">
+                            </div>
+							<div class="inline field">
+                                <label class="input_labels">شهر: </label><input type="text" name="author-name" placeholder="رشته">
+                            </div>
+
+                            <div class="search_buttons">
+                                <input class="inline ui button" type="reset" value="پاک کردن">
+                                <input class="inline ui button"type="submit" value="جستجو">
+                            </div>
+                        </form>
+                        </div>
+                        <div class="ui vertical divider"></div>
+                        <div class="advanced_search_info">
+                            <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
+
+                        </div>
+                    </div>
+                </div>
+            <div class="user_list">
+                <div class="ui raised segment single_user">
+                    <div class="user_number inlineblock inlinemiddle ">
+                        1
+                    </div>
+                    <img class="inlinemiddle" src="{% static 'a.jpeg' %} ">
+                    <div class="inlinemiddle inlineblock user_data">
+                        <div class="user_info1">
+                            <span class="user_title">علیرضا صادقی</span>
+                            <span class="user_job">مهندس کامپیوتر</span>
+                        </div>
+                        <div class="user_info2">
+                            <span class="user_age">سن: <span>۲۱ سال</span></span>
+                            <span class="user_country">تهران</span>
+                        </div>
+                    </div>
+                    <div class="user_buttons">
+                        <div class="ui icon small blue button">
+                             <i class="download user icon"></i>
+                            مشاهده پروفایل
+                        </div>
+                        <div class="ui icon small red button">
+                             <i class="download remove icon"></i>
+                            حذف کارجو
+                        </div>
+                    </div>
+                </div>
+                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+                <div class="ui raised segment single_user">
+                    <div class="user_number inlineblock inlinemiddle ">
+                        1
+                    </div>
+                    <img class="inlinemiddle" src="{% static 'a.jpeg' %} ">
+                    <div class="inlinemiddle inlineblock user_data">
+                        <div class="user_info1">
+                            <span class="user_title">علیرضا صادقی</span>
+                            <span class="user_job">مهندس کامپیوتر</span>
+                        </div>
+                        <div class="user_info2">
+                            <span class="user_age">21</span>
+                            <span class="user_country">تهران</span>
+                        </div>
+                    </div>
+                    <div class="user_buttons">
+                        <div class="ui icon small blue button">
+                             <i class="download user icon"></i>
+                            مشاهده پروفایل
+                        </div>
+                        <div class="ui icon small red button">
+                             <i class="download remove icon"></i>
+                            حذف کارجو
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
