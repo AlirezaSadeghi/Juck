@@ -36,4 +36,16 @@ $(document).ready(function () {
         });
     });
 
+    var prevActive = $('.active');
+
+    $('.nav-bar .nav-link').hover(function(){
+        $(this).addClass('active');
+        $(this).children('.label').css('opacity', 0.8);
+    }, function(){
+        $(this).removeClass('active');
+        $(this).children('.label').css('opacity', 0);
+        if($('.active').length == 0)
+            prevActive.addClass('active');
+    });
+
 });

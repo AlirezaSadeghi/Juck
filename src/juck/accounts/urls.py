@@ -2,7 +2,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import logout
 #from django.contrib.auth.views import  password_change, password_change_done
-from juck.accounts.wizard import JobSeekerWizard, EMPLOYER_FORMS, JOB_SEEKER_FORMS, EmployerWizard
+from juck.accounts.views import JobSeekerWizard, EMPLOYER_FORMS, JOB_SEEKER_FORMS, EmployerWizard
 
 urlpatterns = patterns('juck.accounts.views',
                        url(r'^about/$', 'about_us', {}, name='about'),

@@ -88,15 +88,36 @@
             </div>
         </div>
     {% endblock %}
+    <div class="center">
+        {% block page_title %}
 
-    {% block page_title %}
-
-    {% endblock %}
+        {% endblock %}
+    </div>
 
     <div class="ctn">
         {% block content %}
             {% csrf_token %}
             <div class="index">
+                <div class="nav-bar">
+                    <ul role="navigation">
+                        <li class="nav-link active" role="link">
+                            <span class="label">خانه</span>
+                            <span class="dot"></span>
+                        </li>
+                        <li class="nav-link" role="link">
+                            <span class="label">درباره</span>
+                            <span class="dot"></span>
+                        </li>
+                        <li class="nav-link" role="link">
+                            <span class="label">کارجو</span>
+                            <span class="dot"></span>
+                        </li>
+                        <li class="nav-link" role="link">
+                            <span class="label">کارفرما</span>
+                            <span class="dot"></span>
+                        </li>
+                    </ul>
+                </div>
                 <div class="center">
                     <div class="ctn-index-wrp">
                         <div class="index-main">
@@ -124,6 +145,10 @@
                             <div class="clr"></div>
                         </div>
                     </div>
+                </div>
+                <div class="test1">
+                </div>
+                <div class="test2">
                 </div>
             </div>
         {% endblock %}
