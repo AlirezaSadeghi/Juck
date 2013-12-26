@@ -10,15 +10,23 @@ from django.template.context import RequestContext
 from juck.accounts.forms import LoginForm, CaptchaForm
 from django.contrib import auth
 from django.conf import settings
-from juck.accounts.models import TemporaryLink, JuckUser
+from juck.accounts.models import TemporaryLink, JuckUser, Manager, JobSeeker, Employer
 from juck.log.models import ActionLog
 from utils import json_response, send_html_mail
 import hashlib
 from html_builder import HtmlBuilder
 
+from django.contrib.formtools.wizard.views import SessionWizardView
+
+from juck.accounts.forms import *
+
+
+def user_panel(request):
+    return render_to_response('accounts/user_panel.html', {}, context_instance=RequestContext(request, ))
+
 
 def about_us(request):
-    return render_to_response('about.html', {}, context_instnace=RequestContext(request, ))
+    return render_to_response('about.html', {}, context_instance=RequestContext(request, ))
 
 
 def contact_us(request):
@@ -29,7 +37,17 @@ def homepage(request):
     if request.user.is_authenticated():
         if request.user.is_superuser:
             return HttpResponseRedirect('/admin/')
-        return render_to_response("accounts/homepage.html", {}, context_instance=RequestContext(request, ))
+        user = request.user
+        user_type = ''
+        if type(user, Manager):
+            user_type = 'manager'
+        elif type(user, Employer):
+            user_type = 'employer'
+        else:
+            user_type = 'job_seeker'
+
+        return render_to_response("accounts/user_panel.html", {'user_type': user_type},
+                                  context_instance=RequestContext(request, ))
     return render_to_response("base.html", {}, context_instance=RequestContext(request))
 
 
@@ -159,6 +177,38 @@ def create_password_recovery_mail_html(hash_value):
     text += builder.append_tag('a', u'برای تغییر رمز عبور حا را کلیک کنید.',
                                **{'href': settings.SITE_URL + "accounts/password_change_recover/" + hash_value})
     return text
+
+
+JOB_SEEKER_FORMS = [
+    ("Phase_1", JobSeekerRegisterForm1),
+    ("Phase_2", JobSeekerRegisterForm2),
+    ("Phase_3", JobSeekerRegisterForm3),
+    ("Phase_4", JobSeekerRegisterForm4),
+]
+
+EMPLOYER_FORMS = [
+    ("Phase_1", EmployerRegisterForm1),
+    ("Phase_2", EmployerRegisterForm2),
+    ("Phase_3", EmployerRegisterForm3),
+]
+
+
+class JobSeekerWizard(SessionWizardView):
+    template_name = 'accounts/job_seeker_registration.html'
+
+    def done(self, form_list, **kwargs):
+        return render_to_response('messages.html', {
+            'message': u'خب الان باید تموم شده باشه ! :دی'
+        })
+
+
+class EmployerWizard(SessionWizardView):
+    template_name = 'accounts/employer_registration'
+
+    def done(self, form_list, **kwargs):
+        return render_to_response('messages.html', {
+            'message': u'خب الان باید تموم شده باشه ! :دی'
+        })
 
 
 def job_seeker_list(request):
