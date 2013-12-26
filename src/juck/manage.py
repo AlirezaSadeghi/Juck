@@ -8,6 +8,8 @@ sys.path.insert(0, dirname(dirname(abspath(__file__))))
 sys.path.insert(1, '/Users/Aref/Sites/juck/lib')
 
 
+sys.path.insert(0, 'C:\Users\Sina\PycharmProjects\JUCK\lib')
+
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "juck.settings")
 
