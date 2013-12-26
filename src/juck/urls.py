@@ -5,8 +5,6 @@ from django.conf import settings
 
 admin.autodiscover()
 
-# admin.autodiscover()
-
 urlpatterns = patterns('',
                        url(r'^$', 'juck.accounts.views.homepage', name='homepage'),
 
