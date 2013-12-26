@@ -172,3 +172,16 @@ def create_password_recovery_mail_html(hash_value):
                                **{'href': settings.SITE_URL + "accounts/password_change_recover/" + hash_value})
     return text
 
+
+def job_seeker_list(request):
+    if request.method == "GET":
+        return render_to_response('accounts/job_seeker_list.html', {}, context_instance=RequestContext(request))
+    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+                              context_instance=RequestContext(request))
+
+
+def employer_list(request):
+    if request.method == "GET":
+        return render_to_response('accounts/employer_list.html', {}, context_instance=RequestContext(request))
+    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+                              context_instance=RequestContext(request))

@@ -33,4 +33,8 @@ urlpatterns = patterns('juck.accounts.views',
                        url(r'^dos_prevention', 'dos_prevention', {}, name='dos_prevention'),
                        url(r'^user_panel/', 'user_panel'),
 
+
+#                      FJ
+                        url(r'^job_seeker_list/$', 'job_seeker_list', {}, name='job_seeker_list'),
+                        url(r'^employer_list/$', 'employer_list', {}, name='employer_list'),
 )

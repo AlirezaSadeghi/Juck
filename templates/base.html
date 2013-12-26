@@ -11,6 +11,8 @@
 
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/png">
 
+    <link type="text/css" href="{% static 'css/semantic.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'css/base.css' %}" rel="stylesheet"/>
     {% block css %}
         <style>
             .page-container {
@@ -31,8 +33,7 @@
         </style>
     {% endblock %}
 
-    <link type="text/css" href="{% static 'css/base.css' %}" rel="stylesheet"/>
-    <link type="text/css" href="{% static 'css/semantic.css' %}" rel="stylesheet"/>
+
     <script type="text/javascript" src="{% static 'js/jQuery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/semantic.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
