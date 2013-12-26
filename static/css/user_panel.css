@@ -1,0 +1,227 @@
+
+
+.panel-menu{
+	margin: 20px auto;
+	/*width: 560px;*/
+	background-color: #108edc;
+	color: white;
+	text-align: center;
+ 	box-shadow: 0 2px 1px #78848B;
+ 	-moz-box-shadow: 0 2px 1px #78848B;
+ 	-webkit-box-shadow: 0 2px 1px #78848B;
+ 	-ms-box-shadow: 0 2px 1px #78848B;
+ 	-o-box-shadow: 0 2px 1px #78848B;
+ }
+
+.panel-menu-item{
+	display: inline-block;
+	margin: 0;
+	padding: 5px 5px 10px 5px;
+	cursor: pointer;
+}
+
+.panel-menu-item:hover{
+	background-color:#FEFEFE;
+	color: #0E72B5;
+}
+
+
+.panel-items{
+	/*padding: 20px 35px;*/
+	margin: 20px 55px 0 0;
+}
+
+.panel-item{
+	margin-left: 10px;
+	width: 250px;
+	height: 250px;
+	padding-top: 35px; 
+	text-align: center;
+	font-size: 25px;
+	display: inline-block;
+	background-color: white;
+	color: #333;
+	font-family: "Mj_Liner Screen Bd";
+	box-shadow: 0 2px 1px #ACBCC6;
+	-moz-box-shadow: 0 2px 1px #ACBCC6;
+	-webkit-box-shadow: 0 2px 1px #ACBCC6;
+	-ms-box-shadow: 0 2px 1px #ACBCC6;
+	-o-box-shadow: 0 2px 1px #ACBCC6;
+	cursor: pointer;
+}
+
+.panel-item:hover{
+	background-color: #108edc;
+	color: white;
+}
+
+.panel-item i{
+	padding: 20px 0 0 20px;
+	font-size: 100px !important;
+}
+
+.panel-item .label{
+	padding: 5px;
+}
+
+.manager-states{
+	/*display: table;*/
+	width: 100%;
+	margin: 20px auto;
+	/*margin: 20px 55px 20px 0;*/
+	padding: 10px;
+	font-size: 18px;
+}
+
+
+.manager-state{
+	display: inline-block;
+	background-color: white;
+	color: #333;
+	padding: 20px;
+	margin-left: 30px;
+	border-radius: 2px;
+	font-family : "Mj_Liner Screen Bd";
+	color: white;
+	position: relative;
+	width: 150px;
+	height: 100px;
+}
+
+.manager-state.red{
+	background-color: #f56954;
+}
+.manager-state.blue{
+	background-color: #0073b7;
+}
+.manager-state.aqua{
+	background-color: #00c0ef;
+}
+
+.manager-state.green{
+	background-color: #00a65a;
+}
+
+.manager-state .num{
+	font-size: 30px;
+	font-family: 'BYekan';
+	z-index: 5;
+}
+
+.manager-state p{
+
+	font-size: 10px;
+	z-index: 5;
+}
+
+.manager-state h3{
+	margin-bottom: 5px;
+	z-index: 5;
+}
+
+
+
+.manager-state i{
+	font-size: 55px !important;
+	margin: 0 !important;
+	z-index: 0;
+	position: absolute;
+	left: 20px;
+	bottom: 15px;
+	color:rgba(0,0,0,0.3);
+}
+
+.manager-log {
+	width: 250px;
+	height: 500px;
+	background-color: #FEFEFE;
+}
+
+.manager-graph{
+	width: 500px;
+	height: 500px;
+	background-color: gray;	
+}
+
+.ui.grid{
+	margin-bottom: 58px !important;
+}
+
+.manager-list{
+	text-align: right !important;
+	width: 434px !important;
+	padding: 0 !important;
+	position: relative;
+}
+
+.manager-list h1{
+	margin-bottom: 10px;
+	font-family: "Mj_Liner Screen Bd";
+	color: #0073b7;
+}
+
+.manager-list p{
+	margin-top: 10px;
+	text-indent: 30px;
+	font-size: 12px;
+}
+
+.manager-list-item{
+	margin: 0 5px 15px 0;
+	padding: 10px;
+	position: relative;
+	/*border-radius: 10px;*/
+}
+.manager-list-item:hover{
+	background-color: #E8F5FD;
+}
+.manager-list-item:hover .list-buttons{
+	display: inline-block;
+}
+
+.list-buttons .ui.button, .list-details{
+	display: inline-block;
+}
+
+.list-buttons{
+	display: none;
+	position: absolute;
+	bottom: 6px;left: 10px;
+	width: 70px;
+	font-size: 12px !important;
+	font-family: "Mj_Liner Screen Bd";
+
+}
+
+.list-buttons .button{
+	background-color: #0073b7 !important;
+	color: white !important;
+	width: 75px !important;
+}
+
+.manager-list-all-btn{
+	position: absolute;
+	bottom: 5px;right: 10px;
+	color: white !important;
+	background-color: #00c0ef !important;
+		font-family: "Mj_Liner Screen Bd";
+
+}
+
+.manager-list-all-btn.single{
+	right: 115px;
+}
+
+.manager-list-add-btn{
+	position: absolute;
+	bottom: 5px;left: 5px;
+	background-color: #00a65a !important;
+	color: white !important;
+		font-family: "Mj_Liner Screen Bd";
+
+
+}
+
+.manager-list-buttons{
+	margin-top: 70px;
+}
