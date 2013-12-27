@@ -14,3 +14,5 @@ class Request(models.Model):
     text = models.TextField(verbose_name=u'متن درخواست')
     timestamp = models.DateTimeField(verbose_name=u'زمان ایجاد')
     cooperation_type = models.PositiveSmallIntegerField(verbose_name=u'نوع همکاری', )
+
+    
