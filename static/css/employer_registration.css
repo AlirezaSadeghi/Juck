@@ -1,0 +1,174 @@
+.register_panel{
+    background-color: #108edc;
+    font-size: 13px;
+}
+
+.reg_form, .reg_other_panel{
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    /*width: 23%;*/
+}
+.reg_form{
+    /*width: 47%;*/
+    background-color: #eee;
+    width: 550px;
+    /*border-radius: 0 !important;*/
+    display: inline-block;
+    margin: 0;
+    float: left;
+    /*width: */
+    padding: 15px 20px;
+}
+
+.reg_form p{
+    margin-bottom: 10px;
+}
+
+.reg_nav_menu h2{
+    font-family: 'Mj_Liner Screen Bd', tahoma !important;
+}
+
+.reg_nav_menu{
+    background-color: #108edc;
+    color: white;
+    float: right;
+    /*margin: 0;*/
+    height: 500%;
+}
+
+.reg_form .input_labels{
+    display: inline-block;
+    width: 110px;
+}
+/*.jobs_form_2 .input_labels{
+	width: 140px;
+}*/
+
+.jobs_form_2 h2{
+    margin-bottom: 20px;
+}
+
+.reg_form .field, .reg_form .fields{
+    margin-bottom: 10px;
+    margin-left: 40px;
+}
+
+.jobs_form_2 .input{
+    width: 150px;
+}
+
+.jobs_form_2 .second-col{
+    position: absolute;
+    right: 650px;
+}
+
+.rf-btn{
+    background-color: #108edc !important;
+    color: white !important;
+}
+
+.register-btn{
+    background-color: #108edc !important;
+    color: white !important;
+    font-family: "Mj_Liner Screen Bd";
+}
+
+.next-btn.green{
+    background-color: #00a65a !important;
+    color: white !important;
+    font-family: "Mj_Liner Screen Bd";
+}
+
+.next_btn{
+    float: left;
+}
+
+.netxt-btn-details{
+    font-size: 12px;
+    color: #444444;
+}
+
+
+p{
+    text-indent: 5px;
+    line-height: 150%;
+}
+
+.step-box{
+    /*margin-bottom: 15px;*/
+    margin: 10px;
+    min-width: 250px;
+    padding: 10px;
+    box-shadow: 0 2px 1px #0f7ab5;
+    -moz-box-shadow: 0 2px 1px #0f7ab5;
+    -webkit-box-shadow: 0 2px 1px #0f7ab5;
+    -ms-box-shadow: 0 2px 1px #0f7ab5;
+    -o-box-shadow: 0 2px 1px #0f7ab5;
+    background-color: #2f98d1 !important
+}
+
+.step-box i{
+    margin-left: 10px;
+    background-color: white;
+    color: #108edc;
+    width: 30px;
+    height: 30px;
+    padding-top: 5px;
+    border-radius: 50%;
+}
+
+.step-active{
+    background-color: white !important;
+    color: #108edc;
+}
+.step-active i{
+    background-color: #108edc;
+    color: white;
+}
+
+.step-desc{
+    font-size: 10px;
+    color: #8ac5e5;
+    margin-right: 70px;
+}
+
+.step-active .step-desc{
+    color: #45a3d6;
+}
+
+.required-field{
+    color: darkred;
+    font-size: 17px;
+    padding-bottom: 4px;
+}
+
+.field-input img{
+    position: absolute;
+    height: 100%;
+    width: 80px;
+    bottom: 0;
+    left: 0;
+}
+
+.field-input input{
+    width: 190px !important;
+}
+
+.input-details{
+    display: inline-block;
+    width: 310px;
+}
+
+.input-errors{
+    display: inline-block;
+    /*padding: 10px;*/
+    margin-top: 5px;
+    /*color: white;*/
+    color: darkred;
+    width: 190px;
+}
+
+.reg_form textarea{
+    margin-right:113px !important;
+}
