@@ -205,6 +205,23 @@ background-color: #e3e3e3;
     margin-top: 10px !important;
 }
 
+
+.user_list .single_question:nth-child(4n+3) {
+background-color: #EFEFEF;
+    }
+
+.user_list .single_question:nth-child(4n+1) {
+background-color: #e3e3e3;
+    }
+
+
+.user_list .single_question{
+    min-height: 55px;
+    padding-bottom: 0.7em !important;
+    margin-top: 10px !important;
+}
+
+
 .user_list .single_user:hover .user_buttons {
     opacity: 1;
 }
@@ -215,9 +232,25 @@ background-color: #e3e3e3;
     -webkit-transition: opacity 500ms;
 }
 
+.user_list .single_question:hover .user_buttons {
+    opacity: 1;
+}
+
+.user_list .single_question .user_buttons {
+    opacity: 0;
+    transition: opacity 500ms;
+    -webkit-transition: opacity 500ms;
+}
+
+
 .user_list .single_user .user_buttons .button {
     width: 140px !important;
 }
+
+.question_button{
+    margin: 5px 8px;
+}
+
 
 .inlineblock {
     display: inline-block;
@@ -230,6 +263,11 @@ background-color: #e3e3e3;
 .user_list .user_data {
     vertical-align: top;
     margin: 12px;
+}
+
+.user_list .question_data {
+    vertical-align: top;
+    margin: 0px 12px;
 }
 
 .user_list img {
@@ -254,6 +292,13 @@ background-color: #e3e3e3;
     font-weight: bold;
     display: inline-block;
 }
+
+.user_list .question_info1 > span{
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 
 .user_list .user_info1 > span:first-child{
     width: 200px;
@@ -284,7 +329,8 @@ background-color: #e3e3e3;
 }
 
 .pagination.menu{
-    margin: 0px auto !important;
+    margin-top: 15px !important;
+    margin-right: 300px !important;
     /*position: absolute;*/
 }
 
@@ -295,12 +341,23 @@ background-color: #e3e3e3;
 
 /*yadet bashe span > first haro dorost koni*/
 
-.user_list .user_info1 .question_title {
-    width: 400px !important;
-}
+/*.user_list .user_info1 .question_title {*/
+    /*width: 400px !important;*/
+/*}*/
 
 .user_list .user_info2 .question_asker {
+    width: 150px !important;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.user_list .user_info2 .question_date{
+    width: 150px !important;
+}
+
+.user_list .user_info2 .question_replier{
     width: 200px !important;
+    margin-left: 215px;
 }
 
 .not_visible{
@@ -310,5 +367,55 @@ background-color: #e3e3e3;
 .answer_box{
     width : 80%;
 }
-.answer_box textarea{
+.javab_box textarea{
+    margin-top: 10px !important;
+}
+
+.ui.accordion{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.accordion_segment{
+    background-color: wheat !important;
+}
+
+.question_buttons{
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    margin: 10px;
+}
+
+.accordion .content{
+    padding: 1em 1em !important;
+}
+
+.question_number{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.mngr_question_date{
+    width: 200px !important;
+    margin-left: 515px !important;
+}
+
+.tabular.menu{
+    margin-top: 10px !important;
+}
+
+.display_none{
+    display: none;
+}
+
+.fj_green{
+    background-color: #C7D3B3 !important;
+}
+
+.faq_list{
+    background-color: #C7D3B3 !important;
+}
+.faq_add .form.segment{
+    background-color: #C7D3B3  !important;
 }

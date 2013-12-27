@@ -9,7 +9,7 @@ class Question(models.Model):
         verbose_name_plural = u'سوالات'
 
     sender = models.ForeignKey(JuckUser, verbose_name=u'کاربر فرستنده', related_name='questions')
-    title = models.TextField(verbose_name=u'عنوان')
+    title = models.CharField(verbose_name=u'عنوان', max_length=200)
     timestamp = models.DateTimeField(u'زمان پرسیده شدن', auto_now=True)
     common = models.BooleanField(u'سوال متداول', default=False)
     content = models.TextField(u'محتوی', null=True, blank=True)

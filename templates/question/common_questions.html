@@ -1,5 +1,140 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    جاک | سوالات متداول
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css'%}"/>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/rf.js'%}"></script>
+{% endblock %}
 
 {% block content %}
+    <div class="center">
+        <div class="ctn-box">
+            <div class="ui icon input left small">
+                <input type="text" placeholder="جستجو...">
+                <i class="inverted search icon"></i>
+                </div>
 
+                <small class="advanced_search">جستجوی پیشرفته </small>
+
+                <div class="advanced_search_panel ui segment form">
+                    <div class="container">
+                        <div class="advanced_search_form">
+                        <form>
+                            <div class="two fields">
+                                <span class="inline field">
+                                <label class="input_labels">تا تاریخ: </label><input type="date" name="secon_date">
+                                </span>
+                                <span class="inline field">
+                                <label class="input_labels">از تاریخ: </label><input type="date" name="first_date">
+								</span>
+
+                            </div>
+
+							<div class="inline field">
+                                <label class="input_labels">شامل: </label><input type="text" name="content" placeholder="عبارت">
+                            </div>
+
+                            <div class="search_buttons">
+                                <input class="inline ui button" type="reset" value="پاک کردن">
+                                <input class="inline ui button"type="submit" value="جستجو">
+                            </div>
+                        </form>
+                        </div>
+                        <div class="ui vertical divider"></div>
+                        <div class="advanced_search_info">
+                            <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
+
+                        </div>
+                    </div>
+                </div>
+            <div class="user_list">
+
+                <div class="ui raised segment single_question">
+                    <span class="question_number">۱ - </span>
+                    <div class="inlinemiddle inlineblock question_data">
+                        <div class="question_info1">
+                            <span class="question_title">آیا می توان سر کارفرما کلاه گذاشت؟ </span>
+                            <div class="inlineblock ui mini circular icon button slide">
+                             <i class="down icon"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="ui segment javab_box">
+
+                        <div class="ui message">
+                            <p>
+                                بله چرا نشه ثوابم داره!
+                            بهترین کار!
+                            </p>
+                        </div>
+
+                        <div class="user_info2">
+                            <span class="question_date">اضافه شده در: <span>۹۲/۵/۱۷</span></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+
+
+                <div class="ui raised segment single_question">
+                    <span class="question_number">۱ - </span>
+                    <div class="inlinemiddle inlineblock question_data">
+                        <div class="question_info1">
+                            <span class="question_title">آیا می توان سر کارفرما کلاه نگذاشت؟ </span>
+                            <div class="inlineblock ui mini circular icon button slide">
+                             <i class="down icon"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="ui segment javab_box">
+
+                        <div class="ui message">
+                            <p>متاسفانه امکانش هست</p>
+                        </div>
+
+                        <div class="user_info2">
+                            <span class="question_date">اضافه شده در: <span>۹۲/۵/۱۷</span></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+            </div>
+
+            {#            FJ#}
+            <div class="ui small pagination menu">
+                      <a class="icon item">
+                        <i class="icon right arrow"></i>
+                      </a>
+                      <a class="active item">
+                        ۱
+                      </a>
+                      <div class="disabled item">
+                        ۲
+                      </div>
+                      <a class="item">
+                        ...
+                      </a>
+                      <a class="item">
+                        ۱۲
+                      </a>
+                      <a class="icon item">
+                        <i class="icon left arrow"></i>
+                      </a>
+                </div>
+{#            FJ#}
+        </div>
+    </div>
 {% endblock %}

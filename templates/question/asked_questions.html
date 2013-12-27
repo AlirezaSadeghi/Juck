@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    جاک | لیست کارجویان
+    جاک | سوالات پرسیده شده
 {% endblock %}
 
 {% block css %}
@@ -80,57 +80,32 @@
                 </div>
             <div class="user_list">
 
-                <div class="ui raised segment single_user">
-                    <div class="user_number inlineblock inlinemiddle ">
-                        1
-                    </div>
-                    <img class="inlinemiddle" src="{% static 'a.jpeg' %} ">
-                    <div class="inlinemiddle inlineblock user_data">
-                        <div class="user_info1">
-                            <span class="question_title">آیا می توان سر کارفرما کلاه گذاشت؟ (سوال متداول)</span>
-                        </div>
-                        <div class="user_info2">
-                            <span class="question_asker">پرسش گر: <span>علیرضا فراهانی</span></span>
-                        </div>
-                    </div>
-                    <div class="user_buttons">
-                        <div class="ui icon small blue button not_visible answer_btn">
-                             <i class="reply mail icon "></i>
-              پاسخ به سوال
-                        </div>
-                        <div class="ui icon small red button">
-                             <i class=" remove icon"></i>
-                  حذف سوال
-                        </div>
-                    </div>
-
-                </div>
-                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
-
-                <div class="ui raised segment single_user">
-                    <div class="user_number inlineblock inlinemiddle ">
-                        1
-                    </div>
-                    <img class="inlinemiddle" src="{% static 'a.jpeg' %} ">
-                    <div class="inlinemiddle inlineblock user_data">
-                        <div class="user_info1">
+                <div class="ui raised segment single_question">
+                    <span class="question_number">۱ - </span>
+                    <div class="inlinemiddle inlineblock question_data">
+                        <div class="question_info1">
                             <span class="question_title">آیا می توان سر کارفرما کلاه گذاشت؟ </span>
+                            <div class="inlineblock ui mini circular icon button slide">
+                             <i class="down icon"></i>
+                            </div>
                         </div>
-                        <div class="user_info2">
-                            <span class="question_asker">پرسش گر: <span>علیرضا فراهانی</span></span>
-                        </div>
-                    </div>
-                    <div class="user_buttons">
-                        <div class="ui icon small blue button answer_btn">
-                             <i class=" reply mail icon"></i>
-              پاسخ به سوال
-                        </div>
+                        <div class="user_buttons question_button">
                         <div class="ui icon small red button">
                              <i class=" remove icon"></i>
                   حذف سوال
                         </div>
+                        </div>
                     </div>
+
                     <div class="ui segment answer_box">
+
+                        <div class="user_info2">
+                            <span class="question_asker">پرسش گر: <span>علیرضا فراهانی</span></span>
+                            <span class="question_date">پرسیده شده در:<span>۱۷/۵/۹۲</span></span>
+                        </div>
+
+
+
                         <div class="ui form">
                         <div class="field">
                             <textarea cols="70" rows="6" placeholder="جواب سوال"></textarea>
@@ -138,7 +113,51 @@
                         </div>
                         <div class="ui icon small blue button answer_btn">
                              <i class="checkmark icon"></i>
-                            تایید
+                            پاسخ
+                        </div>
+                    </div>
+                </div>
+                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+
+
+                <div class="ui raised segment single_question">
+                    <span class="question_number">۲ - </span>
+                    <div class="inlinemiddle inlineblock question_data">
+                        <div class="question_info1">
+                            <span class="question_title">آیا می توان سر کارفرما کلاه گذاشت؟ </span>
+                            <div class="inlineblock ui mini circular icon button slide">
+                             <i class="down icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="user_buttons question_button">
+                        <div class="ui icon small red button">
+                             <i class=" remove icon"></i>
+                  حذف سوال
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="ui segment javab_box">
+
+                        <div class="user_info2">
+                            <span class="question_asker">پرسش گر: <span>علیرضا فراهانی</span></span>
+                            <span class="question_date">پرسیده شده در:<span>۹۲/۵/۱۷</span></span>
+                            <span class="question_replier">پاسخ از:<span>عارف شفاعی</span></span>
+                            <div class="ui icon small blue button edit_q">
+                             <i class=" edit icon"></i>
+                                ویرایش
+                            </div>
+                        </div>
+
+                        <div class="ui message">
+                            <p>
+                                بله چرا نشه؟ ثوابم داره
+                            </p>
+                        </div>
+                        <div class="ui icon small blue button answer_btn">
+                             <i class="checkmark icon"></i>
+                            پاسخ
                         </div>
                     </div>
                 </div>
@@ -146,7 +165,7 @@
             </div>
 
             {#            FJ#}
-            <div class="ui pagination menu">
+            <div class="ui small pagination menu">
                       <a class="icon item">
                         <i class="icon right arrow"></i>
                       </a>

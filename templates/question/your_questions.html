@@ -1,5 +1,136 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    جاک | سوالات شما
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css'%}"/>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/rf.js'%}"></script>
+{% endblock %}
 
 {% block content %}
+    <div class="center">
+        <div class="ctn-box">
 
+
+            <div class="ui top attached tabular menu">
+              <a class="active item faq_list_tab fj_green">
+                  سوالات شما
+              </a>
+              <a class="item faq_add_tab">
+                  سوال بپرسید
+              </a>
+            </div>
+            <div class="user_list ui bottom attached faq_list segment">
+
+                <div class="ui raised segment single_question">
+                    <span class="question_number">۱ - </span>
+                    <div class="inlinemiddle inlineblock question_data">
+                        <div class="question_info1">
+                            <span class="question_title">آیا می توان سر کارفرما کلاه گذاشت؟ </span>
+                            <div class="inlineblock ui mini circular icon button slide">
+                             <i class="down icon"></i>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="ui segment javab_box">
+
+                        <div class="user_info2">
+                            <span class="question_date">پرسیده شده در:<span>۹۲/۵/۱۷</span></span>
+                            <span class="question_replier">پاسخ از:<span>عارف شفاعی</span></span>
+                        </div>
+                        <div class="ui message">
+                            <p>
+                                بله چرا نشه ثوابم داره!
+                            بهترین کار!
+                            </p>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+
+
+                <div class="ui raised segment single_question">
+                    <span class="question_number">۱ - </span>
+                    <div class="inlinemiddle inlineblock question_data">
+                        <div class="question_info1">
+                            <span class="question_title">این چه سوالی بود من پرسیدم؟</span>
+                            <div class="inlineblock ui mini circular icon button slide">
+                             <i class="down icon"></i>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="ui segment javab_box">
+
+                        <div class="user_info2">
+                            <span class="question_date">پرسیده شده در: <span>۹۲/۵/۱۷</span></span>
+                            <span class="question_replier">پاسخی به این سوال داده نشده<span></span></span>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+            </div>
+
+            <div class="display_none faq_add">
+                <form>
+                    <div class="ui form segment">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label>عنوان: </label>
+                        {{ form.title }}
+                    </div>
+                    <div class="field">
+                        <label>متن: </label>
+                        {{ form.content }}
+                    </div>
+                    <div class="field">
+                        <input type="submit" class="ui blue button small" value="ایجاد"/>
+                    </div>
+                    </div>
+                </form>
+
+            </div>
+
+            {#            FJ#}
+            <div class="ui small pagination menu">
+                      <a class="icon item">
+                        <i class="icon right arrow"></i>
+                      </a>
+                      <a class="active item">
+                        ۱
+                      </a>
+                      <div class="disabled item">
+                        ۲
+                      </div>
+                      <a class="item">
+                        ...
+                      </a>
+                      <a class="item">
+                        ۱۲
+                      </a>
+                      <a class="icon item">
+                        <i class="icon left arrow"></i>
+                      </a>
+                </div>
+{#            FJ#}
+        </div>
+    </div>
 {% endblock %}
