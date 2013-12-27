@@ -11,13 +11,9 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#more-info').click(function () {
-                $('.test.modal').modal('show');
-            });
-            var x = $('.ui.rating');
-            x.rating('enable');
-            x.rating('set rating',3);
+
         });
+
     </script>
 
 {% endblock %}
@@ -49,6 +45,7 @@
                         </div>
                         <div class="ui attached fluid segment ">
                             <img src="news/uploads/{{ news.image.image }}" class="news_image">
+
                             <p dir="rtl">
                                 {{ news.content }}
                             </p>
@@ -61,17 +58,25 @@
                                 </div>
 
                                 <div class="field">
-                                    <div class="ui large star rating">
-                                        <i class="icon"></i>
-                                        <i class="icon"></i>
-                                        <i class="icon"></i>
-                                        <i class="icon"></i>
-                                        <i class="icon"></i>
 
+                                    <div class="ui positive button icon" id="like">
+                                        <i class="thumbs up icon "></i>
+
+                                        <i >
+                                            50&nbsp
+                                        </i>
                                     </div>
-                                    <div class="score">
-                                        {{ news.calculate_score }}
+
+
+                                    <div class="ui negative button  icon" id="dislike">
+                                        <i class="thumbs down icon"></i>
+
+                                        <i>
+                                            24&nbsp
+                                        </i>
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
