@@ -22,7 +22,7 @@ from juck.accounts.forms import *
 
 
 def user_panel(request):
-    return render_to_response('accounts/user_panel.html', {}, context_instance=RequestContext(request, ))
+    return render_to_response('accounts/user_panel.html', {'user_type':'employer'}, context_instance=RequestContext(request, ))
 
 
 def about_us(request):
@@ -37,10 +37,9 @@ def homepage(request):
     if request.user.is_authenticated():
         if request.user.is_superuser:
             return HttpResponseRedirect('/admin/')
-        user = request.user
-        if isinstance(user, Manager):
+        if check_user_type(request.user.pk, 'manager'):
             user_type = 'manager'
-        elif isinstance(user, Employer):
+        elif check_user_type(request.user.pk, 'employer'):
             user_type = 'employer'
         else:
             user_type = 'job_seeker'
@@ -222,3 +221,23 @@ def employer_list(request):
         return render_to_response('accounts/employer_list.html', {}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
+
+
+def get_user_type(pk):
+    try:
+        Manager.objects.get(pk=pk)
+        user_type = 'manager'
+    except ObjectDoesNotExist:
+        try:
+            Employer.objects.get(pk=pk)
+            user_type = 'employer'
+        except ObjectDoesNotExist:
+            user_type = 'jobseeker'
+
+    return user_type
+
+
+def check_user_type(pk, user_type):
+    if user_type == get_user_type(pk):
+        return True
+    return False

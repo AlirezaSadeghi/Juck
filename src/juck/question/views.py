@@ -4,7 +4,8 @@ from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from juck.accounts.models import Manager
+from juck.accounts.models import Manager, JuckUser
+from juck.accounts.views import check_user_type
 from juck.question.filter import ManagerQuestionListFilter
 from juck.question.models import Question, Answer
 from utils import create_pagination_range, json_response
@@ -49,28 +50,30 @@ def common_questions(request):
 
 
 @login_required
-@user_passes_test(lambda user: isinstance(user, Manager))
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def asked_questions(request):
     if request.method == "GET":
-        get_params = request.GET.copy()
-        if 'page' in get_params:
-            del get_params['page']
-
-        search_filter = ManagerQuestionListFilter()
-        questions, count = search_filter.init_filter(request.GET, **{'common': False})
-        search_form = search_filter.get_form()
-
-        page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
-
-        return render_to_response('question/asked_questions.html',
-                                  {'questions': questions, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range, 'get_params': get_params},
+        # get_params = request.GET.copy()
+        # if 'page' in get_params:
+        #     del get_params['page']
+        #
+        # search_filter = ManagerQuestionListFilter()
+        # questions, count = search_filter.init_filter(request.GET, **{'common': False})
+        # search_form = search_filter.get_form()
+        #
+        # page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
+        #
+        # return render_to_response('question/asked_questions.html',
+        #                           {'questions': questions, 'count': count, 'search_form': search_form,
+        #                            'page_range': page_range, 'get_params': get_params},
+        #                           context_instance=RequestContext(request))
+        return render_to_response('question/asked_questions.html', {},
                                   context_instance=RequestContext(request))
-
     return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'})
 
 
-@permission_required('accounts.add_news')
+@login_required
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def answer_question(request):
     if request.is_ajax() and request.POST.get('pk', ''):
         pk = request.POST.get('pk', '')
@@ -119,7 +122,7 @@ def your_questions(request):
 
 
 @login_required
-@user_passes_test(lambda user: isinstance(user, Manager))
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def add_common_question(request):
     if request.method == "POST" and request.user:
         title = request.POST.get('title', '')
@@ -134,7 +137,7 @@ def add_common_question(request):
 
 
 @login_required
-@user_passes_test(lambda user: isinstance(user, Manager))
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def edit_common_question(request):
     if request.is_ajax():
         pk = request.POST.get('pk', '')
@@ -157,7 +160,7 @@ def edit_common_question(request):
 
 
 @login_required
-@user_passes_test(lambda user: isinstance(user, Manager))
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def remove_common_question(request):
     if request.is_ajax():
         pk = request.POST.get('pk', '')

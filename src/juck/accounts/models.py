@@ -167,7 +167,6 @@ class Employer(JuckUser):
         verbose_name = u'کارفرما'
         verbose_name_plural = u'کارفرمایان'
 
-
     def __unicode__(self):
         return self.profile.company_name
 
@@ -178,6 +177,7 @@ class JobSeeker(JuckUser):
     class Meta:
         verbose_name = u'کارجو'
         verbose_name_plural = u'کارجویان'
+
 
     def __unicode__(self):
         return self.name
