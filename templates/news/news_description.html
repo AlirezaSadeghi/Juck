@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block css %}
-    <link href="../../static/css/news_description.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/news_description.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block page_title %}
@@ -44,7 +44,7 @@
 
                         </div>
                         <div class="ui attached fluid segment ">
-                            <img src="news/uploads/{{ news.image.image }}" class="news_image">
+                            <img src="{{ news.image.image.url }}" class="news_image">
 
                             <p dir="rtl">
                                 {{ news.content }}
@@ -92,7 +92,7 @@
                                 {% for item in comments %}
                                     <div class="comment">
                                         <a class="avatar float_right">
-                                            <img src="../../static/images/jobseeker.png">
+                                            <img src="{% static 'images/jobseeker.png' %}">
                                         </a>
 
                                         <div class="content">
