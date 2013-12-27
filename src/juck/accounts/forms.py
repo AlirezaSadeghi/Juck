@@ -25,19 +25,64 @@ class CaptchaForm(forms.Form):
 
 
 class JobSeekerRegisterForm1(forms.Form):
-    pass
+    first_name = forms.CharField(required=True, label=u'نام')
+    last_name = forms.CharField(required=True, label=u'نام خانوادگی')
+    email = forms.EmailField(required=True, label=u'پست الکترونیکی')
+    password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور')
+    re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور')
+    captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')
 
 
 class JobSeekerRegisterForm2(forms.Form):
-    pass
+    status = forms.ChoiceField(required=True, label=u'وضغیت تحصیلی',
+                               choices=(
+                                   ('student', u'دانشچو'),
+                                   ('grauated', u'فارغ التحصیل'),
+                                ))
+    certificate = forms.ChoiceField(required=True, label= u'مقطع تحصیلی',
+                                    choices=(
+                                        ('under_grad', u'کارشناسی'),
+                                        ('grad', u'کارشناسی ارشد'),
+                                        ('phd', u'دکتری'),
+                                        ('post_doc', u'پست دکتری'),
+                                    ))
+    major = forms.CharField(required=True, max_length=200, label=u'رشته تحصیلی')
+    orientation = forms.CharField(required=True, max_length=150, label=u'گرایش تحصیلی')
+    university_name = forms.CharField(required=True, max_length=150, label=u'نام دانشگاه')
+    university_type = forms.ChoiceField(required=True, label= u'نوع دانشگاه',
+                                        choices=(
+                                            ('dolati', u'دولتی'),
+                                            ('azad', u'آزاد'),
+                                            ('entefaei', u'غیرانتفاعی'),
+                                            ('payam_nur', u'پیام نور'),
+                                            ('foregin', u'خارجی'),
+                                        ))
+    # certificate_file = forms.FileField(required=False, label=u'بارگذاری مدرک')
 
-
+    skill_title = forms.CharField(required=True, max_length=150, label=u'عنوان مهارت')
+    skill_level = forms.ChoiceField(required=True, label=u'سطح تسلط',
+                                    choices=(
+                                        ('low', u'آشنا'),
+                                        ('high', u'مسط'),
+                                        ('certificate', u'دارای مدرک معتبر'),
+                                    ))
+    skill_description = forms.CharField(required=False, max_length=250, label=u'توضیحات')
 class JobSeekerRegisterForm3(forms.Form):
-    pass
+    title = forms.CharField(required=False, max_length=200, label=u'عنوان سابقه')
+    place = forms.CharField(required=False, max_length=200, label=u'سازمان یا دانشگاه مربوطه')
+    from_date = forms.DateField(required=False, label=u'از تاریخ')
+    to_date = forms.DateField(required=False, label=u'تا تاریخ')
+    description = forms.CharField( widget=forms.Textarea(), required=False, label=u'توضیحات')
+    cooperation_type = forms.CharField(required=False, label=u'نوع همکاری', max_length=150)
+    exit_reason = forms.CharField(required=False, label=u'دلیل قطع همکاری', max_length=200)
 
 
 class JobSeekerRegisterForm4(forms.Form):
-    pass
+    website = forms.URLField(required=False, label=u'وب سایت')
+    phone_num = forms.IntegerField(required=True, label=u'شماره تلفن')
+    mobile_num = forms.IntegerField(required=False, label=u'شماره تلفن همراه')
+    postal_code = forms.CharField(required=False, label=u'کد پستی')
+    address = forms.CharField(required=True, widget=forms.Textarea(), label=u'آدرس')
 
 
 class EmployerRegisterForm1(forms.Form):
