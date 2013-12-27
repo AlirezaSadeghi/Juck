@@ -202,7 +202,7 @@ class JobSeekerWizard(SessionWizardView):
 
 
 class EmployerWizard(SessionWizardView):
-    template_name = 'accounts/employer_registration'
+    template_name = 'accounts/employer_registration.html'
 
     def done(self, form_list, **kwargs):
         return render_to_response('messages.html', {

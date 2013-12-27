@@ -554,19 +554,19 @@ ul {
 .juck-introduction {
     background: url('../images/test2.png') no-repeat;
     height: 800px;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 
 .jobseeker-intro {
     background: url('../images/test3.jpg') no-repeat;
     height: 800px;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 
 .employer-intro {
     background: url('../images/test4.jpg') no-repeat;
     height: 500px;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 
 .banner-nav {
