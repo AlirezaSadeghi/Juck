@@ -1,0 +1,126 @@
+{%  extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+
+    جاک | کارتابل
+
+{% endblock %}
+
+
+
+{% block page_title %}
+    کارتابل
+{% endblock %}
+
+
+
+
+{% block css %}
+
+    <style>
+        .my-right {
+            text-align: right !important;
+        }
+
+        .my-font {
+            font: 14px/25px "BYekan", tahoma !important;
+        }
+
+        .ui.inverted.table {
+
+{#            background-color: #ffffff !important;#}
+        {#            color: rgba(200, 0, 255, 0.7);#}
+        }
+        </style>
+{% endblock %}
+
+{% block content %}
+
+    {% csrf_token %}
+    <div class="center">
+        <div class="ctn-box">
+
+            <div class="ui center aligned">
+                <table class="ui  six column table segment collapsing  my-font" style="width: 880px">
+                    <thead>
+                    <tr>
+                        <th class="my-right"> ردیف</th>
+                        
+						<th class="my-right">مخاطب</th>
+						<th class="my-right">نوع درخواست</th>
+						<th class="my-right"> وضعیت</th>
+
+						<th class="my-right"> تاریخ</th>
+						<th class="my-right">مشاهده</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>شرکت اف جی</td>
+                        <td>پیشنهاد</td>
+                        <td class="warning">نا معلوم</td>
+                        
+                        <td>12 دی 1392</td>
+						<td>مشاهده</td>
+                    </tr>
+                    <tr>
+						<td>2</td>
+                        <td>شرکت بینهایت</td>
+                        <td>درخواست</td>
+                        <td class="positive">  توافق شده</td>
+                        <td>
+                            11 دی 1392
+                        </td>
+                        
+						<td>مشاهده</td>
+                        
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>
+                            هوشنگ مرادخانی
+                        </td>
+                        <td> پیشنهاد</td>
+                        <td class="negative">رد شده</td>
+                        
+                        <td>
+                            10 دی 1391
+                        </td>
+						<td>مشاهده</td>
+                    </tr>
+
+
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th class="my-right">-----</th>
+                        <th class="my-right">------</th>
+                        <th class="my-right"> -----</th>
+                        <th class="my-right">
+                            تعداد توافقات: 1
+                        </th>
+                        <th class="my-right">
+                            -----
+                        </th>
+                        <th class="my-right">-----</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+
+            <div class="result-pagination ">
+                <ul>
+                    <li><a href="javascript:void(0);" class="page-indicator active" data-page="1">1</a></li>
+                    <li><a href="javascript:void(0);" class="page-indicator ^" data-page="2">2</a></li>
+                    <li><a href="javascript:void(0);" class="page-indicator ^" data-page="3">3</a></li>
+                    <li><a href="javascript:void(0);" class="page-indicator ^" data-page="4">4</a></li>
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}
