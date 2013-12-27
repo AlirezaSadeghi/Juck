@@ -49,24 +49,25 @@ def common_questions(request):
 
 
 @login_required
-@user_passes_test(lambda user: isinstance(user, Manager))
+# @user_passes_test(lambda user: isinstance(user, Manager))
 def asked_questions(request):
     if request.method == "GET":
-        get_params = request.GET.copy()
-        if 'page' in get_params:
-            del get_params['page']
-
-        search_filter = ManagerQuestionListFilter()
-        questions, count = search_filter.init_filter(request.GET, **{'common': False})
-        search_form = search_filter.get_form()
-
-        page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
-
-        return render_to_response('question/asked_questions.html',
-                                  {'questions': questions, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range, 'get_params': get_params},
+        # get_params = request.GET.copy()
+        # if 'page' in get_params:
+        #     del get_params['page']
+        #
+        # search_filter = ManagerQuestionListFilter()
+        # questions, count = search_filter.init_filter(request.GET, **{'common': False})
+        # search_form = search_filter.get_form()
+        #
+        # page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
+        #
+        # return render_to_response('question/asked_questions.html',
+        #                           {'questions': questions, 'count': count, 'search_form': search_form,
+        #                            'page_range': page_range, 'get_params': get_params},
+        #                           context_instance=RequestContext(request))
+        return render_to_response('question/asked_questions.html', {},
                                   context_instance=RequestContext(request))
-
     return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'})
 
 
