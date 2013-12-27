@@ -45,7 +45,9 @@
 
  
 {% block content %}
+
 	<div class="center">
+	<div class="ctn-box">
  	 <!-- if for user types -->
 
  	 <!-- for jobseeker
@@ -117,24 +119,28 @@
 		<!-- for manager -->
 		<div class="manager-states">
 			<div class="manager-state blue">
+				<div class="manager-onhover"></div>
 				<i class="icon rss"></i>
 				<div class="num">52</div>
 				<h3>تعداد مشترک‌ها</h3>
 				<p>هم اکنون در سایت</p>
 			</div>
 			<div class="manager-state aqua">
+				<div class="manager-onhover"></div>
 				<i class="icon hand up"></i>
 				<div class="num">40</div>
 				<h3>تعداد درخواست‌ها</h3>
 				<p>ردوبدل شده در هفته گذشته</p>
 			</div>
 			<div class="manager-state green">
+				<div class="manager-onhover"></div>
 				<i class="icon unhide"></i>
 				<div class="num">1000</div>
 				<h3>تعداد بازدیدها</h3>
 				<p>انجام گرفته امروز</p>
 			</div>
 			<div class="manager-state red">
+				<div class="manager-onhover"></div>
 				<i class="icon users"></i>
 				<div class="num" >120</div>
 				<h3>تعداد ثبت‌نام‌ها</h3>
@@ -142,17 +148,21 @@
 			</div>
 		</div>
 		<div class="ui grid">
-			<div class="five wide manager-log column">
+			<div class="manager-log column">
+				<div class="ui raised segment">
 				log
+				</div>
 			</div>
-			<div class="one wide column"></div>
-			<div class="ten wide manager-graph column">
+			<div class="manager-list-space column"></div>
+			<div class="manager-graph column">
+				<div class="ui raised segment">
 				chart
+				</div>
 			</div>
 		</div>
 		<div class="ui grid">
-			<div class="manager-list news seven wide column ui segment">
-				<div class="ui segment">
+			<div class="manager-list news column">
+				<div class="ui raised segment">
 					<h1>اخبار</h1>
 					<div class="manager-list-item">
 						<div class="list-details">
@@ -228,9 +238,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="one wide column"></div>
-			<div class="manager-list articles seven wide column">
-				<div class="ui segment">
+			<div class="manager-list-space column"></div>
+			<div class="manager-list articles column">
+				<div class="ui raised segment">
 					<h1>مقالات</h1>
 					<div class="manager-list-item">
 						<div class="list-details">
@@ -308,8 +318,8 @@
 			</div>
 		</div>
 		<div class="ui grid">
-			<div class="manager-list user-articles seven wide column">
-				<div class="ui segment">
+			<div class="manager-list user-articles column">
+				<div class="ui raised segment">
 					<h1>مقالات دریافتی</h1>
 					<div class="manager-list-item">
 						<div class="list-details">
@@ -381,12 +391,10 @@
 						</div>
 					</div>
 				</div>
-
-			
 			</div>
-			<div class="one wide column"></div>
-			<div class="manager-list comments seven wide column segment">
-				<div class="ui segment">
+			<div class="manager-list-space column"></div>
+			<div class="manager-list comments column">
+				<div class="ui raised segment">
 					<h1>نظرات تایید نشده کاربران</h1>
 					<div class="manager-list-item">
 						<div class="list-details">
@@ -462,5 +470,5 @@
 			</div>
 		</div>
 	</div>
-
+	</div>
 {% endblock %}
