@@ -122,11 +122,12 @@ CAPTCHA_LETTER_ROTATION = (-15, 15)
 #TODO => Boji ( The R&D Guy ) - Gmail works, see if there's sth better :-bd
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'BojasWillFindSthCool.com'
+#EMAIL_SENDER = 'BojasWillFindSthCool.com'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'juck.system@gmail.com'
+EMAIL_HOST_PASSWORD = 'SadeghiSinaFJBejes'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'BojasWillFindSthCool.com'
-EMAIL_SENDER = 'BojasWillFindSthCool.com'
-EMAIL_HOST_PASSWORD = 'BojasWillFindSthCool.com'
 
 
 # List of finder classes that know how to find static files in
@@ -192,10 +193,3 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 FILE_UPLOAD_HANDLERS = ("django.core.files.uploadhandler.MemoryFileUploadHandler",
    "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
 
-if DEBUG:
-    EMAIL_HOST = 'localhost'
-    EMAIL_PORT = 1025
-    EMAIL_HOST_USER = ''
-    EMAIL_HOST_PASSWORD = ''
-    EMAIL_USE_TLS = False
-    DEFAULT_FROM_EMAIL = 'testing@example.com'
