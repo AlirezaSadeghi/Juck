@@ -60,6 +60,8 @@
         </div>
 
         <div class="news_list">
+{#            {% if news. %}#}
+
             {% for item in news %}
                 <div class="news_item ui raised segment">
                     <img src="{{ item.image.thumbnail.url|default:'/static/images/news.jpg' }}" />
