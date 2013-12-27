@@ -46,7 +46,7 @@ def homepage(request):
 
         return render_to_response("accounts/user_panel.html", {'user_type': user_type},
                                   context_instance=RequestContext(request, ))
-    return render_to_response("base.html", {}, context_instance=RequestContext(request))
+    return render_to_response("accounts/homepage.html", {}, context_instance=RequestContext(request))
 
 
 def login(request):
