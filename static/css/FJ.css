@@ -215,13 +215,36 @@ body{
 
 }
 
-.user_list .user_info1 span{
-    margin-left: 50px;
+.user_list .user_info1 > span{
+    margin-left: 20px;
     font-size: 16px;
     font-weight: bold;
+    display: inline-block;
 }
 
-.user_list .user_info2 span{
-    margin-left: 40px;
+.user_list .user_info1 > span:first-child{
+    width: 200px;
+}
+
+.user_list .user_info1 > span:nth-child(2){
+    width: 320px;
+}
+
+.user_list .user_info2 > span{
+    margin-left: 10px;
     font-size: 12px;
+    display: inline-block;
+    width: 80px;
+}
+
+.user_list .user_info2 > span:first-child{
+    width: 100px;
+}
+
+.user_list .user_info2 > span:nth-child(2){
+    width: 100px;
+}
+
+.user_list .user_info2 > span:nth-child(3){
+    width: 150px;
 }
