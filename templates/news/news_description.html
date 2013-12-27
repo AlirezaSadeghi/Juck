@@ -16,7 +16,7 @@
             });
             var x = $('.ui.rating');
             x.rating('enable');
-            x.modal('set rating',2);
+            x.rating('set rating',3);
         });
     </script>
 
@@ -48,7 +48,7 @@
 
                         </div>
                         <div class="ui attached fluid segment ">
-                            <img src="{{ news.image.image.url }}" class="news_image">
+                            <img src="news/uploads/{{ news.image.image }}" class="news_image">
                             <p dir="rtl">
                                 {{ news.content }}
                             </p>
@@ -86,8 +86,8 @@
                                 <div class="ui fitted divider"></div>
                                 {% for item in comments %}
                                     <div class="comment">
-                                        <a class="avatar right_alignment">
-                                            <img src="../images/a.jpg">
+                                        <a class="avatar float_right">
+                                            <img src="../../static/images/jobseeker.png">
                                         </a>
 
                                         <div class="content">

@@ -25,8 +25,8 @@
 
                     <input type="hidden" value="{{ next }}" name="next">
 
-                    <div class="ctn-field-cont">
-                        <div class="ctn-field-label">نام کاربری</div>
+                    <div class="ui segment">
+                        <div class="ui label">نام کاربری</div>
                         <input class="login-page-input" id="id_login_username" name="login_username"
                                placeholder="نام کاربری" type="text">
                         {% if form.login_username.errors %}
@@ -35,8 +35,8 @@
                     </div>
 
 
-                    <div class="ctn-field-cont">
-                        <div class="ctn-field-label">رمز عبور</div>
+                    <div class="ui segment">
+                        <div class="ui label">رمز عبور</div>
                         <input class="login-page-input" id="id_login_password" name="login_password"
                                placeholder="رمز عبور" type="password">
                         {% if form.login_password.errors %}

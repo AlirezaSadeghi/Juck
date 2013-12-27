@@ -2,10 +2,9 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import logout
 #from django.contrib.auth.views import  password_change, password_change_done
+from juck.accounts.views import JobSeekerWizard, EMPLOYER_FORMS, JOB_SEEKER_FORMS, EmployerWizard
 
 urlpatterns = patterns('juck.accounts.views',
-                       url(r'^$', 'homepage', name='homepage'),
-
                        url(r'^about/$', 'about_us', {}, name='about'),
                        url(r'^contact-us/$', 'contact_us', {}, name='contact_us'),
                        url(r'^login/$', 'login', {}, name='login'),
@@ -15,8 +14,12 @@ urlpatterns = patterns('juck.accounts.views',
                            name='logout'),
                        url(r'password_recover/$', 'password_recover', name='password_recover'),
 
-                       url(r'jobseeker_registration/$', 'js_registration', name='jobseeker_registration'),
-                       url(r'employer_registration/$', 'employer_registration', name='employer_registration'),
+                       url(r'jobseeker_registration/$',
+                           JobSeekerWizard.as_view(JOB_SEEKER_FORMS, ), {},
+                           name='jobseeker_registration'),
+
+                       url(r'employer_registration/$', EmployerWizard.as_view(EMPLOYER_FORMS, ), {},
+                           name='employer_registration'),
 
                        #url(r'^confirm_registration/(?P<hash_value>\w+)$', 'confirm_registration' , {} , name='confirm-registration'),
                        #url(r'^change_password/$', 'change_password', {}, name='change_password'),
@@ -28,4 +31,10 @@ urlpatterns = patterns('juck.accounts.views',
                        #url(r'^upload_profile_picture/$', 'upload_profile_picture', {}, name='upload_profile_picture'),
                        url(r'^refresh_captcha', 'refresh_captcha', {}, name='refresh_captcha'),
                        url(r'^dos_prevention', 'dos_prevention', {}, name='dos_prevention'),
+                       url(r'^user_panel/', 'user_panel'),
+
+# kas khal chera url o akhe neveshti balash FJ :)))))))))
+#                      FJ
+                        url(r'^job_seeker_list/$', 'job_seeker_list', {}, name='job_seeker_list'),
+                        url(r'^employer_list/$', 'employer_list', {}, name='employer_list'),
 )

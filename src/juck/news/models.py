@@ -28,7 +28,11 @@ class News(models.Model):
 
     def get_persian_date(self):
         year, month, day = create_persian_date(self.publish_date)
-        return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (str(self.publish_date.time().hour)+ ":" + str(self.publish_date.time().minute)))
+        if (self.publish_date.time().minute > 9 ):
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (str(self.publish_date.time().hour)+ ":" + str(self.publish_date.time().minute)))
+        else:
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (str(self.publish_date.time().hour)+ ":" + "0" + str(self.publish_date.time().minute)))
 
     def calculate_score(self):
         pass
+
