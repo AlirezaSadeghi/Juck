@@ -20,6 +20,12 @@
 
 {% block css %}
     <link href="{% static 'css/news_description.css' %}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .news-content {
+            font: 15px/30px "BYekan", tahoma;
+            color: #555;
+        }
+    </style>
 {% endblock %}
 
 {% block page_title %}
@@ -44,9 +50,9 @@
 
                         </div>
                         <div class="ui attached fluid segment ">
-                            <img src="{{ news.image.image.url }}" class="news_image">
+                            <img src="{{ news.image.thumbnail.url|default:'/static/images/news.jpg' }}" class="news_image">
 
-                            <p dir="rtl">
+                            <p dir="rtl" class="news-content">
                                 {{ news.content }}
                             </p>
                         </div>
@@ -59,7 +65,7 @@
 
                                 <div class="field">
 
-                                    <div class="ui positive button icon" id="like">
+                                    <div class="ui positive button icon small" id="like">
                                         <i class="thumbs up icon "></i>
 
                                         <i >
@@ -68,7 +74,7 @@
                                     </div>
 
 
-                                    <div class="ui negative button  icon" id="dislike">
+                                    <div class="ui negative button icon small" id="dislike">
                                         <i class="thumbs down icon"></i>
 
                                         <i>

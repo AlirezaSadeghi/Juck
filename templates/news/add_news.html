@@ -14,12 +14,10 @@
 {% endblock %}
 
 {% block page_title %}
-    اضافه کردن خبر
 {% endblock %}
 
 {% block js %}
-{#    <script type="text/javascript" src="../../static/js/jquery.form.js"></script>#}
-    <script type="text/javascript" src="../../static/js/Sina_add_news.js"></script>
+    <script type="text/javascript" src="{% static 'js/Sina_add_news.js' %}"></script>
 
 {% endblock %}
 
@@ -47,8 +45,6 @@
                                     {{ form.title }}
                                 </div>
                                 {{ form.title.errors }}
-                                {#                                <input placeholder="عنوان خبر" type="text" id="news_title"#}
-                                {#                                       style="display: inline-block ; width: 600px" name="title"> {{ title.News }}#}
                             </div>
 
                             <div class="field right_alignment">
@@ -57,33 +53,17 @@
                                 <div style="width: 660px; display: inline-block">
                                     {{ form.content }}
                                 </div>
-                                {#                                <textarea placeholder="شرح خبر" id="news_des" name="content"#}
-                                {#                                          style="display: inline-block; width: 600px"> {{ content.News }}</textarea>#}
                                 {{ form.content.errors }}
                             </div>
 
                             <div style=" margin-right: 106px; display: block" id="image_place">
-                                {#                                <img class="ui medium image make-pointer news_image" id="upImage"#}
-                                {#                                     src="../../static/images/pic-before-load.gif" alt="" style="display: block">#}
-{#                                <div class="ui medium image make-pointer news_image"#}
-{#                                     style="background-image:url('../../static/images/pic-before-load.gif')  ;width: 220px;height: 220px;display: block"#}
-{#                                     id="files" class="files"></div>#}
-
-{#                                <canvas id="files" width="800" height="400" style="background-image:url('../../static/images/pic-before-load.gif')  ;width: 220px;height: 220px;display: block;cursor: pointer">#}
-{#                                        Canvas not supported.#}
-{#                                </canvas>#}
-
                                 <canvas id="files" style="width: 220px;height: 220px; ;display: block;cursor: pointer">
-                                        Canvas not supported.
+                                    Canvas not supported.
                                 </canvas>
                             </div>
-                            {#                                                        <form id="sinaForm" enctype="multipart/form-data">#}
-                            {#                            <input type="file" id="news_image" onchange="submit_news_pic()"#}
-                            {#                                   hidden="true"style="display: none;" name="image">#}
-                            {#                            #}
                             <input type="file" id="news_image"
                                    hidden="true" style="display: none;" name="image">
-                            {#                                                        </form>#}
+
                             <div class="field " style="margin-right: 105px; ">
                                 <input type="submit" value="افزودن خبر" class="ui button linkedin small"
                                        style="margin-top: 20px">

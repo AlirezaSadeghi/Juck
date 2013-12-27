@@ -1,9 +1,79 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}
+    جاک | پیام
+{% endblock %}
+
+{% block js %}
+    {##}
+    {#    <script type="text/javascript">#}
+    {#        setTimeout(function(){#}
+    {#            window.location = '/';#}
+    {#        }, 4000);#}
+    {#    </script>#}
+
+{% endblock %}
+
+{% block css %}
+
+    <style type="text/css">
+        .message {
+            padding: 50px;
+            text-align: right;
+            font-size: 15px;
+            line-height: 30px;
+            color: #333;
+        }
+
+        .ui.segment {
+            min-height: 500px;
+            background-color: #eee;
+        }
+
+        .buttons {
+            margin-top: 40px;
+        }
+
+        .buttons .ui.button {
+            margin: auto 10px;
+            height: 100px;
+            padding-top: 40px;
+            width: 170px;
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="center">
+        <div class="ctn-box">
+            <div class="ui segment">
+                <div class="message">
+                    <h3 style="border-bottom: 1px solid #108edc;padding-bottom: 10px;">
+                        درباره جاک و هدف آن
+
+                    </h3><br>
+                    یکی از دلایل بیکاری فارغ التحصیلان دانشگاهی عدم آگاهی کافی فارغ­ التحصیلان از نیازمندی­های بخش صنعت
+                    و همچنین عدم آگاهی کافی کارفرمایان از وضعیت فارغ التحصیلان می ­باشد. مراکز کاریابی دانشگاهی می­
+                    توانند به عنوان رابط بین متقاضیان نیروی کار و کارجویان عمل نمایند و دو طرف را نسبت به فعالیت یکدیگر
+                    آشنا سازند.
+                    سامانه جاک به منظور مدیریت اطلاعات و نیز رفع عدم ارتباط موجود مابین کارفرمایان، مراکز تحقیقاتی و
+                    دانشگاهی و محققان و کارجویان، جهت رونق صنعت و با استفادهی حداکثری از امکانات داخلی به همت جمعی از
+                    نخبگان دانشگاهی و با مدیریت مرکز ارتباط با صنعت دانشگاه صنعتی شریف ایجاد شد. جاک وظایفی همچون موارد
+                    ذیل را عهده‌دار خواهد بود:
+                    <br><br>
+                    الف) انجام مشاوره و هدایت فارغ‌التحصیلان به محل کار و اشتغال پایدار
+                    <br>
+                    ب) شناسایی محل­های جذب و اشتغال و ارایه توانمندی­های دانش‌آموختگان به متقاضیان نیروی کار متخصص تربیت
+                    یافته توسط دانشگاه
+                    <br>
+                    ج) ثبت تقاضای کار و شغل از طرف فارغ‌التحصیلان و قرار دادن ایشان در لیست کارجویان
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
