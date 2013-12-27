@@ -1,10 +1,9 @@
 from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
+from django.views.static import serve
+from juck.settings import MEDIA_ROOT
 from django.views.generic.base import RedirectView
 from django.conf import settings
-
-admin.autodiscover()
 
 admin.autodiscover()
 
@@ -14,7 +13,15 @@ urlpatterns = patterns('',
                        url(r'', include('juck.accounts.urls')),
                        url(r'^accounts/', include('juck.accounts.urls')),
                        url(r'^news/', include('juck.news.urls')),
+                       url(r'^article/', include('juck.articles.urls')),
                        url(r'^admin/', include(admin.site.urls)),
+
+)
+
+urlpatterns += patterns('',
+                        (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+                         {'document_root': settings.MEDIA_ROOT,
+                          'show_indexes': True}),
 )
 
 urlpatterns += patterns('',
