@@ -129,6 +129,8 @@ EMAIL_SENDER = 'BojasWillFindSthCool.com'
 EMAIL_HOST_PASSWORD = 'BojasWillFindSthCool.com'
 
 
+RESULTS_PER_PAGE = 20
+
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (

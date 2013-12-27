@@ -222,3 +222,23 @@ def employer_list(request):
         return render_to_response('accounts/employer_list.html', {}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
+
+
+def get_user_type(pk):
+    try:
+        Manager.objects.get(pk=pk)
+        user_type = 'manager'
+    except ObjectDoesNotExist:
+        try:
+            Employer.objects.get(pk=pk)
+            user_type = 'employer'
+        except ObjectDoesNotExist:
+            user_type = 'jobseeker'
+
+    return user_type
+
+
+def check_user_type(pk, user_type):
+    if user_type == get_user_type(pk):
+        return True
+    return False
