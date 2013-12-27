@@ -118,8 +118,9 @@ CAPTCHA_LETTER_ROTATION = (-15, 15)
 
 
 
-
+# Bejes zuck it, I did this task, ha ha ha :D
 #TODO => Boji ( The R&D Guy ) - Gmail works, see if there's sth better :-bd
+
 
 EMAIL_USE_TLS = True
 #EMAIL_SENDER = 'BojasWillFindSthCool.com'
