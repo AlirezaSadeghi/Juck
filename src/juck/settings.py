@@ -118,15 +118,17 @@ CAPTCHA_LETTER_ROTATION = (-15, 15)
 
 
 
-
+# Bejes zuck it, I did this task, ha ha ha :D
 #TODO => Boji ( The R&D Guy ) - Gmail works, see if there's sth better :-bd
 
+
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'BojasWillFindSthCool.com'
+#EMAIL_SENDER = 'BojasWillFindSthCool.com'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'juck.system@gmail.com'
+EMAIL_HOST_PASSWORD = 'SadeghiSinaFJBejes'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'BojasWillFindSthCool.com'
-EMAIL_SENDER = 'BojasWillFindSthCool.com'
-EMAIL_HOST_PASSWORD = 'BojasWillFindSthCool.com'
 
 
 RESULTS_PER_PAGE = 20
@@ -193,3 +195,4 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 FILE_UPLOAD_HANDLERS = ("django.core.files.uploadhandler.MemoryFileUploadHandler",
    "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
+
