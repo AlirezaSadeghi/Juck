@@ -44,6 +44,9 @@ $(document).ready(function () {
     $("#add_tag").click(function(){
         if($(".tag").size()<5)
             $(this).prev().append("<input placeholder='برچسب' type='text' class='tag'>");
+            setTimeout(function(){
+                $(".newfield").removeClass("newfield");
+            },0);
     });
 
 

@@ -183,6 +183,8 @@ INSTALLED_APPS = (
     'log',
     'news',
     'articles',
+    'question',
+    'requests',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
