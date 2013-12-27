@@ -73,12 +73,23 @@
 	font-size: 18px;
 }
 
+.manager-onhover{
+	right: 0;top: 0;
+	background-color: rgba(0,0,0,0.2);
+	position: absolute;
+	width: 100%;height: 100%;
+	display: none;
+}
+
+.manager-state:hover .manager-onhover{
+	display: inline-block;
+}
 
 .manager-state{
 	display: inline-block;
 	background-color: white;
 	color: #333;
-	padding: 20px;
+	padding: 18px;
 	margin-left: 30px;
 	border-radius: 2px;
 	font-family : "Mj_Liner Screen Bd";
@@ -131,27 +142,31 @@
 	color:rgba(0,0,0,0.3);
 }
 
-.manager-log {
-	width: 250px;
-	height: 500px;
-	background-color: #FEFEFE;
+.manager-log{
+	padding: 0 !important;
+	width: 327px !important;
+	height: 500px !important;
 }
 
 .manager-graph{
-	width: 500px;
-	height: 500px;
-	background-color: gray;	
+	padding: 0 0 0 17px !important;
+	width: 500px !important;
+	height: 500px !important;
 }
 
 .ui.grid{
-	margin-bottom: 58px !important;
+	margin-bottom: 35px !important;
+	margin-left: 8px !important;
 }
 
 .manager-list{
 	text-align: right !important;
-	width: 434px !important;
+	width: 415px !important;
 	padding: 0 !important;
 	position: relative;
+}
+.manager-list-space{
+	width: 35px !important;
 }
 
 .manager-list h1{
@@ -168,6 +183,8 @@
 
 .manager-list-item{
 	margin: 0 5px 15px 0;
+	background-color: #eee;
+	border-radius: 2px;
 	padding: 10px;
 	position: relative;
 	/*border-radius: 10px;*/
