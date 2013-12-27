@@ -39,7 +39,7 @@ def homepage(request):
             return HttpResponseRedirect('/admin/')
         user = request.user
         user_type = ''
-        if type(user, Manager):
+        if isinstance(request.user, Manager):
             user_type = 'manager'
         elif type(user, Employer):
             user_type = 'employer'
