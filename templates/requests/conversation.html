@@ -3,18 +3,141 @@
 
 {% block title %}
 
-    جاک | کارتابل
+    جاک | درخواست
 
 {% endblock %}
 
 
 
 {% block page_title %}
-    کارتابل
+    درخواست
 {% endblock %}
 
 
 
-{% block content %}
+{% block css %}
 
-{%  endblock %}
+    <style>
+        .my-right {
+            text-align: right !important;
+        }
+
+        .my-font {
+            font: 14px/25px "BYekan", tahoma !important;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+    <div class="center">
+        <div class="ctn-box my-font">
+
+            <div class="ui warning message">
+                {#                <i class="close icon"></i>#}
+
+                <div class="header">
+                    وضعیت درخواست در دست بررسی
+                </div>
+            </div>
+
+            <div class="ui info message">
+
+                <div class="header">
+                    درخواست اولیه
+                </div>
+                <ul class="list my-right">
+                    {#                    <li class="my-right">#}
+                    بنده با توجه به نیاز های شرکت در زمینه ی استخدام یک شخص امین و معتمد و همچنین دارای توانایی های
+                    فنی بالا در قسمت های مختلف خواهان به خدمت گرفتن یک نیروی انقلابی و جان فداه در راه خون شهدا با
+                    مبلغ روزی 1000 تومان می باشم.
+
+                    {#                    </li>#}
+                </ul>
+            </div>
+
+            <div class="ui comments  ">
+                <div class="ui fitted divider"></div>
+                <div class="comment">
+                    <a class="avatar float_right">
+                        <img src="../../static/images/employer.png">
+                    </a>
+
+                    <div class="content">
+                        <a class="author">
+                            شرکت رهپویان امام
+                            {#                                                {{ item.user.get_full_name }}#}
+                        </a>
+
+                        <div class="metadata">
+                            <div class="date">
+                                12 دی 1392
+                                {#                                                    {{ item.get_persian_date }}#}
+                            </div>
+                        </div>
+                        <div class="text">
+                            من در خواست را رد می کنم اگر پول بیشتری پرداخت نشود
+                            {#                                                {{ item.content }}#}
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="ui fitted divider"></div>
+
+                <div class="comment">
+                    <a class="avatar float_right">
+                        <img src="../../static/images/jobseeker.png">
+                    </a>
+
+                    <div class="content">
+                        <a class="author">
+                            آقای رضای اف جی
+                            {#                                                {{ item.user.get_full_name }}#}
+                        </a>
+
+                        <div class="metadata">
+                            <div class="date">
+                                12 دی 1392
+                                {#                                                    {{ item.get_persian_date }}#}
+                            </div>
+                        </div>
+                        <div class="text">
+                            بنده فقط یک ساعت در هفته وقت دارم و وقت دیگری برای پروژه نمی گذارم.
+                            {#                                                {{ item.content }}#}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="ui fitted divider"></div>
+                <form class="ui reply form">
+                    <div class="field">
+                        <textarea></textarea>
+                    </div>
+                    <div class="ui button teal submit labeled icon">
+                        <i class="icon edit"></i> ارسال اصلاحیه
+                    </div>
+                    
+					
+					
+                    
+                </form>
+				
+				<div class="" style="margin-top: 5px">
+				<div class="positive ui button teal  labeled icon">
+						<i class="icon checkmark"></i> قبول کردن توافق نامه
+					</div>
+					
+					<div class="negative ui button teal  labeled icon">
+						<i class="icon ban circle"></i> رد کردن پیشنهاد
+					</div>
+            </div>
+			</div>
+
+
+        </div>
+    </div>
+
+
+{% endblock %}
