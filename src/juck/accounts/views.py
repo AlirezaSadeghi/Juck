@@ -37,10 +37,9 @@ def homepage(request):
     if request.user.is_authenticated():
         if request.user.is_superuser:
             return HttpResponseRedirect('/admin/')
-        user = request.user
-        if isinstance(user, Manager):
+        if check_user_type(request.user.pk, 'manager'):
             user_type = 'manager'
-        elif isinstance(user, Employer):
+        elif check_user_type(request.user.pk, 'employer'):
             user_type = 'employer'
         else:
             user_type = 'job_seeker'
