@@ -35,15 +35,15 @@ urlpatterns = patterns('juck.accounts.views',
                        url(r'^user_panel/', 'user_panel'),
 
                        # Sina vared mishavad
-                       #url(r'^password_reset/$', password_reset,
-                       #    {'post_reset_redirect': '/password_reset_done/',
-                       #     'template_name': 'accounts/password_reset_form.html',
-                       #     'email_template_name': 'accounts/password_reset_email.html'}, name="password_reset"),
-
                        url(r'^password_reset/$', password_reset,
                            {'post_reset_redirect': '/password_reset_done/',
                             'template_name': 'accounts/password_reset_form.html',
-                            }, name="password_reset"),
+                            'email_template_name': 'accounts/password_reset_email.html'}, name="password_reset"),
+
+                       #url(r'^password_reset/$', password_reset,
+                       #    {'post_reset_redirect': '/password_reset_done/',
+                       #     'template_name': 'accounts/password_reset_form.html',
+                       #     }, name="password_reset"),
 
                        url(r'^password_reset_done/$',
                            password_reset_done, {'template_name': 'accounts/password_reset_done.html'}),
