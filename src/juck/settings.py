@@ -36,8 +36,7 @@ ALLOWED_HOSTS = []
 # In a Windows environment this must be set to your system time zone.
 
 LANGUAGE_CODE = 'fa-IR'
-TIME_ZONE = 'IRAN'
-
+TIME_ZONE     = 'Iran'
 AUTH_USER_MODEL = 'accounts.JuckUser'
 
 SITE_ID = 1
@@ -183,6 +182,7 @@ INSTALLED_APPS = (
     'image',
     'log',
     'news',
+    'articles',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
