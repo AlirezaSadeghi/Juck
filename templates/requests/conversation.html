@@ -22,8 +22,18 @@
             text-align: right !important;
         }
 
+        .date {
+            width: 120px;
+            text-align: center;
+        }
+
         .my-font {
             font: 14px/25px "BYekan", tahoma !important;
+            width: 880px;
+        }
+
+        #reject {
+            float: left;
         }
 
     </style>
@@ -115,22 +125,22 @@
                     <div class="field">
                         <textarea></textarea>
                     </div>
-                    <div class="ui button teal submit labeled icon">
-                        <i class="icon edit"></i> ارسال اصلاحیه
+
+
+                    <div class="my-font" style="margin-top: 5px">
+                        <div class="ui button teal submit labeled icon">
+                            <i class="icon edit"></i> ارسال اصلاحیه
+                        </div>
+
+                        <div class="positive ui button teal  labeled icon">
+                            <i class="icon checkmark"></i> قبول کردن توافق نامه
+                        </div>
+
+                        <div id="reject"  class="negative ui button labeled icon">
+                            <i class="icon ban circle"></i> رد کردن پیشنهاد
+                        </div>
                     </div>
-
-
                 </form>
-
-                <div class="my-font" style="margin-top: 5px">
-                    <div class="positive ui button teal  labeled icon">
-                        <i class="icon checkmark"></i> قبول کردن توافق نامه
-                    </div>
-
-                    <div class="negative ui button labeled icon">
-                        <i class="icon ban circle"></i> رد کردن پیشنهاد
-                    </div>
-                </div>
             </div>
 
 

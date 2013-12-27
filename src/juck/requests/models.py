@@ -15,4 +15,3 @@ class Request(models.Model):
     timestamp = models.DateTimeField(verbose_name=u'زمان ایجاد')
     cooperation_type = models.PositiveSmallIntegerField(verbose_name=u'نوع همکاری', )
 
-    
