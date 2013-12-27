@@ -1,9 +1,78 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}
+    جاک | پیام
+{% endblock %}
+
+{% block js %}
+    {##}
+    {#    <script type="text/javascript">#}
+    {#        setTimeout(function(){#}
+    {#            window.location = '/';#}
+    {#        }, 4000);#}
+    {#    </script>#}
+
+{% endblock %}
+
+{% block css %}
+
+    <style type="text/css">
+        .message {
+            padding: 50px;
+            text-align: center;
+            border-bottom: 1px solid #108edc;
+            font-size: 15px;
+            line-height: 30px;
+            color: #333;
+        }
+
+        .ui.segment {
+            min-height: 500px;
+            background-color: #eee;
+        }
+
+        .buttons {
+            margin-top: 40px;
+        }
+
+        .buttons .ui.button {
+            margin: auto 10px;
+            height: 100px;
+            padding-top: 40px;
+            width: 170px;
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="center">
+        <div class="ctn-box">
+            <div class="ui segment">
+                <div class="message">
+                    <i class="off icon"></i>
+                          کاربر گرامی
+                    <br>
+                    شما با موفقیت از سامانه جاک خارج شدید.
+                    از زمانی که در سامانه جاک گذراندید سپاسگذاریم.
+
+                    <div class="buttons">
+                        <div class="ui twitter button" onclick="window.location='/'">
+                            صفحه اصلی
+                        </div>
+                        <div class="ui linkedin button" onclick="window.location='{% url "news_list" %}'">
+                            اخبار کاریابی
+                        </div>
+                        <div class="ui twitter button" onclick="window.location='{% url "common_questions" %}'">
+                            سوالات متداول
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

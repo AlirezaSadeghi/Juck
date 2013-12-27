@@ -1,26 +1,172 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
+{% block title %}
+ثبت‌نام کارفرما | مرحله
+{{ wizard.steps.step1 }}
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/jobseeker_registration.css' %}"/>
+{% endblock %}
+
+{% block js %}
+        <script src="{% static 'js/jobseeker_registration.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        step = {{ wizard.steps.step1 }};
+    $('.step-box.'+step).addClass('step-active');
+
+    {% if wizard.steps.step1 == 3 %}
+        $('.reg_form input[type=text]:eq(0)')[0].change(function(){
+            alert('dafuq?');
+            if($(this).val()){
+                $('.reg_form .input_labels').append('<span class=\"required-field\">*</span>');
+//            $('.reg_form input:not(input[type=submit],input[type=hidden])').attr('required','required');
+             }else{
+                alert('che mikoni?!');
+//            $('.reg_form input:not(input[type=submit],input[type=hidden])').removeAttr('required');
+            }
+        });
+    {% endif %}
+
+
+    });
+</script>
+{% endblock %}
 
 {% block content %}
-    <div class="center">
-        <div class="ctn-box">
-            <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+<div class="center">
+    <div class="ctn-box">
+        <div class="register_panel">
+            <!--<p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>-->
+            <div class="reg_nav_menu">
+                <div class="step-box 1" title="اطلاعات اولیه">
+                    <h2><i class="icon user"></i>۱. اطلاعات اولیه</h2>
+                    <div class="step-desc">مرحله اول ثبت نام</div>
+                    <div class="clr"></div>
+                </div>
+                <div class="step-box 2" title="اطلاعات تحصیلی">
+                    <h2><i class="icon book"></i>۲. اطلاعات تحصیلی</h2>
+                    <div class="step-desc">مرحله دوم ثبت نام</div>
+                    <div class="clr"></div>
+                </div>
+                <div class="step-box 3" title="اطلاعات کاری">
+                    <h2><i class="icon briefcase"></i>۳. اطلاعات کاری</h2>
+                    <div class="step-desc">مرحله سوم ثبت نام</div>
+                    <div class="clr"></div>
+                </div>
+                <div class="step-box 4" title="اطلاعات تکمیلی">
+                    <h2><i class="icon edit"></i>۴. اطلاعات تکمیلی</h2>
+                    <div class="step-desc">مرحله چهارم ثبت نام</div>
+                </div>
+            </div>
+            <div class="reg_form reg_1_form">
+                {% if not wizard.steps.prev %}
+                <p>
+                    کارفرمای گرامي. با سلام، از اينكه قصد ثبت نام در سامانه جاک را داريد سپاسگزاريم. لطفاً در مرحله اول مشخصات اوليه خواسته شده را وارد نماييد و برای ادامه فرایند ثبت نام روی دکمه مرحله بعد کلیک کنید.
 
-            <form action="" method="post">{% csrf_token %}
-                <table>
-                    {{ wizard.management_form }}
-                    {{ wizard.form }}
-                </table>
-                {% if wizard.steps.prev %}
-                    <button name="wizard_goto_step" type="submit"
-                            value="{{ wizard.steps.first }}">مرحله اول
-                    </button>
-                    <button name="wizard_goto_step" type="submit"
-                            value="{{ wizard.steps.prev }}">مرحله قبل
-                    </button>
+                </p>
+                {% else %}
+                <p>
+                    لطفا اطلاعات خواسته شده را وارد نمایید.
+                </p>
                 {% endif %}
-                <input type="submit" value="ارسال"/>
-            </form>
+
+                <form action="" method="post">{% csrf_token %}
+                    {% if wizard.steps.step1 == 2 %}
+                        <h2> سوابق تحصیلی </h2>
+                        <div class="edu-info-form0">
+                    {% elif wizard.steps.step1 == 3 %}
+                        <h2> سوابق کاری </h2>
+                        <div class="work-info-form0">
+                    {% endif %}
+                    <!--<table>-->
+                        {{ wizard.management_form }}
+                        {% if wizard.form.forms %}
+                            {{ wizard.form.management_form }}
+                            {% for form in wizard.form.forms %}
+                               {{ form }}
+                            {% endfor %}
+                        {% else %}
+                            {% for field in wizard.form %}
+                                {% if field.field.is_textarea %}
+                                <div class="ui form">
+                                {% endif %}
+                                <div class='field'>
+                                    <div class="input-details">
+                                        <label class="input_labels"> {{field.label_tag}}
+                                            {% if field.field.required %}
+                                            <span class="required-field">*</span>
+                                            {% endif %}
+                                        </label>
+
+                                        <div class="ui small input field-input">
+                                            {{ field }}
+                                        </div>
+                                    </div>
+                                    <div class="input-errors">
+                                        {{ field.errors }}
+                                    </div>
+                                </div>
+                                {% if field.field.is_textarea %}
+                                    </div>
+                                {% endif %}
+
+
+                                {% if field.label == 'نوع دانشگاه'   %}
+                                </div>
+                                    <div class="add-edu-buttons" dir="ltr" style="margin-top:20px">
+                                        <div class="ui left attached tiny button" >پاک کردن</div>
+                                        <div id="add-edu" class="right attached ui tiny button rf-btn" >اضافه کردن مدرک تحصیلی</div>
+                                    </div>
+
+                                    <h2>مهارت ها</h2>
+                                    <div class="skill-info-form0">
+                                {% elif wizard.steps.step1 == 2 and field.label == 'توضیحات'%}
+                                    </div>
+                                    <div dir="ltr" style="margin-top:20px">
+                                        <div class="ui left attached tiny button" >پاک کردن</div>
+                                        <div id="add-skill" class="right attached ui tiny button rf-btn" >اضافه کردن مهارت</div>
+                                    </div>
+
+                                {% endif %}
+
+                            {% endfor %}
+                            {% if wizard.steps.step1 == 3 %}
+                                </div>
+                                <div dir="ltr" style="margin-top:20px">
+                                    <div class="ui left attached tiny button" >پاک کردن</div>
+                                    <div id="add-work" class="right attached ui tiny button rf-btn" >اضافه کردن سابقه کاری</div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    <!--</table>-->
+
+                          <span class="netxt-btn-details"> فیلدهای با علامت
+                        <span class="required-field">*</span>
+                        باید حتما پر شوند</span>
+
+                    {% if wizard.steps.next %}
+
+                    <p>لطفا جهت تکمیل فرایند ثبت نام، روی دکمه 'مرحله بعد' کلیک کنید.</p>
+                    <input class="register-btn next_btn ui small button" type="submit" value="مرحله بعد" >
+                    {% else %}
+
+                    <p>لطفا جهت تکمیل فرایند ثبت نام، روی دکمه 'ثبت' کلیک کنید.</p>
+
+                    <input class="next_btn green ui small button" type="submit" value="ثبت" >
+                    {% endif %}
+                    {% if wizard.steps.prev %}
+                    <!--<button name="wizard_goto_step" type="submit"-->
+                    <!--value="{{ wizard.steps.first }}">مرحله اول</button>-->
+                    <button class="register-btn ui button small" name="wizard_goto_step" type="submit"
+                            value="{{ wizard.steps.prev }}">مرحله قبل</button>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="clr"></div>
         </div>
     </div>
+</div>
 {% endblock %}

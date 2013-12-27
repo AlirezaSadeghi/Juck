@@ -27,6 +27,10 @@
             font: 14px/25px "BYekan", tahoma !important;
         }
 
+        .my-min-height{
+            min-height: 700px;
+        }
+
         .ui.inverted.table {
 
 {#            background-color: #ffffff !important;#}
@@ -39,7 +43,7 @@
 
     {% csrf_token %}
     <div class="center">
-        <div class="ctn-box">
+        <div class="ctn-box my-min-height">
 
             <div class="ui center aligned">
                 <table class="ui  six column table segment collapsing  my-font" style="width: 880px">
@@ -62,8 +66,8 @@
                         <td>پیشنهاد</td>
                         <td class="warning">نا معلوم</td>
                         
-                        <td>12 دی 1392</td>
-						<td>مشاهده</td>
+                        <td >12 دی 1392</td>
+						<td><div class="ui button small">مشاهده</td>
                     </tr>
                     <tr>
 						<td>2</td>
@@ -74,7 +78,7 @@
                             11 دی 1392
                         </td>
                         
-						<td>مشاهده</td>
+						<td><div class="ui button small">مشاهده</td>
                         
                     </tr>
                     <tr>
@@ -88,14 +92,15 @@
                         <td>
                             10 دی 1391
                         </td>
-						<td>مشاهده</td>
+						<td><div class="ui button small">مشاهده</td>
                     </tr>
 
 
                     </tbody>
                     <tfoot>
                     <tr>
-                        <th class="my-right">-----</th>
+
+                        <th class=" my-right">-----</th>
                         <th class="my-right">------</th>
                         <th class="my-right"> -----</th>
                         <th class="my-right">
