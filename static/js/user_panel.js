@@ -7,13 +7,15 @@ $(document).ready(function () {
   });
 
 
-	$(".manager-state").hover(function() { 
-	  $(this).siblings().stop().fadeTo(300, 0.7);
-	  $(this).siblings().stop().fadeTo(300, 0.5); 
-	}, function() {
-	  $(this).siblings().stop().fadeTo(300, 1);
-	  $(this).siblings().stop().fadeTo(300, 1);
-	});
+	// $(".manager-state").hover(function() { 
+	//   $(this).siblings().stop().fadeTo(300, 0.7);
+	//   $(this).siblings().stop().fadeTo(300, 0.5); 
+	// }, function() {
+	//   $(this).siblings().stop().fadeTo(300, 1);
+	//   $(this).siblings().stop().fadeTo(300, 1);
+	// });
+
+
 });
 
 function count($this){
