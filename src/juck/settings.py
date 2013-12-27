@@ -103,7 +103,7 @@ def generate_captcha():
     return captcha, captcha[::-1]
 
 
-CAPTCHA_CHALLENGE_FUNCT = generate_captcha
+# CAPTCHA_CHALLENGE_FUNCT = generate_captcha
 PROJECT_INAGURATION_YAER = 1392
 
 from datetime import datetime
@@ -113,8 +113,8 @@ PROJECT_INAGURATION_EXACT_DATE = datetime.utcfromtimestamp(0)
 CAPTCHA_LENGTH = 4
 CAPTCHA_NOISE_FUNCTIONS = ()
 CAPTCHA_BACKGROUND_COLOR = '#C0C0C0'
-CAPTCHA_LETTER_ROTATION = (-35, 35)
-CAPTCHA_FONT_PATH = BASEPATH + '/static/fonts/BYekan.ttf'
+CAPTCHA_LETTER_ROTATION = (-15, 15)
+# CAPTCHA_FONT_PATH = BASEPATH + '/static/fonts/BYekan.ttf'
 
 
 
@@ -128,6 +128,8 @@ EMAIL_HOST_USER = 'BojasWillFindSthCool.com'
 EMAIL_SENDER = 'BojasWillFindSthCool.com'
 EMAIL_HOST_PASSWORD = 'BojasWillFindSthCool.com'
 
+
+RESULTS_PER_PAGE = 20
 
 # List of finder classes that know how to find static files in
 # various locations.

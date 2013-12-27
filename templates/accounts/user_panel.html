@@ -7,19 +7,17 @@
 {% endblock %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href={%static 'css/user_panel.css'%}>
+<link rel="stylesheet" type="text/css" href="{% static 'css/user_panel.css' %}" />
 {% endblock %}
 
 {% block js %}
-<script type="text/javascript" src={%static 'js/user_panel.js' %}></script>
+<script type="text/javascript" src="{% static 'js/user_panel.js' %}"></script>
 {% endblock %}
 
 {% block page_title %}
 
- 	 <!-- if for user types -->
-
- 	 <!--
-			<div class="panel-menu">
+	{% if user_type == 'job_seeker' %}
+		<div class="panel-menu">
 		  <div class="panel-menu-item">
 		  	<i class="icon briefcase"></i>
 		  	<span class="label">کارتابل</span>
@@ -33,12 +31,11 @@
 		  	<span class="label">اطلاعات کاربری</span>
 		  </div>
 		  <div class="panel-menu-item">
-		  	<i class="icon user"></i>
-		  	<span class="label">فلان</span>
+		  	<i class="icon bullhorn"></i>
+		  	<span class="label">درخواست‌ها نیاز به نیرو</span>
 		  </div>
 		</div>
-	-->
-
+	{% endif %}
 {% endblock %}
 
 
@@ -50,7 +47,7 @@
 	<div class="ctn-box">
  	 <!-- if for user types -->
 
- 	 <!-- for jobseeker
+	{% if user_type == 'job_seeker' %}
 		<div class="panel-items">
 			<div class="panel-item">
 				<div class="label">کارتابل</div>
@@ -68,55 +65,49 @@
 		</div>
 		<div class="panel-items">
 			<div class="panel-item">
-				<div class="label">کارتابل</div>
-				<i class="icon briefcase"></i>
-			</div>
-		
-			<div class="panel-item">
 				<div class="label">نیاز به نیرو</div>
-				<i class="icon list"></i>
-			</div>
-			<div class="panel-item">
-				<div class="label">رزومه</div>
-				<i class="icon user"></i>
-			</div>
-		</div> 
-		-->
-
-		<!-- for employer
-		<div class="panel-items">
-			<div class="panel-item">
-				<div class="label">کارتابل</div>
-				<i class="icon briefcase"></i>
-			</div>
-
-			<div class="panel-item">
-				<div class="label">لیست کارفرمایان</div>
-				<i class="icon list"></i>
-			</div>
-			<div class="panel-item">
-				<div class="label">اطلاعات کاربری</div>
-				<i class="icon user"></i>
-			</div>
-		</div>
-		<div class="panel-items">
-			<div class="panel-item">
-				<div class="label">کارتابل</div>
-				<i class="icon briefcase"></i>
-			</div>
-		
-			<div class="panel-item">
-				<div class="label">نیاز به نیرو</div>
-				<i class="icon list"></i>
+				<i class="icon bullhorn"></i>
 			</div>
 			<div class="panel-item">
 				<div class="label">لیست کارجویان</div>
-				<i class="icon user"></i>
+				<i class="icon unordered list"></i>
+			</div>
+			<div class="panel-item">
+				<div class="label">افزوردن رزومه</div>
+				<i class="icon tasks"></i>
 			</div>
 		</div> 
-		-->
+	{% elif user_type == 'employer' %}
+		<div class="panel-items">
+			<div class="panel-item">
+				<div class="label">کارتابل</div>
+				<i class="icon briefcase"></i>
+			</div>
 
-		<!-- for manager -->
+			<div class="panel-item">
+				<div class="label">لیست کارفرمایان</div>
+				<i class="icon list"></i>
+			</div>
+			<div class="panel-item">
+				<div class="label">اطلاعات کاربری</div>
+				<i class="icon user"></i>
+			</div>
+		</div>
+		<div class="panel-items">
+			<div class="panel-item">
+				<div class="label">نیاز به نیرو</div>
+				<i class="icon bullhorn"></i>
+			</div>
+			<div class="panel-item">
+				<div class="label">لیست کارجویان</div>
+				<i class="icon unordered list"></i>
+			</div>
+			<div class="panel-item">
+				<div class="label">رزومه کارجویان</div>
+				<i class="icon tasks"></i>
+			</div>
+		</div> 
+	{% elif user_type == 'manager' %}
 		<div class="manager-states">
 			<div class="manager-state blue">
 				<div class="manager-onhover"></div>
@@ -150,13 +141,32 @@
 		<div class="ui grid">
 			<div class="manager-log column">
 				<div class="ui raised segment">
-				log
+					<h2>رخدادها</h2>
+					<ul  class="manager-log-list">
+						<li><i class="user icon"></i>علیرضا صادقی وارد سایت شد.</li>
+						<li><i class="user icon"></i>مقاله شماره ۳، توسط مدیر ویرایش شد</li>
+						<li><i class="briefcase icon"></i>شرکت سامانه پرور به شرکت خفن درخواست داد.</li>
+						<li><i class="user icon"></i>اصغر محمدزاده اکانت خود را حذف کرد.</li>
+						<li><i class="info icon"></i>علیرضا شفاعی وارد سایت شد.</li>
+						<li><i class="user icon"></i>مقاله شماره ۳، توسط مدیر ویرایش شد</li>
+						<li><i class="file icon"></i>شرکت سامانه پرور به شرکت خفن درخواست داد.</li>
+						<li><i class="user icon"></i>اصغر محمدزاده اکانت خود را حذف کرد.</li>
+						<li><i class="user icon"></i>علیرضا فراهانی وارد سایت شد.</li>
+						<li><i class="briefcase icon"></i>مقاله شماره ۳، توسط مدیر ویرایش شد</li>
+						<li><i class="user icon"></i>سینا رشیدیان اکانت خود را حذف کرد.</li>
+					</ul>
+
+				<div class="manager-list-buttons">
+						<div class="manager-list-all-btn single ui small button right aligned">
+							مشاهده همه رخدادها
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="manager-list-space column"></div>
 			<div class="manager-graph column">
 				<div class="ui raised segment">
-				chart
+					<img src='{% static 'images/chart.png' %}' width="100%" height="370px"  />
 				</div>
 			</div>
 		</div>
@@ -407,7 +417,7 @@
 								مشاهده
 							</div>
 							<div class="ui tiny button">
-								<i class="icon checkmark"></i>
+								<i class="icon checkmark"></i><br />
 								تایید
 							</div>
 						</div>
@@ -423,7 +433,7 @@
 								مشاهده
 							</div>
 							<div class="ui tiny button">
-								<i class="icon checkmark"></i>
+								<i class="icon checkmark"></i><br />
 								تایید
 							</div>
 						</div>
@@ -439,7 +449,7 @@
 								مشاهده
 							</div>
 							<div class="ui tiny button">
-								<i class="icon checkmark"></i>
+								<i class="icon checkmark"></i><br />
 								تایید
 							</div>
 						</div>
@@ -455,7 +465,7 @@
 								مشاهده
 							</div>
 							<div class="ui tiny button">
-								<i class="icon checkmark"></i>
+								<i class="icon checkmark"></i><br />
 								تایید
 							</div>
 						</div>
@@ -469,6 +479,11 @@
 
 			</div>
 		</div>
+	{% else %}
+		دسترسی غیر مجاز
+
+	{% endif %}
+
 	</div>
 	</div>
 {% endblock %}

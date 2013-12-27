@@ -1,7 +1,5 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.views.static import serve
-from juck.settings import MEDIA_ROOT
 from django.views.generic.base import RedirectView
 from django.conf import settings
 
@@ -14,6 +12,7 @@ urlpatterns = patterns('',
                        url(r'^news/', include('juck.news.urls')),
                        url(r'^article/', include('juck.articles.urls')),
                        url(r'^question/', include('juck.question.urls')),
+                       url(r'^requests/', include('juck.requests.urls')),
                        url(r'^admin/', include(admin.site.urls)),
 
 

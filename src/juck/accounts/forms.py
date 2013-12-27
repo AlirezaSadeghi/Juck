@@ -2,6 +2,7 @@
 
 from django import forms
 from persian_captcha import PersianCaptchaField
+from django.forms.fields import Field
 
 
 class LoginForm(forms.Form):
@@ -40,25 +41,29 @@ class JobSeekerRegisterForm4(forms.Form):
 
 
 class EmployerRegisterForm1(forms.Form):
-    email = forms.CharField(required=True)
-    password = forms.CharField(widget=forms.PasswordInput(), required=True)
-    re_password = forms.CharField(widget=forms.PasswordInput, required=True)
-    connector_name = forms.CharField(required=True)
-    captcha = PersianCaptchaField()
+    email = forms.EmailField(required=True, label=u'پست الکترونیکی')
+    password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور')
+    re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور')
+    # connector_name = forms.CharField(required=True, label=u'نام شخص رابط')
+    connector_rank = forms.CharField(required=True, label=u'سمت شخص رابط')
+    captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')
 
 
 class EmployerRegisterForm2(forms.Form):
-    company_name = forms.CharField(required=True)
-    company_type = forms.CharField(required=True)
-    reg_num = forms.CharField(required=True)
-    foundation_year = forms.CharField(required=True)
-    manager = forms.CharField(required=True)
-    field = forms.CharField(required=True)
+    company_name = forms.CharField(required=True, label=u'نام شرکت')
+    company_type = forms.CharField(required=True, label=u'نوع شرکت')
+    reg_num = forms.CharField(required=True, label=u'شماره ثبت')
+    foundation_year = forms.IntegerField(required=True, label=u'سال تاسیس')
+    manager = forms.CharField(required=True,label= u'نام مدیرعامل')
+    field = forms.CharField(required=True, label=u'زمینه فعالیت')
 
 
 class EmployerRegisterForm3(forms.Form):
-    postal_code = forms.CharField()
-    website = forms.URLField()
-    phone_num = forms.IntegerField()
-    mobile_num = forms.IntegerField(required=True)
-    address = forms.CharField(required=True, widget=forms.Textarea())
+    website = forms.URLField(required=False, label=u'وب سایت')
+    phone_num = forms.IntegerField(required=True, label=u'شماره تلفن')
+    mobile_num = forms.IntegerField(required=False, label=u'شماره تلفن همراه')
+    postal_code = forms.CharField(required=False, label=u'کد پستی')
+    address = forms.CharField(required=True, widget=forms.Textarea(), label=u'آدرس')
+
+
+setattr(Field, 'is_textarea', lambda self: isinstance(self.widget, forms.Textarea ))
