@@ -54,37 +54,43 @@
             </a>
 
             <div class="hdr-login">
-                <div class="ui buttons-tmp">
-                    <i class="ui button down arrow linkedin small" id="sign-in">ورود</i>
-                    <i class="ui button small green" id="signup">ثبت نام</i>
+                {% if not user.is_authenticated %}
+                    <div class="ui buttons-tmp">
+                        <i class="ui button down arrow linkedin small" id="sign-in">ورود</i>
+                        <i class="ui button small green" id="signup">ثبت نام</i>
                         <span class="hdr-login-txt">
                             اگر قبلاً ثبت نام کرده‌اید
                         </span>
-                </div>
-                <div class="ui form segment" id="login-div">
-                    <div class="field">
-                        <div class="ui left labeled icon input">
-                            <input id="login-username" autofocus="true" type="text" placeholder="نام کاربری">
-                            <i class="user icon"></i>
+                    </div>
+                    <div class="ui form segment" id="login-div">
+                        <div class="field">
+                            <div class="ui left labeled icon input">
+                                <input id="login-username" autofocus="true" type="text" placeholder="نام کاربری">
+                                <i class="user icon"></i>
 
-                            <div class="ui corner label">
-                                <i class="asterisk icon"></i>
+                                <div class="ui corner label">
+                                    <i class="asterisk icon"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="field">
-                        <div class="ui left labeled icon input">
-                            <input id="login-password" type="password" placeholder="کلمه عبور">
-                            <i class="lock icon"></i>
+                        <div class="field">
+                            <div class="ui left labeled icon input">
+                                <input id="login-password" type="password" placeholder="کلمه عبور">
+                                <i class="lock icon"></i>
 
-                            <div class="ui corner label">
-                                <i class="asterisk icon"></i>
+                                <div class="ui corner label">
+                                    <i class="asterisk icon"></i>
+                                </div>
                             </div>
                         </div>
+                        <div class="ui linkedin submit button small" id="login-btn">ورود</div>
+                        <a href="{% url 'password_recover' %}" class="forgot-pswd">کلمه عبورم را فراموش کرده ام </a>
                     </div>
-                    <div class="ui linkedin submit button small" id="login-btn">ورود</div>
-                    <a href="{% url 'password_recover' %}" class="forgot-pswd">کلمه عبورم را فراموش کرده ام </a>
-                </div>
+                {% else %}
+                    <div class="ui buttons-tmp">
+                        <i class="ui button down arrow linkedin small" id="sign-in">خروج</i>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
