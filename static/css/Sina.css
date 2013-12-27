@@ -1,0 +1,15 @@
+.my-right {
+    text-align: right !important;
+}
+
+.my-font {
+    font: 14px/25px "BYekan", tahoma !important;
+}
+
+.my-min-height {
+    min-height: 700px;
+}
+
+.ui.inverted.table {
+
+}

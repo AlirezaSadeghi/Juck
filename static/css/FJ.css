@@ -87,7 +87,7 @@ body {
     padding: 5px 10px;
     color: #444A49;
     text-align: justify;
-    margin: 0 0px 40px 0;
+    margin: 0 0px 10px 0;
 
 }
 
@@ -106,8 +106,11 @@ body {
     padding-left: 2px;
 }
 
-.news_item .more_buttons {
-    float: left;
+.news_item .more_buttons{
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    margin: 10px;
 }
 
 .light_margined {
@@ -137,7 +140,7 @@ body {
 }
 
 .news_item.ui.raised.segment {
-    min-height: 230px;
+    min-height: 170px;
 }
 
 .user_buttons {
@@ -148,6 +151,15 @@ body {
     left: 0;
     top: 0;
 }
+
+/*.news_list .more_buttons {*/
+    /*position: absolute;*/
+    /*width: 200px;*/
+    /*margin: 10px;*/
+    /*direction: ltr;*/
+    /*left: 0;*/
+    /*top: 0;*/
+/*}*/
 
 .user_buttons .button {
     margin-top: 5px;
@@ -170,13 +182,22 @@ body {
     cursor: default;
 }
 
-.user_list .single_user:nth-child(3n) {
+.news_list > .news_item.ui.raised.segment:nth-child(4n+3) {
     background-color: #EFEFEF;
 }
 
-.user_list .single_user:nth-child(3n+1) {
-    background-color: #e3e3e3;
+.news_list > .news_item.ui.raised.segment:nth-child(4n+1) {
+background-color: #e3e3e3;
 }
+
+.user_list .single_user:nth-child(4n+3) {
+background-color: #EFEFEF;
+    }
+
+.user_list .single_user:nth-child(4n+1) {
+background-color: #e3e3e3;
+    }
+
 
 .user_list .single_user {
     min-height: 104px;
@@ -260,4 +281,34 @@ body {
 
 .user_list .user_info2 > span:nth-child(3){
     width: 150px;
+}
+
+.pagination.menu{
+    margin: 0px auto !important;
+    /*position: absolute;*/
+}
+
+/*.news_item .ui.small.label.authors-name{*/
+    /*background-color: #83be71;*/
+    /*color: white !important;*/
+/*}*/
+
+/*yadet bashe span > first haro dorost koni*/
+
+.user_list .user_info1 .question_title {
+    width: 400px !important;
+}
+
+.user_list .user_info2 .question_asker {
+    width: 200px !important;
+}
+
+.not_visible{
+    visibility: hidden;
+}
+
+.answer_box{
+    width : 80%;
+}
+.answer_box textarea{
 }

@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import logout
 #from django.contrib.auth.views import  password_change, password_change_done
 from juck.accounts.views import JobSeekerWizard, EMPLOYER_FORMS, JOB_SEEKER_FORMS, EmployerWizard
+from django.contrib.auth.views import password_reset_done, password_reset, password_reset_confirm, password_reset_complete
 
 urlpatterns = patterns('juck.accounts.views',
                        url(r'^about/$', 'about_us', {}, name='about'),
@@ -33,8 +34,31 @@ urlpatterns = patterns('juck.accounts.views',
                        url(r'^dos_prevention', 'dos_prevention', {}, name='dos_prevention'),
                        url(r'^user_panel/', 'user_panel'),
 
-# kas khal chera url o akhe neveshti balash FJ :)))))))))
-#                      FJ
-                        url(r'^job_seeker_list/$', 'job_seeker_list', {}, name='job_seeker_list'),
-                        url(r'^employer_list/$', 'employer_list', {}, name='employer_list'),
+                       # Sina vared mishavad
+                       #url(r'^password_reset/$', password_reset,
+                       #    {'post_reset_redirect': '/password_reset_done/',
+                       #     'template_name': 'accounts/password_reset_form.html',
+                       #     'email_template_name': 'accounts/password_reset_email.html'}, name="password_reset"),
+
+                       url(r'^password_reset/$', password_reset,
+                           {'post_reset_redirect': '/password_reset_done/',
+                            'template_name': 'accounts/password_reset_form.html',
+                            }, name="password_reset"),
+
+                       url(r'^password_reset_done/$',
+                           password_reset_done, {'template_name': 'accounts/password_reset_done.html'}),
+
+                       url(r'^password_reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+                           password_reset_confirm,
+                           {'post_reset_redirect': '/password_done/',
+                            'template_name': 'accounts/password_reset_confirm.html'}),
+
+                       url(r'^password_done/$',
+                           password_reset_complete, {'template_name': 'accounts/password_reset_complete.html'}),
+                       #Sina kharej mishavad
+
+                       # kas khal chera url o akhe neveshti balash FJ :)))))))))
+                       #                      FJ
+                       url(r'^job_seeker_list/$', 'job_seeker_list', {}, name='job_seeker_list'),
+                       url(r'^employer_list/$', 'employer_list', {}, name='employer_list'),
 )

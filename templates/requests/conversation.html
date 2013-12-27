@@ -36,13 +36,22 @@
             float: left;
         }
 
+        .my-date-corrector{
+            width: 120px;
+            text-align: center;
+        }
+        .my-min-height{
+            min-height: 700px;
+        }
+
+
     </style>
 {% endblock %}
 
 {% block content %}
     {% csrf_token %}
     <div class="center">
-        <div class="ctn-box my-font">
+        <div class="ctn-box my-font my-min-height" >
 
             <div class="ui warning message">
                 {#                <i class="close icon"></i>#}
@@ -81,7 +90,7 @@
                         </a>
 
                         <div class="metadata">
-                            <div class="date">
+                            <div class="date my-date-corrector">
                                 12 دی 1392
                                 {#                                                    {{ item.get_persian_date }}#}
                             </div>
@@ -108,7 +117,7 @@
                         </a>
 
                         <div class="metadata">
-                            <div class="date">
+                            <div class="date my-date-corrector">
                                 12 دی 1392
                                 {#                                                    {{ item.get_persian_date }}#}
                             </div>

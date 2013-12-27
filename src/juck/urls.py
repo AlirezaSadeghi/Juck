@@ -4,7 +4,6 @@ from django.views.generic.base import RedirectView
 from django.conf import settings
 
 admin.autodiscover()
-
 urlpatterns = patterns('',
                        url(r'^$', 'juck.accounts.views.homepage', name='homepage'),
 
@@ -16,7 +15,9 @@ urlpatterns = patterns('',
                        url(r'^requests/', include('juck.requests.urls')),
                        url(r'^admin/', include(admin.site.urls)),
 
+
 )
+
 
 urlpatterns += patterns('',
                         (r'^media/(?P<path>.*)$', 'django.views.static.serve',
