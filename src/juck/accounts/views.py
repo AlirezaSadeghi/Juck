@@ -16,9 +16,11 @@ from utils import json_response, send_html_mail
 import hashlib
 from html_builder import HtmlBuilder
 
+def dashboard(request):
+    return render_to_response('accounts/../../../templates/requests/dashboard.html', {}, context_instance=RequestContext(request, ))
 
 def about_us(request):
-    return render_to_response('about.html', {}, context_instnace=RequestContext(request, ))
+    return render_to_response('about.html', {}, context_instance=RequestContext(request, ))
 
 
 def contact_us(request):

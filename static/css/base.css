@@ -409,3 +409,65 @@ ul.user-menu {
 .ui.segment {
     border-radius: 2px;
 }
+
+
+
+
+.pagination-ul {
+    list-style-type: none;
+}
+
+.pagination-li {
+    float: right;
+    margin: 0px 5px;
+}
+
+.result-pagination {
+    margin: 15px 0;
+    height: 30px;
+}
+
+.result-pagination ul {
+    list-style-type: none;
+    margin-right: 299px;
+}
+
+.result-pagination ul li {
+    text-align: center;
+    background-color: #F2F2F2;
+    float: right;
+    margin-left: 4px;
+}
+
+.result-pagination ul li a {
+    color: #333;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #CCCCCC;
+    width: 28px;
+    transition: all .3s;
+    -moz-transition: all .3s;
+    -webkit-transition: all .3s;
+    -ms-transition: all .3s;
+}
+
+.result-pagination ul li a:hover {
+    background-color: #88C7EE;
+    color: #108EDC;
+    border: 1px solid #108EDC;
+}
+
+.result-pagination ul li a.active {
+    background-color: #108EDC;
+    color: #fff;
+    border: 1px solid #108EDC;
+}
+
+.result-pagination ul li a.nextpage {
+    width: 68px;
+}
+
+.result-pagination ul li a.prevpage {
+    width: 68px;
+}
