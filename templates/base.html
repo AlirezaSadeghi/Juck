@@ -30,6 +30,10 @@
             .ftr {
                 margin: 0px !important;
             }
+
+            .ftr:last-child {
+                background-color: #E18700;
+            }
         </style>
     {% endblock %}
 
@@ -45,121 +49,248 @@
 </head>
 <body>
 <div class="page-container">
-    {% block header %}
-        <div class="hdr">
-            <div class="center">
-                <a href="{% url 'homepage' %}">
-                    <div class="hdr-logo">
-                    </div>
-                </a>
+{% block header %}
+    <div class="hdr" id="home">
+        <div class="center">
+            <a href="{% url 'homepage' %}">
+                <div class="hdr-logo">
+                </div>
+            </a>
 
-                <div class="hdr-login">
-                    <div class="ui buttons-tmp">
-                        <i class="ui button down arrow linkedin small" id="sign-in">ورود</i>
-                        <i class="ui button small green" id="signup">ثبت نام</i>
+            <div class="hdr-login">
+                <div class="ui buttons-tmp">
+                    <i class="ui button down arrow linkedin small" id="sign-in">ورود</i>
+                    <i class="ui button small green" id="signup">ثبت نام</i>
                         <span class="hdr-login-txt">
                             اگر قبلاً ثبت نام کرده‌اید
                         </span>
-                    </div>
-                    <div class="ui form segment" id="login-div">
-                        <div class="field">
-                            <div class="ui left labeled icon input">
-                                <input id="login-username" autofocus="true" type="text" placeholder="نام کاربری">
-                                <i class="user icon"></i>
+                </div>
+                <div class="ui form segment" id="login-div">
+                    <div class="field">
+                        <div class="ui left labeled icon input">
+                            <input id="login-username" autofocus="true" type="text" placeholder="نام کاربری">
+                            <i class="user icon"></i>
 
-                                <div class="ui corner label">
-                                    <i class="asterisk icon"></i>
-                                </div>
+                            <div class="ui corner label">
+                                <i class="asterisk icon"></i>
                             </div>
                         </div>
-                        <div class="field">
-                            <div class="ui left labeled icon input">
-                                <input id="login-password" type="password" placeholder="کلمه عبور">
-                                <i class="lock icon"></i>
+                    </div>
+                    <div class="field">
+                        <div class="ui left labeled icon input">
+                            <input id="login-password" type="password" placeholder="کلمه عبور">
+                            <i class="lock icon"></i>
 
-                                <div class="ui corner label">
-                                    <i class="asterisk icon"></i>
-                                </div>
+                            <div class="ui corner label">
+                                <i class="asterisk icon"></i>
                             </div>
                         </div>
-                        <div class="ui linkedin submit button small" id="login-btn">ورود</div>
-                        <a href="{% url 'password_recover' %}" class="forgot-pswd">کلمه عبورم را فراموش کرده ام </a>
                     </div>
+                    <div class="ui linkedin submit button small" id="login-btn">ورود</div>
+                    <a href="{% url 'password_recover' %}" class="forgot-pswd">کلمه عبورم را فراموش کرده ام </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<div class="center">
+    {% block page_title %}
+
+    {% endblock %}
+</div>
+
+<div class="ctn">
+    {% block content %}
+        {% csrf_token %}
+        <div class="index">
+            <div class="nav-bar">
+                <ul role="navigation">
+                    <li class="nav-link active">
+                        <a href="#home" class="label" id="hm">خانه</a>
+                        <span class="dot"></span>
+                    </li>
+                    <li class="nav-link">
+                        <a href="#juck-intro" id="ji" class="label">درباره</a>
+                        <span class="dot"></span>
+                    </li>
+                    <li class="nav-link">
+                        <a href="#jobseeker-intro" id="jsi" class="label">کارجو</a>
+                        <span class="dot"></span>
+                    </li>
+                    <li class="nav-link">
+                        <a href="#employer-intro" id="ei" class="label">کارفرما</a>
+                        <span class="dot"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="center">
+                <div class="ctn-index-wrp">
+                    <div class="index-main">
+                        <div class="index-column">
+                            <div class="jobseeker-column-image"></div>
+                            <h2>کارجو</h2>
+
+                            <div class="index-info">
+                                در صورتی که به دنبال اشتغال هستید، ثبت نام کنید.
+                            </div>
+                            <a class="ui button small elem-hidden" href="#jobseeker-intro">بیشتر بدانید</a>
+                            <a class="ui button small green" href="{% url 'jobseeker_registration' %}">ثبت نام</a>
+                        </div>
+                        <div class="index-column">
+                            <div class="employer-column-image"></div>
+                            <h2>کارفرما</h2>
+
+                            <div class="index-info">
+                                در صورتی که به دنبال جذب کارمند متخصص هستید، ثبت نام کنید.
+                            </div>
+                            <a class="ui button small elem-hidden" href="#employer-intro">بیشتر بدانید</a>
+                            <a class="ui button small green" href="{% url 'employer_registration' %}">ثبت
+                                نام</a>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ftr">
+                <div class="center">
+                    <ul class="menu">
+                        <div>
+                            <li><a href="/"> <span> صفحه اصلی</span></a></li>
+                        </div>
+                        <li class="li-separator"> .</li>
+                        <div>
+                            <li><a href="/search/"> <span> مقالات</span></a></li>
+                        </div>
+                        <li class="li-separator"> .</li>
+                        <div>
+                            <li><a href="/news/latest/"> <span> اخبار</span></a></li>
+                        </div>
+                        <li class="li-separator"> .</li>
+                        <div>
+                            <li><a href="/question/common/"> <span> سوالات</span></a>
+                            </li>
+                        </div>
+                        <li class="li-separator"> .</li>
+                        <div>
+                            <li><a href="/about/"> <span> درباره ما</span></a></li>
+                        </div>
+                        <li class="li-separator"> .</li>
+                        <div>
+                            <li><a href="/contact-us/"> <span> تماس</span></a></li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="juck-introduction" id="juck-intro">
+                <div class="juck-intro-text">
+                    یکی از دلایل بیکاری فارغ التحصیلان دانشگاهی عدم آگاهی کافی فارغ­ التحصیلان از نیازمندی­های بخش
+                    صنعت و همچنین عدم آگاهی کافی کارفرمایان از وضعیت فارغ التحصیلان می ­باشد. مراکز کاریابی دانشگاهی
+                    می­ توانند به عنوان رابط بین متقاضیان نیروی کار و کارجویان عمل نمایند و دو طرف را نسبت به فعالیت
+                    یکدیگر آشنا سازند.
+                    <br>
+                    سامانه جاک به منظور مدیریت اطلاعات و نیز رفع عدم ارتباط موجود مابین کارفرمایان، مراکز تحقیقاتی و
+                    دانشگاهی و محققان و کارجویان، جهت رونق صنعت و با استفادهی حداکثری از امکانات داخلی به همت جمعی
+                    از نخبگان دانشگاهی و با مدیریت مرکز ارتباط با صنعت دانشگاه صنعتی شریف ایجاد شد.
+                    جاک وظایفی همچون موارد ذیل را عهده‌دار خواهد بود:
+
+                    <br><br>
+                    الف) انجام مشاوره و هدایت فارغ‌التحصیلان به محل کار و اشتغال پایدار
+
+                    <br><br>
+                    ب) شناسایی محل­های جذب و اشتغال و ارایه توانمندی­های دانش‌آموختگان به متقاضیان نیروی کار متخصص
+                    تربیت یافته توسط دانشگاه
+                    <br><br>
+                    ج) ثبت تقاضای کار و شغل از طرف فارغ‌التحصیلان و قرار دادن ایشان در لیست کارجویان
+                </div>
+            </div>
+            <div class="ftr" style="height: 100px;background-color: #E100B6;">
+                <div class="center">
+                    <div class="banner-nav">
+                        در صورتی که متمایل به جستجو برای مشاغل مرتبط با توانایی ها و دانش‌ خود هستید، با انتخاب
+                        سامانه جاک، بهترین روش را برگزیده‌اید.
+                        به راحتی ثبت نام کنید و بعد از تایید ثبت نام خود، به جستجوی فرصت های شغلی مناسب بپردازید.
+                    </div>
+                </div>
+            </div>
+            <div class="jobseeker-intro" id="jobseeker-intro">
+                <div class="jobseeker-intro-text">
+                    امروزه سرویس استخدام آنلاین در سراسر جهان به عنوان جایگزین برتر روش­های سنتی‌ ورایج استخدام
+                    (نظیر آگهی روزنامه و یا معرفی از طریق دوستان و آشنایان) شناخته شده است. مطالعات انجام شده حاکی
+                    است که تعداد رزومه های دریافتی از روی سایت به مراتب بیشتر از رزومه های دریافتی از طریق روزنامه
+                    و... می باشد. این در حالی است که هزینه سایت بطور میانگین ۵۰ درصد پایین تر بوده و رزومه های موجود
+                    از کیفیت بالاتری برخوردارند. به همین منظور توسط گروه سامانه پروران شریف، سامانه جاک طراحی گردید
+                    تا امکان استخدام افراد جویای کار سریعتر فراهم گردد.
+                    <br><br>
+                    سامانه جاک به گونه ای طراحی شده که کارجویان محترم پس از ثبت مشخصات فردی، سوابق تحصیلی‌ و توانمندی
+                    وتجارب کاری و.... خود در چند فرم آنلاین ؛ اطلاعات وارد شده بطور اتوماتیک به یک فرم رزومه ( از قبل
+                    طراحی شده ) تبدیل و در بانک اطلاعات‌ سایت ذخیره می­شود .سپس رزومه افرادی که از لحاظ تحصیلات ، مهارت
+                    ، توانمندیهای فنی وتخصصی ، سوابق وتجارب کاری نسبت به دیگرثبت نام شدگان شرایط بهتری برای پذیرش
+                    واشتغال به کاردر شرکت ها را داشته باشند تایید وبعنوان متقاضی کار در معرض دید کارفرمایان جهت دعوت به
+                    کار قرار میگیرد.
+                    لطفا برای ایجاد حساب کاربری بر روی دکمه‌ی ثبت نام کلیک نمایید.
+                </div>
+            </div>
+            <div class="ftr" style="height: 160px; background-color: #EC996F">
+                <div class="center">
+                    <div class="banner-nav">
+                        اینترنت همواره به عنوان یکی از مهمترین و کاربردی ابزارهای اطلاع رسانی مورد توجه جوامع و اقشار
+                        اجتماعی بوده و تاثیر ژرف این رسانه در زندگی مردم جهان بر هیچ کس پوشیده نیست این رسانه فراگیر
+                        جهانی با بیش از صدها میلیون مخاطب یکی از مهمترین ابزارهای دسترسی به مشتری و معرفی و تبلیغ خدمات
+                        و محصولات بوده و بازاریاب ها و مدیران تبلیغات و روابط عمومی شرکت ها و سازمان ها این رسانه را
+                        همواره در لیست رسانه های موثر تبلیغاتی و در جهت دسترسی به مخاطب در سطح گسترده مورد توجه قرار
+                        داده اند .
+                    </div>
+                </div>
+            </div>
+            <div class="employer-intro" id="employer-intro">
+                <div class="employer-intro-text">
+                    سامانه حاک به گونه‌ای طراحی شده که کارفرمایان محترم پس از ثبت نام، می توانند به لیست تمامی کارجویان
+                    و رزومه‌ی این افراد دسترسی داشته باشند و بتوانند نیازهای علمی و پژوهشی خود را با جذب افراد زبده و
+                    تحصیل کرده براورده کنند.
+                    کارفرمایان می‌توانند به‌جای ثبت آگهی در روزنامه ها و مجلات، آگهی های نیاز به نیروی خود را در سامانه
+                    جاک ثبت کنند و لیست تمامی کارجویان متقاضی و بهترین کارجویان مشابه با خواسته های خود را به راحتی
+                    بیابند. بسیاری از توانایی های دیگر نیز در اختیار شماست.
+                    لطفا برای ایجاد حساب کاربری بر روی دکمه‌ی ثبت نام کلیک نمایید.
                 </div>
             </div>
         </div>
     {% endblock %}
-
-    {% block page_title %}
-
-    {% endblock %}
-
-    <div class="ctn">
-        {% block content %}
-            {% csrf_token %}
-            <div class="index">
-                <div class="center">
-                    <div class="ctn-index-wrp">
-                        <div class="index-main">
-                            <div class="index-column">
-                                <div class="jobseeker-column-image"></div>
-                                <h2>کارجو</h2>
-
-                                <div class="index-info">
-                                    در صورتی که به دنبال اشتغال هستید، ثبت نام کنید.
-                                </div>
-                                <a class="ui button small elem-hidden">بیشتر بدانید</a>
-                                <a class="ui button small green" href="{% url 'jobseeker_registration' %}">ثبت نام</a>
-                            </div>
-                            <div class="index-column">
-                                <div class="employer-column-image"></div>
-                                <h2>کارفرما</h2>
-
-                                <div class="index-info">
-                                    در صورتی که به دنبال جذب کارمند متخصص هستید، ثبت نام کنید.
-                                </div>
-                                <a class="ui button small elem-hidden">بیشتر بدانید</a>
-                                <a class="ui button small green" href="{% url 'employer_registration' %}">ثبت
-                                    نام</a>
-                            </div>
-                            <div class="clr"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endblock %}
-    </div>
-    <div class="clr"></div>
+</div>
+<div class="clr"></div>
 </div>
 
 <div class="ftr">
     <div class="center">
-        <ul class="menu">
-            <div>
-                <li><a href="/"> <span> صفحه اصلی</span></a></li>
-            </div>
-            <li class="li-separator"> .</li>
-            <div>
-                <li><a href="/search/"> <span> مقالات</span></a></li>
-            </div>
-            <li class="li-separator"> .</li>
-            <div>
-                <li><a href="/news/latest/"> <span> اخبار</span></a></li>
-            </div>
-            <li class="li-separator"> .</li>
-            <div>
-                <li><a href="/question/common/"> <span> سوالات</span></a>
-                </li>
-            </div>
-            <li class="li-separator"> .</li>
-            <div>
-                <li><a href="/about/"> <span> درباره ما</span></a></li>
-            </div>
-            <li class="li-separator"> .</li>
-            <div>
-                <li><a href="/contact-us/"> <span> تماس</span></a></li>
-            </div>
-        </ul>
+        {% block ftr %}
+            <ul class="menu">
+                <div>
+                    <li><a href="/"> <span> صفحه اصلی</span></a></li>
+                </div>
+                <li class="li-separator"> .</li>
+                <div>
+                    <li><a href="/search/"> <span> مقالات</span></a></li>
+                </div>
+                <li class="li-separator"> .</li>
+                <div>
+                    <li><a href="/news/latest/"> <span> اخبار</span></a></li>
+                </div>
+                <li class="li-separator"> .</li>
+                <div>
+                    <li><a href="/question/common/"> <span> سوالات</span></a>
+                    </li>
+                </div>
+                <li class="li-separator"> .</li>
+                <div>
+                    <li><a href="/about/"> <span> درباره ما</span></a></li>
+                </div>
+                <li class="li-separator"> .</li>
+                <div>
+                    <li><a href="/contact-us/"> <span> تماس</span></a></li>
+                </div>
+            </ul>
+        {% endblock %}
     </div>
 </div>
 

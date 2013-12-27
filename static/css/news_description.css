@@ -1,0 +1,48 @@
+.my_date {
+    text-align: left;
+}
+
+.score {
+    display: inline-block;
+}
+
+.ui.celled.grid {
+    background-color: #eee;
+}
+
+.float_right {
+    /*text-align: right;*/
+    float: right !important;
+}
+
+.my_avatar {
+    float: right;
+    display: inline-block !important;
+}
+
+.right_alignment {
+    text-align: right;
+}
+
+.my_title{
+    margin-right: 20px;
+}
+
+.news_image{
+    max-width: 330px;
+    max-height: 330px;
+    float: right;
+    display: inline-block;
+    margin-left: 25px;
+    margin-bottom: 5px;
+    box-shadow: 2px 2px 10px 1px #B8B5B5;
+}
+
+.make-pointer {
+    cursor: pointer;
+}
+
+.my_margin_top {
+    margin-top: 20px;
+}
+
