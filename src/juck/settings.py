@@ -103,7 +103,7 @@ def generate_captcha():
     return captcha, captcha[::-1]
 
 
-CAPTCHA_CHALLENGE_FUNCT = generate_captcha
+# CAPTCHA_CHALLENGE_FUNCT = generate_captcha
 PROJECT_INAGURATION_YAER = 1392
 
 from datetime import datetime
@@ -114,7 +114,7 @@ CAPTCHA_LENGTH = 4
 CAPTCHA_NOISE_FUNCTIONS = ()
 CAPTCHA_BACKGROUND_COLOR = '#C0C0C0'
 CAPTCHA_LETTER_ROTATION = (-15, 15)
-CAPTCHA_FONT_PATH = BASEPATH + '/static/fonts/BYekan.ttf'
+# CAPTCHA_FONT_PATH = BASEPATH + '/static/fonts/BYekan.ttf'
 
 
 

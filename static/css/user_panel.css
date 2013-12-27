@@ -41,7 +41,7 @@
 	display: inline-block;
 	background-color: white;
 	color: #333;
-	font-family: "Mj_Liner Screen Bd";
+	font-family: "Mj_Liner Screen Bd", tahoma;
 	box-shadow: 0 2px 1px #ACBCC6;
 	-moz-box-shadow: 0 2px 1px #ACBCC6;
 	-webkit-box-shadow: 0 2px 1px #ACBCC6;
@@ -88,14 +88,13 @@
 .manager-state{
 	display: inline-block;
 	background-color: white;
-	color: #333;
 	padding: 18px;
-	margin-left: 30px;
+	margin-left: 15px;
 	border-radius: 2px;
-	font-family : "Mj_Liner Screen Bd";
+	font-family : "Mj_Liner Screen Bd", tahoma;
 	color: white;
 	position: relative;
-	width: 150px;
+	width: 160px;
 	height: 100px;
 }
 
@@ -111,11 +110,12 @@
 
 .manager-state.green{
 	background-color: #00a65a;
+    top: -7px;
 }
 
 .manager-state .num{
 	font-size: 30px;
-	font-family: 'BYekan';
+	font-family: 'BYekan', tahoma;
 	z-index: 5;
 }
 
@@ -171,7 +171,7 @@
 
 .manager-list h1{
 	margin-bottom: 10px;
-	font-family: "Mj_Liner Screen Bd";
+	font-family: "Mj_Liner Screen Bd", tahoma;
 	color: #0073b7;
 }
 
@@ -203,21 +203,24 @@
 .list-buttons{
 	display: none;
 	position: absolute;
-	bottom: 6px;left: 10px;
-	width: 70px;
+	bottom: 14px;left: 10px;
+	width: 153px;
 	font-size: 12px !important;
 	font-family: "Mj_Liner Screen Bd";
 
 }
 
 .list-buttons .button{
+	height: 35px !important;
+	display: inline-block;
+    border-radius: 0 !important;
 	background-color: #0073b7 !important;
 	color: white !important;
 	width: 75px !important;
 }
 
 .manager-list-all-btn{
-	position: absolute;
+	/*position: absolute;*/
 	bottom: 5px;right: 10px;
 	color: white !important;
 	background-color: #00c0ef !important;
