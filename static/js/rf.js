@@ -44,12 +44,13 @@ $(document).ready(function () {
 
         if ($(this).hasClass('fj_pressed')){
             $(this).removeClass('fj_pressed');
-            $(this).parent().next().replaceWith('<div class="ui message"><p>'+ $(this).parent().next().find('textarea').text() +'</p></div>')
+            var txt = $(this).siblings('.ui.form').find('textarea').val();
+            $(this).siblings('.ui.form').replaceWith('<div class="ui message"><p>'+ txt +'</p></div>')
         }
         else{
             $(this).addClass('fj_pressed');
-            var answer = $(this).parent().next().find("p").text().trim()
-            $(this).parent().next().replaceWith('<div class="ui form"><div class="field"><textarea cols="70" rows="6" placeholder="ویرایش پاسخ">'+ answer +'</textarea></div></div>')
+            var answer = $(this).siblings('.ui.message').find("p").text().trim();
+            $(this).siblings('.message').replaceWith('<div class="ui form"><div class="field"><textarea cols="70" rows="6" placeholder="ویرایش پاسخ">'+ answer +'</textarea></div></div>')
         }
     });
 

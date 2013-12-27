@@ -107,7 +107,7 @@ body {
     width: 100%;
 }
 
-.news_item .more_buttons{
+.news_item .more_buttons {
     position: absolute;
     left: 0px;
     bottom: 0px;
@@ -131,7 +131,6 @@ body {
     bottom: 15px;
 }
 
-
 .authors-label {
     float: right;
     margin-left: 5px;
@@ -151,12 +150,12 @@ body {
 }
 
 /*.news_list .more_buttons {*/
-    /*position: absolute;*/
-    /*width: 200px;*/
-    /*margin: 10px;*/
-    /*direction: ltr;*/
-    /*left: 0;*/
-    /*top: 0;*/
+/*position: absolute;*/
+/*width: 200px;*/
+/*margin: 10px;*/
+/*direction: ltr;*/
+/*left: 0;*/
+/*top: 0;*/
 /*}*/
 
 .user_buttons .button {
@@ -185,17 +184,16 @@ body {
 }
 
 .news_list > .news_item.ui.raised.segment:nth-child(4n+1) {
-background-color: #e3e3e3;
+    background-color: #e3e3e3;
 }
 
 .user_list .single_user:nth-child(4n+3) {
-background-color: #EFEFEF;
-    }
+    background-color: #EFEFEF;
+}
 
 .user_list .single_user:nth-child(4n+1) {
-background-color: #e3e3e3;
-    }
-
+    background-color: #e3e3e3;
+}
 
 .user_list .single_user {
     min-height: 104px;
@@ -203,22 +201,19 @@ background-color: #e3e3e3;
     margin-top: 10px !important;
 }
 
-
 .user_list .single_question:nth-child(4n+3) {
-background-color: #EFEFEF;
-    }
+    background-color: #EFEFEF;
+}
 
 .user_list .single_question:nth-child(4n+1) {
-background-color: #e3e3e3;
-    }
+    background-color: #e3e3e3;
+}
 
-
-.user_list .single_question{
+.user_list .single_question {
     min-height: 55px;
     padding-bottom: 0.7em !important;
     margin-top: 10px !important;
 }
-
 
 .user_list .single_user:hover .user_buttons {
     opacity: 1;
@@ -240,15 +235,13 @@ background-color: #e3e3e3;
     -webkit-transition: opacity 500ms;
 }
 
-
 .user_list .single_user .user_buttons .button {
     width: 140px !important;
 }
 
-.question_button{
+.question_button {
     margin: 5px 8px;
 }
-
 
 .inlineblock {
     display: inline-block;
@@ -282,8 +275,7 @@ background-color: #e3e3e3;
 
 }
 
-
-.user_list .user_info1 > span{
+.user_list .user_info1 > span {
     margin-left: 20px;
 
     font-size: 16px;
@@ -291,56 +283,56 @@ background-color: #e3e3e3;
     display: inline-block;
 }
 
-.user_list .question_info1 > span{
+.user_list .question_info1 > span {
     margin-left: 10px;
     font-size: 16px;
     font-weight: bold;
 }
 
-
-.user_list .user_info1 > span:first-child{
+.user_list .user_info1 > span:first-child {
     width: 200px;
 }
 
-.user_list .user_info1 > span:nth-child(2){
+.user_list .user_info1 > span:nth-child(2) {
     width: 320px;
 }
 
-.user_list .user_info2 > span{
-    margin-left: 10px;
-
+.user_list .user_info2 > span {
+    margin-left: -80px;
     font-size: 12px;
+    margin-top: 13px;
     display: inline-block;
     width: 80px;
+    float: left;
 }
 
-.user_list .user_info2 > span:first-child{
+.user_list .user_info2 > span:first-child {
     width: 100px;
 }
 
-.user_list .user_info2 > span:nth-child(2){
+.user_list .user_info2 > span:nth-child(2) {
     width: 100px;
 }
 
-.user_list .user_info2 > span:nth-child(3){
+.user_list .user_info2 > span:nth-child(3) {
     width: 150px;
 }
 
-.pagination.menu{
+.pagination.menu {
     margin-top: 15px !important;
     margin-right: 300px !important;
     /*position: absolute;*/
 }
 
 /*.news_item .ui.small.label.authors-name{*/
-    /*background-color: #83be71;*/
-    /*color: white !important;*/
+/*background-color: #83be71;*/
+/*color: white !important;*/
 /*}*/
 
 /*yadet bashe span > first haro dorost koni*/
 
 /*.user_list .user_info1 .question_title {*/
-    /*width: 400px !important;*/
+/*width: 400px !important;*/
 /*}*/
 
 .user_list .user_info2 .question_asker {
@@ -349,71 +341,72 @@ background-color: #e3e3e3;
     margin-bottom: 10px;
 }
 
-.user_list .user_info2 .question_date{
+.user_list .user_info2 .question_date {
     width: 150px !important;
 }
 
-.user_list .user_info2 .question_replier{
+.user_list .user_info2 .question_replier {
     width: 200px !important;
     margin-left: 215px;
 }
 
-.not_visible{
+.not_visible {
     visibility: hidden;
 }
 
-.answer_box{
-    width : 80%;
+.answer_box {
+    width: 80%;
 }
-.javab_box textarea{
+
+.javab_box textarea {
     margin-top: 10px !important;
 }
 
-.ui.accordion{
+.ui.accordion {
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.accordion_segment{
+.accordion_segment {
     background-color: wheat !important;
 }
 
-.question_buttons{
+.question_buttons {
     position: absolute;
     left: 0px;
     bottom: 0px;
     margin: 10px;
 }
 
-.accordion .content{
+.accordion .content {
     padding: 1em 1em !important;
 }
 
-.question_number{
+.question_number {
     font-size: 16px;
     font-weight: bold;
 }
 
-.mngr_question_date{
+.mngr_question_date {
     width: 200px !important;
-    margin-left: 515px !important;
 }
 
-.tabular.menu{
+.tabular.menu {
     margin-top: 10px !important;
 }
 
-.display_none{
+.display_none {
     display: none;
 }
 
-.fj_green{
+.fj_green {
     background-color: #C7D3B3 !important;
 }
 
-.faq_list{
+.faq_list {
     background-color: #C7D3B3 !important;
 }
-.faq_add .form.segment{
-    background-color: #C7D3B3  !important;
+
+.faq_add .form.segment {
+    background-color: #C7D3B3 !important;
 }
