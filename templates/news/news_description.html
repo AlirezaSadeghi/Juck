@@ -19,7 +19,13 @@
 {% endblock %}
 
 {% block css %}
-    <link href="../../static/css/news_description.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/news_description.css' %}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .news-content {
+            font: 15px/30px "BYekan", tahoma;
+            color: #555;
+        }
+    </style>
 {% endblock %}
 
 {% block page_title %}
@@ -46,7 +52,7 @@
                         <div class="ui attached fluid segment ">
                             <img src="{{ news.image.thumbnail.url|default:'/static/images/news.jpg' }}" class="news_image">
 
-                            <p dir="rtl">
+                            <p dir="rtl" class="news-content">
                                 {{ news.content }}
                             </p>
                         </div>
@@ -92,7 +98,7 @@
                                 {% for item in comments %}
                                     <div class="comment">
                                         <a class="avatar float_right">
-                                            <img src="../../static/images/jobseeker.png">
+                                            <img src="{% static 'images/jobseeker.png' %}">
                                         </a>
 
                                         <div class="content">

@@ -8,11 +8,19 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="../../static/css/FJ.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
+    <style type="text/css">
+        .author-link {
+            color: #777;
+        }
+        .author-link:hover{
+            color: #178edc;
+        }
+    </style>
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="../../static/js/rf.js"></script>
+    <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -74,14 +82,14 @@
                             </p>
                         </div>
                         <div class="news_other">
-                            <div class="authors">
-                            <span class="authors-label">
-نویسنده:
-                            </span>
-                                <a class="ui small label authors-name">{{ item.author.get_full_name }}</a>
-                            </div>
+
                             <div class="date_rate">
-                                <small>{{ item.get_persian_date }}</small>
+                                
+                                <small> اضافه شده در تاریخ {{ item.get_persian_date }}
+                                    <a href="javascript:void(0);"
+                                       class="author-link">{{ item.author.get_full_name }}</a>
+                                </small>
+
                                 <div class="field">
 
                                     <div class="ui positive button icon tiny" id="like">
@@ -104,11 +112,9 @@
 
                                 </div>
                             </div>
-
                             <div class="more_buttons">
-                                <div class="ui animated button  small">
-                                    <div class="visible content"><a
-                                            href="{% url 'show_news_description' %}?pk={{ item.pk }}"></a></div>
+                                <div class="ui animated button  small" onclick="window.location='{% url "show_news_description" %}?pk={{ item.pk }}'">
+                                    <div class="visible content">مشروح خبر</div>
                                     <div class="hidden content"><i class="left arrow icon"></i></div>
                                 </div>
 
@@ -146,9 +152,10 @@
                     </a>
 
                 </div>
-            {% else %}
-                <div class="ui error message">خبری وجود ندارد</div>
             {% endif %}
+{#            {% else %}#}
+{#                <div class="ui error message">خبری وجود ندارد</div>#}
+{#            {% endif %}#}
         </div>
     </div>
     <!-- </div> -->
