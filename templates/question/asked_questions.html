@@ -6,11 +6,30 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css'%}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
+    <style type="text/css">
+
+        .answer_box {
+            width: 852px !important;
+        }
+        .question_date {
+            float: right !important;
+        }
+
+        .question_asker:hover {
+            color: #108edc !important;
+            cursor: pointer !important;
+        }
+
+        .question_asker {
+            margin-left: 100px !important;
+        }
+
+    </style>
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'js/rf.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -19,13 +38,13 @@
             <div class="ui icon input left small">
                 <input type="text" placeholder="جستجو...">
                 <i class="inverted search icon"></i>
-                </div>
+            </div>
 
-                <small class="advanced_search">جستجوی پیشرفته </small>
+            <small class="advanced_search">جستجوی پیشرفته</small>
 
-                <div class="advanced_search_panel ui segment form">
-                    <div class="container">
-                        <div class="advanced_search_form">
+            <div class="advanced_search_panel ui segment form">
+                <div class="container">
+                    <div class="advanced_search_form">
                         <form>
                             <div class="two fields">
                                 <span class="inline field">
@@ -61,39 +80,42 @@
                                 <input type="radio" name="faq" value="both">
                                 <label>هردو</label>
                             </div>
-							<div class="inline field">
-                                <label class="input_labels">شامل: </label><input type="text" name="content" placeholder="عبارت">
+                            <div class="inline field">
+                                <label class="input_labels">شامل: </label><input type="text" name="content"
+                                                                                 placeholder="عبارت">
                             </div>
 
                             <div class="search_buttons">
                                 <input class="inline ui button" type="reset" value="پاک کردن">
-                                <input class="inline ui button"type="submit" value="جستجو">
+                                <input class="inline ui button" type="submit" value="جستجو">
                             </div>
                         </form>
-                        </div>
-                        <div class="ui vertical divider"></div>
-                        <div class="advanced_search_info">
-                            <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
+                    </div>
+                    <div class="ui vertical divider"></div>
+                    <div class="advanced_search_info">
+                        <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
 
-                        </div>
                     </div>
                 </div>
+            </div>
             <div class="user_list">
 
                 <div class="ui raised segment single_question">
                     <span class="question_number">۱ - </span>
+
                     <div class="inlinemiddle inlineblock question_data">
                         <div class="question_info1">
                             <span class="question_title">آیا می توان سر کارفرما کلاه گذاشت؟ </span>
+
                             <div class="inlineblock ui mini circular icon button slide">
-                             <i class="down icon"></i>
+                                <i class="down icon"></i>
                             </div>
                         </div>
                         <div class="user_buttons question_button">
-                        <div class="ui icon small red button">
-                             <i class=" remove icon"></i>
-                  حذف سوال
-                        </div>
+                            <div class="ui icon small red button">
+                                <i class=" remove icon"></i>
+                                حذف سوال
+                            </div>
                         </div>
                     </div>
 
@@ -105,36 +127,38 @@
                         </div>
 
 
-
                         <div class="ui form">
-                        <div class="field">
-                            <textarea cols="70" rows="6" placeholder="جواب سوال"></textarea>
-                        </div>
+                            <div class="field">
+                                <textarea cols="70" rows="6" placeholder="جواب سوال"></textarea>
+                            </div>
                         </div>
                         <div class="ui icon small blue button answer_btn">
-                             <i class="checkmark icon"></i>
+                            <i class="checkmark icon"></i>
                             پاسخ
                         </div>
                     </div>
                 </div>
-                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+                <div class="ui section divider"
+                     style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
 
 
                 <div class="ui raised segment single_question">
                     <span class="question_number">۲ - </span>
+
                     <div class="inlinemiddle inlineblock question_data">
                         <div class="question_info1">
                             <span class="question_title">آیا می توان سر کارفرما کلاه گذاشت؟ </span>
+
                             <div class="inlineblock ui mini circular icon button slide">
-                             <i class="down icon"></i>
+                                <i class="down icon"></i>
                             </div>
                         </div>
 
                         <div class="user_buttons question_button">
-                        <div class="ui icon small red button">
-                             <i class=" remove icon"></i>
-                  حذف سوال
-                        </div>
+                            <div class="ui icon small red button">
+                                <i class=" remove icon"></i>
+                                حذف سوال
+                            </div>
                         </div>
                     </div>
 
@@ -144,10 +168,6 @@
                             <span class="question_asker">پرسش گر: <span>علیرضا فراهانی</span></span>
                             <span class="question_date">پرسیده شده در:<span>۹۲/۵/۱۷</span></span>
                             <span class="question_replier">پاسخ از:<span>عارف شفاعی</span></span>
-                            <div class="ui icon small blue button edit_q">
-                             <i class=" edit icon"></i>
-                                ویرایش
-                            </div>
                         </div>
 
                         <div class="ui message">
@@ -155,37 +175,43 @@
                                 بله چرا نشه؟ ثوابم داره
                             </p>
                         </div>
+                        <div class="ui icon small blue button edit_q">
+                            <i class="ui edit icon"></i>
+                            ویرایش
+                        </div>
                         <div class="ui icon small blue button answer_btn">
-                             <i class="checkmark icon"></i>
-                            پاسخ
+                            <i class="checkmark icon"></i>
+ارسال پاسخ
                         </div>
                     </div>
                 </div>
-                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+                <div class="ui section divider"
+                     style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
             </div>
 
             {#            FJ#}
             <div class="ui small pagination menu">
-                      <a class="icon item">
-                        <i class="icon right arrow"></i>
-                      </a>
-                      <a class="active item">
-                        ۱
-                      </a>
-                      <div class="disabled item">
-                        ۲
-                      </div>
-                      <a class="item">
-                        ...
-                      </a>
-                      <a class="item">
-                        ۱۲
-                      </a>
-                      <a class="icon item">
-                        <i class="icon left arrow"></i>
-                      </a>
+                <a class="icon item">
+                    <i class="icon right arrow"></i>
+                </a>
+                <a class="active item">
+                    ۱
+                </a>
+
+                <div class="disabled item">
+                    ۲
                 </div>
-{#            FJ#}
+                <a class="item">
+                    ...
+                </a>
+                <a class="item">
+                    ۱۲
+                </a>
+                <a class="icon item">
+                    <i class="icon left arrow"></i>
+                </a>
+            </div>
+            {#            FJ#}
         </div>
     </div>
 {% endblock %}

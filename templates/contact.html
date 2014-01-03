@@ -1,9 +1,72 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}
+    جاک | پیام
+{% endblock %}
+
+{% block js %}
+    {##}
+    {#    <script type="text/javascript">#}
+    {#        setTimeout(function(){#}
+    {#            window.location = '/';#}
+    {#        }, 4000);#}
+    {#    </script>#}
+
+{% endblock %}
+
+{% block css %}
+
+    <style type="text/css">
+        .message {
+            padding: 50px;
+            text-align: right;
+            font-size: 15px;
+            line-height: 30px;
+            color: #333;
+        }
+
+        .ui.segment {
+            min-height: 500px;
+            background-color: #eee;
+        }
+
+        .buttons {
+            margin-top: 40px;
+        }
+
+        .buttons .ui.button {
+            margin: auto 10px;
+            height: 100px;
+            padding-top: 40px;
+            width: 170px;
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="center">
+        <div class="ctn-box">
+            <div class="ui segment">
+                <div class="message">
+                    <h3 style="border-bottom: 1px solid #108edc; padding-bottom: 10px;margin-bottom: 10px;">
+                        شرکت سامانه پروران شریف
+                    </h3>
+                    برای تماس با شرکت ما،
+                    در روزهای کاری، با شماره های
+                    <br>
+                    ۰۹۳۷۸۷۹۹۴۶۱
+                    <br>
+                    و یا
+                    <br>
+                    ۰۲۱۵۵۶۶۷۷۸۸
+                    <br>
+                    حاصل بفرمایید.
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
