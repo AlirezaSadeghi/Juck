@@ -405,6 +405,10 @@ background-color: #e3e3e3;
     margin-top: 10px !important;
 }
 
+.tabular.menu a{
+    border: none !important;
+}
+
 .display_none{
     display: none;
 }
