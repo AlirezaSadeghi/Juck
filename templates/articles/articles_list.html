@@ -6,27 +6,27 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css'%}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'js/rf.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     <!-- rezaFJ-->
     <div class="center">
         <div class="ctn-box">
-                <div class="ui icon input left small">
+            <div class="ui icon input left small">
                 <input type="text" placeholder="جستجو...">
                 <i class="inverted search icon"></i>
-                </div>
+            </div>
 
-                <small class="advanced_search">جستجوی پیشرفته </small>
+            <small class="advanced_search">جستجوی پیشرفته</small>
 
-                <div class="advanced_search_panel ui segment blue form">
-                    <div class="container">
-                        <div class="advanced_search_form">
+            <div class="advanced_search_panel ui segment blue form">
+                <div class="container">
+                    <div class="advanced_search_form">
                         <form>
                             <div class="two fields">
                                 <span class="inline field">
@@ -38,51 +38,56 @@
 
                             </div>
                             <div class="inline field">
-                                <label class="input_labels">حداقل امتیاز: </label><input type="number" name="min_rate" placeholder="از ۵">
+                                <label class="input_labels">حداقل امتیاز: </label><input type="number" name="min_rate"
+                                                                                         placeholder="از ۵">
                             </div>
                             <div class="inline field">
-                                <label class="input_labels">حداقل بارگیری: </label><input type="number" name="downloads" placeholder="0 بار">
+                                <label class="input_labels">حداقل بارگیری: </label><input type="number" name="downloads"
+                                                                                          placeholder="0 بار">
                             </div>
-							<div class="inline field">
-                                <label class="input_labels">نام نویسنده: </label><input type="text" name="author-name" placeholder="نام">
+                            <div class="inline field">
+                                <label class="input_labels">نام نویسنده: </label><input type="text" name="author-name"
+                                                                                        placeholder="نام">
                             </div>
-							<div class="inline field">
-                                <label class="input_labels">برچسب ها: </label><input type="text" name="tags" placeholder="برچسب">
+                            <div class="inline field">
+                                <label class="input_labels">برچسب ها: </label><input type="text" name="tags"
+                                                                                     placeholder="برچسب">
                             </div>
 
                             <div class="search_buttons">
                                 <input class="inline ui button" type="reset" value="پاک کردن">
-                                <input class="inline ui button"type="submit" value="جستجو">
+                                <input class="inline ui button" type="submit" value="جستجو">
                             </div>
                         </form>
-                        </div>
-                        <div class="ui vertical divider"></div>
-                        <div class="advanced_search_info">
-                            <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
+                    </div>
+                    <div class="ui vertical divider"></div>
+                    <div class="advanced_search_info">
+                        <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
 
-                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="news_list">
+            <div class="news_list">
                 {% if articles %}
                     {% for item in articles %}
-                    <div class="news_item ui raised segment">
-                        <h2 class="article-header">{{ item.title }}</h2>
-                        <div class="ui section divider light_margined"></div>
-                        <div class="news_content"><p>
-                            {{ item.summary }}
-                        </p>
-                        </div>
-                        <div class="news_other">
-                            <div class="authors">
-                                <span class="authors-label">نویسندگان:</span>
-                                {% for author in item.authors.all %}
-                                    <a class="ui small black label authors-name">{{ author.full_name }}</a>
-                                {% endfor %}
+                        <div class="news_item ui raised segment">
+                            <h2 class="article-header">{{ item.title }}</h2>
+
+                            <div class="ui section divider light_margined"></div>
+                            <div class="news_content"><p>
+                                {{ item.summary }}
+                            </p>
                             </div>
-                            <div class="date_rate">
-                            <small>{{ item.publish_date }}</small>
+                            <div class="news_other">
+                                <div class="authors">
+                                    <span class="authors-label">نویسندگان:</span>
+                                    {% for author in item.authors.all %}
+                                        <a class="ui small black label authors-name">{{ author.full_name }}</a>
+                                    {% endfor %}
+                                </div>
+                                <div class="date_rate">
+                                    <small>{{ item.publish_date }}</small>
                             <span class="ui rating">
                             <i class="icon"></i>
                             <i class="icon"></i>
@@ -90,59 +95,61 @@
                             <i class="icon"></i>
                             <i class="icon"></i>
                             </span>
-                            </div>
-                            <div class="tags">
-                                <label>برچسب ها:</label>
-                                {% for tag in item.tags.all %}
-                                    <a class="ui black small label">
-                                    {{ tag.name }}
-                                    </a>
-                                {% endfor %}
-                            </div>
-                            <div class="more_buttons">
-                            <div class="ui icon small blue button">
-                                <i class="download disk icon"></i>
-                                بارگذاری
-                            </div>
-                            <div class="ui animated button  small">
-                          <div class="visible content">
-                              <a href="{% url 'show_news_description' %}?pk={{ item.pk }}">بیشتر</a>
-                          </div>
-                          <div class="hidden content"><i class="left arrow icon"></i></div>
-                            </div>
+                                </div>
+                                <div class="tags">
+                                    <label>برچسب ها:</label>
+                                    {% for tag in item.tags.all %}
+                                        <a class="ui black small label">
+                                            {{ tag.name }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                                <div class="more_buttons">
+                                    <div class="ui icon small blue button dl_a" id="a{{ item.pk }}">
+                                        <i class="download disk icon"></i>
+                                        بارگذاری
+                                    </div>
+                                    <div class="ui animated button  small">
+                                        <div class="visible content">
+                                            <a href="{% url 'show_news_description' %}?pk={{ item.pk }}">بیشتر</a>
+                                        </div>
+                                        <div class="hidden content"><i class="left arrow icon"></i></div>
+                                    </div>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
-                        <div class="ui section divider" style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
+                        <div class="ui section divider"
+                             style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
 
                     {% endfor %}
-                </div>
+                    </div>
 
-                <div class="ui pagination menu">
-                      <a class="icon item">
-                        <i class="icon right arrow"></i>
-                      </a>
-                      <a class="active item">
-                        ۱
-                      </a>
-                      <div class="disabled item">
-                        ۲
-                      </div>
-                      <a class="item">
-                        ...
-                      </a>
-                      <a class="item">
-                        ۱۲
-                      </a>
-                      <a class="icon item">
-                        <i class="icon left arrow"></i>
-                      </a>
-                </div>
-    {% else %}
-        <div class="ui error message">مقاله‌ای وجود ندارد</div>
-    {% endif %}
+                    <div class="ui pagination menu">
+                        <a class="icon item">
+                            <i class="icon right arrow"></i>
+                        </a>
+                        <a class="active item">
+                            ۱
+                        </a>
+
+                        <div class="disabled item">
+                            ۲
+                        </div>
+                        <a class="item">
+                            ...
+                        </a>
+                        <a class="item">
+                            ۱۲
+                        </a>
+                        <a class="icon item">
+                            <i class="icon left arrow"></i>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="ui error message">مقاله‌ای وجود ندارد</div>
+                {% endif %}
+        </div>
     </div>
-</div>
     <!-- reza.fj & rf-->
 {% endblock %}

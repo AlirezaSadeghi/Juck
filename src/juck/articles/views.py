@@ -2,7 +2,7 @@
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from juck.articles.models import Article, Author, Tag
@@ -13,6 +13,14 @@ from forms import ArticleForm
 
 def show_articles_list(request):
     if request.method == "GET":
+        pk = request.GET['a_pk']
+        if pk is not None and pk != "":
+            pdf = Article.objects.get(pk=pk).source_file
+            file = open(pdf.name)
+            response = HttpResponse(file, content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="%s"' % pdf.name
+            return response
+
         articles = Article.objects.all().order_by('-publish_date')
         return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},

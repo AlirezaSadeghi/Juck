@@ -27,12 +27,12 @@
               </a>
             </div>
             <div class="user_list ui bottom attached faq_list segment">
-
+                {% for question in questions %}
                 <div class="ui raised segment single_question">
-                    <span class="question_number">۱ - </span>
+                    <span class="question_number">{{ forloop.counter }} - </span>
                     <div class="inlinemiddle inlineblock question_data">
                         <div class="question_info1">
-                            <span class="question_title">آیا می توان سر کارفرما کلاه گذاشت؟ </span>
+                            <span class="question_title">{{ question.title }}</span>
                             <div class="inlineblock ui mini circular icon button slide">
                              <i class="down icon"></i>
                             </div>
@@ -44,49 +44,29 @@
                     <div class="ui segment javab_box">
 
                         <div class="user_info2">
-                            <span class="question_date">پرسیده شده در:<span>۹۲/۵/۱۷</span></span>
-                            <span class="question_replier">پاسخ از:<span>عارف شفاعی</span></span>
+                            <span class="question_date">پرسیده شده در:<span>{{ question.timestamp }}</span></span>
+                            {% if question.answer %}
+                            <span class="question_replier">پاسخ از:<span>{{ question.answer.responder }}</span></span>
+                            {% else %}
+                            <span class="question_replier">پاسخ از:<span>پاسخی داده نشده است.</span></span>
+                            {% endif %}
                         </div>
+
+                        <div class="ui segment">
+                            {{ question.title }}
+                        </div>
+                        {% if question.answer %}
                         <div class="ui message">
                             <p>
-                                بله چرا نشه ثوابم داره!
-                            بهترین کار!
+                                {{ question.answer.content }}
                             </p>
                         </div>
-
-
-
+                        {% endif %}
                     </div>
                 </div>
                 <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+                {% endfor %}
 
-
-                <div class="ui raised segment single_question">
-                    <span class="question_number">۱ - </span>
-                    <div class="inlinemiddle inlineblock question_data">
-                        <div class="question_info1">
-                            <span class="question_title">این چه سوالی بود من پرسیدم؟</span>
-                            <div class="inlineblock ui mini circular icon button slide">
-                             <i class="down icon"></i>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <div class="ui segment javab_box">
-
-                        <div class="user_info2">
-                            <span class="question_date">پرسیده شده در: <span>۹۲/۵/۱۷</span></span>
-                            <span class="question_replier">پاسخی به این سوال داده نشده<span></span></span>
-                        </div>
-
-
-
-
-                    </div>
-                </div>
-                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
             </div>
 
             <div class="display_none faq_add">
@@ -111,24 +91,35 @@
 
             {#            FJ#}
             <div class="ui small pagination menu">
-                      <a class="icon item">
-                        <i class="icon right arrow"></i>
-                      </a>
-                      <a class="active item">
+                {% if page_range|length > 3 %}
+                    <a class="icon item">
+                    <i class="icon right arrow"></i>
+                    </a>
+                    <a class="active item">
                         ۱
-                      </a>
-                      <div class="disabled item">
-                        ۲
-                      </div>
-                      <a class="item">
+                    </a>
+                    <a class="item">
                         ...
-                      </a>
-                      <a class="item">
-                        ۱۲
-                      </a>
-                      <a class="icon item">
+                    </a>
+                    <a class="item">
+                        {{ page_range|last }}
+                    </a>
+                    <a class="icon item">
                         <i class="icon left arrow"></i>
-                      </a>
+                    </a>
+                {% elif page_range|last > 0 %}
+                    <a class="icon item">
+                    <i class="icon right arrow"></i>
+                    </a>
+                    {% for a in page_range %}
+                    <a class="active item">
+                        {{ a }}
+                    </a>
+                    {% endfor %}
+                    <a class="icon item">
+                        <i class="icon left arrow"></i>
+                    </a>
+                {% endif %}
                 </div>
 {#            FJ#}
         </div>

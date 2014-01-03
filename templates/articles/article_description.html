@@ -6,10 +6,10 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="../../static/css/article_description.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/article_description.css'%}"/>
 {% endblock %}
 {% block js %}
-    <script type="text/javascript" src="../../static/js/rf.js"></script>
+    <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -59,7 +59,7 @@
                                 <div class="field">
                                     <div class="authors">
                                             <span class="authors-label">نویسندگان:</span>
-                                            {% for author in article.authors.all %}
+                                            {% for author in article.authors %}
                                             <a class="ui small label authors-name">{{ author.full_name }}</a>
                                             {% endfor %}
                                     </div>
@@ -67,7 +67,7 @@
                             <div class="field">
                                 <div class="tags">
                                 <label>برچسب ها:</label>
-                                {% for tag in article.tags.all %}
+                                {% for tag in article.tags %}
                                 <a class="ui black small label">
                                 {{ tag.name }}
                                 </a>
