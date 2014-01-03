@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.forms import ModelForm
-from models import Article
+from models import Article, ArticleSubmission
 
 
 class ArticleForm(ModelForm):

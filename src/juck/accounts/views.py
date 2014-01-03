@@ -22,7 +22,7 @@ from juck.accounts.forms import *
 
 
 def user_panel(request):
-    return render_to_response('accounts/user_panel.html', {'user_type':'employer'}, context_instance=RequestContext(request, ))
+    return render_to_response('accounts/user_panel.html', {'user_type':'manager'}, context_instance=RequestContext(request, ))
 
 
 def about_us(request):

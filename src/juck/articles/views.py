@@ -2,10 +2,10 @@
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from juck.articles.models import Article, Author, Tag
+from juck.articles.models import Article, Author, Tag, ArticleSubmission
 from forms import ArticleForm
 
 # Create your views here.
@@ -58,6 +58,30 @@ def add_article(request):
 
             for tag in tags:
                 article.tags.add(Tag.objects.get_or_create(name=tag)[0])
+
+            return HttpResponseRedirect(reverse('articles_list'))
+
+    return render_to_response('articles/add_article.html',{'form':form}, context_instance=RequestContext(request, ))
+
+def submit_article(request):
+
+    form = ArticleForm()
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES)
+        if form.is_valid():
+            article = form.save()
+            # az raveshe form.cleanData systeme alireza estefade kon
+            authors = request.POST.get('authors', '').split(',')[:-1]
+            print(authors)
+            tags = request.POST.get('tags', '').split(',')[:-1]
+
+            for author in authors:
+                article.authors.add(Author.objects.get_or_create(full_name=author)[0])
+
+            for tag in tags:
+                article.tags.add(Tag.objects.get_or_create(name=tag)[0])
+
+            ArticleSubmission(user = request.user, article=article).save()
 
             return HttpResponseRedirect(reverse('articles_list'))
 
