@@ -4,7 +4,7 @@
 /.idea
 *.prefs
 *.pyc
-*manage.py
+manage.py
 *local_settings.py
 /media/uploads/*
 /media/*

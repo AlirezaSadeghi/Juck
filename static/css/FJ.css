@@ -393,6 +393,7 @@ body {
 
 .tabular.menu {
     margin-top: 10px !important;
+    border: none !important;
 }
 
 .display_none {

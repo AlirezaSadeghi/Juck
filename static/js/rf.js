@@ -26,14 +26,13 @@ $(document).ready(function () {
 
     $('.single_question .slide').click(function(){
         $(this).parent().parent().parent().find('.answer_box').slideToggle('slow');
-//        var a = $(this).find("i")
-//        if (a.hasClass('up')){
-//            a.removeClass('up').addClass('down')
-//        }
-//        else{
-//            a.removeClass('down').addClass('up');
-//            alert("avazi");
-//        }
+        var a = $(this).find("i")
+        if (a.hasClass('up')){
+            a.removeClass('up').addClass('down')
+        }
+        else{
+            a.removeClass('down').addClass('up');
+        }
     });
 
     $('.single_question .slide').click(function(){

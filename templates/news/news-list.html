@@ -84,11 +84,33 @@
                         <div class="news_other">
 
                             <div class="date_rate">
+
                                 <small> اضافه شده در تاریخ {{ item.get_persian_date }}
-                                    توسط
                                     <a href="javascript:void(0);"
                                        class="author-link">{{ item.author.get_full_name }}</a>
                                 </small>
+
+                                <div class="field" style="margin-top: 5px">
+
+                                    <div class="ui green label icon tiny" id="like">
+                                        <i class="thumbs up icon "></i>
+
+                                        <i>
+                                            50&nbsp
+                                        </i>
+                                    </div>
+
+
+                                    <div class="ui red label icon tiny" id="dislike" >
+                                        <i class="thumbs down icon"></i>
+
+                                        <i>
+                                            24&nbsp
+                                        </i>
+                                    </div>
+
+
+                                </div>
                             </div>
                             <div class="more_buttons">
                                 <div class="ui animated button  small" onclick="window.location='{% url "show_news_description" %}?pk={{ item.pk }}'">

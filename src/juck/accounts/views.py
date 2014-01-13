@@ -19,10 +19,16 @@ from html_builder import HtmlBuilder
 from django.contrib.formtools.wizard.views import SessionWizardView
 
 from juck.accounts.forms import *
+from juck.articles.models import Article, ArticleSubmission
+from juck.news.models import News
 
 
 def user_panel(request):
-    return render_to_response('accounts/user_panel.html', {'user_type': 'employer'},
+    news = News.objects.all().order_by('-publish_date')[0:4]
+    article = Article.objects.all().order_by('-publish_date')[0:4]
+    art_sub = ArticleSubmission.objects.all()
+    return render_to_response('accounts/user_panel.html', {'user_type': 'manager', 'news': news,
+                                                           'article': article, 'art_sub': art_sub},
                               context_instance=RequestContext(request, ))
 
 
@@ -44,6 +50,8 @@ def homepage(request):
             user_type = 'employer'
         else:
             user_type = 'job_seeker'
+
+        print(user_type)
 
         return render_to_response("accounts/user_panel.html", {'user_type': user_type},
                                   context_instance=RequestContext(request, ))
