@@ -22,7 +22,8 @@ from juck.accounts.forms import *
 
 
 def user_panel(request):
-    return render_to_response('accounts/user_panel.html', {'user_type':'employer'}, context_instance=RequestContext(request, ))
+    return render_to_response('accounts/user_panel.html', {'user_type': 'employer'},
+                              context_instance=RequestContext(request, ))
 
 
 def about_us(request):
@@ -221,6 +222,18 @@ def employer_list(request):
         return render_to_response('accounts/employer_list.html', {}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
+
+
+def show_profile(request):
+    return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))
+
+
+def pending_jobseekers_list(request):
+    return render_to_response('messages.html', context_instance=RequestContext(request, ))
+
+
+def pending_employers_list(request):
+    return render_to_response('messages.html', context_instance=RequestContext(request, ))
 
 
 def get_user_type(pk):

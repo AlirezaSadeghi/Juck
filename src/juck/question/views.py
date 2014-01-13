@@ -47,7 +47,7 @@ def common_questions(request):
         #                           context_instance=RequestContext(request, ))
         return render_to_response('question/manager_common_questions.html', {'form': form},
                                   context_instance=RequestContext(request))
-    return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'})
+    return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'}, context_instance=RequestContext(request))
 
 
 @login_required
@@ -70,7 +70,7 @@ def asked_questions(request):
         #                           context_instance=RequestContext(request))
         return render_to_response('question/asked_questions.html', {},
                                   context_instance=RequestContext(request))
-    return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'})
+    return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'}, context_instance=RequestContext(request))
 
 
 @login_required
@@ -137,7 +137,7 @@ def add_common_question(request):
 
         return HttpResponseRedirect(reverse('common_questions'))
 
-    return render_to_response('question/manager_common_questions.html')
+    return render_to_response('question/manager_common_questions.html', {}, context_instance=RequestContext(request))
 
 
 @login_required
