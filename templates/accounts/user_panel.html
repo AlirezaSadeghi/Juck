@@ -3,51 +3,49 @@
 
 
 {% block title %}
-    پنل کاربری
+پنل کاربری
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/user_panel.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/user_panel.css' %}"/>
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'js/user_panel.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/user_panel.js' %}"></script>
 {% endblock %}
 
 {% block page_title %}
 
-    {% if user_type == 'job_seeker' %}
-        <div class="panel-menu">
-            <div class="panel-menu-item">
-                <i class="icon briefcase"></i>
-                <span class="label">کارتابل</span>
-            </div>
-            <div class="panel-menu-item">
-                <i class="icon list"></i>
-                <span class="label">لیست کارفرمایان</span>
-            </div>
-            <div class="panel-menu-item">
-                <i class="icon user"></i>
-                <span class="label">اطلاعات کاربری</span>
-            </div>
-            <div class="panel-menu-item">
-                <i class="icon bullhorn"></i>
-                <span class="label">درخواست‌ها نیاز به نیرو</span>
-            </div>
-        </div>
-    {% endif %}
+{% if user_type == 'job_seeker' %}
+<div class="panel-menu">
+    <div class="panel-menu-item">
+        <i class="icon briefcase"></i>
+        <span class="label">کارتابل</span>
+    </div>
+    <div class="panel-menu-item">
+        <i class="icon list"></i>
+        <span class="label">لیست کارفرمایان</span>
+    </div>
+    <div class="panel-menu-item">
+        <i class="icon user"></i>
+        <span class="label">اطلاعات کاربری</span>
+    </div>
+    <div class="panel-menu-item">
+        <i class="icon bullhorn"></i>
+        <span class="label">درخواست‌ها نیاز به نیرو</span>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
-
-
 
 
 {% block content %}
 
-    <div class="center">
+<div class="center">
     <div class="ctn-box">
-    <!-- if for user types -->
+        <!-- if for user types -->
 
-    {% if user_type == 'job_seeker' %}
+        {% if user_type == 'job_seeker' %}
         <div class="panel-items">
             <div class="panel-item">
                 <div class="label">کارتابل</div>
@@ -77,7 +75,7 @@
                 <i class="icon tasks"></i>
             </div>
         </div>
-    {% elif user_type == 'employer' %}
+        {% elif user_type == 'employer' %}
         <div class="panel-items">
             <div class="panel-item">
                 <div class="label">کارتابل</div>
@@ -107,7 +105,7 @@
                 <i class="icon tasks"></i>
             </div>
         </div>
-    {% elif user_type == 'manager' %}
+        {% elif user_type == 'manager' %}
         <div class="manager-states">
             <div class="manager-state blue">
                 <div class="manager-onhover"></div>
@@ -182,337 +180,240 @@
             <div class="manager-list news column">
                 <div class="ui raised segment">
                     <h1>اخبار</h1>
-
+                    {% if news %}
+                    {% for item in news %}
                     <div class="manager-list-item">
                         <div class="list-details">
-                            <h3>خبر شماره یک</h3>
+                            <h3>{{ item.title }} </h3>
 
-                            <p>این یک خبر خوب است...</p>
+                            <p>{{ item.content|truncatewords:8 }}</p>
                         </div>
                         <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon edit"></i>
-                                ویرایش
-                            </div>
+                            <div class="ui tiny button" onclick="window.location='{% url " show_news_description
+                            " %}?pk={{ item.pk }}'">
+                            <i class="icon unhide"></i>
+                            مشاهده
                         </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div clas=="list-details">
-                            <h3>خبر شماره دو</h3>
-
-                            <p>این یک خبر خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon edit"></i>
-                                ویرایش
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>خبر شماره سه</h3>
-
-                            <p>این یک خبر خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon edit"></i>
-                                ویرایش
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>خبر شماره سه</h3>
-
-                            <p>این یک خبر خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon edit"></i>
-                                ویرایش
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-buttons">
-                        <div class="manager-list-all-btn ui small button right aligned">
-                            مشاهده همه خبرها
-                        </div>
-                        <div class="manager-list-add-btn ui small button left aligned"
-                             onclick="window.location='{% url "add_news" %}'">
-                            اضافه کردن خبر
+                        <div class="ui tiny button">
+                            <i class="icon edit"></i>
+                            حذف
                         </div>
                     </div>
                 </div>
+                {% endfor %}
+                {% else %}
+                <div class="ui error message">
+                    <div class="header">
+                        خبری وجود ندارد
+                    </div>
+                    <p>
+                        برای اضافه کردن خبر برروی دکمه زیر کلیک کنید.
+                    </p>
+                </div>
+
+                {% endif %}
+
+                <div class="manager-list-buttons">
+
+                    {% if news|length > 1 %}
+                    <div class="manager-list-all-btn ui small button right aligned" onclick="window.location='{% url "
+                         news_list
+                    " %}'">
+                    مشاهده همه خبرها
+                </div>
+                {% endif %}
+                <div class="manager-list-add-btn ui small button left aligned"
+                     onclick="window.location='{% url " add_news
+                " %}'">
+                اضافه کردن خبر
             </div>
-            <div class="manager-list-space column"></div>
-            <div class="manager-list articles column">
-                <div class="ui raised segment">
-                    <h1>مقالات</h1>
+        </div>
+    </div>
+</div>
+<div class="manager-list-space column"></div>
+<div class="manager-list articles column">
+    <div class="ui raised segment">
+        <h1>مقالات</h1>
+        {% if article %}
+        {% for item in article %}
+        <div class="manager-list-item">
+            <div class="list-details">
+                <h3>{{ item.title }}</h3>
 
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>مقاله شماره یک</h3>
-
-                            <p>این یک مقاله خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon edit"></i>
-                                ویرایش
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div clas=="list-details">
-                            <h3>مقاله شماره دو</h3>
-
-                            <p>این یک مقاله خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon edit"></i>
-                                ویرایش
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>مقاله شماره سه</h3>
-
-                            <p>این یک مقاله خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon edit"></i>
-                                ویرایش
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>مقاله شماره سه</h3>
-
-                            <p>این یک مقاله خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon edit"></i>
-                                ویرایش
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-buttons">
-                        <div class="manager-list-all-btn ui small button right aligned">
-                            مشاهده همه مقالات
-                        </div>
-                        <div class="manager-list-add-btn ui small button left aligned">
-                            اضافه کردن مقاله
-                        </div>
-                    </div>
+                <p>{{ item.summary|truncatewords:7 }}</p>
+            </div>
+            <div class="list-buttons">
+                <div class="ui tiny button"
+                     onclick="window.location='{% url 'show_article_description' %}?pk={{ item.pk }}'">
+                    <i class="icon unhide"></i>
+                    مشاهده
+                </div>
+                <div class="ui tiny button">
+                    <i class="icon remove"></i><br/>
+                    حذف
                 </div>
             </div>
         </div>
-        <div class="ui grid">
-            <div class="manager-list user-articles column">
-                <div class="ui raised segment">
-                    <h1>مقالات دریافتی</h1>
-
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>مقاله شماره یک</h3>
-
-                            <p>این یک مقاله خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon add"></i>
-                                افزودن
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div clas=="list-details">
-                            <h3>مقاله شماره دو</h3>
-
-                            <p>این یک مقاله خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon add"></i>
-                                افزودن
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>مقاله شماره سه</h3>
-
-                            <p>این یک مقاله خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon add"></i>
-                                افزودن
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>مقاله شماره سه</h3>
-
-                            <p>این یک مقاله خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon add"></i>
-                                افزودن
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-buttons">
-                        <div class="manager-list-all-btn single ui small button right aligned">
-                            مشاهده همه مقالات دریافتی
-                        </div>
-                    </div>
-                </div>
+        {% endfor %}
+        {% else %}
+        <div class="ui error message">
+            <div class="header">
+                مقاله‌ای وجود ندارد.
             </div>
-            <div class="manager-list-space column"></div>
-            <div class="manager-list comments column">
-                <div class="ui raised segment">
-                    <h1>نظرات تایید نشده کاربران</h1>
+            <p>
+                برای اضافه کردن مقاله، برروی دکمه زیر کلیک کنید.
+            </p>
+        </div>
 
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>مقاله شماره یک</h3>
 
-                            <p>این یک مقاله خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon checkmark"></i><br/>
-                                تایید
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div clas=="list-details">
-                            <h3>خبر شماره دو</h3>
-
-                            <p>این یک خبر خوب نیست...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon checkmark"></i><br/>
-                                تایید
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>مقاله شماره پنج</h3>
-
-                            <p>بسیار خوب.</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon checkmark"></i><br/>
-                                تایید
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-item">
-                        <div class="list-details">
-                            <h3>خبر شماره یک</h3>
-
-                            <p>این یک خبر خوب است...</p>
-                        </div>
-                        <div class="list-buttons">
-                            <div class="ui tiny button">
-                                <i class="icon unhide"></i>
-                                مشاهده
-                            </div>
-                            <div class="ui tiny button">
-                                <i class="icon checkmark"></i><br/>
-                                تایید
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-buttons">
-                        <div class="manager-list-all-btn single ui small button right aligned">
-                            مشاهده همه نظرات تایید نشده
-                        </div>
-                    </div>
-                </div>
-
+        {% endif %}
+        <div class="manager-list-buttons">
+            {% if article|length > 1 %}
+            <div class="manager-list-all-btn ui small button right aligned"
+                 onclick="window.location ='{% url 'articles_list' %}'">
+                مشاهده همه مقالات
+            </div>
+            {% endif %}
+            <div class="manager-list-add-btn ui small button left aligned"
+                 onclick="window.location ='{% url 'add_article' %}'">
+                اضافه کردن مقاله
             </div>
         </div>
-    {% else %}
-        دسترسی غیر مجاز
+    </div>
+</div>
+</div>
+<div class="ui grid">
+    <div class="manager-list user-articles column">
+        <div class="ui raised segment">
+            <h1>مقالات دریافتی</h1>
 
-    {% endif %}
+            {% if art_sub %}
+                {% for item in art_sub %}
+                <div class="manager-list-item">
+                    <div class="list-details">
+                        <h3>{{ item.article.title }}</h3>
+
+                        <p>{{ item.article.summary|truncatewords:7 }}</p>
+                    </div>
+                    <div class="list-buttons">
+                        <div class="ui tiny button"
+                             onclick="window.location='{% url 'show_article_description' %}?pk={{ item.pk }}'">
+                            <i class="icon unhide"></i>
+                            مشاهده
+                        </div>
+                        <div class="ui tiny button">
+                            <i class="icon add"></i><br/>
+    افزودن
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="ui error message">
+                    <div class="header">
+                        مقاله‌ای وجود ندارد.
+                    </div>
+                    <p>
+    مقاله‌ای از کاربران دریافت نشده است.
+                    </p>
+                </div>
+            {% endif %}
+            {% if art_sub|length > 1 %}
+            <div class="manager-list-buttons">
+                <div class="manager-list-all-btn single ui small button right aligned">
+                    مشاهده همه مقالات دریافتی
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="manager-list-space column"></div>
+    <div class="manager-list comments column">
+        <div class="ui raised segment">
+            <h1>نظرات تایید نشده کاربران</h1>
+
+            <div class="manager-list-item">
+                <div class="list-details">
+                    <h3>مقاله شماره یک</h3>
+
+                    <p>این یک مقاله خوب است...</p>
+                </div>
+                <div class="list-buttons">
+                    <div class="ui tiny button">
+                        <i class="icon unhide"></i>
+                        مشاهده
+                    </div>
+                    <div class="ui tiny button">
+                        <i class="icon checkmark"></i><br/>
+                        تایید
+                    </div>
+                </div>
+            </div>
+            <div class="manager-list-item">
+                <div class="list-details">
+                    <h3>خبر شماره دو</h3>
+
+                    <p>این یک خبر خوب نیست...</p>
+                </div>
+                <div class="list-buttons">
+                    <div class="ui tiny button">
+                        <i class="icon unhide"></i>
+                        مشاهده
+                    </div>
+                    <div class="ui tiny button">
+                        <i class="icon checkmark"></i><br/>
+                        تایید
+                    </div>
+                </div>
+            </div>
+            <div class="manager-list-item">
+                <div class="list-details">
+                    <h3>مقاله شماره پنج</h3>
+
+                    <p>بسیار خوب.</p>
+                </div>
+                <div class="list-buttons">
+                    <div class="ui tiny button">
+                        <i class="icon unhide"></i>
+                        مشاهده
+                    </div>
+                    <div class="ui tiny button">
+                        <i class="icon checkmark"></i><br/>
+                        تایید
+                    </div>
+                </div>
+            </div>
+            <div class="manager-list-item">
+                <div class="list-details">
+                    <h3>خبر شماره یک</h3>
+
+                    <p>این یک خبر خوب است...</p>
+                </div>
+                <div class="list-buttons">
+                    <div class="ui tiny button">
+                        <i class="icon unhide"></i>
+                        مشاهده
+                    </div>
+                    <div class="ui tiny button">
+                        <i class="icon checkmark"></i><br/>
+                        تایید
+                    </div>
+                </div>
+            </div>
+            <div class="manager-list-buttons">
+                <div class="manager-list-all-btn single ui small button right aligned">
+                    مشاهده همه نظرات تایید نشده
+                </div>
+            </div>
+        </div>
 
     </div>
-    </div>
+</div>
+{% else %}
+دسترسی غیر مجاز
+
+{% endif %}
+
+</div>
+</div>
 {% endblock %}

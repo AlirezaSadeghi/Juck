@@ -26,7 +26,7 @@ def show_article_description(request):
             article = Article.objects.get(pk=pk)
             comments = []
             #comments = Comment.objects.filter(article=article)
-            print(article.authors.all()[1])
+            # print(article.authors.all()[1])
             return render_to_response('articles/article_description.html', {'article': article, 'comments': comments},
                                       context_instance=RequestContext(request))
         except ObjectDoesNotExist:
