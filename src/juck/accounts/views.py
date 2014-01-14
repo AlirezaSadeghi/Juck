@@ -19,10 +19,17 @@ from html_builder import HtmlBuilder
 from django.contrib.formtools.wizard.views import SessionWizardView
 
 from juck.accounts.forms import *
+from juck.articles.models import Article, ArticleSubmission
+from juck.news.models import News
 
 
 def user_panel(request):
-    return render_to_response('accounts/user_panel.html', {'user_type':'employer'}, context_instance=RequestContext(request, ))
+    news = News.objects.all().order_by('-publish_date')[0:4]
+    article = Article.objects.all().order_by('-publish_date')[0:4]
+    art_sub = ArticleSubmission.objects.all()
+    return render_to_response('accounts/user_panel.html', {'user_type': 'manager', 'news': news,
+                                                           'article': article, 'art_sub': art_sub},
+                              context_instance=RequestContext(request, ))
 
 
 def about_us(request):
@@ -43,6 +50,8 @@ def homepage(request):
             user_type = 'employer'
         else:
             user_type = 'job_seeker'
+
+        print(user_type)
 
         return render_to_response("accounts/user_panel.html", {'user_type': user_type},
                                   context_instance=RequestContext(request, ))
@@ -221,6 +230,18 @@ def employer_list(request):
         return render_to_response('accounts/employer_list.html', {}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
+
+
+def show_profile(request):
+    return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))
+
+
+def pending_jobseekers_list(request):
+    return render_to_response('messages.html', context_instance=RequestContext(request, ))
+
+
+def pending_employers_list(request):
+    return render_to_response('messages.html', context_instance=RequestContext(request, ))
 
 
 def get_user_type(pk):

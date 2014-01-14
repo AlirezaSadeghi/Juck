@@ -2,6 +2,8 @@ $(document).ready(function () {
 
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
+    $('.ui.dropdown').dropdown();
+
     $('.index-column').hover(function () {
         $(this).find('.ui.button.small:eq(0)').toggleClass('elem-hidden');
     });

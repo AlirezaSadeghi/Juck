@@ -240,6 +240,7 @@ ul.user-menu {
     background: #fff;
     padding: 10px;
     margin: 30px 0;
+    margin-top: 10px;
     min-height: 500px;
 }
 
@@ -610,4 +611,38 @@ ul {
     -webkit-transition: opacity .2s ease-in-out;
     -moz-transition: opacity .2s ease-in-out;
     transition: opacity .2s ease-in-out;
+}
+
+
+.ui.inverted.menu .dropdown.item .menu .item, .ui.inverted.menu .dropdown.item .menu .item a {
+    text-align: right;
+    border-radius: 1px;
+    direction: rtl;
+    font-family: "BYekan", tahoma, sans-serif;
+    font-size: 13px;
+}
+
+.juck-menu {
+    width: 900px;
+    direction: rtl;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.ui.inverted.menu {
+    border-radius: 1px;
+    font-family: "BYekan", tahoma, sans-serif;
+    font-size: 14px;
+    direction: rtl;
+}
+
+.ui.large.menu .item{
+    font-family: 'BYekan', tahoma, sans-serif !important;
+    font-size: 14px;
+    width: auto;
+    text-align: center;
+}
+
+.ui.dropdown>.dropdown.icon {
+    margin-right: 10px;
 }

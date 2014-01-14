@@ -14,8 +14,6 @@ urlpatterns = patterns('',
                        url(r'^question/', include('juck.question.urls')),
                        url(r'^requests/', include('juck.requests.urls')),
                        url(r'^admin/', include(admin.site.urls)),
-
-
 )
 
 urlpatterns += patterns('',
