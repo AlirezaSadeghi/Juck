@@ -104,14 +104,16 @@
                                 <i class="download disk icon"></i>
                                 بارگذاری
                             </div>
-                            <div class="ui animated button  small">
-                          <div class="visible content">
-                              <a href="{% url 'show_news_description' %}?pk={{ item.pk }}">بیشتر</a>
-                          </div>
-                          <div class="hidden content"><i class="left arrow icon"></i></div>
-                            </div>
+                            <a href="{% url 'show_article_description' %}?pk={{ item.pk }}">
+                                <div class="ui animated button  small">
 
-                            </div>
+                                          <div class="visible content">
+                                              بیشتر
+                                          </div>
+                                          <div class="hidden content"><i class="left arrow icon"></i></div>
+                                </div>
+                            </a>
+                        </div>
                         </div>
                     </div>
                         <div class="ui section divider" style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
