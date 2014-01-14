@@ -13,7 +13,8 @@ from forms import ArticleForm
 
 def show_articles_list(request):
     if request.method == "GET":
-        articles = Article.objects.all().order_by('-publish_date')
+        not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
+        articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
         return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -65,7 +66,26 @@ def add_article(request):
 
 
 def show_article_recommendations_list(request):
-    return HttpResponse("Bejes :D")
+    if request.method == "GET":
+        ids = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
+        articles = Article.objects.filter(pk__in=set(ids)).order_by('-publish_date')
+        return render_to_response('articles/article_recommendations_list.html', {'articles': articles}, context_instance=RequestContext(request))
+    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+                              context_instance=RequestContext(request))
+
+
+def submitted_article_description(request):
+    if request.method == "GET":
+        pk = request.GET.get('pk', 1)
+        try:
+            # article_sub = ArticleSubmission.objects.values_list('article', flat=True)
+            article = Article.objects.get(pk=pk)
+            return render_to_response('articles/submitted_article_description.html', {'article': article},
+                                      context_instance=RequestContext(request))
+        except ObjectDoesNotExist:
+            pass
+    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+                              context_instance=RequestContext(request))
 
 
 def submit_article(request):

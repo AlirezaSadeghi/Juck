@@ -31,9 +31,14 @@
                     <div class="ui sixteen column wide ">
                         <div class="ui attached message">
                             <div class="ui header ">
-
                                 <div class="my_title">
                                     {{ article.title }}
+                                </div>
+
+                                <div class="sender">
+                                    {% block sender %}
+
+                                    {% endblock %}
                                 </div>
                             </div>
 
@@ -99,6 +104,7 @@
                             </div>
                         </div>
                     </div>
+                    {% block others %}
                     <div class="row  ">
                         <div class="ui sixteen column wide segment">
                             <!--<div class="segment">-->
@@ -142,6 +148,7 @@
 
                         </div>
                     </div>
+                    {% endblock %}
                 </div>
 
 
