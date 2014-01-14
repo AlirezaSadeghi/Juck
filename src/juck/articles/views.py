@@ -15,6 +15,15 @@ def show_articles_list(request):
     if request.method == "GET":
         not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
         articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
+
+        pk = request.GET['a_pk']
+        if pk is not None and pk != "":
+            pdf = Article.objects.get(pk=pk).source_file
+            file = open(pdf.name)
+            response = HttpResponse(file, content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="%s"' % pdf.name
+            return response
+
         return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
