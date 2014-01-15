@@ -281,7 +281,7 @@
                                         </div>
                                         <div class="list-buttons">
                                             <div class="ui tiny button"
-                                                 onclick="window.location='{% url 'show_article_description' %}?pk={{ item.pk }}'">
+                                                 onclick="window.location='{% url 'sub_article_description' %}?pk={{ item.pk }}'">
                                                 <i class="icon unhide"></i>
                                                 مشاهده
                                             </div>
@@ -304,7 +304,8 @@
                             {% endif %}
                             {% if art_sub|length > 1 %}
                                 <div class="manager-list-buttons">
-                                    <div class="manager-list-all-btn single ui small button right aligned">
+                                    <div class="manager-list-all-btn single ui small button right aligned"
+                                                 onclick="window.location='{% url 'show_article_recommendations_list' %}'"> 
                                         مشاهده همه مقالات دریافتی
                                     </div>
                                 </div>

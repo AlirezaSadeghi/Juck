@@ -25,7 +25,8 @@ from juck.news.models import News
 
 def user_panel(request):
     news = News.objects.all().order_by('-publish_date')[0:4]
-    article = Article.objects.all().order_by('-publish_date')[0:4]
+    not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
+    article = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))[0:4]
     art_sub = ArticleSubmission.objects.all()
     return render_to_response('accounts/user_panel.html', {'user_type': 'manager', 'news': news,
                                                            'article': article, 'art_sub': art_sub},
