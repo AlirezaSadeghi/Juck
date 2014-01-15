@@ -16,8 +16,8 @@ def show_articles_list(request):
         pk = request.GET.get('a_pk', None)
         if pk is not None and pk != "":
             pdf = Article.objects.get(pk=pk).source_file
-            file = open(pdf.name)
-            response = HttpResponse(file, content_type='application/pdf')
+            pdf_file = open(pdf.name)
+            response = HttpResponse(pdf_file, content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="%s"' % pdf.name
             return response
         else:
