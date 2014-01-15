@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/article_description.css'%}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/article_description.css' %}"/>
 {% endblock %}
 {% block js %}
     <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
@@ -18,14 +18,16 @@
             });
             var x = $('.ui.rating');
             x.rating('enable');
-            x.modal('set rating',2);
+            x.modal('set rating', 2);
         });
     </script>
 
 {% endblock %}
 
 {% block content %}
-    <div class="celled grid">
+    <div class="center">
+        <div class="ctn-box">
+            <div class="celled grid">
 
                 <div class="row ">
                     <div class="ui sixteen column wide ">
@@ -55,33 +57,33 @@
                         <div class="ui bottom form attached info message">
 
                             <!--FJ-->
-                                <div class="dl-btn" dir="ltr">
-                                    <div class="ui icon small blue button">
-                                        <i class="download disk icon"></i>
-                                        بارگذاری
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <div class="authors">
-                                            <span class="authors-label">نویسندگان:</span>
-                                            {% for author in article.authors %}
-                                            <a class="ui small label authors-name">{{ author.full_name }}</a>
-                                            {% endfor %}
-                                    </div>
-                                </div>
-                            <div class="field">
-                                <div class="tags">
-                                <label>برچسب ها:</label>
-                                {% for tag in article.tags %}
-                                <a class="ui black small label">
-                                {{ tag.name }}
-                                </a>
-                                {% endfor %}
+                            <div class="dl_btn" dir="ltr">
+                                <div class="ui icon small blue button article">
+                                    <i class="download disk icon"></i>
+                                    بارگذاری
                                 </div>
                             </div>
-<!--FJ-->
+                            <div class="field">
+                                <div class="authors">
+                                    <span class="authors-label">نویسندگان:</span>
+                                    {% for author in article.authors.all %}
+                                        <a class="ui small label authors-name">{{ author.full_name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="tags">
+                                    <label>برچسب ها:</label>
+                                    {% for tag in article.tags.all %}
+                                        <a class="ui black small label">
+                                            {{ tag.name }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!--FJ-->
 
-<div class="two fields">
+                            <div class="two fields">
                                 <div class="field my_date date">
                                     {{ article.get_persian_date }}
                                 </div>
@@ -98,7 +100,7 @@
                                     </div>
 
                                     <div class="score">
-                                        {{ article.calculate_score  }}
+                                        {{ article.calculate_score }}
                                     </div>
                                 </div>
                             </div>
@@ -115,25 +117,25 @@
                             <div class="ui comments  ">
                                 <div class="ui fitted divider"></div>
                                 {% for item in comments %}
-                                <div class="comment">
-                                    <a class="avatar right_alignment">
-                                        <img src="../images/a.jpg">
-                                    </a>
+                                    <div class="comment">
+                                        <a class="avatar right_alignment">
+                                            <img src="../images/a.jpg">
+                                        </a>
 
-                                    <div class="content">
-                                        <a class="author">{{ item.user.get_full_name }}</a>
+                                        <div class="content">
+                                            <a class="author">{{ item.user.get_full_name }}</a>
 
-                                        <div class="metadata">
-                                            <div class="date">{{ item.get_persian_date }}</div>
+                                            <div class="metadata">
+                                                <div class="date">{{ item.get_persian_date }}</div>
+                                            </div>
+                                            <div class="text">
+                                                {{ item.content }}
+                                            </div>
+
                                         </div>
-                                        <div class="text">
-                                            {{ item.content }}
-                                        </div>
-
                                     </div>
-                                </div>
 
-                                <div class="ui fitted divider"></div>
+                                    <div class="ui fitted divider"></div>
                                 {% endfor %}
 
                                 <form class="ui reply form">
@@ -153,4 +155,7 @@
 
 
             </div>
+
+        </div>
+    </div>
 {% endblock %}

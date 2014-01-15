@@ -95,7 +95,6 @@
                             <i class="icon"></i>
                             <i class="icon"></i>
                             </span>
-<<<<<<< HEAD
                                 </div>
                                 <div class="tags">
                                     <label>برچسب ها:</label>
@@ -110,46 +109,41 @@
                                         <i class="download disk icon"></i>
                                         بارگذاری
                                     </div>
+                                    <a href="{% url 'show_article_description' %}/?pk={{ item.pk }}">
                                     <div class="ui animated button  small">
                                         <div class="visible content">
-                                            <a href="{% url 'show_news_description' %}?pk={{ item.pk }}">بیشتر</a>
+                                            بیشتر
                                         </div>
                                         <div class="hidden content"><i class="left arrow icon"></i></div>
                                     </div>
-
+                                    </a>
                                 </div>
                             </div>
                         </div>
                         <div class="ui section divider"
                              style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
-
                     {% endfor %}
-                    </div>
-
-                    <div class="ui pagination menu">
-                        <a class="icon item">
-                            <i class="icon right arrow"></i>
-                        </a>
-                        <a class="active item">
-                            ۱
-                        </a>
-
-                        <div class="disabled item">
-                            ۲
-                        </div>
-                        <a class="item">
-                            ...
-                        </a>
-                        <a class="item">
-                            ۱۲
-                        </a>
-                        <a class="icon item">
-                            <i class="icon left arrow"></i>
-                        </a>
-                    </div>
                 {% else %}
                     <div class="ui error message">مقاله‌ای وجود ندارد</div>
                 {% endif %}
+            </div>
+
+            <div style="text-align: center;">
+                <div class="ui small pagination menu 1">
+                    <a class="icon item">
+                    <i class="icon right arrow"></i>
+                    </a>
+
+                    <a class="active item">
+                        1
+                    </a>
+
+                    <a class="icon item">
+                        <i class="icon left arrow"></i>
+                    </a>
+
+                </div>
+            </div>
         </div>
     </div>
     <!-- reza.fj & rf-->

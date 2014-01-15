@@ -95,8 +95,14 @@ $(document).ready(function () {
         return false;
     }
 
+    var query = window.location.search;
 
+    // downloading articles in articles_list page
     $('.news_list .small.blue.button.dl_a').click(function () {
-        window.location.href += '/?a_pk=' + $(this).attr('id').replace('a', '');
+        window.location.href = window.location.origin + window.location.pathname + '?a_pk=' + $(this).attr('id').replace('a', '');
+    })
+
+    $('.attached.message .dl_btn .article').click(function() {
+        window.location.href = window.location.origin + window.location.pathname + query + '&dl=true';
     })
 });

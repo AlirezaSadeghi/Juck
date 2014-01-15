@@ -13,18 +13,27 @@ from forms import ArticleForm
 
 def show_articles_list(request):
     if request.method == "GET":
-        not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
-        articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
-
-        pk = request.GET['a_pk']
+# <<<<<<< HEAD
+#         not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
+#         articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
+#
+#         pk = request.GET['a_pk']
+# =======
+        pk = request.GET.get('a_pk', None)
         if pk is not None and pk != "":
             pdf = Article.objects.get(pk=pk).source_file
-            file = open(pdf.name)
-            response = HttpResponse(file, content_type='application/pdf')
+            pdf_file = open(pdf.name)
+            response = HttpResponse(pdf_file, content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="%s"' % pdf.name
             return response
-
-        return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
+# <<<<<<< HEAD
+#
+#         return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
+# =======
+        else:
+            articles = Article.objects.all().order_by('-publish_date')
+            return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
+# >>>>>>> 132cf50de6e69bb9a82f0b7cf5b445edbe9be16c
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
@@ -33,23 +42,30 @@ def show_article_description(request):
     if request.method == "GET":
         pk = request.GET.get('pk', 1)
         try:
-            article = Article.objects.get(pk=pk)
-            comments = []
-            #comments = Comment.objects.filter(article=article)
-            # print(article.authors.all()[1])
-            return render_to_response('articles/article_description.html', {'article': article, 'comments': comments},
-                                      context_instance=RequestContext(request))
+            if request.GET.get('dl', 'false') == 'true':
+                pdf = Article.objects.get(pk=pk).source_file
+                file = open(pdf.name)
+                response = HttpResponse(file, content_type='application/pdf')
+                response['Content-Disposition'] = 'attachment; filename="%s"' % pdf.name
+                return response
+            else:
+                article = Article.objects.get(pk=pk)
+                comments = []
+                #comments = Comment.objects.filter(article=article)
+                # print(article.authors.all()[1])
+                return render_to_response('articles/article_description.html', {'article': article, 'comments': comments},
+                                          context_instance=RequestContext(request))
         except ObjectDoesNotExist:
             pass
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
 
-def show_add_article(request):
-    if request.method == "GET":
-        return render_to_response('articles/add_article.html', {}, context_instance=RequestContext(request))
-    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
-                              context_instance=RequestContext(request))
+# def show_add_article(request):
+#     if request.method == "GET":
+#         return render_to_response('articles/add_article.html', {}, context_instance=RequestContext(request))
+#     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+#                               context_instance=RequestContext(request))
 
 
 def add_article(request):
@@ -71,7 +87,7 @@ def add_article(request):
 
             return HttpResponseRedirect(reverse('articles_list'))
 
-    return render_to_response('articles/add_article.html',{'form':form}, context_instance=RequestContext(request, ))
+    return render_to_response('articles/add_article.html', {'form': form}, context_instance=RequestContext(request, ))
 
 
 def show_article_recommendations_list(request):

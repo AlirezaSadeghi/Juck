@@ -8,10 +8,10 @@ from django.conf import settings
 
 
 class Article(models.Model):
+
     class Meta:
         verbose_name = u'مقاله'
         verbose_name_plural = u'مقالات'
-
 
     tags = models.ManyToManyField('Tag')
     authors = models.ManyToManyField('Author')
@@ -49,18 +49,17 @@ class Author(models.Model):
 
     full_name = models.CharField(max_length=200, verbose_name=u'نام و نام خانوادگی')
 
+
 class ArticleSubmission(models.Model):
     class Meta:
-        verbose_name= u'مقاله کاربر'
+        verbose_name = u'مقاله کاربر'
         verbose_name_plural = u'مقاله‌های کاربران'
 
-
     article = models.ForeignKey(Article, verbose_name=u'مقاله')
-    user = models.ForeignKey(JuckUser, verbose_name=u'کاربر',editable=False)
+    user = models.ForeignKey(JuckUser, verbose_name=u'کاربر', editable=False)
 
     is_accepted = models.BooleanField(verbose_name=u'تایید شده', default=False)
     accept_date = models.DateTimeField(verbose_name=u'زمان تایید', null=True, editable=False)
-
 
     def get_persian_date(self):
         tup = create_persian_date(self.accept_date.date())
