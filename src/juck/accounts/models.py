@@ -208,8 +208,7 @@ class Experience(models.Model):
         verbose_name = u'سابقه'
         verbose_name_plural = u'سوابق'
 
-    resume = models.ForeignKey('Resume', verbose_name=u'رزومه', related_name='experiences')
-
+    #resume = models.ForeignKey('Resume', verbose_name=u'رزومه', related_name='experiences')
     title = models.CharField(max_length=200, verbose_name=u'عنوان سابقه')
     place = models.CharField(max_length=200, verbose_name=u'سازمان یا دانشگاه مربوطه')
     from_date = models.DateField(verbose_name=u'از تاریخ')
@@ -223,7 +222,7 @@ class Skill(models.Model):
     class Meta:
         verbose_name = u'مهارت'
         verbose_name_plural = u'مهارت‌ها'
-
+        
     title = models.CharField(max_length=150, verbose_name=u'عنوان')
     level = models.CharField(max_length=100, verbose_name=u'سطح تسلط')
     description = models.CharField(max_length=250, verbose_name=u'توضیح', null=True, blank=True)
