@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 
@@ -16,7 +17,7 @@ def advertisements(request):
         if 'page' in get_params:
              del get_params['page']
 
-        search_filter = AdvertismentListFilter()
+        search_filter = AdvertismentListFilte()
         questions, count = search_filter.init_filter(request.GET, **{'common': True})
         search_form = search_filter.get_form()
 

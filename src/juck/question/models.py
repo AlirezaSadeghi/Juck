@@ -15,7 +15,7 @@ class Question(models.Model):
     content = models.TextField(u'محتوی', null=True, blank=True)
 
     def __unicode__(self):
-        return self.sender.username + u' ' + self.title
+        return self.sender.email + u' ' + self.title
 
 
 class Answer(models.Model):
@@ -29,4 +29,4 @@ class Answer(models.Model):
     content = models.TextField(u'پاسخ')
 
     def __unicode__(self):
-        return u'پاسخ ' + self.responder.user.username + u' ' + self.question.title
+        return u'پاسخ ' + self.responder.user.email + u' ' + self.question.title
