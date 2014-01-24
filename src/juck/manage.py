@@ -9,7 +9,7 @@ sys.path.insert(1, '/Users/Sina/PycharmProjects/JUCK/lib')
 
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "juck.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
     from django.core.management import execute_from_command_line
 

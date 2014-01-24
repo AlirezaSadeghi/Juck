@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import HttpResponseRedirect, HttpResponse
@@ -297,7 +298,22 @@ def employer_list(request):
         return render_to_response('accounts/employer_list.html', {}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
-                              
+
+
+@login_required
+def pending_employers_list(request):
+    pass
+
+
+@login_required
+def pending_jobseekers_list(request):
+    pass
+
+
+@login_required
+def show_profile(request):
+    pass
+
 @csrf_exempt
 def jobseeker_remove(request, what):
     obj_id = request.POST.get('id', None)

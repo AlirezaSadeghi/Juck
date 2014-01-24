@@ -66,4 +66,8 @@ urlpatterns = patterns('juck.accounts.views',
                        #                      FJ
                        url(r'^job_seeker_list/$', 'job_seeker_list', {}, name='job_seeker_list'),
                        url(r'^employer_list/$', 'employer_list', {}, name='employer_list'),
+
+                    url(r'^pending_employers_list/$', 'pending_employers_list', {}, name='pending_employers_list'),
+                    url(r'^pending_jobseekers_list/$', 'pending_jobseekers_list', {}, name='pending_jobseekers_list'),
+                    url(r'^show_profile/', 'show_profile', {}, name='show_profile'),
 )

@@ -2,13 +2,16 @@
 from django.db import models
 from model_utils.managers import InheritanceManager
 
-from juck.accounts.models import Employer, JuckUser
+from juck.accounts.models import Employer, JuckUser, JobSeeker
 
 
 class Request(models.Model):
     class Meta:
         verbose_name = u'درخواست'
         verbose_name_plural = u'درخواست ها'
+
+
+    COOPERATION_TYPES = {'full_time': 1, 'half_time': 2, 'tele_work': 3}
 
     employer = models.ForeignKey(Employer, verbose_name=u'کارفرما', related_name='requests')
     title = models.CharField(max_length=250, verbose_name=u'عنوان')
@@ -34,17 +37,20 @@ class JobOpportunity(Request):
     sex = models.NullBooleanField(verbose_name=u'جنسیت', null=True, blank=True)
 
 
-class JobOffer(Request):
+class EmployerJobOffer(Request):
     class Meta:
-        verbose_name = u'پیشنهاد کاری'
-        verbose_name_plural = u'پیشنهادات کاری'
+        verbose_name = u'پیشنهاد کاری کارفرما'
+        verbose_name_plural = u'پیشنهادات کاری کارفرمایان'
 
-    JS_TO_EMPLOYER = 1
-    EMPLOYER_TO_JS = 2
-    EMPLOYER_TO_EMPLOYER = 3
+    sender = models.ForeignKey(Employer, verbose_name=u'فرستنده', related_name='sent_offers')
 
-    sender = models.ForeignKey(JuckUser, verbose_name=u'فرستنده', related_name='sent_offers')
-    direction = models.PositiveSmallIntegerField(verbose_name=u'از - به', default=JS_TO_EMPLOYER)
+
+class JobseekerJobOffer(Request):
+    class Meta:
+        verbose_name = u'پیشنهاد کاری کارجو'
+        verbose_name_plural = u'پیشنهادات کاری کارجویان'
+
+    sender = models.ForeignKey(JobSeeker, verbose_name=u'فرستنده', related_name='sent_offers')
 
 
 class Response(models.Model):
