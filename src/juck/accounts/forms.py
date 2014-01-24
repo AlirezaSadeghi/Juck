@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
+from django.core.exceptions import ValidationError
+from django.forms.util import ErrorList
 from persian_captcha import PersianCaptchaField
 from django.forms.fields import Field
 
@@ -31,6 +33,18 @@ class JobSeekerRegisterForm1(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور')
     re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور')
     captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')
+
+    def clean(self):
+        cleaned_data = super(JobSeekerRegisterForm1, self).clean()
+        pass1  = cleaned_data.get('password', '')
+        pass2 = cleaned_data.get('re_password', '')
+
+        if pass1 != pass2:
+            self._errors['password'] = ErrorList([u'رمز عبور و تکرار آن باید یکسان باشند.'])
+            del cleaned_data['password']
+
+        return cleaned_data
+
 
 class JobSeekerRegisterForm2(forms.Form):
     status = forms.ChoiceField(required=True, label=u'وضغیت تحصیلی',
