@@ -5,7 +5,7 @@ import sys
 
 
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
-sys.path.insert(1, '/home/alireza/Documents/Juck/lib')
+sys.path.insert(1, '/Users/Sina/PycharmProjects/JUCK/lib')
 
 
 if __name__ == "__main__":
