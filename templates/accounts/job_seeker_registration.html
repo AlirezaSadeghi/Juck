@@ -11,13 +11,14 @@
 {% endblock %}
 
 {% block js %}
-        <script src="{% static 'js/jobseeker_registration.js' %}"></script>
+        {#<script src="{% static 'js/jobseeker_registration.js' %}"></script>#}
+        <script src="{% static 'js/jquery.form.js' %}"></script>
 <script>
     $(document).ready(function () {
         step = {{ wizard.steps.step1 }};
     $('.step-box.'+step).addClass('step-active');
 
-    {% if wizard.steps.step1 == 3 %}
+    {% if wizard.steps.step1 == 30 %}
         $('.reg_form input[type=text]:eq(0)')[0].change(function(){
             alert('dafuq?');
             if($(this).val()){
@@ -30,6 +31,128 @@
         });
     {% endif %}
 
+
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#add-edu").click(function(e) {
+            e.preventDefault();
+
+            $("#add-edu-form").ajaxSubmit({
+                type: "POST",
+                success: function(responseText, statusText, xhr, $form) {
+                    if(responseText !== "ERROR") {
+                        var major = $("#id_major").val();
+                        var orientation = $("#id_orientation").val();
+                        var university = $("#id_university_name").val();
+                        $("#added-edu").append('<li>&bull;&nbsp;&nbsp;' + major + '، ' + orientation + ' - ' + university + 
+                            ' (<a href="#" class="delete-edu" edu-id="' + responseText + '">حذف</a>)' + 
+                            '</li>');
+                    }
+                    else {
+                        alert('لطفا همه فیلدها را به درستی وارد کنید.');
+                    }
+                },
+                
+                error: function() {
+                    alert('ERROR');
+                }
+            });
+        });
+        
+        $("#add-skill").click(function(e) {
+            e.preventDefault();
+        
+            $("#add-skill-form").ajaxSubmit({
+                type: "POST",
+                success: function(responseText, statusText, xhr, $form) {
+                    if(responseText !== "ERROR") {
+                        var skill = $("#id_skill_title").val();
+                        $("#added-skills").append('<li>&bull;&nbsp;&nbsp;' + skill + 
+                            ' (<a href="#" class="delete-skill" skill-id="' + responseText + '">حذف</a>)' + 
+                            '</li>');
+                    }
+                    else {
+                        alert('لطفا همه فیلدها را به درستی وارد کنید.');
+                    }
+                },
+                
+                error: function() {
+                    alert('ERROR');
+                }
+            });
+        });
+        
+        $("#add-work").click(function(e) {
+            e.preventDefault();
+            
+            $("#add-work-form").ajaxSubmit({
+                type: "POST",
+                success: function(responseText, statusText, xhr, $form) {
+                    if(responseText !== "ERROR") {
+                        var title = $("#id_title").val();
+                        var place = $("#id_place").val();
+                        $("#added-work").append('<li>&bull;&nbsp;&nbsp;' + title + ' - ' + place + 
+                            ' (<a href="#" class="delete-work" work-id="' + responseText + '">حذف</a>)' + 
+                            '</li>');
+                    }
+                    else {
+                        alert('لطفا همه فیلدهای الزامی را به درستی وارد کنید.');
+                    }
+                },
+                
+                error: function() {
+                    alert('ERROR');
+                }
+            });
+        });
+        
+        $(document).on('click', '.delete-edu', function() {
+            var edu_id = $(this).attr('edu-id');
+            var del_link = $(this);
+            $.ajax({
+                url: "/accounts/jobseeker_remove/edu/",
+                data: "id=" + edu_id,
+                type: 'POST',
+                success: function() {
+                    del_link.parent().remove();
+                }
+            });
+            
+            return false;
+        });
+        
+        $(document).on('click', '.delete-skill', function() {
+            var edu_id = $(this).attr('skill-id');
+            var del_link = $(this);
+            $.ajax({
+                url: "/accounts/jobseeker_remove/skill/",
+                data: "id=" + edu_id,
+                type: 'POST',
+                success: function() {
+                    del_link.parent().remove();
+                }
+            });
+            
+            return false;
+        });
+        
+        $(document).on('click', '.delete-work', function() {
+            var edu_id = $(this).attr('work-id');
+            var del_link = $(this);
+            $.ajax({
+                url: "/accounts/jobseeker_remove/work/",
+                data: "id=" + edu_id,
+                type: 'POST',
+                success: function() {
+                    del_link.parent().remove();
+                }
+            });
+            
+            return false;
+        });
 
     });
 </script>
@@ -73,12 +196,30 @@
                 </p>
                 {% endif %}
 
-                <form action="" method="post">{% csrf_token %}
+                {% if wizard.steps.step1 != 2 and wizard.steps.step1 != 3 %}<form action="" method="post">{% csrf_token %}{% endif %}
                     {% if wizard.steps.step1 == 2 %}
                         <h2> سوابق تحصیلی </h2>
+                        
+                        <ul id="added-edu" style="margin-bottom:20px;">
+                            {% for k, edu in current_edu.items %}
+                            <li>&bull;&nbsp;&nbsp; {{edu.major}}، {{edu.orientation}} - {{edu.university_name}}
+                                (<a href="#" class="delete-edu" edu-id="{{k}}">حذف</a>)
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        
                         <div class="edu-info-form0">
                     {% elif wizard.steps.step1 == 3 %}
                         <h2> سوابق کاری </h2>
+                        
+                        <ul id="added-work" style="margin-bottom:20px;">
+                            {% for k, work in current_work.items %}
+                            <li>&bull;&nbsp;&nbsp; {{work.title}} - {{work.place}}
+                                (<a href="#" class="delete-work" work-id="{{k}}">حذف</a>)
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        
                         <div class="work-info-form0">
                     {% endif %}
                     <!--<table>-->
@@ -88,6 +229,120 @@
                             {% for form in wizard.form.forms %}
                                {{ form }}
                             {% endfor %}
+                        {% elif wizard.steps.step1 == 2 %}
+                            <form id="add-edu-form" action="/accounts/jobseeker_addedu/" method="post">
+                                {% csrf_token %}
+                                {% for field in edu_form %}
+                                    {% if field.field.is_textarea %}
+                                    <div class="ui form">
+                                    {% endif %}
+                                    <div class='field'>
+                                        <div class="input-details">
+                                            <label class="input_labels"> {{field.label_tag}}
+                                                {% if field.field.required %}
+                                                <span class="required-field">*</span>
+                                                {% endif %}
+                                            </label>
+                                    
+                                            <div class="ui small input field-input">
+                                                {{ field }}
+                                            </div>
+                                        </div>
+                                        <div class="input-errors">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+                                    {% if field.field.is_textarea %}
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </form>
+                            
+                            </div>
+                            <div class="add-edu-buttons" dir="ltr" style="margin-top:20px">
+                                <div class="ui left attached tiny button">پاک کردن</div>
+                                <div id="add-edu" class="right attached ui tiny button rf-btn">اضافه کردن مدرک تحصیلی</div>
+                            </div>
+                            
+                            <h2>مهارت ها</h2>
+                            
+                            <ul id="added-skills" style="margin-bottom:20px;">
+                                {% for k, skill in current_skill.items %}
+                                <li>&bull;&nbsp;&nbsp; {{skill.skill_title}}
+                                    (<a href="#" class="delete-skill" skill-id="{{k}}">حذف</a>)
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            
+                            <div class="skill-info-form0">
+                            
+                            <form id="add-skill-form" action="/accounts/jobseeker_addskill/" method="post">
+                                {% csrf_token %}
+                                {% for field in skill_form %}
+                                    {% if field.field.is_textarea %}
+                                    <div class="ui form">
+                                    {% endif %}
+                                    <div class='field'>
+                                        <div class="input-details">
+                                            <label class="input_labels"> {{field.label_tag}}
+                                                {% if field.field.required %}
+                                                <span class="required-field">*</span>
+                                                {% endif %}
+                                            </label>
+                                    
+                                            <div class="ui small input field-input">
+                                                {{ field }}
+                                            </div>
+                                        </div>
+                                        <div class="input-errors">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+                                    {% if field.field.is_textarea %}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </form>
+                            
+                            </div>
+                            <div dir="ltr" style="margin-top:20px">
+                                <div class="ui left attached tiny button" >پاک کردن</div>
+                                <div id="add-skill" class="right attached ui tiny button rf-btn" >اضافه کردن مهارت</div>
+                            </div>
+                        
+                        {% elif wizard.steps.step1 == 3 %}
+                            <form id="add-work-form" action="/accounts/jobseeker_addexp/" method="post">
+                                {% csrf_token %}
+                                {% for field in experience_form %}
+                                    {% if field.field.is_textarea %}
+                                    <div class="ui form">
+                                    {% endif %}
+                                    <div class='field'>
+                                        <div class="input-details">
+                                            <label class="input_labels"> {{field.label_tag}}
+                                                {% if field.field.required %}
+                                                <span class="required-field">*</span>
+                                                {% endif %}
+                                            </label>
+                                    
+                                            <div class="ui small input field-input">
+                                                {{ field }}
+                                            </div>
+                                        </div>
+                                        <div class="input-errors">
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+                                    {% if field.field.is_textarea %}
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </form>
+                        </div>
+                        <div dir="ltr" style="margin-top:20px">
+                            <div class="ui left attached tiny button" >پاک کردن</div>
+                            <div id="add-work" class="right attached ui tiny button rf-btn" >اضافه کردن سابقه کاری</div>
+                        </div>
                         {% else %}
                             {% for field in wizard.form %}
                                 {% if field.field.is_textarea %}
@@ -114,7 +369,7 @@
                                 {% endif %}
 
 
-                                {% if field.label == 'نوع دانشگاه'   %}
+                                {% if field.label == 'نوع دانشگاه' %}
                                 </div>
                                     <div class="add-edu-buttons" dir="ltr" style="margin-top:20px">
                                         <div class="ui left attached tiny button" >پاک کردن</div>
@@ -133,22 +388,16 @@
                                 {% endif %}
 
                             {% endfor %}
-                            {% if wizard.steps.step1 == 3 %}
-                                </div>
-                                <div dir="ltr" style="margin-top:20px">
-                                    <div class="ui left attached tiny button" >پاک کردن</div>
-                                    <div id="add-work" class="right attached ui tiny button rf-btn" >اضافه کردن سابقه کاری</div>
-                                </div>
-                            {% endif %}
                         {% endif %}
                     <!--</table>-->
 
                           <span class="netxt-btn-details"> فیلدهای با علامت
                         <span class="required-field">*</span>
                         باید حتما پر شوند</span>
-
+                    {% if wizard.steps.step1 == 2 or wizard.steps.step1 == 3 %}
+                    <form action="" method="post">{% csrf_token %}{% endif %}
                     {% if wizard.steps.next %}
-
+                    
                     <p>لطفا جهت تکمیل فرایند ثبت نام، روی دکمه 'مرحله بعد' کلیک کنید.</p>
                     <input class="register-btn next_btn ui small button" type="submit" value="مرحله بعد" >
                     {% else %}
@@ -163,7 +412,9 @@
                     <button class="register-btn ui button small" name="wizard_goto_step" type="submit"
                             value="{{ wizard.steps.prev }}">مرحله قبل</button>
                     {% endif %}
-                </form>
+                    {% if wizard.steps.step1 == 2 or wizard.steps.step1 == 3 %}{{ wizard.management_form }}
+</form>{% endif %}
+                {% if wizard.steps.step1 != 2 and wizard.steps.step1 != 3 %}</form>{% endif %}
             </div>
             <div class="clr"></div>
         </div>

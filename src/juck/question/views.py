@@ -24,52 +24,49 @@ def ask_question(request):
 
 def common_questions(request):
     if request.method == "GET":
-        form = QuestionForm()
-        # get_params = request.GET.copy()
-        # if 'page' in get_params:
-        #     del get_params['page']
-        #
-        # search_filter = ManagerQuestionListFilter()
-        # questions, count = search_filter.init_filter(request.GET, **{'common': True})
-        # search_form = search_filter.get_form()
-        #
-        # page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
-        #
-        # if isinstance(request.user, Manager):
-        #     return render_to_response('question/manager_common_questions.html',
-        #                               {'questions': questions, 'count': count, 'search_form': search_form,
-        #                                'page_range': page_range, 'get_params': get_params},
-        #                               context_instance=RequestContext(request, ))
-        #
-        # return render_to_response('question/common_questions.html',
-        #                           {'questions': questions, 'count': count, 'search_form': search_form,
-        #                            'page_range': page_range, 'get_params': get_params},
-        #                           context_instance=RequestContext(request, ))
-        return render_to_response('question/manager_common_questions.html', {'form': form},
-                                  context_instance=RequestContext(request))
-    return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'}, context_instance=RequestContext(request))
+        faq_form = QuestionForm()
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
+
+        search_filter = ManagerQuestionListFilter()
+        questions, count = search_filter.init_filter(request.GET, **{'common': True})
+        search_form = search_filter.get_form()
+
+        page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
+
+        if isinstance(request.user, Manager):
+            return render_to_response('question/manager_common_questions.html',
+                                      {'questions': questions, 'count': count, 'search_form': search_form,
+                                       'page_range': page_range, 'get_params': get_params, 'newFAQ_form': faq_form},
+                                      context_instance=RequestContext(request, ))
+
+        return render_to_response('question/common_questions.html',
+                                  {'questions': questions, 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
+                                  context_instance=RequestContext(request, ))
+    return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'})
 
 
 @login_required
 @user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def asked_questions(request):
     if request.method == "GET":
-        # get_params = request.GET.copy()
-        # if 'page' in get_params:
-        #     del get_params['page']
-        #
-        # search_filter = ManagerQuestionListFilter()
-        # questions, count = search_filter.init_filter(request.GET, **{'common': False})
-        # search_form = search_filter.get_form()
-        #
-        # page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
-        #
-        # return render_to_response('question/asked_questions.html',
-        #                           {'questions': questions, 'count': count, 'search_form': search_form,
-        #                            'page_range': page_range, 'get_params': get_params},
-        #                           context_instance=RequestContext(request))
-        return render_to_response('question/asked_questions.html', {},
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
+
+        search_filter = ManagerQuestionListFilter()
+        questions, count = search_filter.init_filter(request.GET, **{'common': False})
+        search_form = search_filter.get_form()
+
+        page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
+
+        return render_to_response('question/asked_questions.html',
+                                  {'questions': questions, 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
                                   context_instance=RequestContext(request))
+
     return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'}, context_instance=RequestContext(request))
 
 
