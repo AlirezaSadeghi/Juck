@@ -29,4 +29,4 @@ class Answer(models.Model):
     content = models.TextField(u'پاسخ')
 
     def __unicode__(self):
-        return u'پاسخ ' + self.responder.email + u' ' + self.question.title
+        return u'پاسخ ' + self.responder.user.email + u' ' + self.question.title

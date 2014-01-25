@@ -32,7 +32,6 @@ def common_questions(request):
         search_filter = ManagerQuestionListFilter()
         questions, count = search_filter.init_filter(request.GET, **{'common': True})
         search_form = search_filter.get_form()
-
         page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
 
         if isinstance(request.user, Manager):

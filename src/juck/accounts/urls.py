@@ -13,7 +13,6 @@ urlpatterns = patterns('juck.accounts.views',
                        url(r'^logout/$', logout, {'template_name': 'accounts/logout.html', 'extra_context': {
                            'message': u'شما با موفقیت از سامانه جاک خارج شدید. از زمانی که در سامانه جاک گذاشتید،‌متشکریم.'}},
                            name='logout'),
-                        url(r'^profile/$', 'show_profile', {}, name='show_profile'),
                        url(r'password_recover/$', 'password_recover', name='password_recover'),
 
                        url(r'jobseeker_registration/$',
@@ -22,6 +21,11 @@ urlpatterns = patterns('juck.accounts.views',
 
                        url(r'employer_registration/$', EmployerWizard.as_view(EMPLOYER_FORMS, ), {},
                            name='employer_registration'),
+                           
+                       url(r'jobseeker_addedu/$', 'jobseeker_addedu'),
+                       url(r'jobseeker_addskill/$', 'jobseeker_addskill'),
+                       url(r'jobseeker_addexp/$', 'jobseeker_addexp'),
+                       url(r'jobseeker_remove/(?P<what>(edu|skill|work))/$', 'jobseeker_remove'),
 
                        #url(r'^confirm_registration/(?P<hash_value>\w+)$', 'confirm_registration' , {} , name='confirm-registration'),
                        #url(r'^change_password/$', 'change_password', {}, name='change_password'),
@@ -41,6 +45,11 @@ urlpatterns = patterns('juck.accounts.views',
                             'template_name': 'accounts/password_reset_form.html',
                             'email_template_name': 'accounts/password_reset_email.html'}, name="password_reset"),
 
+                       #url(r'^password_reset/$', password_reset,
+                        #   {'post_reset_redirect': '/password_reset_done/',
+                         #   'template_name': 'accounts/password_reset_form.html',
+                          #  }, name="password_reset"),
+
                        url(r'^password_reset_done/$',
                            password_reset_done, {'template_name': 'accounts/password_reset_done.html'}),
 
@@ -57,6 +66,8 @@ urlpatterns = patterns('juck.accounts.views',
                        #                      FJ
                        url(r'^job_seeker_list/$', 'job_seeker_list', {}, name='job_seeker_list'),
                        url(r'^employer_list/$', 'employer_list', {}, name='employer_list'),
-                       url(r'^pending_jobseekers_list/$', 'pending_jobseekers_list', {}, name='pending_jobseekers_list'),
-                       url(r'^pending_employers_list/$', 'pending_employers_list', {}, name='pending_employers_list'),
+
+                    url(r'^pending_employers_list/$', 'pending_employers_list', {}, name='pending_employers_list'),
+                    url(r'^pending_jobseekers_list/$', 'pending_jobseekers_list', {}, name='pending_jobseekers_list'),
+                    url(r'^show_profile/', 'show_profile', {}, name='show_profile'),
 )

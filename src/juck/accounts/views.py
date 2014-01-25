@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import HttpResponseRedirect, HttpResponse
@@ -14,23 +15,18 @@ from juck.accounts.models import TemporaryLink, JuckUser, Manager, JobSeeker, Em
 from juck.log.models import ActionLog
 from utils import json_response, send_html_mail
 import hashlib
+import time
 from html_builder import HtmlBuilder
+from django.views.decorators.csrf import csrf_exempt
+
 
 from django.contrib.formtools.wizard.views import SessionWizardView
 
 from juck.accounts.forms import *
-from juck.articles.models import Article, ArticleSubmission
-from juck.news.models import News
 
 
 def user_panel(request):
-    news = News.objects.all().order_by('-publish_date')[0:4]
-    not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
-    article = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))[0:4]
-    art_sub = ArticleSubmission.objects.all()
-    return render_to_response('accounts/user_panel.html', {'user_type': 'manager', 'news': news,
-                                                           'article': article, 'art_sub': art_sub},
-                              context_instance=RequestContext(request, ))
+    return render_to_response('accounts/user_panel.html', {'user_type':'employer'}, context_instance=RequestContext(request, ))
 
 
 def about_us(request):
@@ -51,8 +47,6 @@ def homepage(request):
             user_type = 'employer'
         else:
             user_type = 'job_seeker'
-
-        print(user_type)
 
         return render_to_response("accounts/user_panel.html", {'user_type': user_type},
                                   context_instance=RequestContext(request, ))
@@ -189,8 +183,10 @@ def create_password_recovery_mail_html(hash_value):
 
 JOB_SEEKER_FORMS = [
     ("Phase_1", JobSeekerRegisterForm1),
-    ("Phase_2", JobSeekerRegisterForm2),
-    ("Phase_3", JobSeekerRegisterForm3),
+    #("Phase_2", JobSeekerRegisterForm2),
+    ("Phase_2", JobSeekerRegisterDummyForm),
+    #("Phase_3", JobSeekerRegisterForm3),
+    ("Phase_3", JobSeekerRegisterDummyForm),
     ("Phase_4", JobSeekerRegisterForm4),
 ]
 
@@ -203,8 +199,25 @@ EMPLOYER_FORMS = [
 
 class JobSeekerWizard(SessionWizardView):
     template_name = 'accounts/job_seeker_registration.html'
+    
+    def get_context_data(self, form, **kwargs):
+        context = super(JobSeekerWizard, self).get_context_data(form=form, **kwargs)
+        
+        if self.steps.step1 == 2:
+            current_edu = self.request.session.get("added_edu", None)
+            current_skill = self.request.session.get("added_skills", None)
+            edu_form = JobSeekerRegisterEducationForm()
+            skill_form = JobSeekerRegisterSkillForm()
+            context.update({'edu_form': edu_form, 'skill_form': skill_form, 'current_edu': current_edu, 'current_skill': current_skill})
+        elif self.steps.step1 == 3:
+            current_work = self.request.session.get("added_work", None)
+            experience_form = JobSeekerRegisterForm3()
+            context.update({'experience_form': experience_form, 'current_work': current_work})
+            
+        return context
 
     def done(self, form_list, **kwargs):
+        print form_list
         return render_to_response('messages.html', {
             'message': u'خب الان باید تموم شده باشه ! :دی'
         })
@@ -217,6 +230,60 @@ class EmployerWizard(SessionWizardView):
         return render_to_response('messages.html', {
             'message': u'خب الان باید تموم شده باشه ! :دی'
         })
+        
+def jobseeker_addedu(request):
+    if request.method == "POST":
+        message = u"ERROR"
+        
+        form = JobSeekerRegisterEducationForm(request.POST)
+        if form.is_valid():
+            if not request.session.get("added_edu", None) or not isinstance(request.session.get("added_edu", None), dict):
+                request.session["added_edu"] = {}
+            item_id = int(round(time.time() * 1000))
+            request.session["added_edu"][item_id] = form.cleaned_data
+            
+            return HttpResponse("{}".format(item_id))
+            
+        return HttpResponse(message)
+        
+    return HttpResponse("")
+            
+        
+
+def jobseeker_addskill(request):
+    if request.method == "POST":
+        message = u"ERROR"
+            
+        form = JobSeekerRegisterSkillForm(request.POST)
+        if form.is_valid():
+            if not request.session.get("added_skills", None) or not isinstance(request.session.get("added_skills", None), dict):
+                request.session["added_skills"] = {}
+            
+            item_id = int(round(time.time() * 1000))
+            request.session["added_skills"][item_id] = form.cleaned_data
+            return HttpResponse("{}".format(item_id))
+            
+        return HttpResponse(message)
+            
+    return HttpResponse("")
+    
+def jobseeker_addexp(request):
+    if request.method == "POST":
+        message = u"ERROR"
+
+        form = JobSeekerRegisterForm3(request.POST)
+        if form.is_valid():
+            if not request.session.get("added_work", None) or not isinstance(request.session.get("added_work", None), dict):
+                request.session["added_work"] = {}
+
+            item_id = int(round(time.time() * 1000))
+            request.session["added_work"][item_id] = form.cleaned_data
+            return HttpResponse("{}".format(item_id))
+
+        return HttpResponse(message)
+
+    return HttpResponse("")
+
 
 
 def job_seeker_list(request):
@@ -233,16 +300,41 @@ def employer_list(request):
                               context_instance=RequestContext(request))
 
 
-def show_profile(request):
-    return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))
-
-
-def pending_jobseekers_list(request):
-    return render_to_response('messages.html', context_instance=RequestContext(request, ))
-
-
+@login_required
 def pending_employers_list(request):
-    return render_to_response('messages.html', context_instance=RequestContext(request, ))
+    pass
+
+
+@login_required
+def pending_jobseekers_list(request):
+    pass
+
+
+@login_required
+def show_profile(request):
+    pass
+
+@csrf_exempt
+def jobseeker_remove(request, what):
+    obj_id = request.POST.get('id', None)
+    if not obj_id:
+        return HttpResponse("ERROR")
+    else:
+        #obj_id = int(obj_id)
+        pass
+        
+    if what == "edu":
+        del request.session["added_edu"][obj_id]
+        print request.session["added_edu"]
+    elif what == "skill":
+        del request.session["added_skills"][obj_id]
+    elif what == "work":
+        del request.session["added_work"][obj_id]
+        
+    request.session.modified = True
+        
+    return HttpResponse("SUCCESS")
+        
 
 
 def get_user_type(pk):

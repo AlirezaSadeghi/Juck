@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
+from django.core.exceptions import ValidationError
+from django.forms.util import ErrorList
 from persian_captcha import PersianCaptchaField
 from django.forms.fields import Field
 
@@ -31,6 +33,17 @@ class JobSeekerRegisterForm1(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور')
     re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور')
     captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')
+
+    def clean(self):
+        cleaned_data = super(JobSeekerRegisterForm1, self).clean()
+        pass1  = cleaned_data.get('password', '')
+        pass2 = cleaned_data.get('re_password', '')
+
+        if pass1 != pass2:
+            self._errors['password'] = ErrorList([u'رمز عبور و تکرار آن باید یکسان باشند.'])
+            del cleaned_data['password']
+
+        return cleaned_data
 
 
 class JobSeekerRegisterForm2(forms.Form):
@@ -67,8 +80,49 @@ class JobSeekerRegisterForm2(forms.Form):
                                         ('certificate', u'دارای مدرک معتبر'),
                                     ))
     skill_description = forms.CharField(required=False, max_length=250, label=u'توضیحات')
+    
+class JobSeekerRegisterEducationForm(forms.Form):
+    status = forms.ChoiceField(required=True, label=u'وضغیت تحصیلی',
+                               choices=(
+                                   ('student', u'دانشچو'),
+                                   ('grauated', u'فارغ التحصیل'),
+                                ))
+    certificate = forms.ChoiceField(required=True, label= u'مقطع تحصیلی',
+                                    choices=(
+                                        ('under_grad', u'کارشناسی'),
+                                        ('grad', u'کارشناسی ارشد'),
+                                        ('phd', u'دکتری'),
+                                        ('post_doc', u'پست دکتری'),
+                                    ))
+    major = forms.CharField(required=True, max_length=200, label=u'رشته تحصیلی')
+    orientation = forms.CharField(required=True, max_length=150, label=u'گرایش تحصیلی')
+    university_name = forms.CharField(required=True, max_length=150, label=u'نام دانشگاه')
+    university_type = forms.ChoiceField(required=True, label= u'نوع دانشگاه',
+                                        choices=(
+                                            ('dolati', u'دولتی'),
+                                            ('azad', u'آزاد'),
+                                            ('entefaei', u'غیرانتفاعی'),
+                                            ('payam_nur', u'پیام نور'),
+                                            ('foregin', u'خارجی'),
+                                        ))
+    
+
+class JobSeekerRegisterSkillForm(forms.Form):
+    skill_title = forms.CharField(required=True, max_length=150, label=u'عنوان مهارت')
+    skill_level = forms.ChoiceField(required=True, label=u'سطح تسلط',
+                                    choices=(
+                                        ('low', u'آشنا'),
+                                        ('high', u'مسط'),
+                                        ('certificate', u'دارای مدرک معتبر'),
+                                    ))
+    skill_description = forms.CharField(required=False, max_length=250, label=u'توضیحات')
+    
+class JobSeekerRegisterDummyForm(forms.Form):
+    #dummy = forms.CharField(widget=forms.HiddenInput, required=False)    
+    pass
+    
 class JobSeekerRegisterForm3(forms.Form):
-    title = forms.CharField(required=False, max_length=200, label=u'عنوان سابقه')
+    title = forms.CharField(required=True, max_length=200, label=u'عنوان سابقه')
     place = forms.CharField(required=False, max_length=200, label=u'سازمان یا دانشگاه مربوطه')
     from_date = forms.DateField(required=False, label=u'از تاریخ')
     to_date = forms.DateField(required=False, label=u'تا تاریخ')
