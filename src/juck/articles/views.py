@@ -13,12 +13,6 @@ from forms import ArticleForm
 
 def show_articles_list(request):
     if request.method == "GET":
-# <<<<<<< HEAD
-#         not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
-#         articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
-#
-#         pk = request.GET['a_pk']
-# =======
         pk = request.GET.get('a_pk', None)
         if pk is not None and pk != "":
             pdf = Article.objects.get(pk=pk).source_file
@@ -26,14 +20,12 @@ def show_articles_list(request):
             response = HttpResponse(pdf_file, content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="%s"' % pdf.name
             return response
-# <<<<<<< HEAD
-#
-#         return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
-# =======
         else:
             articles = Article.objects.all().order_by('-publish_date')
+            not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
+            articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
+
             return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
-# >>>>>>> 132cf50de6e69bb9a82f0b7cf5b445edbe9be16c
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
