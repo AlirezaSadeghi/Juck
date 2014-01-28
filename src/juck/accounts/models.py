@@ -135,9 +135,9 @@ class JuckUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(verbose_name=u'نام', max_length=100, blank=True)
     last_name = models.CharField(verbose_name=u'نام خانوادگی', max_length=150, blank=True)
 
-    role = models.CharField(verbose_name=u'نوع کاربری', max_length=100, choices=USER_CHOICES)
+    role = models.IntegerField(default=1, verbose_name=u'نوع کاربری', choices=USER_CHOICES)
 
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(u'date joined', default=timezone.now)
