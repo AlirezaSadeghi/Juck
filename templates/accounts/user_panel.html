@@ -170,9 +170,7 @@
                                         </div>
                                         <div class="list-buttons">
                                             <div class="ui tiny button"
-                                                 onclick="window.location='{% url " show_news_description
-                                                         "
-                                            %}?pk={{ item.pk }}'">
+                                                 onclick="window.location='{% url "show_news_description"%}?pk={{ item.pk }}'">
                                             <i class="icon unhide"></i>
                                             مشاهده
                                         </div>
@@ -199,16 +197,12 @@
 
                             {% if news|length > 1 %}
                                 <div class="manager-list-all-btn ui small button right aligned"
-                                     onclick="window.location='{% url "
-                                             news_list
-                                             " %}'">
+                                     onclick="window.location='{% url "news_list" %}'">
                                 مشاهده همه خبرها
                                 </div>
                             {% endif %}
                         <div class="manager-list-add-btn ui small button left aligned"
-                             onclick="window.location='{% url " add_news
-                                     "
-                        %}'">
+                             onclick="window.location='{% url "add_news"%}'">
                         اضافه کردن خبر
                     </div>
                 </div>

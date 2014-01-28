@@ -13,12 +13,6 @@ from forms import ArticleForm
 
 def show_articles_list(request):
     if request.method == "GET":
-# <<<<<<< HEAD
-#         not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
-#         articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
-#
-#         pk = request.GET['a_pk']
-# =======
         pk = request.GET.get('a_pk', None)
         if pk is not None and pk != "":
             pdf = Article.objects.get(pk=pk).source_file
@@ -26,14 +20,13 @@ def show_articles_list(request):
             response = HttpResponse(pdf_file, content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="%s"' % pdf.name
             return response
-# <<<<<<< HEAD
-#
-#         return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
-# =======
         else:
             articles = Article.objects.all().order_by('-publish_date')
+            not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
+            articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
+
             return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
-# >>>>>>> 132cf50de6e69bb9a82f0b7cf5b445edbe9be16c
+
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
@@ -104,17 +97,23 @@ def submitted_article_description(request):
         pk = request.GET.get('pk', 1)
         try:
             # article_sub = ArticleSubmission.objects.values_list('article', flat=True)
-            article = Article.objects.get(pk=pk)
-            return render_to_response('articles/submitted_article_description.html', {'article': article},
+            # article = Article.objects.get(pk=pk)
+            article_sub = ArticleSubmission.objects.get(article__pk=pk)
+            return render_to_response('articles/submitted_article_description.html', {'article': article_sub.article,'sub_article':article_sub},
                                       context_instance=RequestContext(request))
         except ObjectDoesNotExist:
             pass
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
+def review_submitted_article(request):
+    if request.method == "POST" and request.is_ajax():
+        if request.POST['id'] and request.POST['is_accepted']:
+            return HttpResponse('i want to review this')
+    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+                            context_instance=RequestContext(request))
 
 def submit_article(request):
-
     form = ArticleForm()
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)
