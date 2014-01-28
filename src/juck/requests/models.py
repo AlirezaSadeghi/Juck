@@ -14,7 +14,7 @@ class Request(models.Model):
     COOPERATION_TYPES = {'full_time': 1, 'half_time': 2, 'tele_work': 3}
 
     employer = models.ForeignKey(Employer, verbose_name=u'کارفرما', related_name='requests')
-    title = models.CharF_length=250, verbose_name=u'عنوان')
+    title = models.CharField(max_length=250, verbose_name=u'عنوان')
     content = models.TextField(verbose_name=u'متن درخواست')
     timestamp = models.DateTimeField(verbose_name=u'زمان ایجاد', auto_now=True)
     cooperation_type = models.PositiveSmallIntegerField(verbose_name=u'نوع همکاری', blank=True, null=True)
