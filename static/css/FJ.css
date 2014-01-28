@@ -410,3 +410,14 @@ body {
 .faq_add .form.segment {
     background-color: #C7D3B3 !important;
 }
+
+.advanced_search_form select{
+    font-family: BYekan;
+    font-size: 12px;
+    height: 30px;
+    background-color: white;
+    border: #dddddd solid 1px;
+    border-radius: 3px;
+    color: grey;
+    width: 142px;
+}

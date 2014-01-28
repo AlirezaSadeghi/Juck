@@ -182,7 +182,8 @@ class Employer(JuckUser):
         verbose_name_plural = u'کارفرمایان'
 
     def __unicode__(self):
-        return self.profile.company_name
+        # return self.profile.company_name
+        return self.email
 
     profile = models.OneToOneField(EmployerProfile, verbose_name=u'پروفایل کارفرما', related_name='employer')
 
@@ -194,7 +195,8 @@ class JobSeeker(JuckUser):
 
 
     def __unicode__(self):
-        return self.name
+        # return self.name
+        return self.email
 
     profile = models.OneToOneField(JobSeekerProfile, verbose_name=u'پروفایل کارجو', related_name='jobseeker')
     resume = models.OneToOneField('Resume', verbose_name=u'رزومه', null=True, blank=True)
