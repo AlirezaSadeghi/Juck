@@ -23,10 +23,15 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.formtools.wizard.views import SessionWizardView
 
 from juck.accounts.forms import *
+from juck.news.models import News
+from juck.articles.models import Article, ArticleSubmission
 
 
 def user_panel(request):
-    return render_to_response('accounts/user_panel.html', {'user_type':'employer'}, context_instance=RequestContext(request, ))
+    news = News.objects.all()
+    articles=  Article.objects.all()
+    art_sub = ArticleSubmission.objects.all()
+    return render_to_response('accounts/user_panel.html', {'user_type':'manager','news':news,'articles':articles, 'art_sub':art_sub}, context_instance=RequestContext(request, ))
 
 
 def about_us(request):
@@ -41,6 +46,11 @@ def homepage(request):
     if request.user.is_authenticated():
         if request.user.is_superuser:
             return HttpResponseRedirect('/admin/')
+
+        news = News.objects.all()
+        articles=  Article.objects.all()
+        art_sub = ArticleSubmission.objects.all()
+
         if check_user_type(request.user.pk, 'manager'):
             user_type = 'manager'
         elif check_user_type(request.user.pk, 'employer'):
@@ -48,7 +58,7 @@ def homepage(request):
         else:
             user_type = 'job_seeker'
 
-        return render_to_response("accounts/user_panel.html", {'user_type': user_type},
+        return render_to_response("accounts/user_panel.html", {'user_type': user_type,'news':news,'article':articles, 'art_sub':art_sub},
                                   context_instance=RequestContext(request, ))
     return render_to_response("accounts/homepage.html", {}, context_instance=RequestContext(request))
 

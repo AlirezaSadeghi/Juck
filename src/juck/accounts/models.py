@@ -120,8 +120,22 @@ class JuckUser(AbstractBaseUser, PermissionsMixin):
         db_index=True,
     )
 
+    JOB_SEEKER = 3
+    MANAGER = 1
+    EMPLOYER = 2
+
+
+    USER_CHOICES = (
+        (1, u'مدیر'),
+        (2, u'کارفرما'),
+        (3, u'کارجو'),
+    )
+
+
     first_name = models.CharField(verbose_name=u'نام', max_length=100, blank=True)
     last_name = models.CharField(verbose_name=u'نام خانوادگی', max_length=150, blank=True)
+
+    role = models.CharField(verbose_name=u'نوع کاربری', max_length=100, choices=USER_CHOICES)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

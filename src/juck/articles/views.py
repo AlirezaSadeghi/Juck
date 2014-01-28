@@ -26,6 +26,7 @@ def show_articles_list(request):
             articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
 
             return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
+
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
@@ -96,17 +97,23 @@ def submitted_article_description(request):
         pk = request.GET.get('pk', 1)
         try:
             # article_sub = ArticleSubmission.objects.values_list('article', flat=True)
-            article = Article.objects.get(pk=pk)
-            return render_to_response('articles/submitted_article_description.html', {'article': article},
+            # article = Article.objects.get(pk=pk)
+            article_sub = ArticleSubmission.objects.get(article__pk=pk)
+            return render_to_response('articles/submitted_article_description.html', {'article': article_sub.article,'sub_article':article_sub},
                                       context_instance=RequestContext(request))
         except ObjectDoesNotExist:
             pass
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
+def review_submitted_article(request):
+    if request.method == "POST" and request.is_ajax():
+        if request.POST['id'] and request.POST['is_accepted']:
+            return HttpResponse('i want to review this')
+    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+                            context_instance=RequestContext(request))
 
 def submit_article(request):
-
     form = ArticleForm()
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)
