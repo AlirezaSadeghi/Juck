@@ -108,7 +108,7 @@ def submitted_article_description(request):
 
 def review_submitted_article(request):
     if request.method == "POST" and request.is_ajax():
-        if reques.POST['id'] and request.POST['is_accepted']:
+        if request.POST['id'] and request.POST['is_accepted']:
             return HttpResponse('i want to review this')
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                             context_instance=RequestContext(request))
