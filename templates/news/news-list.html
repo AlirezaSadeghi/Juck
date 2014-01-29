@@ -13,7 +13,8 @@
         .author-link {
             color: #777;
         }
-        .author-link:hover{
+
+        .author-link:hover {
             color: #178edc;
         }
     </style>
@@ -21,52 +22,89 @@
 
 {% block js %}
     <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
+    <script>
+
+        function mySina(){
+            x = $("#submit_button")[0];
+            x.click();
+        }
+
+    </script>
 {% endblock %}
 
 {% block content %}
     <!-- rf & reza.fj-->
     <div class="center">
         <div class="ctn-box">
-            <div class="ui icon input left small">
-                <input type="text" placeholder="جستجو...">
-                <i class="inverted search icon"></i>
-            </div>
+            <form>
+                <div class="ui icon input left small">
+                    {{ search_form.content }}
+{#                    <input type="text" placeholder="جستجو...">#}
+                    <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
+{#                    <a href="#Sina">#}
+{##}
+{#                    </a>#}
+{##}
+{#                    <input class="inline ui button" type="submit"  id="Sina" style="display: none">#}
+                </div>
 
-            <small class="advanced_search">جستجوی پیشرفته</small>
+                <small class="advanced_search">جستجوی پیشرفته</small>
 
-            <div class="advanced_search_panel ui segment form">
-                <div class="container">
-                    <div class="advanced_search_form">
-                        <form>
+                <div class="advanced_search_panel ui segment form">
+                    <div class="container">
+                        <div class="advanced_search_form">
+
+                            <div class="inline field">
+                                <label class="input_labels"> عنوان</label>
+                                {{ search_form.title }}
+                                {#                                <input type="number" name="min_rate"#}
+                                {#                                                                                         placeholder="از ۵">#}
+                            </div>
+
+                            <div class="inline field">
+                                <label class="input_labels"> توضیحات</label>
+                                {{ search_form.description }}
+                                {#                                <input type="number" name="min_rate"#}
+                                {#                                                                                         placeholder="از ۵">#}
+                            </div>
+
+
                             <div class="two fields">
                                 <span class="inline field">
                                 <label class="input_labels">از تاریخ: </label><input type="date"
                                                                                      name="first_date"></span>
                                 <span class="inline field">
-                                <label class="input_labels">تا تاریخ: </label><input type="date" name="secon_date">
+                                <label class="input_labels">تا تاریخ: </label>
+{#                                    {{ search_form.min_sco }}#}
+                                    <input type="date" name="second_date">
                                 </span>
                             </div>
                             <div class="inline field">
-                                <label class="input_labels">حداقل امتیاز: </label><input type="number" name="min_rate"
-                                                                                         placeholder="از ۵">
+                                <label class="input_labels">حداقل امتیاز: </label>
+                                {{ search_form.min_score }}
+                                {#                                <input type="number" name="min_rate"#}
+                                {#                                                                                         placeholder="از ۵">#}
                             </div>
                             <div class="inline field">
-                                <label class="input_labels">حداقل بارگیری: </label><input type="number" name="downloads"
-                                                                                          placeholder="0 بار">
+                                <label class="input_labels"> حداکثر امتیاز: </label>
+                                {{ search_form.max_score }}
+                                {#                                <input type="number" name="downloads"#}
+                                {#                                                                                          placeholder="0 بار">#}
                             </div>
                             <div class="search_buttons">
                                 <input class="inline ui button" type="reset" value="پاک کردن">
-                                <input class="inline ui button" type="submit" value="جستجو">
+                                <input class="inline ui button" type="submit" id="submit_button" value="جستجو">
                             </div>
-                        </form>
-                    </div>
-                    <div class="ui vertical divider"></div>
-                    <div class="advanced_search_info">
-                        <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
 
+                        </div>
+                        <div class="ui vertical divider"></div>
+                        <div class="advanced_search_info">
+                            <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
+
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
 
             <div class="news_list">
                 {% for item in news %}
@@ -101,19 +139,18 @@
                                     </div>
 
 
-                                    <div class="ui red label icon tiny" id="dislike" >
+                                    <div class="ui red label icon tiny" id="dislike">
                                         <i class="thumbs down icon"></i>
 
                                         <i>
                                             24&nbsp
                                         </i>
                                     </div>
-
-
                                 </div>
                             </div>
                             <div class="more_buttons">
-                                <div class="ui animated button  small" onclick="window.location='{% url "show_news_description" %}?pk={{ item.pk }}'">
+                                <div class="ui animated button  small"
+                                     onclick="window.location='{% url "show_news_description" %}?pk={{ item.pk }}'">
                                     <div class="visible content">مشروح خبر</div>
                                     <div class="hidden content"><i class="left arrow icon"></i></div>
                                 </div>
@@ -126,36 +163,31 @@
                 {% endfor %}
             </div>
             <!-- <div class="ui segment"> -->
-            {% if news.length > 10 %}
-                <div class="ui pagination menu" style="width:100%;text-align:center;margin-top:10px;">
-                    <a class="disabled icon item">
-                        <i class="icon right arrow"></i>
-                    </a>
-                    <a class="active item">
-                        1
-                    </a>
-                    <a class="item">
-                        2
-                    </a>
+            {% if news.paginator.num_pages > 1 %}
+            <div style="text-align: center;">
+            <div class="ui small pagination menu">
+                    {% if news.has_previous %}
+                            <a href="?{{ get_params.urlencode }}&page={{ news.previous_page_number }}"
+                               class="icon item"><i class="icon right arrow"></i></a>
+                    {% endif %}
 
-                    <div class="disabled item">
-                        ...
-                    </div>
-                    <a class="item">
-                        11
-                    </a>
-                    <a class="item">
-                        12
-                    </a>
-                    <a class="icon item">
-                        <i class="icon left arrow"></i>
-                    </a>
-
-                </div>
-            {% endif %}
-{#            {% else %}#}
-{#                <div class="ui error message">خبری وجود ندارد</div>#}
-{#            {% endif %}#}
+                    {% for p in page_range %}
+                        {% ifequal p questions.number %}
+                            <a  href="javascript:void(0);" class="active item">{{ p }}</a>
+                        {% else %}
+                            <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                        {% endifequal %}
+                    {% endfor %}
+                    {% if news.has_next %}
+                        <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
+                           class="icon item"><i class="icon left arrow"></i></a>
+                    {% endif %}
+            </div>
+            </div>
+        {% endif %}
+            {#            {% else %}#}
+            {#                <div class="ui error message">خبری وجود ندارد</div>#}
+            {#            {% endif %}#}
         </div>
     </div>
     <!-- </div> -->

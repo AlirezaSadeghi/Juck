@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+
+    <link href="{% static 'css/FJ.css' %}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        p {
+            font: 13px/20px "BYekan", tahoma !important;
+        }
+    </style>
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div class="news_list">
+        {% for item in requests %}
+            <div class="news_item ui raised segment">
+                {#                {% if item.image %}#}
+                {#                    <img src="{{ item.image.url|default:'/static/images/a.jpg' }}"/>#}
+                {#                {% else %}#}
+                {#                    <img src="/static/images/a.jpg"/>#}
+                {##}
+                {#                {% endif %}#}
+                <h2>{{ item.title }}</h2>
+
+                <div class="ui section divider light_margined"></div>
+                {% if request_type == 'offer' %}
+
+                    <div class="news_content">
+                        <p>
+                            از:
+                            {{ item.sender.get_full_name }}
+                        </p>
+                    </div>
+                    <div class="news_content">
+                        <p>
+                            به:
+                            {{ item.employer.get_full_name }}
+                        </p>
+                    </div>
+                {% else %}
+                    <div class="news_content">
+                        <p>
+                            از:
+                            {{ item.employer.get_full_name }}
+                        </p>
+                    </div>
+                    <div class="news_content">
+
+                            {% if item.first_major %}
+                                <p>
+                                رشته تحصیلی مربوطه:
+                                {{ item.first_major }}
+
+                                {% if item.second_major %}
+
+                                    و
+                                    {{ item.second_major }}
+
+                                {% endif %}
+                                </p>
+                            {% endif %}
+                            {% if item.certificate %}
+                                <p>
+                                مدارک لازم:
+                                {{ item.certificate }}
+                                </p>
+                            {% endif %}
+                            {% if item.sex %}
+                                <p>
+                                جنسیت مورد نظر:
+                                {{ item.sex }}
+                                </p>
+                            {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+                <div class="news_content">
+                    <p>
+                        {% if item.content %}
+                            {{ item.content }}
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="news_other">
+
+                    <div class="date_rate">
+
+                        <small>
+                            زمان ارسال:
+                            {% get_persian_date item.timestamp.date %} ساعت {{ item.timestamp.time }}
+                        </small>
+
+                        <div class="field" style="margin-top: 5px">
+
+                        </div>
+                    </div>
+                    <div class="more_buttons">
+                        <div class="ui animated button  small"
+                             onclick="window.location='/product/profile/{{ item.pk }}/'">
+                            <div class="visible content"> توضیحات محصول</div>
+                            <div class="hidden content"><i class="left arrow icon"></i></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="ui section divider"
+                 style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
+        {% endfor %}
+    </div>
+
+    {#    {% if not not_show %}#}
+    {##}
+    {#    <div class="ui blue segment">#}
+    {#        <p>#}
+    {#            تعداد محصولات موجود در سبد خرید : {{ products|length }}#}
+    {#        </p>#}
+    {#        <br>#}
+    {#        <p>#}
+    {#            جمع محصولات خریداری شده:{{ price }}#}
+    {#            تومان#}
+    {#        </p>#}
+    {##}
+    {##}
+    {#        <form method="POST" >#}
+    {#            {% csrf_token %}#}
+    {#            <input  type="submit" class="ui button" style="float: left" value="ثبت خرید نهایی">#}
+    {#        </form>#}
+    {#    </div>#}
+    {##}
+    {#    {% endif %}#}
+
+{% endblock %}
