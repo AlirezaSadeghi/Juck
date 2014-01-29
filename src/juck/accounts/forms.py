@@ -30,6 +30,7 @@ class JobSeekerRegisterForm1(forms.Form):
     first_name = forms.CharField(required=True, label=u'نام')
     last_name = forms.CharField(required=True, label=u'نام خانوادگی')
     email = forms.EmailField(required=True, label=u'پست الکترونیکی')
+    national_id = forms.CharField(required=True, label=u'کدملی', max_length=20)
     password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور')
     re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور')
     captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')

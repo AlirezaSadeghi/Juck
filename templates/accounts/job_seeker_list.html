@@ -56,10 +56,10 @@
                     <div class="user_number inlineblock inlinemiddle ">
                         {{ forloop.counter }}
                     </div>
-                    <img class="inlinemiddle" src="{% static 'images/a.jpeg' %} ">
+                    <img class="inlinemiddle" src="{{ js.image.thumbnail.url|default:'/static/images/user.png' }}" >
                     <div class="inlinemiddle inlineblock user_data">
                         <div class="user_info1">
-                            <span class="user_title">علیرضا صادقی</span>
+                            <span class="user_title">{{ js.get_full_name }}</span>
                             <span class="user_job">مدرک تحصیلی: <span> IT </span><span>شریف</span></span>
                         </div>
                         <div class="user_info2">

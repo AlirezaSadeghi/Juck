@@ -354,7 +354,7 @@ def job_seeker_list(request, approved_status):
 
         page_range = create_pagination_range(job_seekers.number, job_seekers.paginator.num_pages)
 
-        return render_to_response('accounts/employer_list.html',
+        return render_to_response('accounts/job_seeker_list.html',
                                   {'job_seekers': job_seekers, 'count': count, 'search_form': search_form,
                                    'page_range': page_range,
                                    'get_params': get_params}, context_instance=RequestContext(request))
