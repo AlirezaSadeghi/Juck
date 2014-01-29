@@ -41,8 +41,8 @@ body {
 }
 
 .advanced_search_panel .container .advanced_search_form {
-    display: inline-block;
-    width: 48%;
+    /*display: inline-block;*/
+    /*width: 48%;*/
 }
 
 .advanced_search_info {
@@ -54,6 +54,7 @@ body {
 
 .advanced_search_panel .search_buttons {
     direction: ltr;
+    float:left;
 }
 
 .advanced_search_panel .search_buttons input {
@@ -215,11 +216,11 @@ body {
     margin-top: 10px !important;
 }
 
-.user_list .single_user:hover .user_buttons {
+.user_list .single_user:hover .user_buttons, .user_list .single_user:hover .user-buttons {
     opacity: 1;
 }
 
-.user_list .single_user .user_buttons {
+.user_list .single_user .user_buttons, .user_list .single_user .user-buttons{
     opacity: 0;
     transition: opacity 500ms;
     -webkit-transition: opacity 500ms;

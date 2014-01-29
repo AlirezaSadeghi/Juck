@@ -6,132 +6,216 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css'%}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/RF.css' %}"/>
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'js/rf.js'%}"></script>
+    <script src="{% static 'js/rf.js' %}"></script>
+
+
 {% endblock %}
 
 {% block content %}
     <div class="center">
         <div class="ctn-box">
-            <div class="ui icon input left small">
-                <input type="text" placeholder="جستجو...">
-                <i class="inverted search icon"></i>
+            <form id="job_seeker_list_form">
+                <div class="ui icon input left small" onkeypress="submit_jobseeker_list(event)">
+                    {{ search_form.search_input }}
+                    <i class="inverted search icon"></i>
                 </div>
 
-                <small class="advanced_search">جستجوی پیشرفته </small>
+                <small class="advanced_search">جستجوی پیشرفته</small>
 
                 <div class="advanced_search_panel ui segment form">
                     <div class="container">
-                        <div class="advanced_search_form">
-                        <form>
-                            <div class="inline field">
-                                <label class="input_labels">حداقل امتیاز: </label><input type="number" name="min_rate" placeholder="از ۵">
-                            </div>
-                            <div class="inline field">
-                                <label class="input_labels">حداقل سن: </label><input type="number" name="min_age" placeholder="سن">
-                            </div>
-							<div class="inline field">
-                                <label class="input_labels">رشته تحصیلی: </label><input type="text" name="author-name" placeholder="رشته">
-                            </div>
+                        <div class="advanced_search_form rf">
+                            <div class="ui form">
+                                <div class="section">
+                                    <h3>اطلاعات کاربری</h3>
 
-                            <div class="search_buttons">
-                                <input class="inline ui button" type="reset" value="پاک کردن">
-                                <input class="inline ui button"type="submit" value="جستجو">
-                            </div>
-                        </form>
-                        </div>
-                        <div class="ui vertical divider"></div>
-                        <div class="advanced_search_info">
-                            <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
+                                    <div class="three fields">
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.sex.label_tag }}: </label>
+                                            {{ search_form.sex }}
+                                        </div>
 
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.last_name.label_tag }}: </label>
+                                            {{ search_form.last_name }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.first_name.label_tag }}: </label>
+                                            {{ search_form.first_name }}
+                                        </div>
+                                    </div>
+                                    <div class="three fields">
+                                        <div class="inline field">
+
+                                            <label class="input-details">{{ search_form.state.label_tag }}: </label>
+                                            {{ search_form.state }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.city.label_tag }}: </label>
+                                            {{ search_form.city }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.married.label_tag }}: </label>
+                                            {{ search_form.married }}
+                                        </div>
+                                    </div>
+                                    <h3>اطلاعات تحصیلی</h3>
+
+                                    <div class="three fields">
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.edu_orientation.label_tag }}: </label>
+                                            {{ search_form.edu_orientation }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.edu_major.label_tag }}: </label>
+                                            {{ search_form.edu_major }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.certificate.label_tag }}: </label>
+                                            {{ search_form.certificate }}
+                                        </div>
+                                    </div>
+
+                                    <div class='ui three fields'>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.edu_uni_type.label_tag }}: </label>
+                                            {{ search_form.edu_uni_type }}
+                                        </div>
+
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.edu_uni_name.label_tag }}: </label>
+                                            {{ search_form.edu_uni_name }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.edu_status.label_tag }}: </label>
+                                            {{ search_form.edu_status }}
+                                        </div>
+                                    </div>
+
+                                    <h3>اطلاعات کاری</h3>
+
+                                    <div class="ui three fields">
+                                        <div class="inline field">
+                                            {#                                        <label class="input-details">{{ search_form.skill_description.label_tag }}: </label>#}
+                                            {#                                        {{ search_form.skill_description }}#}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.exp_place.label_tag }}: </label>
+                                            {{ search_form.exp_place }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.exp_title.label_tag }}: </label>
+                                            {{ search_form.exp_title }}
+                                        </div>
+
+                                    </div>
+
+                                    <h3>مهارت‌ها</h3>
+
+                                    <div class="ui three fields">
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.skill_description.label_tag }}: </label>
+                                            {{ search_form.skill_description }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.skill_level.label_tag }}: </label>
+                                            {{ search_form.skill_level }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.skill_title.label_tag }}: </label>
+                                            {{ search_form.skill_title }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="search_buttons">
+                                    <input class="inline ui button" type="reset" value="پاک کردن">
+                                    <input class="inline ui button" type="submit" value="جستجو">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </form>
             <div class="user_list">
-                {% for js in job_seekers %}
-                <div class="ui raised segment single_user">
-                    <div class="user_number inlineblock inlinemiddle ">
-                        {{ forloop.counter }}
-                    </div>
-                    <img class="inlinemiddle" src="{{ js.image.thumbnail.url|default:'/static/images/user.png' }}" >
-                    <div class="inlinemiddle inlineblock user_data">
-                        <div class="user_info1">
-                            <span class="user_title">{{ js.get_full_name }}</span>
-                            <span class="user_job">مدرک تحصیلی: <span> IT </span><span>شریف</span></span>
-                        </div>
-                        <div class="user_info2">
-                            <span class="user_age">سن: <span>۲۱ سال</span></span>
-                            <span class="user_country">ساکن: <span>تهران</span></span>
-                            <span class="user_country">زمینه کاری: <span>برنامه نویس وب</span></span>
-                        </div>
-                    </div>
-                    <div class="user_buttons">
-                        <div class="ui icon tiny blue button">
-                             <i class=" user icon"></i>
-پذیرفتن
-                        </div>
-                        <div class="ui icon tiny red button">
-                             <i class=" remove icon"></i>
-حذف
-                        </div>
-                    </div>
-                </div>
-                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
-                {% endfor %}
-{#                <div class="ui raised segment single_user">#}
-{#                    <div class="user_number inlineblock inlinemiddle ">#}
-{#                        1#}
-{#                    </div>#}
-{#                    <img class="inlinemiddle" src="{% static 'a.jpeg' %} ">#}
-{#                    <div class="inlinemiddle inlineblock user_data">#}
-{#                        <div class="user_info1">#}
-{#                            <span class="user_title">عارف شفاعی بجستان</span>#}
-{#                            <span class="user_job">مهندس کامپیوتر</span>#}
-{#                        </div>#}
-{#                        <div class="user_info2">#}
-{#                            <span class="user_age">21</span>#}
-{#                            <span class="user_country">تهران</span>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <div class="user_buttons">#}
-{#                        <div class="ui icon small blue button">#}
-{#                             <i class=" user icon"></i>#}
-{#                            مشاهده پروفایل#}
-{#                        </div>#}
-{#                        <div class="ui icon small red button">#}
-{#                             <i class=" remove icon"></i>#}
-{#                            حذف کارجو#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="ui section divider" style="margin-top:1rem !important;margin-bottom:1rem !important"></div>#}
-{#            </div>#}
+                {% if job_seekers %}
+                    {% for job_seeker in job_seekers %}
+                        <div class="ui raised segment single_user" id='job_seeker{{ job_seeker.id }}'>
+                            <div class="user_number inlineblock inlinemiddle ">
+                                {{ forloop.counter }}
+                            </div>
+                            <img class="inlinemiddle"
+                                 src="{{ job_seeker.image.thumbnail.url|default:'/static/images/user.png' }}">
 
-{#            FJ#}
-            <div class="ui pagination menu">
-                      <a class="icon item">
-                        <i class="icon right arrow"></i>
-                      </a>
-                      <a class="active item">
-                        ۱
-                      </a>
-                      <div class="disabled item">
-                        ۲
-                      </div>
-                      <a class="item">
-                        ...
-                      </a>
-                      <a class="item">
-                        ۱۲
-                      </a>
-                      <a class="icon item">
-                        <i class="icon left arrow"></i>
-                      </a>
-                </div>
-{#            FJ#}
+                            <div class="inlinemiddle inlineblock user_data">
+                                <div class="rf-vertical-divider"></div>
+                                <div class="rf-user-info i1">
+                                    <div class="user_title"><span>نام: </span>{{ job_seeker.get_full_name }}</div>
+                                    <div class="user_email"><span>نام کاربری: </span>{{ job_seeker.email }}</div>
+                                    <div class="user_national_id">
+                                        <span>کدملی: </span>{{ job_seeker.profile.national_id }}
+                                    </div>
+                                </div>
+                                <div class="rf-user-info i2">
+                                    <div><span>شماره تماس: </span>{{ job_seeker.profile.phone_number }}</div>
+                                    <div><span>استان: </span>{{ job_seeker.profile.state.name }}</div>
+                                    <div><span>شهر: </span>{{ job_seeker.profile.city.name }}</div>
+                                </div>
+                            </div>
+                            <div class="user-buttons">
+                                <div class="ui icon tiny linkedin button rf-button"
+                                     onclick="approve_user({{ job_seeker.id }}, 'job_seeker')">
+                                    <i class=" user icon"></i><br/>
+                                    تایید
+                                </div>
+                                <div class="ui icon tiny red button rf-button"
+                                     onclick="remove_user({{ job_seeker.id }}, 'job_seeker')">
+                                    <i class=" remove icon"></i>
+
+                                    <div>
+                                        حذف
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui section divider"
+                             style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+                    {% endfor %}
+
+                    {% if job_seekers.paginator.num_pages > 1 %}
+                        <div style="text-align: center;">
+                            <div class="ui small pagination menu">
+                                {% if job_seekers.has_previous %}
+                                    <a href="?{{ get_params.urlencode }}&page={{ job_seekers.previous_page_number }}"
+                                       class="icon item"><i class="icon right arrow"></i></a>
+                                {% endif %}
+
+                                {% for p in page_range %}
+                                    {% ifequal p job_seekers.number %}
+                                        <a href="javascript:void(0);" class="active item">{{ p }}</a>
+                                    {% else %}
+                                        <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                                    {% endifequal %}
+                                {% endfor %}
+                                {% if questions.has_next %}
+                                    <a class="item"
+                                       href="?{{ get_params.urlencode }}&page={{ job_seekers.next_page_number }}"
+                                       class="icon item"><i class="icon left arrow"></i></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="ui message error rf-no-list-item">
+                        کاربری با مشخصات خواسته شده، وجود ندارد.
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

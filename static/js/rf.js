@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+
     $('.advanced_search_panel').hide();
     $('.advanced_search').click(function () {
         $('.advanced_search_panel').slideToggle('slow');
@@ -15,6 +17,7 @@ $(document).ready(function () {
 
     $('.ui.redio.checkbox')
         .checkbox();
+
 
     $('.answer_box').each(function () {
         $(this).hide();
@@ -102,7 +105,35 @@ $(document).ready(function () {
         window.location.href = window.location.origin + window.location.pathname + '?a_pk=' + $(this).attr('id').replace('a', '');
     })
 
-    $('.attached.message .dl_btn .article').click(function() {
+    $('.attached.message .dl_btn .article').click(function () {
         window.location.href = window.location.origin + window.location.pathname + query + '&dl=true';
     })
 });
+
+
+function submit_jobseeker_list(event) {
+//    alert(event.keyCode);
+    if (event.keyCode == 13) {
+        $('#job_seeker_list_form').submit();
+    }
+}
+
+function approve_user(id, user_type) {
+    $.post('/accounts/users/approve/', {'csrfmiddlewaretoken': csrfToken, 'function': 'approve', 'id': id, 'user_type': user_type}, function (response) {
+        if (response.op_status == 'success') {
+//            alert(response.message);
+        } else {
+//            alert(response.message);
+        }
+    });
+}
+
+function remove_user(id, user_type) {
+    $.post('/accounts/users/approve/', {'csrfmiddlewaretoken': csrfToken, 'function': 'remove', 'id': id, 'user_type': user_type}, function (response) {
+        if (response.op_status == 'success') {
+//            alert(response.message);
+        } else {
+//            alert(response.message);
+        }
+    });
+}

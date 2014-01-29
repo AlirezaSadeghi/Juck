@@ -70,4 +70,6 @@ urlpatterns = patterns('juck.accounts.views',
                        #     name='pending_jobseekers_list'),
 
                        url(r'^show_profile/', 'show_profile', {}, name='show_profile'),
+
+                       url(r'^users/approve/$', 'ajax_remove_or_approve_user', {}, name='approve_user')
 )

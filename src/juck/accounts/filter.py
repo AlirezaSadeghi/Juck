@@ -4,34 +4,49 @@ from django import forms
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.conf import settings
 from juck.accounts.models import *
+from django.db.models import Q
 
 
 class ManagerJobSeekerListFilter:
     class ManagerJobSeekerListFilterFrom(forms.Form):
 
-        #TODO search what?!
-        search_input = forms.CharField(max_length=200, required=False)
+
+        search_input = forms.CharField(max_length=200, required=False,
+                                       widget=forms.TextInput(attrs={'placeholder': "جستجو..."}))
 
         first_name = forms.CharField(label=u'نام', max_length=100, required=False)
         last_name = forms.CharField(label=u'نام خانوادگی', max_length=150, required=False)
 
         #Educational
-        certificate = forms.ChoiceField(label=u'مدرک تحصیلی', required=False, choices=(('under_grad', u'کارشناسی'),
-                                                                                       ('grad', u'کارشناسی ارشد'),
-                                                                                       ('phd', u'دکتری'),
-                                                                                       ('post_doc', u'پست دکتری')), )
-        edu_status = forms.ChoiceField(required=False, label=u'وضغیت تحصیلی',
+        certificate = forms.ChoiceField(label=u'مدرک تحصیلی', required=False,
+                                        choices=(('', u'انتخاب کنید'),
+                                                 ('under_grad', u'کارشناسی'),
+                                                 ('grad', u'کارشناسی ارشد'),
+                                                 ('phd', u'دکتری'),
+                                                 ('post_doc', u'پست دکتری')), )
+        edu_status = forms.ChoiceField(required=False, label=u'وضعیت تحصیلی',
                                        choices=(
-                                           ('student', u'دانشچو'),
+                                           ('', u'انتخاب کنید'),
+                                           ('student', u'دانشجو'),
                                            ('graduated', u'فارغ التحصیل'),
                                        ))
         edu_major = forms.CharField(label=u'رشته تحصیلی', max_length=200, required=False)
-        edu_orientation = forms.CharField(label=u'گرایش تحصیلی', max_length=150)
+        edu_orientation = forms.CharField(label=u'گرایش تحصیلی', max_length=150, required=False)
+        edu_uni_name = forms.CharField(label=u'نام دانشگاه', max_length=150, required=False)
+        edu_uni_type = forms.ChoiceField(label=u'نوع دانشگاه', choices=(
+            ('', u'انتخاب کنید.'),
+            ('dolati', u'دولتی'),
+            ('azad', u'آزاد'),
+            ('entefaei', u'غیرانتفاعی'),
+            ('payam_nur', u'پیام نور'),
+            ('foregin', u'خارجی'),
+        ), required=False)
 
         # Skill
         skill_title = forms.CharField(required=False, max_length=150, label=u'عنوان مهارت')
         skill_level = forms.ChoiceField(required=False, label=u'سطح تسلط',
                                         choices=(
+                                            ('', u'انتخاب کنید.'),
                                             ('low', u'آشنا'),
                                             ('high', u'مسط'),
                                             ('certificate', u'دارای مدرک معتبر'),
@@ -40,7 +55,7 @@ class ManagerJobSeekerListFilter:
 
         # Experience
         exp_title = forms.CharField(required=False, max_length=200, label=u'عنوان سابقه')
-        exp_place = forms.CharField(required=False, max_length=200, label=u'سازمان یا دانشگاه مربوطه')
+        exp_place = forms.CharField(required=False, max_length=200, label=u'محل کار')
 
         #Profile details:
         city = forms.CharField(label=u'شهر', max_length=100, required=False)
@@ -57,14 +72,20 @@ class ManagerJobSeekerListFilter:
 
         filter_kwargs = {'role': JuckUser.JOB_SEEKER}
         job_seeker_filter_kwargs = kwargs
+        search_input = ""
 
         if self.form.is_valid():
+            search_input = self.form.cleaned_data.get('search_input', '')
+
             first_name = self.form.cleaned_data.get('first_name', '')
             last_name = self.form.cleaned_data.get('last_name', '')
             certificate = self.form.cleaned_data.get('certificate', '')
             edu_status = self.form.cleaned_data.get('edu_status', '')
             edu_major = self.form.cleaned_data.get('edu_major', '')
             edu_orientation = self.form.cleaned_data.get('edu_orientation', '')
+            edu_uni_name = self.form.cleaned_data.get('edu_uni_name', '')
+            edu_uni_type = self.form.cleaned_data.get('edu_uni_type', '')
+
             skill_title = self.form.cleaned_data.get('skill_title', '')
             skill_level = self.form.cleaned_data.get('skill_level', '')
             skill_description = self.form.cleaned_data.get('skill_description', '')
@@ -88,8 +109,13 @@ class ManagerJobSeekerListFilter:
                 job_seeker_filter_kwargs.update({'resume__education__major': edu_major})
             if edu_orientation:
                 job_seeker_filter_kwargs.update({'resume__education__orientation': edu_orientation})
+            if edu_uni_name:
+                job_seeker_filter_kwargs.update({'resume__education__university_name': edu_uni_name})
+            if edu_uni_type:
+                job_seeker_filter_kwargs.update({'resume__education__university_type': edu_uni_type})
             if sex:
-                job_seeker_filter_kwargs.update({'profile__sex': sex})
+                if int(sex):
+                    job_seeker_filter_kwargs.update({'profile__sex': int(sex)})
 
             if skill_title:
                 job_seeker_filter_kwargs.update({'resume__skill__title__icontains': skill_title})
@@ -113,8 +139,13 @@ class ManagerJobSeekerListFilter:
             if state:
                 job_seeker_filter_kwargs.update({'profile__state__name': state})
 
+
+
         user = JuckUser.objects.filter(**filter_kwargs).order_by('-date_joined')
-        job_seeker_filter_kwargs.update({'pk__in':user.values('pk')})
+        if search_input:
+            user = user.filter(Q(first_name__icontains=search_input) | Q(last_name__icontains=search_input))
+
+        job_seeker_filter_kwargs.update({'pk__in': user.values('pk')})
         # job_seeker = JobSeeker.objects.filter(pk__in=user.values('pk'))
         job_seekers = JobSeeker.objects.filter(**job_seeker_filter_kwargs)
 
@@ -163,6 +194,8 @@ class ManagerEmployerListFilter:
         employer_filter_kwargs = kwargs
 
         if self.form.is_valid():
+            search_input = self.form.cleaned_data.get('search_input', '')
+
             first_name = self.form.cleaned_data.get('first_name', '')
             last_name = self.form.cleaned_data.get('last_name', '')
             from_date = self.form.cleaned_data.get('from_date', '')
@@ -204,7 +237,10 @@ class ManagerEmployerListFilter:
 
         user = JuckUser.objects.filter(**filter_kwargs).order_by('-date_joined')
         # employer = Employer.objects.filter(pk__in=user.values('pk'))
-        employer_filter_kwargs.update({'pk__in':user.values('pk')})
+        if search_input:
+            user = user.filter(Q(first_name__icontains=search_input) | Q(last_name__icontains=search_input))
+
+        employer_filter_kwargs.update({'pk__in': user.values('pk')})
         employers = Employer.objects.filter(**employer_filter_kwargs)
         count = employers.count()
 
