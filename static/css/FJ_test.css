@@ -1,0 +1,16 @@
+.col1, .col2, .col3{
+    display: inline-block !important;
+    position: absolute;
+}
+
+.col1{
+    right: 10px;
+}
+
+.col2{
+    right: 200px;
+}
+
+.col3{
+    right: 400px;
+}

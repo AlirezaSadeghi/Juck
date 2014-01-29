@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/FJ_test.css' %}" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+    <div class="center">
+        <div class="ctn-box">
+            <div class="ui fluid accordion jobseekerprofile">
+                <div class="active title general_info">
+                    <i class="dropdown icon"></i>
+                    اطلاعات کلی
+                </div>
+                <div class="active content general_info">
+                    <div class="ui segment" style="background-color: rgb(43, 180, 158);; color: #ffffff">
+                        <div class="col1">
+                            <label>نام: </label><span>علیرضا </span>
+                        </div>
+                        <div class="col2">
+                            <label>نام خانوادگی: </label><span>فراهانی </span>
+                        </div>
+                        <div class="col3">
+                            <label>شماره ملی: </label><span>۸۹۱۰۵۵۸۵</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -14,6 +14,8 @@ urlpatterns = patterns('juck.question.views',
     url(r'^edit_common_question/$', 'edit_common_question', {}, name='edit_common_question'),
     url(r'^remove_common_question/$', 'remove_common_question', {}, name='remove_common_question'),
 
+    url(r'^test/$', 'test', {}, name='test'),
+
 )
 
 
