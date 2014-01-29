@@ -21,14 +21,14 @@ def advertisements(request):
             del get_params['page']
 
         search_filter = RequestListFilter()
-        requests, count = search_filter.init_filter(request.GET, **{'common': True})
+        requests, count = search_filter.init_filter(request.GET, request_type='jo')
         search_form = search_filter.get_form()
 
         page_range = create_pagination_range(requests.number, requests.paginator.num_pages)
 
         if request.user.role == 'manager':
-            return render_to_response('requests/manager_common_questions.html',
-                                      {'requests': request, 'count': count, 'search_form': search_form,
+            return render_to_response('requests/show_requests.html',
+                                      {'requests': request, 'request_type': 'ads', 'count': count, 'search_form': search_form,
                                        'page_range': page_range, 'get_params': get_params},
                                       context_instance=RequestContext(request, ))
 
@@ -45,8 +45,51 @@ def show_requests(request):
 
 
 def show_js_requests(request):
+    if request.method == "GET":
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
+
+        search_filter = RequestListFilter()
+        requests, count = search_filter.init_filter(request.GET, request_type='jsjo')
+        search_form = search_filter.get_form()
+
+        page_range = create_pagination_range(requests.number, requests.paginator.num_pages)
+
+        if request.user.role == 'manager':
+            return render_to_response('requests/show_requests.html',
+                                      {'requests': request, 'request_type': 'offer', 'count': count, 'search_form': search_form,
+                                       'page_range': page_range, 'get_params': get_params},
+                                      context_instance=RequestContext(request, ))
+
+        return render_to_response('requests/show_requests.html',
+                                  {'requests': requests, 'request_type': 'offer', 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
+                                  context_instance=RequestContext(request, ))
+
     return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))
 
 
 def show_em_requests(request):
+    if request.method == "GET":
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
+
+        search_filter = RequestListFilter()
+        requests, count = search_filter.init_filter(request.GET, request_type='jo')
+        search_form = search_filter.get_form()
+
+        page_range = create_pagination_range(requests.number, requests.paginator.num_pages)
+
+        if request.user.role == 'manager':
+            return render_to_response('requests/show_requests.html',
+                                      {'requests': request, 'request_type': 'offer', 'count': count, 'search_form': search_form,
+                                       'page_range': page_range, 'get_params': get_params},
+                                      context_instance=RequestContext(request, ))
+
+        return render_to_response('requests/show_requests.html',
+                                  {'requests': requests, 'request_type': 'offer', 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
+                                  context_instance=RequestContext(request, ))
     return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load account_tags %}
 {% load staticfiles %}
 
 {% block css %}
@@ -11,19 +12,77 @@
     </style>
 {% endblock %}
 
+{% block js %}
 
+    <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
+
+{% endblock %}
 
 {% block content %}
+    <div class="center">
+        <div class="ctn-box">
+
+            <form method="GET">
+                <div class="ui icon input left small">
+                    <input type="text" placeholder="جستجو...">
+                    <i class="inverted search icon"></i>
+                </div>
+
+                <small class="advanced_search">جستجوی پیشرفته</small>
+
+                <div class="advanced_search_panel ui segment blue form">
+                    <div class="container">
+                        <div class="advanced_search_form">
+                            <form>
+                                <div class="two fields">
+                                <span class="inline field">
+                                <label class="input_labels">{{ search_form.employer.label }}</label>
+                                    {{ search_form.employer }}
+                                </span>
+                                <span class="inline field">
+                                <label class="input_labels">{{ search_form.job_seeker.label }}</label>
+                                    {{ search_form.job_seeker }}
+								</span>
+                                </div>
+                                <div class="inline field">
+                                    <label class="input_labels">{{ search_form.title.label }}</label>
+                                    {{ search.title }}
+                                </div>
+                                <div class="inline field">
+                                    <label class="input_labels">{{ search_form.content.label }}</label>
+                                    {{ search_form.content }}
+                                </div>
+                                <div class="inline field">
+                                    <label class="input_labels">{{ search_form.cooperation_type.label }}</label>
+                                    {{ search_form.cooperation_type }}
+                                </div>
+                                <div class="inline field">
+                                    <label class="input_labels">{{ search_form.sex.label }}</label>
+                                    {{ search_form.sex }}
+                                </div>
+                                <div class="inline field">
+                                    <label class="input_labels">{{ search_form.status.label }}</label>
+                                    {{ search_form.status }}
+                                </div>
+
+                                <div class="search_buttons">
+                                    <input class="inline ui button" type="reset" value="پاک کردن">
+                                    <input class="inline ui button" type="submit" value="جستجو">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="ui vertical divider"></div>
+                        <div class="advanced_search_info">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div class="news_list">
         {% for item in requests %}
             <div class="news_item ui raised segment">
-                {#                {% if item.image %}#}
-                {#                    <img src="{{ item.image.url|default:'/static/images/a.jpg' }}"/>#}
-                {#                {% else %}#}
-                {#                    <img src="/static/images/a.jpg"/>#}
-                {##}
-                {#                {% endif %}#}
                 <h2>{{ item.title }}</h2>
 
                 <div class="ui section divider light_margined"></div>
@@ -50,8 +109,8 @@
                     </div>
                     <div class="news_content">
 
-                            {% if item.first_major %}
-                                <p>
+                        {% if item.first_major %}
+                            <p>
                                 رشته تحصیلی مربوطه:
                                 {{ item.first_major }}
 
@@ -61,20 +120,20 @@
                                     {{ item.second_major }}
 
                                 {% endif %}
-                                </p>
-                            {% endif %}
-                            {% if item.certificate %}
-                                <p>
+                            </p>
+                        {% endif %}
+                        {% if item.certificate %}
+                            <p>
                                 مدارک لازم:
                                 {{ item.certificate }}
-                                </p>
-                            {% endif %}
-                            {% if item.sex %}
-                                <p>
+                            </p>
+                        {% endif %}
+                        {% if item.sex %}
+                            <p>
                                 جنسیت مورد نظر:
                                 {{ item.sex }}
-                                </p>
-                            {% endif %}
+                            </p>
+                        {% endif %}
 
                     </div>
 
@@ -114,26 +173,4 @@
                  style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
         {% endfor %}
     </div>
-
-    {#    {% if not not_show %}#}
-    {##}
-    {#    <div class="ui blue segment">#}
-    {#        <p>#}
-    {#            تعداد محصولات موجود در سبد خرید : {{ products|length }}#}
-    {#        </p>#}
-    {#        <br>#}
-    {#        <p>#}
-    {#            جمع محصولات خریداری شده:{{ price }}#}
-    {#            تومان#}
-    {#        </p>#}
-    {##}
-    {##}
-    {#        <form method="POST" >#}
-    {#            {% csrf_token %}#}
-    {#            <input  type="submit" class="ui button" style="float: left" value="ثبت خرید نهایی">#}
-    {#        </form>#}
-    {#    </div>#}
-    {##}
-    {#    {% endif %}#}
-
 {% endblock %}
