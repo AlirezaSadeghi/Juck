@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
     $('.advanced_search_panel').hide();
     $('.advanced_search').click(function () {
         $('.advanced_search_panel').slideToggle('slow');
@@ -40,23 +41,7 @@ $(document).ready(function () {
 //
 //    });
 
-    $('.single_question .edit_q').click(function () {
 
-        if ($(this).hasClass('fj_pressed')) {
-            $(this).removeClass('fj_pressed');
-            var txt = $(this).siblings('.ui.form').find('textarea').val();
-            $(this).siblings('.ui.form').replaceWith('<div class="ui message"><p>' + txt + '</p></div>')
-            $(this).contents().first()[0].textContent = 'ویرایش'
-        }
-        else {
-            $(this).addClass('fj_pressed');
-            var answer = $(this).siblings('.ui.message').find("p").text().trim();
-            $(this).siblings('.message').replaceWith('<div class="ui form"><div class="field"><textarea cols="70" rows="6" placeholder="ویرایش پاسخ">' + answer + '</textarea></div></div>')
-            $(this).contents().first()[0].textContent = 'تایید'
-        }
-        $(this).find('.icon').toggleClass('edit').toggleClass('checkmark')
-
-    });
 
     $('.ui.accordion').accordion();
 
@@ -65,13 +50,16 @@ $(document).ready(function () {
         $(this).addClass('active').addClass('fj_green')
 
         if ($(this).hasClass('faq_add_tab')) {
-            $('.faq_list').addClass('display_none')
-            $('.faq_add').removeClass('display_none')
+            $('.faq_list').addClass('display_none');
+            $('.faq_add').removeClass('display_none');
+            update_usr_ask_q();
+            update_mngr_ans_common_q();
         }
         else {
             console.log('are!');
-            $('.faq_add').addClass('display_none')
-            $('.faq_list').removeClass('display_none')
+            $('.faq_add').addClass('display_none');
+            $('.faq_list').removeClass('display_none');
+
         }
     });
 
@@ -106,3 +94,36 @@ $(document).ready(function () {
         window.location.href = window.location.origin + window.location.pathname + query + '&dl=true';
     })
 });
+
+function update_usr_ask_q(){
+    $('.usr_ask_q').click(function () {
+        var title = $('.field input[name="title"]').val();
+        var content = $('.field textarea[name="content"]').val();
+        alert(content);
+        send_ajax({title: title, content: content, csrfmiddlewaretoken: csrfToken}, '/question/ask_question/', redirect);
+    });
+    }
+
+function update_mngr_ans_common_q(){
+    $('.usr_mngr_ans_q').click(function () {
+        var title = $('.faq_add #id_title').val();
+        var content = $('.field textarea[name="content"]').val();
+        send_ajax({title: title, content: content, csrfmiddlewaretoken: csrfToken}, '/question/add_common_question/', redirect);
+    });
+    }
+
+
+function send_ajax(data, url, callback) {
+    $.post(url, data, function (response) {
+        if (response.op_status == 'success') {
+            callback(response);
+        }
+        else {
+            alert("err");
+        }
+    });
+}
+
+function redirect(resposnse){
+    window.location.href = resposnse['redirect'];
+}

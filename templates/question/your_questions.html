@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css'%}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'js/rf.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -19,109 +19,100 @@
 
 
             <div class="ui top attached tabular menu">
-              <a class="active item faq_list_tab fj_green">
-                  سوالات شما
-              </a>
-              <a class="item faq_add_tab">
-                  سوال بپرسید
-              </a>
+                <a class="active item faq_list_tab fj_green">
+                    سوالات شما
+                </a>
+                <a class="item faq_add_tab">
+                    سوال بپرسید
+                </a>
             </div>
             <div class="user_list ui bottom attached faq_list segment">
                 {% for question in questions %}
-                <div class="ui raised segment single_question">
-                    <span class="question_number">{{ forloop.counter }} - </span>
-                    <div class="inlinemiddle inlineblock question_data">
-                        <div class="question_info1">
-                            <span class="question_title">{{ question.title }}</span>
-                            <div class="inlineblock ui mini circular icon button slide">
-                             <i class="down icon"></i>
+                    <div class="ui raised segment single_question" qid={{ question.pk }}>
+                        <span class="question_number">{{ forloop.counter }} - </span>
+
+                        <div class="inlinemiddle inlineblock question_data">
+                            <div class="question_info1">
+                                <span class="question_title">{{ question.title }}</span>
+
+                                <div class="inlineblock ui mini circular icon button slide">
+                                    <i class="down icon"></i>
+                                </div>
                             </div>
+
+
                         </div>
 
+                        <div class="ui segment javab_box">
+                            <div class="user_info2">
+                                <span class="question_date">پرسیده شده در:<span>{{ question.timestamp }}</span></span>
+                                {% if question.answer %}
+                                    <span class="question_replier">پاسخ از:<span>{{ question.answer.responder }}</span></span>
+                                {% else %}
+                                    <span class="question_replier">پاسخ از:<span>پاسخی داده نشده است.</span></span>
+                                {% endif %}
+                            </div>
 
-                    </div>
-
-                    <div class="ui segment javab_box">
-
-                        <div class="user_info2">
-                            <span class="question_date">پرسیده شده در:<span>{{ question.timestamp }}</span></span>
+                            <div class="ui segment">
+                                {{ question.content }}
+                            </div>
                             {% if question.answer %}
-                            <span class="question_replier">پاسخ از:<span>{{ question.answer.responder }}</span></span>
-                            {% else %}
-                            <span class="question_replier">پاسخ از:<span>پاسخی داده نشده است.</span></span>
+                                <div class="ui message">
+                                    <p>
+                                        {{ question.answer.content }}
+                                    </p>
+                                </div>
                             {% endif %}
                         </div>
-
-                        <div class="ui segment">
-                            {{ question.title }}
-                        </div>
-                        {% if question.answer %}
-                        <div class="ui message">
-                            <p>
-                                {{ question.answer.content }}
-                            </p>
-                        </div>
-                        {% endif %}
                     </div>
-                </div>
-                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+                    <div class="ui section divider"
+                         style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
                 {% endfor %}
 
+                {% if questions.paginator.num_pages > 1 %}
+                    <div style="text-align: center;">
+                        <div class="ui small pagination menu">
+                            {% if questions.has_previous %}
+                                <a href="?{{ get_params.urlencode }}&page={{ questions.previous_page_number }}"
+                                   class="icon item"><i class="icon right arrow"></i></a>
+                            {% endif %}
+
+                            {% for p in page_range %}
+                                {% ifequal p questions.number %}
+                                    <a href="javascript:void(0);" class="active item">{{ p }}</a>
+                                {% else %}
+                                    <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                                {% endifequal %}
+                            {% endfor %}
+                            {% if questions.has_next %}
+                                <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
+                                   class="icon item"><i class="icon left arrow"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
             </div>
 
             <div class="display_none faq_add">
-                <form>
                     <div class="ui form segment">
-                    {% csrf_token %}
-                    <div class="field">
-                        <label>عنوان: </label>
-                        {{ form.title }}
+                        <div class="field">
+                            <label>عنوان: </label>
+                            {{ form.title }}
+                        </div>
+                        <div class="field">
+                            <label>متن: </label>
+                            {{ form.content }}
+                        </div>
+                        <div class="field">
+                            <div class="ui blue button small usr_ask_q">ایجاد</div>
+                        </div>
                     </div>
-                    <div class="field">
-                        <label>متن: </label>
-                        {{ form.content }}
-                    </div>
-                    <div class="field">
-                        <input type="submit" class="ui blue button small" value="ایجاد"/>
-                    </div>
-                    </div>
-                </form>
 
             </div>
 
             {#            FJ#}
-            <div class="ui small pagination menu">
-                {% if page_range|length > 3 %}
-                    <a class="icon item">
-                    <i class="icon right arrow"></i>
-                    </a>
-                    <a class="active item">
-                        ۱
-                    </a>
-                    <a class="item">
-                        ...
-                    </a>
-                    <a class="item">
-                        {{ page_range|last }}
-                    </a>
-                    <a class="icon item">
-                        <i class="icon left arrow"></i>
-                    </a>
-                {% elif page_range|last > 0 %}
-                    <a class="icon item">
-                    <i class="icon right arrow"></i>
-                    </a>
-                    {% for a in page_range %}
-                    <a class="active item">
-                        {{ a }}
-                    </a>
-                    {% endfor %}
-                    <a class="icon item">
-                        <i class="icon left arrow"></i>
-                    </a>
-                {% endif %}
-                </div>
-{#            FJ#}
+
+            {#            FJ#}
         </div>
     </div>
 {% endblock %}
