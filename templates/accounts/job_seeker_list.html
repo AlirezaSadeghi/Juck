@@ -51,15 +51,16 @@
                     </div>
                 </div>
             <div class="user_list">
+                {% for js in job_seekers %}
                 <div class="ui raised segment single_user">
                     <div class="user_number inlineblock inlinemiddle ">
-                        1
+                        {{ forloop.counter }}
                     </div>
-                    <img class="inlinemiddle" src="{% static 'a.jpeg' %} ">
+                    <img class="inlinemiddle" src="{% static 'images/a.jpeg' %} ">
                     <div class="inlinemiddle inlineblock user_data">
                         <div class="user_info1">
                             <span class="user_title">علیرضا صادقی</span>
-                            <span class="user_job">مدرک تحصیلی: <span>لیسانس IT </span><span>شریف</span></span>
+                            <span class="user_job">مدرک تحصیلی: <span> IT </span><span>شریف</span></span>
                         </div>
                         <div class="user_info2">
                             <span class="user_age">سن: <span>۲۱ سال</span></span>
@@ -68,46 +69,46 @@
                         </div>
                     </div>
                     <div class="user_buttons">
-                        <div class="ui icon small blue button">
+                        <div class="ui icon tiny blue button">
                              <i class=" user icon"></i>
-                            مشاهده پروفایل
-
+پذیرفتن
                         </div>
-                        <div class="ui icon small red button">
+                        <div class="ui icon tiny red button">
                              <i class=" remove icon"></i>
-                            حذف کارجو
+حذف
                         </div>
                     </div>
                 </div>
                 <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
-                <div class="ui raised segment single_user">
-                    <div class="user_number inlineblock inlinemiddle ">
-                        1
-                    </div>
-                    <img class="inlinemiddle" src="{% static 'a.jpeg' %} ">
-                    <div class="inlinemiddle inlineblock user_data">
-                        <div class="user_info1">
-                            <span class="user_title">عارف شفاعی بجستان</span>
-                            <span class="user_job">مهندس کامپیوتر</span>
-                        </div>
-                        <div class="user_info2">
-                            <span class="user_age">21</span>
-                            <span class="user_country">تهران</span>
-                        </div>
-                    </div>
-                    <div class="user_buttons">
-                        <div class="ui icon small blue button">
-                             <i class=" user icon"></i>
-                            مشاهده پروفایل
-                        </div>
-                        <div class="ui icon small red button">
-                             <i class=" remove icon"></i>
-                            حذف کارجو
-                        </div>
-                    </div>
-                </div>
-                <div class="ui section divider" style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
-            </div>
+                {% endfor %}
+{#                <div class="ui raised segment single_user">#}
+{#                    <div class="user_number inlineblock inlinemiddle ">#}
+{#                        1#}
+{#                    </div>#}
+{#                    <img class="inlinemiddle" src="{% static 'a.jpeg' %} ">#}
+{#                    <div class="inlinemiddle inlineblock user_data">#}
+{#                        <div class="user_info1">#}
+{#                            <span class="user_title">عارف شفاعی بجستان</span>#}
+{#                            <span class="user_job">مهندس کامپیوتر</span>#}
+{#                        </div>#}
+{#                        <div class="user_info2">#}
+{#                            <span class="user_age">21</span>#}
+{#                            <span class="user_country">تهران</span>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="user_buttons">#}
+{#                        <div class="ui icon small blue button">#}
+{#                             <i class=" user icon"></i>#}
+{#                            مشاهده پروفایل#}
+{#                        </div>#}
+{#                        <div class="ui icon small red button">#}
+{#                             <i class=" remove icon"></i>#}
+{#                            حذف کارجو#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="ui section divider" style="margin-top:1rem !important;margin-bottom:1rem !important"></div>#}
+{#            </div>#}
 
 {#            FJ#}
             <div class="ui pagination menu">
