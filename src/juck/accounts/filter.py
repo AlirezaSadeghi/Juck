@@ -45,9 +45,9 @@ class ManagerJobSeekerListFilter:
         #Profile details:
         city = forms.CharField(label=u'شهر', max_length=100, required=False)
         state = forms.CharField(label=u'استان', max_length=100, required=False)
-        sex = forms.ChoiceField(verbose_name=u'جنسیت',
+        sex = forms.ChoiceField(label=u'جنسیت',
                                 choices=((0, u'انتخاب کنید'), (1, u'مرد'), (2, u'زن'), (3, u'دیگر'),), required=False)
-        married = forms.ChoiceField(verbose_name=u'وضعیت تاهل ',
+        married = forms.ChoiceField(label=u'وضعیت تاهل ',
                                     choices=((0, u'انتخاب کنید'), (1, u'مجرد'), (2, u'متاهل'), ), required=False)
 
     Form = ManagerJobSeekerListFilterFrom
