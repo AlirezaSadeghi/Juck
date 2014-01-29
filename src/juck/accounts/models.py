@@ -104,6 +104,7 @@ class JuckUserManager(UserManager):
         u = self.create_user(email, password, **extra_fields)
         u.is_active = True
         u.is_admin = True
+        u.role = 4
         u.save(using=self._db)
         return u
 

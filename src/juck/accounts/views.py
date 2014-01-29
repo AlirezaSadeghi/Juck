@@ -106,6 +106,8 @@ def ajax_login(request):
             if user is not None:
                 if user.is_active:
                     auth.login(request, user)
+                    if user.is_superuser:
+                        redirect_to_url = '/admin/'
                     return json_response({'op_status': 'success', 'redirect_url': redirect_to_url})
                 else:
                     return json_response({'op_status': 'not_active', 'message': u'حساب کاربری  مسدود می باشد.'})

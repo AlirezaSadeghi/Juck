@@ -18,7 +18,7 @@ def advertisements(request):
     if request.method == "GET":
         get_params = request.GET.copy()
         if 'page' in get_params:
-             del get_params['page']
+            del get_params['page']
 
         search_filter = RequestListFilter()
         requests, count = search_filter.init_filter(request.GET, **{'common': True})
@@ -27,18 +27,17 @@ def advertisements(request):
         page_range = create_pagination_range(requests.number, requests.paginator.num_pages)
 
         if request.user.role == 'manager':
-             return render_to_response('question/manager_common_questions.html',
-                                       {'requests': request, 'count': count, 'search_form': search_form,
-                                        'page_range': page_range, 'get_params': get_params},
-                                       context_instance=RequestContext(request, ))
+            return render_to_response('requests/manager_common_questions.html',
+                                      {'requests': request, 'count': count, 'search_form': search_form,
+                                       'page_range': page_range, 'get_params': get_params},
+                                      context_instance=RequestContext(request, ))
 
         return render_to_response('requests/show_requests.html',
-                                   {'questions': requests, 'count': count, 'search_form': search_form,
-                                    'page_range': page_range, 'get_params': get_params},
-                                   context_instance=RequestContext(request, ))
+                                  {'requests': requests, 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
+                                  context_instance=RequestContext(request, ))
 
     return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'})
-
 
 
 def show_requests(request):
@@ -50,4 +49,4 @@ def show_js_requests(request):
 
 
 def show_em_requests(request):
-    return render_to_response('messages.html', {} , context_instance=RequestContext(request, ))
+    return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))

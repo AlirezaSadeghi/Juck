@@ -33,7 +33,7 @@ $(document).ready(function () {
                 window.location = data.redirect_url;
             }
             else {
-                alert(data.message);
+                message(data.message, 'alert-warning');
             }
         });
     });
@@ -78,6 +78,15 @@ $(document).ready(function () {
 
 function doAjaxLogin(e){
     if(e.keyCode == 13){
-        alert()
+        $("#login-btn").trigger('click');
     }
+}
+
+function message(text, style) {
+    $('<div class="ctn-field-page-alert ' + style + '">' + text + '</div>').prependTo($('.hdr'));
+    $('.ctn-field-page-alert').animate({'top': '-1px'}, 'fast', function () {
+        $(this).delay(2000).fadeOut(function () {
+            $(this).remove();
+        });
+    });
 }

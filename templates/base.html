@@ -15,9 +15,10 @@
 
     <link type="text/css" href="{% static 'css/semantic.css' %}" rel="stylesheet"/>
     <link type="text/css" href="{% static 'css/base.css' %}" rel="stylesheet"/>
-    {% block css %}
-    {% endblock %}
 
+    {% block css %}
+
+    {% endblock %}
 
     <script type="text/javascript" src="{% static 'js/jQuery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/semantic.js' %}"></script>
@@ -58,7 +59,7 @@
                         </div>
                         <div class="field">
                             <div class="ui left labeled icon input">
-                                <input onkeypress="doAjaxLogin();" id="login-password" type="password" placeholder="کلمه عبور">
+                                <input onkeypress="doAjaxLogin(event);" id="login-password" type="password" placeholder="کلمه عبور">
                                 <i class="lock icon"></i>
 
                                 <div class="ui corner label">
