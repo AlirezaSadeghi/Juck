@@ -132,8 +132,10 @@ function approve_user(id, user_type) {
         if (response.op_status == 'success') {
             $('#job_seeker' + id).css('background-color', '#00cc66');
 
+            message(data.message, 'Success');
 //            alert(response.message);
         } else {
+            message(data.message, 'Error');
 //            alert(response.message);
         }
     });
@@ -145,8 +147,10 @@ function remove_user(id, user_type) {
             $('#job_seeker' + id).css('background-color', '#DB4D4D');
             $('#job_seeker' + id + ' .rf-user-info div span').css('color', '#C3B8B8');
 
+            message(data.message, 'Success');
 //            alert(response.message);
         } else {
+            message(data.message, 'Error');
 //            alert(response.message);
         }
     });

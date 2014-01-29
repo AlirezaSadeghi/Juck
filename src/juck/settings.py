@@ -131,7 +131,7 @@ EMAIL_HOST_PASSWORD = 'SadeghiSinaFJBejes'
 EMAIL_PORT = 587
 
 
-RESULTS_PER_PAGE = 5
+RESULTS_PER_PAGE = 2
 
 # List of finder classes that know how to find static files in
 # various locations.

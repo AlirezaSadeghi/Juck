@@ -12,7 +12,7 @@ class State(models.Model):
         verbose_name = u"استان"
         verbose_name_plural = u"استان‌ها"
 
-    name = models.CharField(max_length=100, blank=False, null=True, verbose_name=u'نام استان')
+    name = models.CharField(max_length=100, blank=False, null=True, verbose_name=u'نام استان', unique=True)
 
     def pair_renderer(self):
         cities = self.cities.select_related().all()
@@ -32,7 +32,7 @@ class City(models.Model):
         verbose_name = u'شهر'
         verbose_name_plural = u'شهرها'
 
-    state = models.ForeignKey(State, related_name='cities', verbose_name=u'نام استان')
+    state = models.ForeignKey(State, related_name='cities', verbose_name=u'نام استان', unique=True)
 
     name = models.CharField(max_length=100, verbose_name=u'نام شهر')
 
@@ -60,6 +60,8 @@ class JobSeekerProfile(models.Model):
 
     approved = models.BooleanField(verbose_name=u'وضعیت تایید', default=False)
 
+    # def __unicode__(self):
+    #     return self.jobseeker.email
 
 class EmployerProfile(models.Model):
     class Meta:
@@ -84,6 +86,9 @@ class EmployerProfile(models.Model):
     website = models.CharField(verbose_name=u'تارنما', max_length=200, blank=True, null=True)
 
     approved = models.BooleanField(verbose_name=u'وضعیت تایید', default=False)
+
+    # def __unicode__(self):
+    #     return self.employer
 
 
 class JuckUserManager(UserManager):
@@ -198,7 +203,7 @@ class JobSeeker(JuckUser):
         return self.email
 
     profile = models.OneToOneField(JobSeekerProfile, verbose_name=u'پروفایل کارجو', related_name='jobseeker')
-    resume = models.OneToOneField('Resume', verbose_name=u'رزومه', null=True, blank=True)
+    resume = models.OneToOneField('Resume', verbose_name=u'رزومه', null=True, blank=True, related_name='jobseeker')
 
 
 class Education(models.Model):
@@ -219,6 +224,8 @@ class Education(models.Model):
     university_name = models.CharField(max_length=150, verbose_name=u'نام دانشگاه')
     university_type = models.CharField(verbose_name=u'نوع دانشگاه', max_length=100)
 
+    def __unicode__(self):
+        return " ".join([self.status, self.certificate, self.orientation, self.major, self.university_name])
 
 class Experience(models.Model):
     class Meta:
@@ -234,6 +241,8 @@ class Experience(models.Model):
     cooperation_type = models.CharField(verbose_name=u'نوع همکاری', max_length=150)
     exit_reason = models.CharField(verbose_name=u'دلیل قطع همکاری', max_length=200, null=True, blank=True)
 
+    def __unicode__(self):
+        return self.title+" در "+self.place+"از تاریخ "+ str(self.from_date) + " تا " + str(self.to_date)
 
 class Skill(models.Model):
     class Meta:
@@ -243,6 +252,9 @@ class Skill(models.Model):
     title = models.CharField(max_length=150, verbose_name=u'عنوان')
     level = models.CharField(max_length=100, verbose_name=u'سطح تسلط')
     description = models.CharField(max_length=250, verbose_name=u'توضیح', null=True, blank=True)
+
+    def __unicode__(self):
+        return " - ".join([self.title, self.level])
 
 
 class Resume(models.Model):
@@ -259,6 +271,8 @@ class Resume(models.Model):
     skill = models.ManyToManyField(Skill, verbose_name=u'مهارت‌ها')
     experience = models.ManyToManyField(Experience, verbose_name=u'سوابق کاری')
 
+    def __unicode__(self):
+        return self.resume
 
 class TemporaryLink(models.Model):
     class Meta:
