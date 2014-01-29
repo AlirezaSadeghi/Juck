@@ -14,13 +14,16 @@
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/png">
 
     <link type="text/css" href="{% static 'css/semantic.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'css/jquery.toastmessage.css' %}" rel="stylesheet">
     <link type="text/css" href="{% static 'css/base.css' %}" rel="stylesheet"/>
-    {% block css %}
-    {% endblock %}
 
+    {% block css %}
+
+    {% endblock %}
 
     <script type="text/javascript" src="{% static 'js/jQuery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/semantic.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.toastmessage.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
 
     {% block js %}
@@ -30,8 +33,8 @@
 </head>
 <body>
 <div class="page-container">
+   {% csrf_token %}
 {% block header %}
-    {% csrf_token %}
     <div class="hdr" id="home">
         <div class="center">
             <a href="{% url 'homepage' %}">
@@ -39,201 +42,194 @@
                 </div>
             </a>
 
-            <div class="hdr-login">
-                {% if not user.is_authenticated %}
-                    <div class="ui buttons-tmp">
-                        <i class="ui button down arrow linkedin small" id="sign-in">ورود</i>
-                        <i class="ui button small twitter" onclick="window.location='/'" id="signup">ثبت نام</i>
-                    </div>
-                    <div class="ui form segment" id="login-div">
-                        <div class="field">
-                            <div class="ui left labeled icon input">
-                                <input id="login-username" autofocus="true" type="text" placeholder="نام کاربری">
-                                <i class="user icon"></i>
+                <div class="hdr-login">
+                    {% if not user.is_authenticated %}
+                        <div class="ui buttons-tmp">
+                            <i class="ui button down arrow linkedin small" id="sign-in">ورود</i>
+                            <i class="ui button small twitter" onclick="window.location='/'" id="signup">ثبت نام</i>
+                        </div>
+                        <div class="ui form segment" id="login-div">
+                            <div class="field">
+                                <div class="ui left labeled icon input">
+                                    <input id="login-username" autofocus="true" type="text" placeholder="نام کاربری">
+                                    <i class="user icon"></i>
 
-                                <div class="ui corner label">
-                                    <i class="asterisk icon"></i>
+                                    <div class="ui corner label">
+                                        <i class="asterisk icon"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="field">
-                            <div class="ui left labeled icon input">
-                                <input onkeypress="doAjaxLogin();" id="login-password" type="password" placeholder="کلمه عبور">
-                                <i class="lock icon"></i>
+                            <div class="field">
+                                <div class="ui left labeled icon input">
+                                    <input onkeypress="doAjaxLogin(event);" id="login-password" type="password"
+                                           placeholder="کلمه عبور">
+                                    <i class="lock icon"></i>
 
-                                <div class="ui corner label">
-                                    <i class="asterisk icon"></i>
+                                    <div class="ui corner label">
+                                        <i class="asterisk icon"></i>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="ui linkedin submit button small" id="login-btn">ورود</div>
+                            <a href="{% url 'password_recover' %}" class="forgot-pswd">کلمه عبورم را فراموش کرده ام </a>
                         </div>
-                        <div class="ui linkedin submit button small" id="login-btn">ورود</div>
-                        <a href="{% url 'password_recover' %}" class="forgot-pswd">کلمه عبورم را فراموش کرده ام </a>
-                    </div>
-                {% else %}
-                    <div class="ui buttons-tmp">
-                        <a href="{% url 'logout' %}"><i class="ui button down arrow linkedin small"
-                                                        id="sign-in">خروج</i></a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-
-{% endblock %}
-
-<div class="juck-menu">
-    {% block menu %}
-        {% if user.is_authenticated %}
-            <div class="juck-menu">
-
-                <div class="ui large menu inverted" style="background-color: #108edc;">
-                    <a class="active item" id="home-page" href="{% url 'homepage' %}">
-                        <i class="home icon"></i> خانه
-                    </a>
-                    {% get_user_type as u_type %}
-                    {% if u_type == 'manager' %}
-                        <div class="ui dropdown item" id="users-page">
-                            کاربران<i class="dropdown icon"></i>
-
-                            <div class="menu">
-                                <a class="item" href="{% url 'employer_list' 'approved' %}">لیست کارفرمایان</a>
-                                <a class="item" href="{% url 'job_seeker_list' 'approved' %}">لیست کارجویان</a>
-                                <a class="item" href="{% url 'employer_list' 'not-approved' %}">کارفرمایان تایید نشده</a>
-                                <a class="item" href="{% url 'job_seeker_list' 'not-approved' %}">کارجویان تایید نشده</a>
-                            </div>
-                        </div>
-
-                        <div class="ui dropdown item" id="articles-page">
-                            مقالات<i class="dropdown icon"></i>
-
-                            <div class="menu">
-                                <a class="item" href="{% url 'add_article' %}">افزودن مقاله</a>
-                                <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
-                                <a class="item" href="{% url 'show_article_recommendations_list' %}">مشاهده مقالات
-                                    پیشنهادی</a>
-                            </div>
-                        </div>
-
-                        <div class="ui dropdown item" id="requests-page">
-                            درخواست ها<i class="dropdown icon"></i>
-
-                            <div class="menu">
-                                <a class="item" href="{% url 'advertisements' %}">آگهی‌های نیاز به نیرو</a>
-                                <a class="item" href="{% url 'em_requests' %}">پیشنهادات کارفرمایان به کارجویان</a>
-                                <a class="item" href="{% url 'js_requests' %}">پیشنهادات کارجویان به کارفرمایان</a>
-                            </div>
-                        </div>
-
-                        <div class="ui dropdown item" id="questions-page">
-                            سوالات<i class="dropdown icon"></i>
-
-                            <div class="menu">
-                                <a class="item" href="{% url 'asked_questions' %}">سوالات کاربران</a>
-                                <a class="item" href="{% url 'common_questions' %}">سوالات متداول</a>
-                            </div>
-                        </div>
-
-                        <div class="ui dropdown item" id="news-page">
-                            اخبار <i class="dropdown icon"></i>
-
-                            <div class="menu">
-                                <a class="item" href="{% url 'add_news' %}">افزودن خبر</a>
-                                <a class="item" href="{% url 'news_list' %}">مشاهده اخبار</a>
-                            </div>
-                        </div>
-
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
-                            <i class="user icon"></i> پروفایل
-                        </a>
-                    {% elif u_type == "jobseeker" %}
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
-                            <i class="user icon"></i> پروفایل
-                        </a>
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
-                            <i class="user icon"></i> پروفایل
-                        </a>
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
-                            <i class="user icon"></i> پروفایل
-                        </a>
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
-                            <i class="user icon"></i> پروفایل
-                        </a>
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
-                            <i class="user icon"></i> پروفایل
-                        </a>
                     {% else %}
-                        <div class="ui dropdown item" id="articles-page">
-                            مقالات<i class="dropdown icon"></i>
-
-                            <div class="menu">
-                                <a class="item" href="{% url 'add_article' %}">افزودن مقاله</a>
-                                <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
-                                <a class="item" href="{% url 'show_article_recommendations_list' %}">مشاهده مقالات
-                                    پیشنهادی</a>
-                            </div>
-                        </div>
-                        <div class="ui dropdown item" id="articles-page">
-                            مقالات<i class="dropdown icon"></i>
-
-                            <div class="menu">
-                                <a class="item" href="{% url 'add_article' %}">افزودن مقاله</a>
-                                <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
-                                <a class="item" href="{% url 'show_article_recommendations_list' %}">مشاهده مقالات
-                                    پیشنهادی</a>
-                            </div>
-                        </div>
-                        <div class="ui dropdown item" id="articles-page">
-                            مقالات<i class="dropdown icon"></i>
-
-                            <div class="menu">
-                                <a class="item" href="{% url 'add_article' %}">افزودن مقاله</a>
-                                <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
-                                <a class="item" href="{% url 'show_article_recommendations_list' %}">مشاهده مقالات
-                                    پیشنهادی</a>
-                            </div>
-                        </div>
-                        <div class="ui dropdown item" id="articles-page">
-                            مقالات<i class="dropdown icon"></i>
-
-                            <div class="menu">
-                                <a class="item" href="{% url 'add_article' %}">افزودن مقاله</a>
-                                <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
-                                <a class="item" href="{% url 'show_article_recommendations_list' %}">مشاهده مقالات
-                                    پیشنهادی</a>
-                            </div>
-                        </div>
-                        <div class="ui dropdown item" id="articles-page">
-                            مقالات<i class="dropdown icon"></i>
-
-                            <div class="menu">
-                                <a class="item" href="{% url 'add_article' %}">افزودن مقاله</a>
-                                <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
-                                <a class="item" href="{% url 'show_article_recommendations_list' %}">مشاهده مقالات
-                                    پیشنهادی</a>
-                            </div>
+                        <div class="ui buttons-tmp">
+                            <a href="{% url 'logout' %}"><i class="ui button down arrow linkedin small"
+                                                            id="sign-in">خروج</i></a>
                         </div>
                     {% endif %}
                 </div>
             </div>
-
-
-        {% endif %}
-    {% endblock %}
-</div>
-
-
-<div class="center">
-    {% block page_title %}
+        </div>
 
     {% endblock %}
-</div>
 
-<div class="ctn">
-    {% block content %}
+    <div class="juck-menu">
+        {% block menu %}
+            {% if user.is_authenticated %}
+                <div class="juck-menu">
 
-    {% endblock %}
-</div>
-<div class="clr"></div>
+                    <div class="ui large menu inverted" style="background-color: #108edc;">
+                        <a class="active item" id="home-page" href="{% url 'homepage' %}">
+                            <i class="home icon"></i> خانه
+                        </a>
+                        {% get_user_type as u_type %}
+                        {% if u_type == 'manager' %}
+                            <div class="ui dropdown item" id="users-page">
+                                کاربران<i class="dropdown icon"></i>
+
+                                <div class="menu">
+                                    <a class="item" href="{% url 'employer_list' 'approved' %}">لیست کارفرمایان</a>
+                                    <a class="item" href="{% url 'job_seeker_list' 'approved' %}">لیست کارجویان</a>
+                                    <a class="item" href="{% url 'employer_list' 'not-approved' %}">کارفرمایان تایید
+                                        نشده</a>
+                                    <a class="item" href="{% url 'job_seeker_list' 'not-approved' %}">کارجویان تایید
+                                        نشده</a>
+                                </div>
+                            </div>
+
+                            <div class="ui dropdown item" id="articles-page">
+                                مقالات<i class="dropdown icon"></i>
+
+                                <div class="menu">
+                                    <a class="item" href="{% url 'add_article' %}">افزودن مقاله</a>
+                                    <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
+                                    <a class="item" href="{% url 'show_article_recommendations_list' %}">مشاهده مقالات
+                                        پیشنهادی</a>
+                                </div>
+                            </div>
+
+                            <div class="ui dropdown item" id="requests-page">
+                                درخواست ها<i class="dropdown icon"></i>
+
+                                <div class="menu">
+                                    <a class="item" href="{% url 'advertisements' %}">آگهی‌های نیاز به نیرو</a>
+                                    <a class="item" href="{% url 'em_requests' %}">پیشنهادات کارفرمایان به کارجویان</a>
+                                    <a class="item" href="{% url 'js_requests' %}">پیشنهادات کارجویان به کارفرمایان</a>
+                                </div>
+                            </div>
+
+                            <div class="ui dropdown item" id="questions-page">
+                                سوالات<i class="dropdown icon"></i>
+
+                                <div class="menu">
+                                    <a class="item" href="{% url 'asked_questions' %}">سوالات کاربران</a>
+                                    <a class="item" href="{% url 'common_questions' %}">سوالات متداول</a>
+                                </div>
+                            </div>
+
+                            <div class="ui dropdown item" id="news-page">
+                                اخبار <i class="dropdown icon"></i>
+
+                                <div class="menu">
+                                    <a class="item" href="{% url 'add_news' %}">افزودن خبر</a>
+                                    <a class="item" href="{% url 'news_list' %}">مشاهده اخبار</a>
+                                </div>
+                            </div>
+
+                            <a class="item" href="{% url 'show_profile' %}" id="profile-page">
+                                <i class="user icon"></i> پروفایل
+                            </a>
+                        {% elif u_type == "jobseeker" %}
+                            <a class="item" href="{% url 'show_profile' %}" id="profile-page">
+                                <i class="user icon"></i> پروفایل
+                            </a>
+                            <a class="item" href="{% url 'show_profile' %}" id="profile-page">
+                                <i class="user icon"></i> پروفایل
+                            </a>
+                            <a class="item" href="{% url 'show_profile' %}" id="profile-page">
+                                <i class="user icon"></i> پروفایل
+                            </a>
+                            <a class="item" href="{% url 'show_profile' %}" id="profile-page">
+                                <i class="user icon"></i> پروفایل
+                            </a>
+                            <a class="item" href="{% url 'show_profile' %}" id="profile-page">
+                                <i class="user icon"></i> پروفایل
+                            </a>
+                        {% else %}
+                            <div class="ui dropdown item" id="request-page">
+                                درخواست ها<i class="dropdown icon"></i>
+
+                                <div class="menu">
+                                    <a class="item" href="{% url 'add_article' %}">مشاهده وضعیت درخواست‌های ارسالی</a>
+                                    <a class="item" href="{% url 'articles_list' %}">مشاهده وضعیت پیشنهاد‌های
+                                        دریافتی</a>
+                                    <a class="item" href="{% url 'show_article_recommendations_list' %}">مشاهده وضعیت
+                                        آگهی‌ها من</a>
+                                    <a class="item" href="{% url 'show_article_recommendations_list' %}"> مشاهده
+                                        آگهی‌های
+                                        نیاز به نیرو</a>
+                                </div>
+                            </div>
+
+                            <div class="ui dropdown item" id="list-page">
+                                لیست ها <i class="dropdown icon"></i>
+
+                                <div class="menu">
+                                    <a class="item" href="{% url 'add_article' %}">لیست کارجویان</a>
+                                    <a class="item" href="{% url 'articles_list' %}">لیست کارفرمایان</a>
+                                </div>
+                            </div>
+
+                            <div class="ui dropdown item" id="articles-page">
+                                مقالات <i class="dropdown icon"></i>
+
+                                <div class="menu">
+                                    <a class="item" href="{% url 'add_article' %}">پیشنهاد مقاله</a>
+                                    <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
+                                </div>
+                            </div>
+
+                            <div class="ui dropdown item" id="news-page">
+                                اخبار<i class="dropdown icon"></i>
+
+                                <div class="menu">
+                                    <a class="item" href="{% url 'add_article' %}">مشاهده اخبار</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+
+            {% endif %}
+        {% endblock %}
+    </div>
+
+
+    <div class="center">
+        {% block page_title %}
+
+        {% endblock %}
+    </div>
+
+    <div class="ctn">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    <div class="clr"></div>
 </div>
 
 <div class="ftr">

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
@@ -9,17 +10,45 @@ from django import forms
 from django.conf import settings
 
 from juck.accounts.models import Manager
+from juck.accounts.views import check_user_type
+from juck.news.filter import NewsListFilter
 from juck.news.models import News
 from juck.image.models import JuckImage
 
-from juck.news.forms import  NewsForm
+from juck.news.forms import NewsForm
+from utils import create_pagination_range
+
 
 def show_news_list(request):
     if request.method == "GET":
-        news = News.objects.all().order_by('-publish_date')
-        return render_to_response('news/news-list.html', {'news': news}, context_instance=RequestContext(request))
-    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
-                              context_instance=RequestContext(request))
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
+        #news = {}
+        #count = 0
+        #search_form = None
+        #page_range = None
+        search_filter = NewsListFilter()
+        news, count = search_filter.init_filter(request.GET, **{})
+        search_form = search_filter.get_form()
+        page_range = create_pagination_range(news.number, news.paginator.num_pages)
+
+        return render_to_response('news/news-list.html',
+                                  {'news': news, 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
+                                  context_instance=RequestContext(request))
+
+    else:
+        return render_to_response('messages.html',
+                                  {'message': 'دسترسی شما به صفحه ای که درخواست کرده اید مقدور نمی باشد.'},
+                                  context_instance=RequestContext(request))
+
+
+        #if request.method == "GET":
+        #    news = News.objects.all().order_by('-publish_date')
+        #    return render_to_response('news/news-list.html', {'news': news}, context_instance=RequestContext(request))
+        #return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+        #                          context_instance=RequestContext(request))
 
 
 def show_news_description(request):
@@ -38,11 +67,11 @@ def show_news_description(request):
 
 
 def add_news(request):
-    form  = NewsForm()
+    form = NewsForm()
     print "SADSAD"
     print request.FILES
     if request.method == "POST":
-        form = NewsForm(request.POST )
+        form = NewsForm(request.POST)
         author = Manager.objects.get(pk=request.user.pk) # must be user how use the system now
         #title = request.POST.get('title','')
         #name  = request.POST.get('name','')
@@ -66,7 +95,7 @@ def add_news(request):
             #new_news = News(title=title,content=description,author=author , image=picture)
             return HttpResponseRedirect(reverse('news_list'))
 
-    return render_to_response('news/add_news.html', {'form' : form}, context_instance=RequestContext(request))
+    return render_to_response('news/add_news.html', {'form': form}, context_instance=RequestContext(request))
 
 
 def upload_news_pic(request):
@@ -75,12 +104,12 @@ def upload_news_pic(request):
         print(request.FILES)
         form = ImageUploadForm(request.POST, request.FILES)
         #if form.is_valid():
-            #handle_uploaded_file(request.FILES['file'])
-            #m = ExampleModel.objects.get(pk=course_id)
-            #m.model_pic = form.cleaned_data['image']
-            #m.save()
-            #return HttpResponse('image upload success')
-            #return HttpResponseRedirect('/success/url/')
+        #handle_uploaded_file(request.FILES['file'])
+        #m = ExampleModel.objects.get(pk=course_id)
+        #m.model_pic = form.cleaned_data['image']
+        #m.save()
+        #return HttpResponse('image upload success')
+        #return HttpResponseRedirect('/success/url/')
         pass
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))

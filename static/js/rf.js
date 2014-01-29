@@ -32,7 +32,7 @@ $(document).ready(function () {
         $(this).parent().parent().parent().find('.answer_box').slideToggle('slow');
         var a = $(this).find("i")
         if (a.hasClass('up')) {
-            a.removeClass('up').addClass('down')
+            a.removeClass('up').addClass('down');
         }
         else {
             a.removeClass('down').addClass('up');
@@ -43,23 +43,6 @@ $(document).ready(function () {
 //
 //    });
 
-    $('.single_question .edit_q').click(function () {
-
-        if ($(this).hasClass('fj_pressed')) {
-            $(this).removeClass('fj_pressed');
-            var txt = $(this).siblings('.ui.form').find('textarea').val();
-            $(this).siblings('.ui.form').replaceWith('<div class="ui message"><p>' + txt + '</p></div>')
-            $(this).contents().first()[0].textContent = 'ویرایش'
-        }
-        else {
-            $(this).addClass('fj_pressed');
-            var answer = $(this).siblings('.ui.message').find("p").text().trim();
-            $(this).siblings('.message').replaceWith('<div class="ui form"><div class="field"><textarea cols="70" rows="6" placeholder="ویرایش پاسخ">' + answer + '</textarea></div></div>')
-            $(this).contents().first()[0].textContent = 'تایید'
-        }
-        $(this).find('.icon').toggleClass('edit').toggleClass('checkmark')
-
-    });
 
     $('.ui.accordion').accordion();
 
@@ -68,47 +51,52 @@ $(document).ready(function () {
         $(this).addClass('active').addClass('fj_green')
 
         if ($(this).hasClass('faq_add_tab')) {
-            $('.faq_list').addClass('display_none')
-            $('.faq_add').removeClass('display_none')
+            $('.faq_list').addClass('display_none');
+            $('.faq_add').removeClass('display_none');
+            update_usr_ask_q();
+            update_mngr_ans_common_q();
         }
         else {
             console.log('are!');
-            $('.faq_add').addClass('display_none')
-            $('.faq_list').removeClass('display_none')
+            $('.faq_add').addClass('display_none');
+            $('.faq_list').removeClass('display_none');
+
         }
     });
 
-    $(".ui.section.divider").last().remove()
+    $(".ui.section.divider").last().remove();
 
-    function send_ajax(data, type, url) { //, callback){
-        $.ajax({ // create an AJAX call...
-            data: data,
-            type: type,
-            url: url,
-            dataType: dataType,
-            success: function (response) { // on success..
-                console.log(response)
-                //callback();
-            },
-            error: function (jqXHR) {
-                alert("error" + jqXHR.status)
-            },
-            crossDomain: false
-        });
-        return false;
-    }
 
     var query = window.location.search;
 
-    // downloading articles in articles_list page
+// downloading articles in articles_list page
     $('.news_list .small.blue.button.dl_a').click(function () {
         window.location.href = window.location.origin + window.location.pathname + '?a_pk=' + $(this).attr('id').replace('a', '');
-    })
+    });
 
     $('.attached.message .dl_btn .article').click(function () {
         window.location.href = window.location.origin + window.location.pathname + query + '&dl=true';
-    })
+    });
 });
+
+
+function send_ajax(data, type, url) { //, callback){
+    $.ajax({ // create an AJAX call...
+        data: data,
+        type: type,
+        url: url,
+        dataType: dataType,
+        success: function (response) { // on success..
+            console.log(response)
+            //callback();
+        },
+        error: function (jqXHR) {
+            alert("error" + jqXHR.status)
+        },
+        crossDomain: false
+    });
+    return false;
+}
 
 
 function submit_jobseeker_list(event) {
@@ -125,11 +113,24 @@ function submit_employer_list(event) {
     }
 }
 
+function disapprove_user(id, user_type) {
+    $.post('/accounts/users/approve/', {'csrfmiddlewaretoken': csrfToken, 'function': 'disapprove', 'id': id, 'user_type': user_type}, function (response) {
+        if (response.op_status == 'success') {
+            $('#job_seeker' + id).css('background-color', '#DB4D4D');
+            $('#job_seeker' + id + ' .rf-user-info div span').css('color', '#C3B8B8');
+
+//            alert(response.message);
+        } else {
+//            alert(response.message);
+        }
+    });
+}
+
 
 function approve_user(id, user_type) {
     $.post('/accounts/users/approve/', {'csrfmiddlewaretoken': csrfToken, 'function': 'approve', 'id': id, 'user_type': user_type}, function (response) {
         if (response.op_status == 'success') {
-            $('#job_seeker'+id).css('background-color','#00cc66');
+            $('#job_seeker' + id).css('background-color', '#00cc66');
 
 //            alert(response.message);
         } else {
@@ -141,8 +142,8 @@ function approve_user(id, user_type) {
 function remove_user(id, user_type) {
     $.post('/accounts/users/approve/', {'csrfmiddlewaretoken': csrfToken, 'function': 'remove', 'id': id, 'user_type': user_type}, function (response) {
         if (response.op_status == 'success') {
-            $('#job_seeker'+id).css('background-color','#DB4D4D');
-            $('#job_seeker'+id+' .rf-user-info div span').css('color','#C3B8B8');
+            $('#job_seeker' + id).css('background-color', '#DB4D4D');
+            $('#job_seeker' + id + ' .rf-user-info div span').css('color', '#C3B8B8');
 
 //            alert(response.message);
         } else {
@@ -151,16 +152,36 @@ function remove_user(id, user_type) {
     });
 }
 
+function update_usr_ask_q() {
+    $('.usr_ask_q').click(function () {
+        var title = $('.field input[name="title"]').val();
+        var content = $('.field textarea[name="content"]').val();
+        alert(content);
+        send_ajax({title: title, content: content, csrfmiddlewaretoken: csrfToken}, '/question/ask_question/', redirect);
+    });
+}
 
-function disapprove_user(id, user_type) {
-    $.post('/accounts/users/approve/', {'csrfmiddlewaretoken': csrfToken, 'function': 'disapprove', 'id': id, 'user_type': user_type}, function (response) {
+function update_mngr_ans_common_q() {
+    $('.usr_mngr_ans_q').click(function () {
+        var title = $('.faq_add #id_title').val();
+        var content = $('.field textarea[name="content"]').val();
+        send_ajax({title: title, content: content, csrfmiddlewaretoken: csrfToken}, '/question/add_common_question/', redirect);
+    });
+}
+
+
+function send_ajax(data, url, callback) {
+    $.post(url, data, function (response) {
         if (response.op_status == 'success') {
-            $('#job_seeker'+id).css('background-color','#DB4D4D');
-            $('#job_seeker'+id+' .rf-user-info div span').css('color','#C3B8B8');
-
-//            alert(response.message);
-        } else {
-//            alert(response.message);
+            callback(response);
+        }
+        else {
+            alert("err");
         }
     });
+}
+
+
+function redirect(resposnse) {
+    window.location.href = resposnse['redirect'];
 }

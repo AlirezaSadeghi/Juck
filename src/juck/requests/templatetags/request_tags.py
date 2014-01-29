@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-=
+
 from django.template import Library
-from juck.accounts  import views
 from persian_date.gregorian_persian_convertor import create_persian_date
 from datetime import datetime
 
+
 register = Library()
-
-
-@register.assignment_tag(takes_context=True)
-def get_user_type(context):
-    user = context['user']
-    return views.get_user_type(user.pk)
-
 
 MONTHS = (
     u"فروردين", u"ارديبهشت", u"خرداد", u"تير", u"مرداد", u"شهريور", u"مهر", u"آبان", u"آذر", u"دي", u"بهمن", u"اسفند")

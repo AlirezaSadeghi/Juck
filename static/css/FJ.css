@@ -389,6 +389,9 @@ body {
 
 .mngr_question_date {
     width: 200px !important;
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }
 
 .tabular.menu {
@@ -421,4 +424,8 @@ body {
     border-radius: 3px;
     color: grey;
     width: 142px;
+}
+
+.javab_box{
+    background-color: #909578 !important;
 }

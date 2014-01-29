@@ -23,6 +23,8 @@
 
 
 {% block content %}
+    <a href="{% url 'socialauth_begin' 'google-oauth2' %}">Login with Google</a>
+    <a href="{% url 'socialauth_begin' 'github' %}">Login with GitHub</a>
 
     {% csrf_token %}
     <div class="center">

@@ -131,7 +131,11 @@ EMAIL_HOST_PASSWORD = 'SadeghiSinaFJBejes'
 EMAIL_PORT = 587
 
 
+<<<<<<< HEAD
 RESULTS_PER_PAGE = 2
+=======
+RESULTS_PER_PAGE = 5
+>>>>>>> c8fce22fb4622feb73a91bfa5b19432624498924
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -159,6 +163,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 )
 
 AUTHENTICATION_BACKENDS = ('accounts.auth.JuckAuthenticationBackend',)
@@ -189,6 +194,12 @@ INSTALLED_APPS = (
     'articles',
     'question',
     'requests',
+
+    'httplib2',#    These 4 are
+    'openid',#      what u need to
+    'oauth2',#      integrate social_auth plug
+    'social_auth',# in your GAE project
+
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -196,3 +207,31 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 FILE_UPLOAD_HANDLERS = ("django.core.files.uploadhandler.MemoryFileUploadHandler",
    "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
 
+
+
+AUTHENTICATION_BACKENDS = (
+  'social_auth.backends.google.GoogleOAuth2Backend',
+  'social_auth.backends.contrib.github.GithubBackend',
+  'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+  "social_auth.context_processors.social_auth_by_type_backends",
+  'django.contrib.auth.context_processors.auth'
+)
+
+SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+SOCIAL_AUTH_UID_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
+SOCIAL_AUTH_NONCE_SERVER_URL_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_SERVER_URL_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
+
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('google', 'github')
+
+GITHUB_API_KEY = ''
+GITHUB_API_SECRET = ''
+
+GOOGLE_OAUTH2_CLIENT_ID = ''
+GOOGLE_OAUTH2_CLIENT_SECRET = ''

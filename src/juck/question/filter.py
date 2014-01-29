@@ -39,7 +39,7 @@ class ManagerQuestionListFilter:
         questions = Question.objects.filter(**filter_kwargs)
         count = questions.count()
 
-        questions = questions.order_by('-issue_time')
+        questions = questions.order_by('-timestamp')
         paginator = Paginator(questions, settings.RESULTS_PER_PAGE)
         page = GET_dict.get('page')
 

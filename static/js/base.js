@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
+    $().toastmessage({sticky:true});
     $('.ui.dropdown').dropdown();
 
     $('.index-column').hover(function () {
@@ -33,7 +34,7 @@ $(document).ready(function () {
                 window.location = data.redirect_url;
             }
             else {
-                alert(data.message);
+                message(data.message, 'alert-warning');
             }
         });
     });
@@ -78,6 +79,11 @@ $(document).ready(function () {
 
 function doAjaxLogin(e){
     if(e.keyCode == 13){
-        alert()
+        $("#login-btn").trigger('click');
     }
+}
+
+function message(msg, type ){
+    var stuff = 'show' + type  + 'Toast'
+    $().toastmessage(stuff, msg);
 }

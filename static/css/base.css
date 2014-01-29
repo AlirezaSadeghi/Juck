@@ -646,3 +646,15 @@ ul {
 .ui.dropdown>.dropdown.icon {
     margin-right: 10px;
 }
+
+.toast-item {
+    padding-right: 40px;
+    border-radius: 2px;
+    background-color: white;
+    color: #333;
+    min-height: 30px;
+}
+
+.toast-item-close {
+    cursor: pointer;
+}
