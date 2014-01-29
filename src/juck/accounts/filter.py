@@ -114,8 +114,9 @@ class ManagerJobSeekerListFilter:
                 job_seeker_filter_kwargs.update({'profile__state__name': state})
 
         user = JuckUser.objects.filter(**filter_kwargs).order_by('-date_joined')
-        job_seeker = user.select_subclasses()
-        job_seekers = job_seeker.objects.filter(**job_seeker_filter_kwargs)
+        job_seeker_filter_kwargs.update({'pk__in':user.values('pk')})
+        # job_seeker = JobSeeker.objects.filter(pk__in=user.values('pk'))
+        job_seekers = JobSeeker.objects.filter(**job_seeker_filter_kwargs)
 
         count = job_seekers.count()
 
@@ -202,8 +203,9 @@ class ManagerEmployerListFilter:
                 employer_filter_kwargs.update({'profile__state__name': state})
 
         user = JuckUser.objects.filter(**filter_kwargs).order_by('-date_joined')
-        employer = user.select_subclasses()
-        employers = employer.objects.filter(**employer_filter_kwargs)
+        # employer = Employer.objects.filter(pk__in=user.values('pk'))
+        employer_filter_kwargs.update({'pk__in':user.values('pk')})
+        employers = Employer.objects.filter(**employer_filter_kwargs)
         count = employers.count()
 
         paginator = Paginator(employers, settings.RESULTS_PER_PAGE)
