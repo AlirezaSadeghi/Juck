@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    جاک | لیست کارجویان
+جاک | لیست کارجویان
 {% endblock %}
 
 {% block css %}
@@ -168,6 +168,19 @@
                                 </div>
                             </div>
                             <div class="user-buttons">
+                                {% if approved %}
+                                <div class="ui icon tiny linkedin button rf-button">
+                                    <i class=" user icon"></i><br/>
+پروفایل
+                                </div>
+                                <div class="ui icon tiny red button rf-button"
+                                     onclick="disapprove_user({{ job_seeker.id }}, 'job_seeker')">
+                                    <i class=" remove icon"></i>
+                                    <div>
+غیرفعال
+                                    </div>
+                                </div>
+                                {% else %}
                                 <div class="ui icon tiny linkedin button rf-button"
                                      onclick="approve_user({{ job_seeker.id }}, 'job_seeker')">
                                     <i class=" user icon"></i><br/>
@@ -181,6 +194,8 @@
                                         حذف
                                     </div>
                                 </div>
+
+                                {% endif %}
                             </div>
                         </div>
                         <div class="ui section divider"
@@ -202,7 +217,7 @@
                                         <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
                                     {% endifequal %}
                                 {% endfor %}
-                                {% if questions.has_next %}
+                                {% if job_seekers.has_next %}
                                     <a class="item"
                                        href="?{{ get_params.urlencode }}&page={{ job_seekers.next_page_number }}"
                                        class="icon item"><i class="icon left arrow"></i></a>

@@ -118,9 +118,19 @@ function submit_jobseeker_list(event) {
     }
 }
 
+function submit_employer_list(event) {
+//    alert(event.keyCode);
+    if (event.keyCode == 13) {
+        $('#employer_list_form').submit();
+    }
+}
+
+
 function approve_user(id, user_type) {
     $.post('/accounts/users/approve/', {'csrfmiddlewaretoken': csrfToken, 'function': 'approve', 'id': id, 'user_type': user_type}, function (response) {
         if (response.op_status == 'success') {
+            $('#job_seeker'+id).css('background-color','#00cc66');
+
 //            alert(response.message);
         } else {
 //            alert(response.message);
@@ -131,6 +141,23 @@ function approve_user(id, user_type) {
 function remove_user(id, user_type) {
     $.post('/accounts/users/approve/', {'csrfmiddlewaretoken': csrfToken, 'function': 'remove', 'id': id, 'user_type': user_type}, function (response) {
         if (response.op_status == 'success') {
+            $('#job_seeker'+id).css('background-color','#DB4D4D');
+            $('#job_seeker'+id+' .rf-user-info div span').css('color','#C3B8B8');
+
+//            alert(response.message);
+        } else {
+//            alert(response.message);
+        }
+    });
+}
+
+
+function disapprove_user(id, user_type) {
+    $.post('/accounts/users/approve/', {'csrfmiddlewaretoken': csrfToken, 'function': 'disapprove', 'id': id, 'user_type': user_type}, function (response) {
+        if (response.op_status == 'success') {
+            $('#job_seeker'+id).css('background-color','#DB4D4D');
+            $('#job_seeker'+id+' .rf-user-info div span').css('color','#C3B8B8');
+
 //            alert(response.message);
         } else {
 //            alert(response.message);

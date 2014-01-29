@@ -356,7 +356,7 @@ def job_seeker_list(request, approved_status):
 
         return render_to_response('accounts/job_seeker_list.html',
                                   {'job_seekers': job_seekers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range,
+                                   'page_range': page_range, 'approved': approved,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -387,7 +387,7 @@ def employer_list(request, approved_status):
 
         return render_to_response('accounts/employer_list.html',
                                   {'employers': employers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range,
+                                   'page_range': page_range, 'approved': approved,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -436,13 +436,19 @@ def ajax_remove_or_approve_user(request):
             user = users.filter(id=id)[0]
             if function == 'approve':
                 profile = user.profile
-                profile.approve = True
+                profile.approved = True
                 profile.save()
                 user.save()
                 return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت تایید شد.'})
             elif function == 'remove':
                 user.delete()
                 return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت حذف گردید.'})
+            elif function == 'disapprove':
+                profile = user.profile
+                profile.approved = False
+                profile.save()
+                user.save()
+                return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت غیرفعال شد.'})
             else:
                 return json_response({'op_status': 'failed', 'message': u'چنین کارکردی وجود ندارد.'})
         return json_response({'op_status': 'failed', 'message': u'حساب کاربری موجود نمی باشد.'})

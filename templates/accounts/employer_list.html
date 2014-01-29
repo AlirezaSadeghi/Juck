@@ -6,128 +6,163 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css'%}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/RF.css' %}"/>
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="../../static/js/rf.js"></script>
+    <script src="{% static 'js/rf.js' %}"></script>
+
+
 {% endblock %}
 
 {% block content %}
     <div class="center">
         <div class="ctn-box">
-            <div class="ui icon input left small">
-                <input type="text" placeholder="جستجو...">
-                <i class="inverted search icon"></i>
+            <form id="employer_list_form">
+                <div class="ui icon input left small" onkeypress="submit_employer_list(event)">
+                    {{ search_form.search_input }}
+                    <i class="inverted search icon"></i>
                 </div>
 
-                <small class="advanced_search">جستجوی پیشرفته </small>
+                <small class="advanced_search">جستجوی پیشرفته</small>
 
                 <div class="advanced_search_panel ui segment form">
                     <div class="container">
-                        <div class="advanced_search_form">
-                        <form>
-                            <div class="inline field">
-                                <label class="input_labels">زمینه فعالیت: </label><input type="text" name="min_rate" placeholder="از ۵">
-                            </div>
-                            <div class="inline field">
-                                <label class="input_labels">نوع شرکت: </label><input type="number" name="min_age" placeholder="سن">
-                            </div>
-							<div class="inline field">
-                                <label class="input_labels">شهر: </label><input type="text" name="author-name" placeholder="رشته">
-                            </div>
+                        <div class="advanced_search_form rf">
+                            <div class="ui form">
+                                <div class="section">
+                                    <div class="three fields">
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.manager.label_tag }}: </label>
+                                            {{ search_form.manager }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.company_type.label_tag }}: </label>
+                                            {{ search_form.company_type }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.company_name.label_tag }}: </label>
+                                            {{ search_form.company_name }}
+                                        </div>
+                                    </div>
+                                    <div class="three fields">
+                                        <div class="inline field">
 
-                            <div class="search_buttons">
-                                <input class="inline ui button" type="reset" value="پاک کردن">
-                                <input class="inline ui button"type="submit" value="جستجو">
-                            </div>
-                        </form>
-                        </div>
-                        <div class="ui vertical divider"></div>
-                        <div class="advanced_search_info">
-                            <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
+                                            <label class="input-details">{{ search_form.city.label_tag }}: </label>
+                                            {{ search_form.city }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.state.label_tag }}: </label>
+                                            {{ search_form.state }}
+                                        </div>
+                                        <div class="inline field">
+                                            <label class="input-details">{{ search_form.field.label_tag }}: </label>
+                                            {{ search_form.field }}
+                                        </div>
+                                    </div>
 
+                                </div>
+
+                                <div class="search_buttons">
+                                    <input class="inline ui button" type="reset" value="پاک کردن">
+                                    <input class="inline ui button" type="submit" value="جستجو">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </form>
             <div class="user_list">
-                <div class="ui raised segment single_user">
-                    <div class="user_number inlineblock inlinemiddle ">
-                        1
+                {% if employers %}
+                    {% for employer in employers %}
+                        <div class="ui raised segment single_user" id='job_seeker{{ employer.id }}'>
+                            <div class="user_number inlineblock inlinemiddle ">
+                                {{ forloop.counter }}
+                            </div>
+                            <img class="inlinemiddle"
+                                 src="{{ employer.image.thumbnail.url|default:'/static/images/user.png' }}">
+
+                            <div class="inlinemiddle inlineblock user_data">
+                                <div class="rf-vertical-divider"></div>
+                                <div class="rf-user-info i1">
+                                    <div class="user_title"><span>نام شرکت: </span>{{ employer.profile.company_name }}</div>
+                                    <div class="user_email"><span>نام کاربری: </span>{{ employer.email }}</div>
+                                    <div class="user_national_id">
+                                        <span>نوع شرکت: </span>{{ employer.profile.company_type }}
+                                    </div>
+                                </div>
+                                <div class="rf-user-info i2">
+                                    <div><span>شماره تماس: </span>{{ employer.profile.phone_number }}</div>
+                                    <div><span>استان: </span>{{ employer.profile.state.name }}</div>
+                                    <div><span>شهر: </span>{{ employer.profile.city.name }}</div>
+                                </div>
+                            </div>
+                            <div class="user-buttons">
+                                {% if approved %}
+                                    <div class="ui icon tiny linkedin button rf-button">
+                                        <i class=" user icon"></i><br/>
+                                        پروفایل
+                                    </div>
+                                    <div class="ui icon tiny red button rf-button"
+                                         onclick="disapprove_user({{ employer.id }}, 'employer')">
+                                        <i class=" remove icon"></i>
+
+                                        <div>
+                                            غیرفعال
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="ui icon tiny linkedin button rf-button"
+                                         onclick="approve_user({{ employer.id }}, 'employer')">
+                                        <i class=" user icon"></i><br/>
+                                        تایید
+                                    </div>
+                                    <div class="ui icon tiny red button rf-button"
+                                         onclick="remove_user({{ employer.id }}, 'employer')">
+                                        <i class=" remove icon"></i>
+
+                                        <div>
+                                            حذف
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="ui section divider"
+                             style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+                    {% endfor %}
+
+                    {% if employers.paginator.num_pages > 1 %}
+                        <div style="text-align: center;">
+                            <div class="ui small pagination menu">
+                                {% if employers.has_previous %}
+                                    <a href="?{{ get_params.urlencode }}&page={{ employers.previous_page_number }}"
+                                       class="icon item"><i class="icon right arrow"></i></a>
+                                {% endif %}
+
+                                {% for p in page_range %}
+                                    {% ifequal p employers.number %}
+                                        <a href="javascript:void(0);" class="active item">{{ p }}</a>
+                                    {% else %}
+                                        <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                                    {% endifequal %}
+                                {% endfor %}
+                                {% if employers.has_next %}
+                                    <a class="item"
+                                       href="?{{ get_params.urlencode }}&page={{ employers.next_page_number }}"
+                                       class="icon item"><i class="icon left arrow"></i></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="ui message error rf-no-list-item">
+                        کاربری با مشخصات خواسته شده، وجود ندارد.
                     </div>
-                    <img class="inlinemiddle" src="{% static 'a.jpeg' %} ">
-                    <div class="inlinemiddle inlineblock user_data">
-                        <div class="user_info1">
-                            <span class="user_title">ایران گستر اندروید</span>
-                            <span class="user_job">زمینه فعالیت: <span>نرم افزار اندروید</span></span>
-                        </div>
-                        <div class="user_info2">
-                            <span class="user_age">نیازمند نیرو: <span>بله</span></span>
-                            <span class="user_country">ساکن: <span>تهران</span></span>
-                        </div>
-                    </div>
-                    <div class="user_buttons">
-                        <div class="ui icon small blue button">
-                             <i class=" user icon"></i>
-                            مشاهده پروفایل
-                        </div>
-                        <div class="ui icon small red button">
-                             <i class=" remove icon"></i>
-                            حذف کارجو
-                        </div>
-                    </div>
-                </div>
-                <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
-                <div class="ui raised segment single_user">
-                    <div class="user_number inlineblock inlinemiddle ">
-                        1
-                    </div>
-                    <img class="inlinemiddle" src="{% static 'a.jpeg' %} ">
-                    <div class="inlinemiddle inlineblock user_data">
-                        <div class="user_info1">
-                            <span class="user_title">علیرضا صادقی</span>
-                            <span class="user_job">مهندس کامپیوتر</span>
-                        </div>
-                        <div class="user_info2">
-                            <span class="user_age">21</span>
-                            <span class="user_country">تهران</span>
-                        </div>
-                    </div>
-                    <div class="user_buttons">
-                        <div class="ui icon small blue button">
-                             <i class=" user icon"></i>
-                            مشاهده پروفایل
-                        </div>
-                        <div class="ui icon small red button">
-                             <i class=" remove icon"></i>
-                            حذف کارجو
-                        </div>
-                    </div>
-                </div>
-                <div class="ui section divider" style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
+                {% endif %}
             </div>
-            {#            FJ#}
-            <div class="ui pagination menu">
-                      <a class="icon item">
-                        <i class="icon right arrow"></i>
-                      </a>
-                      <a class="active item">
-                        ۱
-                      </a>
-                      <div class="disabled item">
-                        ۲
-                      </div>
-                      <a class="item">
-                        ...
-                      </a>
-                      <a class="item">
-                        ۱۲
-                      </a>
-                      <a class="icon item">
-                        <i class="icon left arrow"></i>
-                      </a>
-                </div>
-{#            FJ#}
         </div>
     </div>
 {% endblock %}

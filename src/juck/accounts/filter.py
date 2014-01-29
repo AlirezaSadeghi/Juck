@@ -139,8 +139,6 @@ class ManagerJobSeekerListFilter:
             if state:
                 job_seeker_filter_kwargs.update({'profile__state__name': state})
 
-
-
         user = JuckUser.objects.filter(**filter_kwargs).order_by('-date_joined')
         if search_input:
             user = user.filter(Q(first_name__icontains=search_input) | Q(last_name__icontains=search_input))
@@ -171,14 +169,15 @@ class ManagerEmployerListFilter:
     class ManagerEmployerListFilterForm(forms.Form):
 
         #TODO search what?!
-        search_input = forms.CharField(max_length=200, required=False)
+        search_input = forms.CharField(max_length=200, required=False,
+                                       widget=forms.TextInput(attrs={'placeholder': "جستجو..."}))
 
         #Profile details:
         company_name = forms.CharField(label=u'نام سازمان', required=False, max_length=200)
         company_type = forms.CharField(label=u'نوع سازمان', required=False, max_length=150)
         #TODO: remember me in html
-        foundation_year_form = forms.IntegerField(label=u'از تاریخ', required=False)
-        foundation_year_to = forms.IntegerField(label=u'تا تاریخ', required=False)
+        foundation_year_form = forms.IntegerField(label=u'تاسیس از سال', required=False)
+        foundation_year_to = forms.IntegerField(label=u'تاسیس تا سال', required=False)
         manager = forms.CharField(label=u'نام مدیرعامل', required=False, max_length=250)
         field = forms.CharField(label=u'زمینه فعالیت', required=False, max_length=200)
 
@@ -192,14 +191,15 @@ class ManagerEmployerListFilter:
 
         filter_kwargs = {'role': JuckUser.EMPLOYER}
         employer_filter_kwargs = kwargs
+        search_input = ""
 
         if self.form.is_valid():
             search_input = self.form.cleaned_data.get('search_input', '')
 
-            first_name = self.form.cleaned_data.get('first_name', '')
-            last_name = self.form.cleaned_data.get('last_name', '')
-            from_date = self.form.cleaned_data.get('from_date', '')
-            to_date = self.form.cleaned_data.get('to_date', '')
+            # first_name = self.form.cleaned_data.get('first_name', '')
+            # last_name = self.form.cleaned_data.get('last_name', '')
+            # from_date = self.form.cleaned_data.get('from_date', '')
+            # to_date = self.form.cleaned_data.get('to_date', '')
             company_name = self.form.cleaned_data.get('company_name', '')
             company_type = self.form.cleaned_data.get('company_type', '')
             foundation_year_form = self.form.cleaned_data.get('foundation_year_form', '')
@@ -209,14 +209,14 @@ class ManagerEmployerListFilter:
             city = self.form.cleaned_data.get('city', '')
             state = self.form.cleaned_data.get('state', '')
 
-            if first_name:
-                filter_kwargs.update({'first_name__icontains': first_name})
-            if last_name:
-                filter_kwargs.update({'last_name__icontains': last_name})
-            if from_date:
-                filter_kwargs.update({'date_joined__gte': from_date})
-            if to_date:
-                filter_kwargs.update({'date_joined_lte': to_date})
+            # if first_name:
+            #     filter_kwargs.update({'first_name__icontains': first_name})
+            # if last_name:
+            #     filter_kwargs.update({'last_name__icontains': last_name})
+            # if from_date:
+            #     filter_kwargs.update({'date_joined__gte': from_date})
+            # if to_date:
+            #     filter_kwargs.update({'date_joined_lte': to_date})
 
             if company_name:
                 employer_filter_kwargs.update({'profile__company_name__icontains': company_name})
@@ -237,11 +237,14 @@ class ManagerEmployerListFilter:
 
         user = JuckUser.objects.filter(**filter_kwargs).order_by('-date_joined')
         # employer = Employer.objects.filter(pk__in=user.values('pk'))
-        if search_input:
-            user = user.filter(Q(first_name__icontains=search_input) | Q(last_name__icontains=search_input))
 
         employer_filter_kwargs.update({'pk__in': user.values('pk')})
         employers = Employer.objects.filter(**employer_filter_kwargs)
+        if search_input:
+            employers = employers.filter(
+                Q(profile__company_name__icontains=search_input) | Q(profile__manager__icontains=search_input) | Q(
+                    profile__field__icontains=search_input))
+
         count = employers.count()
 
         paginator = Paginator(employers, settings.RESULTS_PER_PAGE)
