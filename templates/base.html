@@ -58,7 +58,7 @@
                         </div>
                         <div class="field">
                             <div class="ui left labeled icon input">
-                                <input id="login-password" type="password" placeholder="کلمه عبور">
+                                <input onkeypress="doAjaxLogin();" id="login-password" type="password" placeholder="کلمه عبور">
                                 <i class="lock icon"></i>
 
                                 <div class="ui corner label">
@@ -96,10 +96,10 @@
                             کاربران<i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'employer_list' %}">لیست کارفرمایان</a>
-                                <a class="item" href="{% url 'job_seeker_list' %}">لیست کارجویان</a>
-                                <a class="item" href="{% url 'pending_employers_list' %}">کارفرمایان تایید نشده</a>
-                                <a class="item" href="{% url 'pending_jobseekers_list' %}">کارجویان تایید نشده</a>
+                                <a class="item" href="{% url 'employer_list' 'approved' %}">لیست کارفرمایان</a>
+                                <a class="item" href="{% url 'job_seeker_list' 'approved' %}">لیست کارجویان</a>
+                                <a class="item" href="{% url 'employer_list' 'not-approved' %}">کارفرمایان تایید نشده</a>
+                                <a class="item" href="{% url 'job_seeker_list' 'not-approved' %}">کارجویان تایید نشده</a>
                             </div>
                         </div>
 

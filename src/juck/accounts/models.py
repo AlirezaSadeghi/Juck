@@ -50,13 +50,13 @@ class JobSeekerProfile(models.Model):
     state = models.ForeignKey(State, verbose_name=u'استان', related_name='jobseekerprofiles')
     national_id = models.CharField(max_length=20, verbose_name=u'کد ملی')
     date_of_birth = models.DateField(verbose_name=u'تاریخ تولد', blank=True, null=True)
-    sex = models.PositiveSmallIntegerField(verbose_name=u'جنسیت', choices=((1, u'مرد'), (2, u'زن'), (3, u'دیگر'), ))
-    married = models.BooleanField(verbose_name=u'وضعیت تاهل ', choices=((False, u'مجرد'), (True, u'متاهل'), ))
+    sex = models.PositiveSmallIntegerField(verbose_name=u'جنسیت', blank=True, null=True)
+    married = models.BooleanField(verbose_name=u'وضعیت تاهل', blank=True, default=False)
     image = models.ForeignKey(JuckImage, verbose_name=u'عکس پروفایل', null=True, blank=True)
-    phone_number = models.CharField(verbose_name=u'شماره تلفن', max_length=20, null=True, blank=True)
-    mobile_number = models.CharField(verbose_name=u'شماره همراه', max_length=25)
-    military_service_status = models.CharField(verbose_name=u'وضعیت نظام وظیفه', max_length=100)
-    exemption_type = models.CharField(verbose_name=u'نوع معافیت', max_length=100)
+    phone_number = models.CharField(verbose_name=u'شماره تلفن', max_length=20)
+    mobile_number = models.CharField(verbose_name=u'شماره همراه', max_length=25, null=True, blank=True)
+    military_service_status = models.CharField(verbose_name=u'وضعیت نظام وظیفه', max_length=100, null=True, blank=True)
+    exemption_type = models.CharField(verbose_name=u'نوع معافیت', max_length=100, null=True, blank=True)
 
     approved = models.BooleanField(verbose_name=u'وضعیت تایید', default=False)
 
@@ -120,13 +120,25 @@ class JuckUser(AbstractBaseUser, PermissionsMixin):
         db_index=True,
     )
 
+    JOB_SEEKER = 3
+    MANAGER = 1
+    EMPLOYER = 2
+
+    USER_CHOICES = (
+        (1, u'مدیر'),
+        (2, u'کارفرما'),
+        (3, u'کارجو'),
+    )
+
     first_name = models.CharField(verbose_name=u'نام', max_length=100, blank=True)
     last_name = models.CharField(verbose_name=u'نام خانوادگی', max_length=150, blank=True)
+
+    role = models.IntegerField(default=1, verbose_name=u'نوع کاربری', choices=USER_CHOICES)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    date_joined = models.DateTimeField(u'date joined', default=timezone.now)
+    date_joined = models.DateTimeField(u'زمان عضویت', default=timezone.now)
 
     objects = JuckUserManager()
 
@@ -168,7 +180,8 @@ class Employer(JuckUser):
         verbose_name_plural = u'کارفرمایان'
 
     def __unicode__(self):
-        return self.profile.company_name
+        # return self.profile.company_name
+        return self.email
 
     profile = models.OneToOneField(EmployerProfile, verbose_name=u'پروفایل کارفرما', related_name='employer')
 
@@ -180,7 +193,8 @@ class JobSeeker(JuckUser):
 
 
     def __unicode__(self):
-        return self.name
+        # return self.name
+        return self.email
 
     profile = models.OneToOneField(JobSeekerProfile, verbose_name=u'پروفایل کارجو', related_name='jobseeker')
     resume = models.OneToOneField('Resume', verbose_name=u'رزومه', null=True, blank=True)
@@ -201,6 +215,8 @@ class Education(models.Model):
     status = models.CharField(verbose_name=u'وضعیت تحصیلی', max_length=100)
     major = models.CharField(verbose_name=u'رشته تحصیلی', max_length=200)
     orientation = models.CharField(verbose_name=u'گرایش تحصیلی', max_length=150)
+    university_name = models.CharField(max_length=150, verbose_name=u'نام دانشگاه')
+    university_type = models.CharField(verbose_name=u'نوع دانشگاه', max_length=100)
 
 
 class Experience(models.Model):
@@ -222,7 +238,7 @@ class Skill(models.Model):
     class Meta:
         verbose_name = u'مهارت'
         verbose_name_plural = u'مهارت‌ها'
-        
+
     title = models.CharField(max_length=150, verbose_name=u'عنوان')
     level = models.CharField(max_length=100, verbose_name=u'سطح تسلط')
     description = models.CharField(max_length=250, verbose_name=u'توضیح', null=True, blank=True)
@@ -239,6 +255,8 @@ class Resume(models.Model):
     download_count = models.IntegerField(verbose_name=u'دفعات بارگیری', default=0)
 
     education = models.ManyToManyField(Education, verbose_name=u'تحصیلات')
+    skill = models.ManyToManyField(Skill, verbose_name=u'مهارت‌ها')
+    experience = models.ManyToManyField(Experience, verbose_name=u'سوابق کاری')
 
 
 class TemporaryLink(models.Model):

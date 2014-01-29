@@ -30,6 +30,7 @@ class JobSeekerRegisterForm1(forms.Form):
     first_name = forms.CharField(required=True, label=u'نام')
     last_name = forms.CharField(required=True, label=u'نام خانوادگی')
     email = forms.EmailField(required=True, label=u'پست الکترونیکی')
+    national_id = forms.CharField(required=True, label=u'کدملی', max_length=20)
     password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور')
     re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور')
     captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')
@@ -85,7 +86,7 @@ class JobSeekerRegisterEducationForm(forms.Form):
     status = forms.ChoiceField(required=True, label=u'وضغیت تحصیلی',
                                choices=(
                                    ('student', u'دانشچو'),
-                                   ('grauated', u'فارغ التحصیل'),
+                                   ('graduated', u'فارغ التحصیل'),
                                 ))
     certificate = forms.ChoiceField(required=True, label= u'مقطع تحصیلی',
                                     choices=(
@@ -144,16 +145,16 @@ class EmployerRegisterForm1(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور')
     re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور')
     # connector_name = forms.CharField(required=True, label=u'نام شخص رابط')
-    connector_rank = forms.CharField(required=True, label=u'سمت شخص رابط')
+    connector_rank = forms.CharField(label=u'سمت شخص رابط')
     captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')
 
 
 class EmployerRegisterForm2(forms.Form):
-    company_name = forms.CharField(required=True, label=u'نام شرکت')
-    company_type = forms.CharField(required=True, label=u'نوع شرکت')
+    company_name = forms.CharField(required=True, label=u'نام سازمان')
+    company_type = forms.CharField(required=True, label=u'نوع سازمان')
     reg_num = forms.CharField(required=True, label=u'شماره ثبت')
     foundation_year = forms.IntegerField(required=True, label=u'سال تاسیس')
-    manager = forms.CharField(required=True,label= u'نام مدیرعامل')
+    manager = forms.CharField(required=False, label= u'نام مدیرعامل')
     field = forms.CharField(required=True, label=u'زمینه فعالیت')
 
 

@@ -190,7 +190,7 @@ INSTALLED_APPS = (
     'articles',
     'question',
     'requests',
-    
+
     'httplib2',#    These 4 are
     'openid',#      what u need to
     'oauth2',#      integrate social_auth plug

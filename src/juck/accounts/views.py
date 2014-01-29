@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import HttpResponseRedirect, HttpResponse
@@ -18,8 +18,8 @@ import hashlib
 import time
 from html_builder import HtmlBuilder
 from django.views.decorators.csrf import csrf_exempt
-
-
+from juck.accounts.filter import ManagerJobSeekerListFilter, ManagerEmployerListFilter
+from utils import create_pagination_range
 from django.contrib.formtools.wizard.views import SessionWizardView
 
 from juck.accounts.forms import *
@@ -29,9 +29,11 @@ from juck.articles.models import Article, ArticleSubmission
 
 def user_panel(request):
     news = News.objects.all()
-    articles=  Article.objects.all()
+    articles = Article.objects.all()
     art_sub = ArticleSubmission.objects.all()
-    return render_to_response('accounts/user_panel.html', {'user_type':'manager','news':news,'articles':articles, 'art_sub':art_sub}, context_instance=RequestContext(request, ))
+    return render_to_response('accounts/user_panel.html',
+                              {'user_type': 'manager', 'news': news, 'articles': articles, 'art_sub': art_sub},
+                              context_instance=RequestContext(request, ))
 
 
 def about_us(request):
@@ -48,7 +50,7 @@ def homepage(request):
             return HttpResponseRedirect('/admin/')
 
         news = News.objects.all()
-        articles=  Article.objects.all()
+        articles = Article.objects.all()
         art_sub = ArticleSubmission.objects.all()
 
         if check_user_type(request.user.pk, 'manager'):
@@ -58,7 +60,8 @@ def homepage(request):
         else:
             user_type = 'job_seeker'
 
-        return render_to_response("accounts/user_panel.html", {'user_type': user_type,'news':news,'article':articles, 'art_sub':art_sub},
+        return render_to_response("accounts/user_panel.html",
+                                  {'user_type': user_type, 'news': news, 'article': articles, 'art_sub': art_sub},
                                   context_instance=RequestContext(request, ))
     return render_to_response("accounts/homepage.html", {}, context_instance=RequestContext(request))
 
@@ -209,21 +212,22 @@ EMPLOYER_FORMS = [
 
 class JobSeekerWizard(SessionWizardView):
     template_name = 'accounts/job_seeker_registration.html'
-    
+
     def get_context_data(self, form, **kwargs):
         context = super(JobSeekerWizard, self).get_context_data(form=form, **kwargs)
-        
+
         if self.steps.step1 == 2:
             current_edu = self.request.session.get("added_edu", None)
             current_skill = self.request.session.get("added_skills", None)
             edu_form = JobSeekerRegisterEducationForm()
             skill_form = JobSeekerRegisterSkillForm()
-            context.update({'edu_form': edu_form, 'skill_form': skill_form, 'current_edu': current_edu, 'current_skill': current_skill})
+            context.update({'edu_form': edu_form, 'skill_form': skill_form, 'current_edu': current_edu,
+                            'current_skill': current_skill})
         elif self.steps.step1 == 3:
             current_work = self.request.session.get("added_work", None)
             experience_form = JobSeekerRegisterForm3()
             context.update({'experience_form': experience_form, 'current_work': current_work})
-            
+
         return context
 
     def done(self, form_list, **kwargs):
@@ -240,50 +244,54 @@ class EmployerWizard(SessionWizardView):
         return render_to_response('messages.html', {
             'message': u'خب الان باید تموم شده باشه ! :دی'
         })
-        
+
+
 def jobseeker_addedu(request):
     if request.method == "POST":
         message = u"ERROR"
-        
+
         form = JobSeekerRegisterEducationForm(request.POST)
         if form.is_valid():
-            if not request.session.get("added_edu", None) or not isinstance(request.session.get("added_edu", None), dict):
+            if not request.session.get("added_edu", None) or not isinstance(request.session.get("added_edu", None),
+                                                                            dict):
                 request.session["added_edu"] = {}
             item_id = int(round(time.time() * 1000))
             request.session["added_edu"][item_id] = form.cleaned_data
-            
+
             return HttpResponse("{}".format(item_id))
-            
+
         return HttpResponse(message)
-        
+
     return HttpResponse("")
-            
-        
+
 
 def jobseeker_addskill(request):
     if request.method == "POST":
         message = u"ERROR"
-            
+
         form = JobSeekerRegisterSkillForm(request.POST)
         if form.is_valid():
-            if not request.session.get("added_skills", None) or not isinstance(request.session.get("added_skills", None), dict):
+            if not request.session.get("added_skills", None) or not isinstance(
+                    request.session.get("added_skills", None), dict):
                 request.session["added_skills"] = {}
-            
+
             item_id = int(round(time.time() * 1000))
             request.session["added_skills"][item_id] = form.cleaned_data
             return HttpResponse("{}".format(item_id))
-            
+
         return HttpResponse(message)
-            
+
     return HttpResponse("")
-    
+
+
 def jobseeker_addexp(request):
     if request.method == "POST":
         message = u"ERROR"
 
         form = JobSeekerRegisterForm3(request.POST)
         if form.is_valid():
-            if not request.session.get("added_work", None) or not isinstance(request.session.get("added_work", None), dict):
+            if not request.session.get("added_work", None) or not isinstance(request.session.get("added_work", None),
+                                                                             dict):
                 request.session["added_work"] = {}
 
             item_id = int(round(time.time() * 1000))
@@ -295,34 +303,100 @@ def jobseeker_addexp(request):
     return HttpResponse("")
 
 
+# ------------------------------- these are gaaazjer and u know it ------------------------------------#
 
-def job_seeker_list(request):
+# def job_seeker_list(request):
+#     if request.method == "GET":
+#         return render_to_response('accounts/job_seeker_list.html', {}, context_instance=RequestContext(request))
+#     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+#                               context_instance=RequestContext(request))
+#
+#
+# def employer_list(request):
+#     if request.method == "GET":
+#         return render_to_response('accounts/employer_list.html', {}, context_instance=RequestContext(request))
+#     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+#                               context_instance=RequestContext(request))
+
+
+# @login_required
+# def pending_employers_list(request, type):
+#     pass
+#
+#
+# @login_required
+# def pending_jobseekers_list(request, type):
+#     pass
+
+
+# ------------------------------- these are gaaazjer and u know it ------------------------------------#
+
+@login_required()
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
+def job_seeker_list(request, approved_status):
     if request.method == "GET":
-        return render_to_response('accounts/job_seeker_list.html', {}, context_instance=RequestContext(request))
+
+        if approved_status == 'approved':
+            approved = True
+        elif approved_status == 'not-approved':
+            approved = False
+        else:
+            return render_to_response('messages.html', {'message': u'صفحه موردنظر وجود ندارد.'},
+                                      context_instance=RequestContext(request))
+
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
+
+        search_filter = ManagerJobSeekerListFilter()
+        job_seekers, count = search_filter.init_filter(request.GET, **{'profile__approved': approved})
+        search_form = search_filter.get_form()
+
+        page_range = create_pagination_range(job_seekers.number, job_seekers.paginator.num_pages)
+
+        return render_to_response('accounts/job_seeker_list.html',
+                                  {'job_seekers': job_seekers, 'count': count, 'search_form': search_form,
+                                   'page_range': page_range,
+                                   'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
 
-def employer_list(request):
+@login_required()
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
+def employer_list(request, approved_status):
     if request.method == "GET":
-        return render_to_response('accounts/employer_list.html', {}, context_instance=RequestContext(request))
+
+        if approved_status == 'approved':
+            approved = True
+        elif approved_status == 'not-approved':
+            approved = False
+        else:
+            return render_to_response('messages.html', {'message': u'صفحه موردنظر وجود ندارد.'},
+                                      context_instance=RequestContext(request))
+
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
+
+        search_filter = ManagerEmployerListFilter()
+        employers, count = search_filter.init_filter(request.GET, **{'profile__approved': approved})
+        search_form = search_filter.get_form()
+
+        page_range = create_pagination_range(employers.number, employers.paginator.num_pages)
+
+        return render_to_response('accounts/employer_list.html',
+                                  {'employers': employers, 'count': count, 'search_form': search_form,
+                                   'page_range': page_range,
+                                   'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
-
-
-@login_required
-def pending_employers_list(request):
-    pass
-
-
-@login_required
-def pending_jobseekers_list(request):
-    pass
 
 
 @login_required
 def show_profile(request):
     pass
+
 
 @csrf_exempt
 def jobseeker_remove(request, what):
@@ -332,7 +406,7 @@ def jobseeker_remove(request, what):
     else:
         #obj_id = int(obj_id)
         pass
-        
+
     if what == "edu":
         del request.session["added_edu"][obj_id]
         print request.session["added_edu"]
@@ -340,11 +414,10 @@ def jobseeker_remove(request, what):
         del request.session["added_skills"][obj_id]
     elif what == "work":
         del request.session["added_work"][obj_id]
-        
+
     request.session.modified = True
-        
+
     return HttpResponse("SUCCESS")
-        
 
 
 def get_user_type(pk):
@@ -365,3 +438,4 @@ def check_user_type(pk, user_type):
     if user_type == get_user_type(pk):
         return True
     return False
+
