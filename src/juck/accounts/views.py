@@ -49,9 +49,9 @@ def homepage(request):
         if request.user.is_superuser:
             return HttpResponseRedirect('/admin/')
 
-        news = News.objects.all()
-        articles = Article.objects.all()
-        art_sub = ArticleSubmission.objects.all()
+        news = News.objects.all()[0:5]
+        articles = Article.objects.all()[0:5]
+        art_sub = ArticleSubmission.objects.all()[0:5]
 
         if check_user_type(request.user.pk, 'manager'):
             user_type = 'manager'
@@ -80,7 +80,7 @@ def login(request):
         else:
             auth.login(user)
 
-            if user.is_superuser:
+            if user.is_staff:
                 return HttpResponseRedirect('/admin/')
 
             next_url = request.POST.get('next', '/')
@@ -106,7 +106,7 @@ def ajax_login(request):
             if user is not None:
                 if user.is_active:
                     auth.login(request, user)
-                    if user.is_superuser:
+                    if user.is_staff:
                         redirect_to_url = '/admin/'
                     return json_response({'op_status': 'success', 'redirect_url': redirect_to_url})
                 else:

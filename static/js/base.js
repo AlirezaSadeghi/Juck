@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
+    $().toastmessage({sticky:true});
     $('.ui.dropdown').dropdown();
 
     $('.index-column').hover(function () {
@@ -82,11 +83,7 @@ function doAjaxLogin(e){
     }
 }
 
-function message(text, style) {
-    $('<div class="ctn-field-page-alert ' + style + '">' + text + '</div>').prependTo($('.hdr'));
-    $('.ctn-field-page-alert').animate({'top': '-1px'}, 'fast', function () {
-        $(this).delay(2000).fadeOut(function () {
-            $(this).remove();
-        });
-    });
+function message(msg, type ){
+    var stuff = 'show' + type  + 'Toast'
+    $().toastmessage(stuff, msg);
 }
