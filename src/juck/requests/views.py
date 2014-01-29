@@ -2,6 +2,8 @@
 
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from juck.requests.filter import RequestListFilter
+from utils import create_pagination_range
 
 
 def dashboard(request):
@@ -16,27 +18,26 @@ def advertisements(request):
     if request.method == "GET":
         get_params = request.GET.copy()
         if 'page' in get_params:
-             del get_params['page']
+            del get_params['page']
 
-        search_filter = AdvertismentListFilte()
-        questions, count = search_filter.init_filter(request.GET, **{'common': True})
+        search_filter = RequestListFilter()
+        requests, count = search_filter.init_filter(request.GET, request_type='jo')
         search_form = search_filter.get_form()
 
-        page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
+        page_range = create_pagination_range(requests.number, requests.paginator.num_pages)
 
-        if isinstance(request.user, Manager):
-             return render_to_response('question/manager_common_questions.html',
-                                       {'questions': questions, 'count': count, 'search_form': search_form,
-                                        'page_range': page_range, 'get_params': get_params},
-                                       context_instance=RequestContext(request, ))
+        if request.user.role == 'manager':
+            return render_to_response('requests/show_requests.html',
+                                      {'requests': request, 'request_type': 'ads', 'count': count, 'search_form': search_form,
+                                       'page_range': page_range, 'get_params': get_params},
+                                      context_instance=RequestContext(request, ))
 
-        return render_to_response('question/common_questions.html',
-                                   {'questions': questions, 'count': count, 'search_form': search_form,
-                                    'page_range': page_range, 'get_params': get_params},
-                                   context_instance=RequestContext(request, ))
+        return render_to_response('requests/show_requests.html',
+                                  {'requests': requests, 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
+                                  context_instance=RequestContext(request, ))
 
     return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'})
-
 
 
 def show_requests(request):
@@ -44,8 +45,51 @@ def show_requests(request):
 
 
 def show_js_requests(request):
+    if request.method == "GET":
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
+
+        search_filter = RequestListFilter()
+        requests, count = search_filter.init_filter(request.GET, request_type='jsjo')
+        search_form = search_filter.get_form()
+
+        page_range = create_pagination_range(requests.number, requests.paginator.num_pages)
+
+        if request.user.role == 'manager':
+            return render_to_response('requests/show_requests.html',
+                                      {'requests': request, 'request_type': 'offer', 'count': count, 'search_form': search_form,
+                                       'page_range': page_range, 'get_params': get_params},
+                                      context_instance=RequestContext(request, ))
+
+        return render_to_response('requests/show_requests.html',
+                                  {'requests': requests, 'request_type': 'offer', 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
+                                  context_instance=RequestContext(request, ))
+
     return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))
 
 
 def show_em_requests(request):
-    return render_to_response('messages.html', {} , context_instance=RequestContext(request, ))
+    if request.method == "GET":
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
+
+        search_filter = RequestListFilter()
+        requests, count = search_filter.init_filter(request.GET, request_type='ejo')
+        search_form = search_filter.get_form()
+
+        page_range = create_pagination_range(requests.number, requests.paginator.num_pages)
+
+        if request.user.role == 'manager':
+            return render_to_response('requests/show_requests.html',
+                                      {'requests': request, 'request_type': 'offer', 'count': count, 'search_form': search_form,
+                                       'page_range': page_range, 'get_params': get_params},
+                                      context_instance=RequestContext(request, ))
+
+        return render_to_response('requests/show_requests.html',
+                                  {'requests': requests, 'request_type': 'offer', 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
+                                  context_instance=RequestContext(request, ))
+    return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))

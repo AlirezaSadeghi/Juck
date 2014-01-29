@@ -11,6 +11,7 @@ from juck.question.models import Question, Answer
 from utils import create_pagination_range, json_response
 from forms import QuestionForm
 
+
 @login_required
 def ask_question(request):
     if request.is_ajax():
@@ -31,6 +32,7 @@ def common_questions(request):
             del get_params['page']
 
         search_filter = ManagerQuestionListFilter()
+
         questions, count = search_filter.init_filter(request.GET, **{'common': True})
         search_form = search_filter.get_form()
         page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
@@ -67,7 +69,8 @@ def asked_questions(request):
                                    'page_range': page_range, 'get_params': get_params},
                                   context_instance=RequestContext(request))
 
-    return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'}, context_instance=RequestContext(request))
+    return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'},
+                              context_instance=RequestContext(request))
 
 
 @login_required

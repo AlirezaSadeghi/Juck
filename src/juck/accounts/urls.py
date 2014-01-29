@@ -21,7 +21,7 @@ urlpatterns = patterns('juck.accounts.views',
 
                        url(r'employer_registration/$', EmployerWizard.as_view(EMPLOYER_FORMS, ), {},
                            name='employer_registration'),
-                           
+
                        url(r'jobseeker_addedu/$', 'jobseeker_addedu'),
                        url(r'jobseeker_addskill/$', 'jobseeker_addskill'),
                        url(r'jobseeker_addexp/$', 'jobseeker_addexp'),
@@ -46,9 +46,9 @@ urlpatterns = patterns('juck.accounts.views',
                             'email_template_name': 'accounts/password_reset_email.html'}, name="password_reset"),
 
                        #url(r'^password_reset/$', password_reset,
-                        #   {'post_reset_redirect': '/password_reset_done/',
-                         #   'template_name': 'accounts/password_reset_form.html',
-                          #  }, name="password_reset"),
+                       #   {'post_reset_redirect': '/password_reset_done/',
+                       #   'template_name': 'accounts/password_reset_form.html',
+                       #  }, name="password_reset"),
 
                        url(r'^password_reset_done/$',
                            password_reset_done, {'template_name': 'accounts/password_reset_done.html'}),
@@ -62,12 +62,12 @@ urlpatterns = patterns('juck.accounts.views',
                            password_reset_complete, {'template_name': 'accounts/password_reset_complete.html'}),
                        #Sina kharej mishavad
 
-                       # kas khal chera url o akhe neveshti balash FJ :)))))))))
-                       #                      FJ
-                       url(r'^job_seeker_list/$', 'job_seeker_list', {}, name='job_seeker_list'),
-                       url(r'^employer_list/$', 'employer_list', {}, name='employer_list'),
+                       url(r'^job_seeker_list/(?P<approved_status>[\w\-]+)/$', 'job_seeker_list', {}, name='job_seeker_list'),
+                       url(r'^employer_list/(?P<approved_status>[\w\-]+)/$', 'employer_list', {}, name='employer_list'),
 
-                    url(r'^pending_employers_list/$', 'pending_employers_list', {}, name='pending_employers_list'),
-                    url(r'^pending_jobseekers_list/$', 'pending_jobseekers_list', {}, name='pending_jobseekers_list'),
-                    url(r'^show_profile/', 'show_profile', {}, name='show_profile'),
+                       # url(r'^pending_employers_list/$', 'pending_employers_list', {}, name='pending_employers_list'),
+                       # url(r'^pending_jobseekers_list/$', 'pending_jobseekers_list', {},
+                       #     name='pending_jobseekers_list'),
+
+                       url(r'^show_profile/', 'show_profile', {}, name='show_profile'),
 )

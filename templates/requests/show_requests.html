@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load account_tags %}
+{% load staticfiles %}
+
+{% block css %}
+
+    <link href="{% static 'css/FJ.css' %}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        p {
+            font: 13px/20px "BYekan", tahoma !important;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+    <div class="center">
+        <div class="ctn-box">
+
+            <form method="GET">
+                <div class="ui icon input left small">
+                    <input type="text" placeholder="جستجو...">
+                    <i class="inverted search icon"></i>
+                </div>
+
+                <small class="advanced_search">جستجوی پیشرفته</small>
+
+                <div class="advanced_search_panel ui segment blue form">
+                    <div class="container">
+                        <div class="advanced_search_form">
+                            <form>
+                                <div class="two fields">
+                                <span class="inline field">
+                                <label class="input_labels">{{ search_form.employer.label }}</label>
+                                    {{ search_form.employer }}
+                                </span>
+                                <span class="inline field">
+                                <label class="input_labels">{{ search_form.job_seeker.label }}</label>
+                                    {{ search_form.job_seeker }}
+								</span>
+                                </div>
+                                <div class="inline field">
+                                    <label class="input_labels">{{ search_form.title.label }}</label>
+                                    {{ search.title }}
+                                </div>
+                                <div class="inline field">
+                                    <label class="input_labels">{{ search_form.content.label }}</label>
+                                    {{ search_form.content }}
+                                </div>
+                                <div class="inline field">
+                                    <label class="input_labels">{{ search_form.cooperation_type.label }}</label>
+                                    {{ search_form.cooperation_type }}
+                                </div>
+                                <div class="inline field">
+                                    <label class="input_labels">{{ search_form.sex.label }}</label>
+                                    {{ search_form.sex }}
+                                </div>
+                                <div class="inline field">
+                                    <label class="input_labels">{{ search_form.status.label }}</label>
+                                    {{ search_form.status }}
+                                </div>
+
+                                <div class="search_buttons">
+                                    <input class="inline ui button" type="reset" value="پاک کردن">
+                                    <input class="inline ui button" type="submit" value="جستجو">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="ui vertical divider"></div>
+                        <div class="advanced_search_info">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="news_list">
+                {% for item in requests %}
+                    <div class="news_item ui raised segment">
+                        <h2>{{ item.title }}</h2>
+
+                        <div class="ui section divider light_margined"></div>
+                        {% if request_type == 'offer' %}
+
+                            <div class="news_content">
+                                <p>
+                                    از:
+                                    {{ item.sender.get_full_name }}
+                                </p>
+                            </div>
+                            <div class="news_content">
+                                <p>
+                                    به:
+                                    {{ item.employer.get_full_name }}
+                                </p>
+                            </div>
+                        {% else %}
+                            <div class="news_content">
+                                <p>
+                                    از:
+                                    {{ item.employer.get_full_name }}
+                                </p>
+                            </div>
+                            <div class="news_content">
+
+                                {% if item.first_major %}
+                                    <p>
+                                        رشته تحصیلی مربوطه:
+                                        {{ item.first_major }}
+
+                                        {% if item.second_major %}
+
+                                            و
+                                            {{ item.second_major }}
+
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+                                {% if item.certificate %}
+                                    <p>
+                                        مدارک لازم:
+                                        {{ item.certificate }}
+                                    </p>
+                                {% endif %}
+                                {% if item.sex %}
+                                    <p>
+                                        جنسیت مورد نظر:
+                                        {{ item.sex }}
+                                    </p>
+                                {% endif %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <div class="news_content">
+                            <p>
+                                {% if item.content %}
+                                    {{ item.content }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="news_other">
+
+                            <div class="date_rate">
+
+                                <small>
+                                    زمان ارسال:
+                                    {% get_persian_date item.timestamp.date %} ساعت {{ item.timestamp.time }}
+                                </small>
+
+                                <div class="field" style="margin-top: 5px">
+
+                                </div>
+                            </div>
+                            <div class="more_buttons">
+                                <div class="ui animated button  small"
+                                     onclick="window.location='/product/profile/{{ item.pk }}/'">
+                                    <div class="visible content"> توضیحات محصول</div>
+                                    <div class="hidden content"><i class="left arrow icon"></i></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui section divider"
+                         style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
+                {% endfor %}
+            </div>
+            {% if requests.paginator.num_pages > 1 %}
+                <div style="text-align: center;">
+                    <div class="ui small pagination menu">
+                        {% if requests.has_previous %}
+                            <a href="?{{ get_params.urlencode }}&page={{ requests.previous_page_number }}"
+                               class="icon item"><i class="icon right arrow"></i></a>
+                        {% endif %}
+
+                        {% for p in page_range %}
+                            {% ifequal p requests.number %}
+                                <a href="javascript:void(0);" class="active item">{{ p }}</a>
+                            {% else %}
+                                <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                            {% endifequal %}
+                        {% endfor %}
+                        {% if requests.has_next %}
+                            <a class="item" href="?{{ get_params.urlencode }}&page={{ requests.next_page_number }}"
+                               class="icon item"><i class="icon left arrow"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

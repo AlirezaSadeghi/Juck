@@ -22,6 +22,10 @@ class News(models.Model):
     publish_date = models.DateTimeField(verbose_name=u'زمان انتشار', auto_now=True)
     author = models.ForeignKey(Manager, verbose_name=u'نویسنده', related_name='news')
     image = models.ForeignKey(JuckImage, verbose_name=u'عکس', null=True, blank=True)
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
+    score = models.IntegerField(default=0)
+
 
     def __unicode__(self):
         return u'خبر: ' + self.title
@@ -34,5 +38,6 @@ class News(models.Model):
             return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (str(self.publish_date.time().hour)+ ":" + "0" + str(self.publish_date.time().minute)))
 
     def calculate_score(self):
-        pass
-
+        self.score = self.likes - self.dislikes
+        #self.save()
+        return self.score
