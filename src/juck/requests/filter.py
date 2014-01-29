@@ -42,7 +42,12 @@ class RequestListFilter:
     def init_filter(self, GET_dict, request_type='request', **kwargs):
         self.form = self.Form(GET_dict)
 
-        filter_kwargs = kwargs
+        if request_type == 'ejo' and 'employer' in kwargs:
+            filter_kwargs = {}
+            employer_filter = kwargs.pop('employer')
+        else:
+            filter_kwargs = kwargs
+            employer_filter = ''
 
         job_seeker = ''
         major = ''
@@ -86,6 +91,9 @@ class RequestListFilter:
             if major:
                 requests = requests.filter(Q(first_major=major) |
                                            Q(second_major=major))
+
+        if request_type == 'ejo' and employer_filter:
+            requests = requests.filter(Q(employer=employer_filter) | Q(em_receiver=employer_filter))
 
         count = requests.count()
 
