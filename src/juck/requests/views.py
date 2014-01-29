@@ -77,7 +77,7 @@ def show_em_requests(request):
             del get_params['page']
 
         search_filter = RequestListFilter()
-        requests, count = search_filter.init_filter(request.GET, request_type='jo')
+        requests, count = search_filter.init_filter(request.GET, request_type='ejo')
         search_form = search_filter.get_form()
 
         page_range = create_pagination_range(requests.number, requests.paginator.num_pages)

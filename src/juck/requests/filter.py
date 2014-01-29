@@ -23,7 +23,7 @@ class RequestListFilter:
         content = forms.CharField(label=u'متن', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': '', 'placeholder': u''}))
 
-        major = forms.CharField()
+        major = forms.CharField(required=False)
 
         cooperation_type = forms.ChoiceField(label=u'نوع همکاری', required=False, choices=(
             ('', u''), (Request.COOPERATION_TYPES['full_time'], u'تمام وقت'),
