@@ -34,7 +34,7 @@ $(document).ready(function () {
                 window.location = data.redirect_url;
             }
             else {
-                message(data.message, 'alert-warning');
+                message(data.message, 'Error');
             }
         });
     });
