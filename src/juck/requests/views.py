@@ -2,6 +2,8 @@
 
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from juck.requests.filter import RequestListFilter
+from utils import create_pagination_range
 
 
 def dashboard(request):
@@ -18,20 +20,20 @@ def advertisements(request):
         if 'page' in get_params:
              del get_params['page']
 
-        search_filter = AdvertismentListFilte()
-        questions, count = search_filter.init_filter(request.GET, **{'common': True})
+        search_filter = RequestListFilter()
+        requests, count = search_filter.init_filter(request.GET, **{'common': True})
         search_form = search_filter.get_form()
 
-        page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
+        page_range = create_pagination_range(requests.number, requests.paginator.num_pages)
 
-        if isinstance(request.user, Manager):
+        if request.user.role == 'manager':
              return render_to_response('question/manager_common_questions.html',
-                                       {'questions': questions, 'count': count, 'search_form': search_form,
+                                       {'requests': request, 'count': count, 'search_form': search_form,
                                         'page_range': page_range, 'get_params': get_params},
                                        context_instance=RequestContext(request, ))
 
-        return render_to_response('question/common_questions.html',
-                                   {'questions': questions, 'count': count, 'search_form': search_form,
+        return render_to_response('requests/show_requests.html',
+                                   {'questions': requests, 'count': count, 'search_form': search_form,
                                     'page_range': page_range, 'get_params': get_params},
                                    context_instance=RequestContext(request, ))
 
