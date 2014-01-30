@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title %}
+    جاک |‌ ورود به زیرسامانه ثبت‌نام
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jobseeker_registration.css' %}"/>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="center">
+        <div class="ctn-box">
+            <span>
+                برای وارد شدن به قسمت ثبت‌نام ابتدا باید، کد امنیتی زیر را وارد کنید:
+            </span>
+            <form method="post" action="#">
+            {% csrf_token %}
+                {% for field in form %}
+                    <div class='field'>
+                        <div class="input-details">
+                            <label class="input_labels"> {{ field.label_tag }}
+                                {% if field.field.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}
+                            </label>
+
+                            <div class="ui small input field-input">
+                                {{ field }}
+                            </div>
+                        </div>
+                        <div class="input-errors">
+                            {{ field.errors }}
+                        </div>
+                    </div>
+                {% endfor %}
+                    <input class="next_btn green ui small button" type="submit" value="ثبت" >
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
