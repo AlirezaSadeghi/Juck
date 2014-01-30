@@ -12,7 +12,7 @@ from django.template.context import RequestContext
 from juck.accounts.forms import LoginForm, CaptchaForm
 from django.contrib import auth
 from django.conf import settings
-from juck.accounts.models import TemporaryLink, JuckUser, Manager, JobSeeker, Employer, HomeDetails
+from juck.accounts.models import *
 from juck.log.models import ActionLog
 from utils import json_response, send_html_mail
 import hashlib
@@ -445,11 +445,32 @@ def employer_list(request, approved_status):
 
 @login_required
 def show_profile(request):
-    # generalinfo =
-    # education =
-    # skill =
-    # experience =
-    pass
+    if request.method == "GET" and request.GET.get('pk', ''):
+        pk = request.GET.get('pk', '')
+        self_profile = pk == request.user.pk
+        user = JuckUser.objects.get(pk=pk) if not self_profile else request.user
+
+        if request.method == "GET":
+            u_type = get_user_type(user.pk)
+            kwargs = {}
+
+            kwargs['self_profile'] = True if self_profile else False
+            if u_type == 'jobseeker':
+                kwargs['jobseeker'] = JobSeeker.objects.get(pk=user.pk)
+                user = kwargs['jobseeker']
+                kwargs['profile'] = user.profile
+                kwargs['resume'] = user.resume
+                kwargs['educations'] = user.resume.education.all()
+                kwargs['skills'] = user.resume.skills.objects.all()
+                kwargs['experiences'] = user.resume.experience.objects.all()
+
+                return render_to_response('accounts/jobseeker_profile_self.html', kwargs, context_instance=RequestContext(request, ))
+            elif u_type == 'employer':
+                kwargs['employer'] = Employer.objects.get(pk=user.pk)
+                kwargs['profile'] = kwargs['employer'].profile
+                return render_to_response('accounts/employer_profile.html', kwargs, context_instance=RequestContext(request))
+
+    return render_to_response('messages.html', {'message': u'چنین کاربری وجود ندارد'}, context_instance=RequestContext(request, ))
 
 
 @csrf_exempt

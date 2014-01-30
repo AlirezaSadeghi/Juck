@@ -64,7 +64,7 @@ MEDIA_URL = SITE_URL + 'media/'
 
 UPLOAD_URL = 'uploads'
 UPLOAD_ROOT = MEDIA_ROOT + 'uploads'
-LOGIN_REDIRECT_URL = '/members/'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/me'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'

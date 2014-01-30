@@ -268,8 +268,8 @@ class Resume(models.Model):
     download_count = models.IntegerField(verbose_name=u'دفعات بارگیری', default=0)
 
     education = models.ManyToManyField(Education, verbose_name=u'تحصیلات')
-    skill = models.ManyToManyField(Skill, verbose_name=u'مهارت‌ها')
-    experience = models.ManyToManyField(Experience, verbose_name=u'سوابق کاری')
+    skill = models.ManyToManyField(Skill, related_name='skills', verbose_name=u'مهارت‌ها')
+    experience = models.ManyToManyField(Experience, related_name='experiences', verbose_name=u'سوابق کاری')
 
     def __unicode__(self):
         return self.resume

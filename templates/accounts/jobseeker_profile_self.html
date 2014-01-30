@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/FJ_test.css' %}" type="text/css"/>
+{% endblock %}
+
+{% block js %}
+    <script>
+        {% if self_profile %}
+        $(document).ready(function () {
+            $('.ui.accordion').accordion();
+
+            $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
+                var content = $(this).parent().next();
+                if ($(this).parent().hasClass('active')) {
+
+                    if (!$(this).hasClass('fj_pressed')) {
+                        $(this).addClass('fj_pressed');
+                        content.find('.ui.label').each(function () {
+                            $(this).replaceWith('<input type="text" value="@" style="width:100px;"/>'.replace('@', $(this).text()));
+                        });
+
+                    }
+                    else {
+                        $(this).removeClass('fj_pressed');
+                        content.find('input').each(function () {
+                            $(this).replaceWith('<span class="profile_info ui label">@</span>'.replace('@', $(this).val()));
+                        });
+                    }
+                }
+                e.preventDefault();
+                return false;
+            });
+        })
+        {% endif %}
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="center">
+    <div class="ctn-box">
+    <div class="fj_profile">
+        <div class=" ui small rounded image ">
+            <img src="{{ MEDIA_URL }}{{ generalinfo.image.name }}"/>
+        </div>
+        <p style="margin: 10px 0; font-size: 24px;">علیرضا فراهانی</p>
+    </div>
+    <div class="ui fluid accordion jobseekerprofile">
+    <div class="active title general_info">
+        <i class="triangle left icon"></i>
+        اطلاعات کلی
+        {% if self_profile %}<a class="fj_link edit_profile_accordion">ویرایش</a>{% endif %}
+    </div>
+    <div class="active content general_info">
+
+        <div class="fj_row">
+
+            <div class="col1">
+                <label class="profile_label">نام: </label>
+            </div>
+            <div class="col15">
+                <span class="profile_info ui label ">{{ user.first_name }}</span>
+            </div>
+            <div class="col2">
+                <label class="profile_label">نام خانوادگی: </label>
+            </div>
+            <div class="col25">
+                <span class="profile_info ui label ">{{ user.last_name }}</span>
+            </div>
+            <div class="col3">
+                <label class="profile_label">شماره ملی: </label>
+            </div>
+            <div class="col35">
+                <span class="profile_info ui label ">{{ generalinfo.national_id }}</span>
+            </div>
+        </div>
+        <div class="fj_space"></div>
+        <div class="ui section divider fj_divider"></div>
+        <div class="fj_row">
+            <div class="col1">
+                <label class="profile_label">تاریخ تولد: </label>
+            </div>
+            <div class="col15">
+                <span class="profile_info ui label">{{ generalinfo.date_of_birth }}</span>
+            </div>
+            <div class="col2">
+                <label class="profile_label">جنسیت: </label>
+            </div>
+            <div class="col25">
+                <span class="profile_info ui label">{{ generalinfo.sex }}</span>
+            </div>
+            <div class="col3">
+                <label class="profile_label">وضعیت تاهل: </label>
+            </div>
+            <div class="col35">
+                <span class="profile_info ui label">{{ generalinfo.exemption }}</span>
+            </div>
+        </div>
+        <div class="fj_space"></div>
+        <div class="ui section divider fj_divider"></div>
+        <div class="fj_row">
+            <div class="col1">
+                <label class="profile_label">شماره تلفن: </label>
+            </div>
+            <div class="col15">
+                <span class="profile_info ui label">{{ generalinfo.phone_number }}</span>
+            </div>
+            <div class="col2">
+                <label class="profile_label">شماره همراه: </label>
+            </div>
+            <div class="col25">
+                <span class="profile_info ui label">{{ generalinfo.mobile_number }}</span>
+            </div>
+        </div>
+        <div class="fj_space"></div>
+        <div class="ui section divider fj_divider"></div>
+        <div class="fj_row">
+            <div class="col1">
+                <label class="profile_label">ساکن: </label>
+            </div>
+            <div class="col15">
+                <span class="profile_info ui label">{{ generalinfo.city }}</span><span
+                    class="profile_info ui label">{{ generalinfo.state }}</span>
+            </div>
+            <div class="col2">
+                <label class="profile_label">وضعیت سربازی: </label>
+            </div>
+            <div class="col25">
+                <span class="profile_info ui label">{{ generalinfo.military_service_status }}</span>
+            </div>
+            <div class="col3">
+                <label class="profile_label">علت معافیت: </label>
+            </div>
+            <div class="col35">
+                <span class="profile_info ui label">{{ generalinfo.exemption_type }}</span>
+            </div>
+        </div>
+        <div class="fj_space"></div>
+        <div class="ui section divider fj_divider fj_divider"></div>
+
+        <div class="fj_row">
+            <div class="col1">
+                <label class="profile_label">درباره کارجو: </label>
+            </div>
+            <div class="col15">
+                <span class="profile_info ui label ">{{ generalinfo.about_me }}</span>
+            </div>
+        </div>
+        <div class="fj_space"></div>
+    </div>
+
+
+    <div class="title education">
+        <i class="triangle left icon"></i>
+        تحصیلات
+        <a class="fj_link edit_profile_accordion">ویرایش</a>
+    </div>
+    <div class="content education">
+        {% for education in educations %}
+            <div class="fj_row">
+                <div class="col1">
+                    <label class="profile_label">رشته: </label>
+                </div>
+                <div class="col15">
+                    <span class="profile_info ui label">{{ education.major }}</span>
+                </div>
+                <div class="col2">
+                    <label class="profile_label">گرایش: </label>
+                </div>
+                <div class="col25">
+                    <span class="profile_info ui label">{{ education.orientation }}</span>
+                </div>
+                <div class="col3">
+                    <label class="profile_label">مدرک: </label>
+                </div>
+                <div class="col35">
+                    <span class="profile_info ui label">{{ education.certificate }}</span>
+                </div>
+
+            </div>
+            <div class="fj_space"></div>
+            <div class="fj_row">
+                <div class="col3">
+                    <label class="profile_label">دانشگاه: </label>
+                </div>
+                <div class="col35">
+                    <span class="profile_info ui label">{{ educations.university_name }}</span>
+                </div>
+                <div class="col1">
+                    <label class="profile_label">نوع دانشگاه: </label>
+                </div>
+                <div class="col15">
+                    <span class="profile_info ui label">{{ educations.university_type }}</span>
+                </div>
+                <div class="col2">
+                    <label class="profile_label">وضعیت: </label>
+                </div>
+                <div class="col25">
+                    <span class="profile_info ui label">{{ educations.status }}</span>
+                </div>
+            </div>
+            <div class="fj_space"></div>
+            <div class="ui section divider fj_divider"></div>
+        {% endfor %}
+    </div>
+
+
+    <div class="title skills">
+        <i class="triangle left icon"></i>
+        مهارت ها
+        <a class="fj_link edit_profile_accordion">ویرایش</a>
+    </div>
+    <div class="content skills">
+        {% for skill in skills %}
+            <div class="fj_row">
+                <div class="col1">
+                    <label class="profile_label">عنوان: </label>
+                </div>
+                <div class="col15">
+                    <span class="profile_info ui label">{{ skill.title }}</span>
+                </div>
+                <div class="col2">
+                    <label class="profile_label">سطح: </label>
+                </div>
+                <div class="col25">
+                    <span class="profile_info ui label">{{ skill.level }}</span>
+                </div>
+
+            </div>
+            <div class="fj_space"></div>
+            {% if skill.description %}
+            <div class="fj_row">
+                <div class="col1">
+                    <label class="profile_label">توضیح: </label>
+                </div>
+                <div class="col15">
+                    <span class="profile_info ui label">{{ skill.description }}</span>
+                </div>
+            </div>
+            <div class="fj_space"></div>
+            {% endif %}
+            <div class="ui section divider fj_divider"></div>
+        {% endfor %}
+    </div>
+
+
+    <div class="title experience">
+        <i class="triangle left icon"></i>
+        سوابق کاری
+        <a class="fj_link edit_profile_accordion">ویرایش</a>
+    </div>
+    <div class="content experience skills">
+        {% for xp in experiences %}
+            <div class="fj_row">
+                <div class="col1">
+                    <label class="profile_label">عنوان: </label>
+                </div>
+                <div class="col15">
+                    <span class="profile_info ui label">{{ xp.title }}</span>
+                </div>
+                <div class="col2">
+                    <label class="profile_label">در: </label>
+                </div>
+                <div class="col25">
+                    <span class="profile_info ui label">{{ xp.place }}</span>
+                </div>
+                <div class="col3">
+                    <label class="profile_label">نوع همکاری: </label>
+                </div>
+                <div class="col35">
+                    <span class="profile_info ui label">{{ xp.cooperation_type }}</span>
+                </div>
+            </div>
+            <div class="fj_space"></div>
+
+            <div class="fj_row">
+                <div class="col1">
+                    <label class="profile_label">از تاریخ: </label>
+                </div>
+                <div class="col15">
+                    <span class="profile_info ui label">{{ xp.from_date }}</span>
+                </div>
+                <div class="col2">
+                    <label class="profile_label">تا تاریخ: </label>
+                </div>
+                <div class="col25">
+                    <span class="profile_info ui label">{{ xp.to_date }}</span>
+                </div>
+            </div>
+            <div class="fj_space"></div>
+
+            {% if xp.description %}
+                <div class="fj_row">
+                <div class="col1">
+                    <label class="profile_label">توضیحات: </label>
+                </div>
+                <div class="col15">
+                    <span class="profile_info ui label">{{ xp.description }}</span>
+                </div>
+            {% endif %}
+        </div>
+            <div class="fj_space"></div>
+            {% if xp.exit_reason %}
+                <div class="fj_row">
+                    <div class="col1">
+                        <label class="profile_label">علت قطع همکاری: </label>
+                    </div>
+                    <div class="col15">
+                        <span class="profile_info ui label">{{ xp.exit_reason }}</span>
+                    </div>
+
+                </div>
+                <div class="fj_space"></div>
+            {% endif %}
+
+            <div class="ui section divider fj_divider"></div>
+        {% endfor %}
+    </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}
