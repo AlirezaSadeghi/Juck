@@ -7,6 +7,7 @@ from persian_captcha import PersianCaptchaField
 from django.forms.fields import Field
 
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(required=True, label=u'نام کاربری')
     password = forms.CharField(required=True, widget=forms.PasswordInput(render_value=False), label=u'رمز عبور')
@@ -37,7 +38,7 @@ class JobSeekerRegisterForm1(forms.Form):
 
     def clean(self):
         cleaned_data = super(JobSeekerRegisterForm1, self).clean()
-        pass1  = cleaned_data.get('password', '')
+        pass1 = cleaned_data.get('password', '')
         pass2 = cleaned_data.get('re_password', '')
 
         if pass1 != pass2:
@@ -52,8 +53,8 @@ class JobSeekerRegisterForm2(forms.Form):
                                choices=(
                                    ('student', u'دانشچو'),
                                    ('grauated', u'فارغ التحصیل'),
-                                ))
-    certificate = forms.ChoiceField(required=True, label= u'مقطع تحصیلی',
+                               ))
+    certificate = forms.ChoiceField(required=True, label=u'مقطع تحصیلی',
                                     choices=(
                                         ('under_grad', u'کارشناسی'),
                                         ('grad', u'کارشناسی ارشد'),
@@ -63,7 +64,7 @@ class JobSeekerRegisterForm2(forms.Form):
     major = forms.CharField(required=True, max_length=200, label=u'رشته تحصیلی')
     orientation = forms.CharField(required=True, max_length=150, label=u'گرایش تحصیلی')
     university_name = forms.CharField(required=True, max_length=150, label=u'نام دانشگاه')
-    university_type = forms.ChoiceField(required=True, label= u'نوع دانشگاه',
+    university_type = forms.ChoiceField(required=True, label=u'نوع دانشگاه',
                                         choices=(
                                             ('dolati', u'دولتی'),
                                             ('azad', u'آزاد'),
@@ -81,14 +82,15 @@ class JobSeekerRegisterForm2(forms.Form):
                                         ('certificate', u'دارای مدرک معتبر'),
                                     ))
     skill_description = forms.CharField(required=False, max_length=250, label=u'توضیحات')
-    
+
+
 class JobSeekerRegisterEducationForm(forms.Form):
     status = forms.ChoiceField(required=True, label=u'وضغیت تحصیلی',
                                choices=(
                                    ('student', u'دانشجو'),
                                    ('graduated', u'فارغ التحصیل'),
-                                ))
-    certificate = forms.ChoiceField(required=True, label= u'مقطع تحصیلی',
+                               ))
+    certificate = forms.ChoiceField(required=True, label=u'مقطع تحصیلی',
                                     choices=(
                                         ('under_grad', u'کارشناسی'),
                                         ('grad', u'کارشناسی ارشد'),
@@ -98,7 +100,7 @@ class JobSeekerRegisterEducationForm(forms.Form):
     major = forms.CharField(required=True, max_length=200, label=u'رشته تحصیلی')
     orientation = forms.CharField(required=True, max_length=150, label=u'گرایش تحصیلی')
     university_name = forms.CharField(required=True, max_length=150, label=u'نام دانشگاه')
-    university_type = forms.ChoiceField(required=True, label= u'نوع دانشگاه',
+    university_type = forms.ChoiceField(required=True, label=u'نوع دانشگاه',
                                         choices=(
                                             ('dolati', u'دولتی'),
                                             ('azad', u'آزاد'),
@@ -106,7 +108,7 @@ class JobSeekerRegisterEducationForm(forms.Form):
                                             ('payam_nur', u'پیام نور'),
                                             ('foregin', u'خارجی'),
                                         ))
-    
+
 
 class JobSeekerRegisterSkillForm(forms.Form):
     skill_title = forms.CharField(required=True, max_length=150, label=u'عنوان مهارت')
@@ -117,17 +119,19 @@ class JobSeekerRegisterSkillForm(forms.Form):
                                         ('certificate', u'دارای مدرک معتبر'),
                                     ))
     skill_description = forms.CharField(required=False, max_length=250, label=u'توضیحات')
-    
+
+
 class JobSeekerRegisterDummyForm(forms.Form):
     #dummy = forms.CharField(widget=forms.HiddenInput, required=False)    
     pass
-    
+
+
 class JobSeekerRegisterForm3(forms.Form):
     title = forms.CharField(required=True, max_length=200, label=u'عنوان سابقه')
     place = forms.CharField(required=False, max_length=200, label=u'سازمان یا دانشگاه مربوطه')
     from_date = forms.DateField(required=False, label=u'از تاریخ')
     to_date = forms.DateField(required=False, label=u'تا تاریخ')
-    description = forms.CharField( widget=forms.Textarea(), required=False, label=u'توضیحات')
+    description = forms.CharField(widget=forms.Textarea(), required=False, label=u'توضیحات')
     cooperation_type = forms.CharField(required=False, label=u'نوع همکاری', max_length=150)
     exit_reason = forms.CharField(required=False, label=u'دلیل قطع همکاری', max_length=200)
 
@@ -146,7 +150,7 @@ class EmployerRegisterForm1(forms.Form):
     re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور')
     # connector_name = forms.CharField(required=True, label=u'نام شخص رابط')
     connector_rank = forms.CharField(label=u'سمت شخص رابط')
-    captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')
+    # captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')
 
 
 class EmployerRegisterForm2(forms.Form):
@@ -154,7 +158,7 @@ class EmployerRegisterForm2(forms.Form):
     company_type = forms.CharField(required=True, label=u'نوع سازمان')
     reg_num = forms.CharField(required=True, label=u'شماره ثبت')
     foundation_year = forms.IntegerField(required=True, label=u'سال تاسیس')
-    manager = forms.CharField(required=False, label= u'نام مدیرعامل')
+    manager = forms.CharField(required=False, label=u'نام مدیرعامل')
     field = forms.CharField(required=True, label=u'زمینه فعالیت')
 
 
@@ -166,4 +170,4 @@ class EmployerRegisterForm3(forms.Form):
     address = forms.CharField(required=True, widget=forms.Textarea(), label=u'آدرس')
 
 
-setattr(Field, 'is_textarea', lambda self: isinstance(self.widget, forms.Textarea ))
+setattr(Field, 'is_textarea', lambda self: isinstance(self.widget, forms.Textarea))

@@ -15,6 +15,8 @@ urlpatterns = patterns('juck.accounts.views',
                            name='logout'),
                        url(r'password_recover/$', 'password_recover', name='password_recover'),
 
+                        url(r'register/(?P<u_type>\w+)/$', 'captcha_view', name='captcha_view'),
+
                        url(r'jobseeker_registration/$',
                            JobSeekerWizard.as_view(JOB_SEEKER_FORMS, ), {},
                            name='jobseeker_registration'),
