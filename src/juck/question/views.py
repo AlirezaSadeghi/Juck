@@ -191,14 +191,3 @@ def remove_common_question(request):
             return json_response({'op_status': 'success'})
 
     return json_response({'op_status': 'fail'})
-
-
-
-
-
-def test(request):
-    return render_to_response('question/Jobseeker_profile.html', {}, context_instance=RequestContext(request))
-
-
-def sina(request):
-    return render_to_response('messages.html', {'message': 'sina'}, context_instance=RequestContext(request))
