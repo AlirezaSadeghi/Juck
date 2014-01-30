@@ -14,20 +14,22 @@ $(document).ready(function () {
         }
     });
 
+    $('body').on('click', '.rf-show-modal', function(){
+        var type = $(this).attr('id');
+        $("#reg_type").val(type);
+    });
 
     $('#captcha-modal')
         .modal('setting', {
             closable: false,
             onDeny: function () {
-//                window.alert('Wait not yet!');
-//                return false;
             },
             onApprove: function () {
-
-//                window.alert('Approved!');
+                startLoginProc();
                 return false
             }
         })
+
         .modal('attach events', '.rf-show-modal', 'show');
 
 
@@ -112,6 +114,28 @@ function doAjaxLogin(e) {
     if (e.keyCode == 13) {
         $("#login-btn").trigger('click');
     }
+}
+
+function refreshCaptchaCrap(){
+
+    $.getJSON('/accounts/refresh_captcha/', function(data){
+        $("#id_captcha_0").val(data.key);
+        $("img.captcha").attr('src', data.url + '?'+ new Date().getTime());
+    });
+
+    return false;
+}
+
+function startLoginProc(){
+
+    $.post('/accounts/check_catpcha/', $("#captcha-shit").serialize(), function(data){
+        if(data.op_status == 'success'){
+            window.location = data.url;
+        }
+        else{
+            message('کد امنیتی صحیح وارد نشده است. لطفا دوباره سعی کنید.', 'Error');
+        }
+    });
 }
 
 function message(msg, type) {

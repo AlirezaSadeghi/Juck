@@ -86,10 +86,11 @@
                         {% if request_type == 'offer' %}
 
                             <div class="news_content">
-                                <p>
-                                    از:
-                                    {{ item.sender.get_full_name }}
-                                </p>
+                                {#                            سامااااانه#}
+                                {#                                <p>#}
+                                از:
+                                {{ item.sender.get_full_name }}
+                                {#                                </p>#}
                             </div>
                             <div class="news_content">
                                 <p>
@@ -98,68 +99,71 @@
                                 </p>
                             </div>
                         {% else %}
-                            <div class="news_content">
-                                <p>
-                                    از:
-                                    {{ item.employer.get_full_name }}
-                                </p>
-                            </div>
-                            <div class="news_content">
+                            <div class="ui blue segment">
+                                <div class="ui inverted relaxed divided list">
 
-                                {% if item.first_major %}
-                                    <p>
-                                        رشته تحصیلی مربوطه:
-                                        {{ item.first_major }}
-
-                                        {% if item.second_major %}
-
-                                            و
+                                    <div class="item">
+                                        <div class="content">
+                                            <div class="header">فرستاده شده از طرف:</div>
+                                            {{ item.employer.get_full_name }}
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="content">
+                                            <div class="header">رشته های تحصیلی مرتبط:</div>
+                                            {{ item.first_major }}
+                                            <br>
                                             {{ item.second_major }}
+                                        </div>
+                                    </div>
 
-                                        {% endif %}
-                                    </p>
-                                {% endif %}
-                                {% if item.certificate %}
-                                    <p>
-                                        مدارک لازم:
-                                        {{ item.certificate }}
-                                    </p>
-                                {% endif %}
-                                {% if item.sex %}
-                                    <p>
-                                        جنسیت مورد نظر:
-                                        {{ item.sex }}
-                                    </p>
-                                {% endif %}
+                                    {% if item.certificate %}
+                                        <div class="item">
+                                            <div class="content">
+                                                <div class="header">مدرک تحصیلی مورد نیاز:</div>
+                                                {{ item.certificate }}
+                                            </div>
+                                        </div>
 
-                            </div>
+                                    {% endif %}
 
-                        {% endif %}
+                                    {% if item.sex %}
+                                        <div class="item">
+                                            <div class="content">
+                                                <div class="header">چنسیت مورد نظر:</div>
+                                                {{ item.sex }}
+                                            </div>
+                                        </div>
 
-                        <div class="news_content">
-                            <p>
-                                {% if item.content %}
-                                    {{ item.content }}
-                                {% endif %}
-                            </p>
-                        </div>
-                        <div class="news_other">
+                                    {% endif %}
 
-                            <div class="date_rate">
+                                    {% if item.content %}
+                                        <div class="item">
+                                            <div class="content">
+                                                <div class="header">توضیحات آگهی:</div>
+                                                {{ item.content }}
+                                            </div>
+                                        </div>
 
-                                <small>
-                                    زمان ارسال:
-                                    {% get_persian_date item.timestamp.date %} ساعت {{ item.timestamp.time }}
-                                </small>
+                                    {% endif %}
 
-                                <div class="field" style="margin-top: 5px">
+                                 <div class="item">
+                                            <div class="content" style="position: absolute;right: 670px;bottom: 120px">
+                                                <div class="header">زمان ارسال:</div>
+                                              {% get_persian_date item.timestamp.date %} ساعت {{ item.timestamp.time }}
+                                            </div>
+                                        </div>
 
                                 </div>
                             </div>
+                        {% endif %}
+
+                        <div class="news_other">
+
                             <div class="more_buttons">
                                 <div class="ui animated button  small"
                                      onclick="window.location='/product/profile/{{ item.pk }}/'">
-                                    <div class="visible content"> توضیحات محصول</div>
+                                    <div class="visible content">توضیحات آگهی</div>
                                     <div class="hidden content"><i class="left arrow icon"></i></div>
                                 </div>
 

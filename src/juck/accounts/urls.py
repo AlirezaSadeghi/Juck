@@ -15,7 +15,7 @@ urlpatterns = patterns('juck.accounts.views',
                            name='logout'),
                        url(r'password_recover/$', 'password_recover', name='password_recover'),
 
-                        url(r'register/(?P<u_type>\w+)/$', 'captcha_view', name='captcha_view'),
+                       url(r'register/(?P<u_type>\w+)/$', 'captcha_view', name='captcha_view'),
 
                        url(r'jobseeker_registration/$',
                            JobSeekerWizard.as_view(JOB_SEEKER_FORMS, ), {},
@@ -23,6 +23,8 @@ urlpatterns = patterns('juck.accounts.views',
 
                        url(r'employer_registration/$', EmployerWizard.as_view(EMPLOYER_FORMS, ), {},
                            name='employer_registration'),
+
+                       url(r'check_catpcha/$', 'check_catpcha', {}, name='check_catpcha'),
 
                        url(r'jobseeker_addedu/$', 'jobseeker_addedu'),
                        url(r'jobseeker_addskill/$', 'jobseeker_addskill'),
@@ -35,7 +37,7 @@ urlpatterns = patterns('juck.accounts.views',
                        #url(r'^password_recover/$', 'password_recover', name='password_recover'),
                        #url(r'^password_change_recover/(?P<hash_value>\w+)$', 'password_change_recover', name='password_change_recover'),
                        #url(r'^reset_forgotten_password/$', 'reset_forgotten_password', name='reset_forgotten_password'),
-                       #url(r'^profile/', 'show_profile', {}, name='show_profile'),
+                       url(r'^profile/', 'show_profile', {}, name='show_profile'),
                        #url(r'^upload_profile_picture/$', 'upload_profile_picture', {}, name='upload_profile_picture'),
                        url(r'^refresh_captcha', 'refresh_captcha', {}, name='refresh_captcha'),
                        url(r'^dos_prevention', 'dos_prevention', {}, name='dos_prevention'),

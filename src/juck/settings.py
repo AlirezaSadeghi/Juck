@@ -36,7 +36,7 @@ ALLOWED_HOSTS = []
 # In a Windows environment this must be set to your system time zone.
 
 LANGUAGE_CODE = 'fa-IR'
-TIME_ZONE     = 'Iran'
+TIME_ZONE = 'Iran'
 AUTH_USER_MODEL = 'accounts.JuckUser'
 
 SITE_ID = 1
@@ -64,7 +64,8 @@ MEDIA_URL = SITE_URL + 'media/'
 
 UPLOAD_URL = 'uploads'
 UPLOAD_ROOT = MEDIA_ROOT + 'uploads'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/members/'
+LOGIN_ERROR_URL = '/me'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
 
@@ -88,6 +89,7 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+CAPTCHA_LENGTH = 6
 
 def generate_captcha():
     import random
@@ -97,24 +99,23 @@ def generate_captcha():
     ]
 
     captcha = u''
-    for i in range(4):
+    for i in range(CAPTCHA_LENGTH):
         captcha += words_list[random.randint(0, len(words_list) - 1)]
 
     return captcha, captcha[::-1]
 
 
-# CAPTCHA_CHALLENGE_FUNCT = generate_captcha
+#CAPTCHA_CHALLENGE_FUNCT = generate_captcha
 PROJECT_INAGURATION_YAER = 1392
 
 from datetime import datetime
 
 PROJECT_INAGURATION_EXACT_DATE = datetime.utcfromtimestamp(0)
 
-CAPTCHA_LENGTH = 4
 CAPTCHA_NOISE_FUNCTIONS = ()
-CAPTCHA_BACKGROUND_COLOR = '#C0C0C0'
-CAPTCHA_LETTER_ROTATION = (-15, 15)
-# CAPTCHA_FONT_PATH = BASEPATH + '/static/fonts/BYekan.ttf'
+CAPTCHA_BACKGROUND_COLOR = '#4EAEE5'
+CAPTCHA_LETTER_ROTATION = (-20, 20)
+#CAPTCHA_FONT_PATH = BASEPATH + '/static/fonts/BYekan.ttf'
 
 
 
@@ -129,7 +130,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'juck.system@gmail.com'
 EMAIL_HOST_PASSWORD = 'SadeghiSinaFJBejes'
 EMAIL_PORT = 587
-
 
 RESULTS_PER_PAGE = 2
 
@@ -159,11 +159,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
 
 )
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 AUTHENTICATION_BACKENDS = ('accounts.auth.JuckAuthenticationBackend',)
-
 
 ROOT_URLCONF = 'juck.urls'
 
@@ -191,9 +192,9 @@ INSTALLED_APPS = (
     'question',
     'requests',
 
-    'httplib2',#    These 4 are
-    'openid',#      what u need to
-    'oauth2',#      integrate social_auth plug
+    'httplib2', #    These 4 are
+    'openid', #      what u need to
+    'oauth2', #      integrate social_auth plug
     'social_auth',# in your GAE project
 
 )
@@ -201,19 +202,17 @@ INSTALLED_APPS = (
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 FILE_UPLOAD_HANDLERS = ("django.core.files.uploadhandler.MemoryFileUploadHandler",
-   "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
-
-
+                        "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
 
 AUTHENTICATION_BACKENDS = (
-  'social_auth.backends.google.GoogleOAuth2Backend',
-  'social_auth.backends.contrib.github.GithubBackend',
-  'django.contrib.auth.backends.ModelBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.contrib.github.GithubBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-  "social_auth.context_processors.social_auth_by_type_backends",
-  'django.contrib.auth.context_processors.auth'
+    "social_auth.context_processors.social_auth_by_type_backends",
+    'django.contrib.auth.context_processors.auth'
 )
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
@@ -223,11 +222,10 @@ SOCIAL_AUTH_NONCE_SERVER_URL_LENGTH = 16
 SOCIAL_AUTH_ASSOCIATION_SERVER_URL_LENGTH = 16
 SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
 
-
 SOCIAL_AUTH_ENABLED_BACKENDS = ('google', 'github')
 
 GITHUB_API_KEY = ''
 GITHUB_API_SECRET = ''
 
-GOOGLE_OAUTH2_CLIENT_ID = ''
-GOOGLE_OAUTH2_CLIENT_SECRET = ''
+GOOGLE_OAUTH2_CLIENT_ID = '524830416483-pddbupi0qf5eoapq2q1vdi25q93mm6cc.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET = 'yTsABLiLfsN3Qkqcyq058JmM'
