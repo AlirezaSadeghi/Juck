@@ -400,10 +400,11 @@ def employer_list(request, approved_status):
 
 @login_required
 def show_profile(request):
-    generalinfo =
-    education =
-    skill =
-    experience = 
+    # generalinfo =
+    # education =
+    # skill =
+    # experience =
+    pass
 
 @csrf_exempt
 def jobseeker_remove(request, what):
