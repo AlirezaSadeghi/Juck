@@ -1,9 +1,153 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-</body>
-</html>
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/FJ_test.css' %}" type="text/css"/>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $('.ui.accordion').accordion();
+
+            $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
+                var content = $(this).parent().next();
+                if ($(this).parent().hasClass('active')) {
+
+                    if (!$(this).hasClass('fj_pressed')) {
+                        $(this).addClass('fj_pressed');
+                        content.find('.ui.label').each(function () {
+                            $(this).replaceWith('<input type="text" value="@" style="width:100px;"/>'.replace('@', $(this).text()));
+                        });
+
+                    }
+                    else {
+                        $(this).removeClass('fj_pressed');
+                        content.find('input').each(function () {
+                            $(this).replaceWith('<span class="profile_info ui label">@</span>'.replace('@', $(this).val()));
+                        });
+                    }
+                }
+                e.preventDefault();
+                return false;
+            });
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="center">
+        <div class="ctn-box">
+            <div class="fj_profile">
+                <div class=" ui small rounded image ">
+                    <img src="{% static 'images/grumpy.jpeg' %}"/>
+                </div>
+                <p style="margin: 10px 0; font-size: 24px;">شرکت سامانه پروران اسمی</p>
+            </div>
+            <div class="ui fluid accordion jobseekerprofile">
+                <div class="active title general_info">
+                    <i class="triangle left icon"></i>
+                    اطلاعات کلی
+                    <a class="fj_link edit_profile_accordion">ویرایش</a>
+                </div>
+                <div class="active content general_info">
+
+                    <div class="fj_row">
+
+                        <div class="col1">
+                            <label class="profile_label">نام شرکت: </label>
+                        </div>
+                        <div class="col15">
+                            <span class="profile_info ui label ">سامانه پروران اسمی</span>
+                        </div>
+                        <div class="col2">
+                            <label class="profile_label">سال تاسیس: </label>
+                        </div>
+                        <div class="col25">
+                            <span class="profile_info ui label ">۱۳۷۰</span>
+                        </div>
+                        <div class="col3">
+                            <label class="profile_label">شماره ثبت: </label>
+                        </div>
+                        <div class="col35">
+                            <span class="profile_info ui label ">۲۳۵۲۳۴۶۲</span>
+                        </div>
+                    </div>
+                    <div class="fj_space"></div>
+                    <div class="ui section divider fj_divider"></div>
+                    <div class="fj_row">
+                        <div class="col1">
+                            <label class="profile_label">شماره تلفن: </label>
+                        </div>
+                        <div class="col15">
+                            <span class="profile_info ui label">۰۲۱۲۲۲۲۲۲۲</span>
+                        </div>
+                        <div class="col2">
+                            <label class="profile_label">شماره همراه: </label>
+                        </div>
+                        <div class="col25">
+                            <span class="profile_info ui label">۰۹۳۶۵۹۳۲۴۷۹</span>
+                        </div>
+                        <div class="col30">
+                            <label class="profile_label">وب سایت: </label>
+                        </div>
+                        <div class="col35">
+                            <span class="profile_info ui label">www.laashi.com</span>
+                        </div>
+                    </div>
+                    <div class="fj_space"></div>
+                    <div class="ui section divider fj_divider"></div>
+                    <div class="fj_row">
+                        <div class="col1">
+                            <label class="profile_label">محل شرکت: </label>
+                        </div>
+                        <div class="col15">
+                            <span class="profile_info ui label">اندیشه</span><span
+                                class="profile_info ui label">تهران</span>
+                        </div>
+                        <div class="col2">
+                            <label class="profile_label">آدرس: </label>
+                        </div>
+                        <div class="col25">
+                            <span class="profile_info ui label">فاز ۳ محله ۲۶</span>
+                        </div>
+                        <div class="col30">
+                            <label class="profile_label">کد پستی: </label>
+                        </div>
+                        <div class="col35">
+                            <span class="profile_info ui label">۲۳۴۵۲۳۰</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="title education">
+                    <i class="triangle left icon"></i>
+                    اطلاعات کاری
+                    <a class="fj_link edit_profile_accordion">ویرایش</a>
+                </div>
+                <div class="content education">
+                    <div class="fj_row">
+                        <div class="col1">
+                            <label class="profile_label">نوع شرکت: </label>
+                        </div>
+                        <div class="col15">
+                            <span class="profile_info ui label">تحقیق و توسعه</span>
+                        </div>
+                        <div class="col2">
+                            <label class="profile_label">زمینه کاری: </label>
+                        </div>
+                        <div class="col25">
+                            <span class="profile_info ui label">تجاوز به عنف</span>
+                        </div>
+                    </div>
+                    <div class="fj_space"></div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

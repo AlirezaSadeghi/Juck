@@ -409,9 +409,11 @@ def show_profile(request):
             experience = user.resume.experiences.objects.all()
             if self_profile:
                 return render_to_response('accounts/jobseeker_profile_self.html', dict(), context_instance=RequestContext(request))
-        else:  # u_type = 'employer'
-            user = Employer.objects.get(pk=request.user.pk)
+            return render_to_response('accounts/jobseeker_profile.html', dict(), context_instance=RequestContext(request))
 
+        else:  # u_type = 'employer'
+            user = Employer.objects.get(pk=request.GET.get('pk', ''))
+            return render_to_response('accounts/employer_profile.html', dict(), context_instance=RequestContext(request))
 
 
 @csrf_exempt
