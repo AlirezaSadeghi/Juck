@@ -1,28 +1,40 @@
 <div class="ui basic modal transition hidden" id='captcha-modal' style="text-align:right;margin-top: -159px;">
     <div class="header">
-تاییدیه کاربری
+        تاییدیه کاربری
     </div>
     <div class="content">
-      <div class="left">
-        <i class="user icon"></i>
-      </div>
-      <div class="right">
-        <p>برای ادامه فرایند ثبت‌نام، کدامنیتی خواسته شده را وارد کنید.</p>
-      </div>
-        <div class="captcha-is-here">
-            کپتچا
+        <div class="left">
+            <i class="user icon"></i>
+        </div>
+        <div class="right">
+            <p style="margin-bottom: 20px;margin-top: -30px;">برای ادامه فرایند ثبت‌نام، کدامنیتی خواسته شده را وارد
+                کنید.</p>
+
+            <form id="captcha-shit">
+                {% csrf_token %}
+                <div class="captcha-is-here ui form">
+                    {{ form.captcha }}
+                    <input type="hidden" name="reg_type" id="reg_type">
+                    <div class="ui icon button" onclick="refreshCaptchaCrap();">
+                        <i class="refresh icon">
+
+                        </i>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+
     <div class="actions">
-      <div class="two fluid ui buttons">
-        <div class="ui negative labeled icon button">
-          <i class="remove icon"></i>
-          بازگشت
+        <div class="two fluid ui buttons">
+            <div class="ui negative labeled icon button">
+                <i class="remove icon"></i>
+                بازگشت
+            </div>
+            <div class="ui positive right labeled icon button">
+                ادامه
+                <i class="checkmark icon"></i>
+            </div>
         </div>
-        <div class="ui positive right labeled icon button">
-ادامه
-          <i class="checkmark icon"></i>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
