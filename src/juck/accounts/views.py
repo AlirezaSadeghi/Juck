@@ -11,7 +11,7 @@ from django.template.context import RequestContext
 from juck.accounts.forms import LoginForm, CaptchaForm
 from django.contrib import auth
 from django.conf import settings
-from juck.accounts.models import TemporaryLink, JuckUser, Manager, JobSeeker, Employer
+from juck.accounts.models import *
 from juck.log.models import ActionLog
 from utils import json_response, send_html_mail
 import hashlib
@@ -397,10 +397,22 @@ def employer_list(request, approved_status):
 
 @login_required
 def show_profile(request):
-    generalinfo =
-    education =
-    skill =
-    experience = 
+    self_profile = request.GET.get('pk', '') == request.user.pk
+
+    if request.method == "GET":
+        u_type = get_user_type(request.user.pk)
+        if u_type == 'jobseeker':
+            user = JobSeeker.objects.get(pk=request.GET.get('pk', ''))
+            generalinfo = user.jobseekerprofile
+            education = user.education
+            skill = user.resume.skills.objects.all()
+            experience = user.resume.experiences.objects.all()
+            if self_profile:
+                return render_to_response('accounts/jobseeker_profile_self.html', dict(), context_instance=RequestContext(request))
+        else:  # u_type = 'employer'
+            user = Employer.objects.get(pk=request.user.pk)
+
+
 
 @csrf_exempt
 def jobseeker_remove(request, what):
