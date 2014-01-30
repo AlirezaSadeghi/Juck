@@ -6,6 +6,7 @@ from django.template.context import RequestContext
 from juck.accounts.models import Employer, JobSeeker
 from juck.accounts.views import get_user_type
 from juck.requests.filter import RequestListFilter
+from juck.requests.forms import RequestForm
 from juck.requests.models import Response
 from utils import create_pagination_range
 
@@ -151,3 +152,20 @@ def show_em_requests(request):
                                    'page_range': page_range, 'get_params': get_params},
                                   context_instance=RequestContext(request, ))
     return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))
+
+
+# @login_required()
+def add_request(request):
+    #TODO
+
+    if request.method == "POST":
+        form = RequestForm(request.POST)
+
+        if form.is_valid():
+            #TODO
+            return render_to_response('messages.html', {'type':'green', 'message': 'درخواست با موفقیت ثبت شد.'},
+                                      context_instance=RequestContext(request, ))
+    else:
+        form = RequestForm()
+
+    return render_to_response('requests/add_request.html', {'form': form}, context_instance=RequestContext(request, ))
