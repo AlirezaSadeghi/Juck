@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    جاک‌ | ارسال درخواست
+
+{% endblock %}
+
+{% block css %}
+    <style>
+        .input-details, .add-request-label{
+            font: 13px/15px 'BYekan' !important;
+            color: #333 !important;
+
+        }
+        .add-request-label {
+            position: absolute;
+        }
+
+        .add-request-label.sender {
+            right: 2em;
+            top: 2em;
+        }
+
+        .add-request-label.reciever {
+            right: 2em;
+            top: 7em;
+        }
+
+        .add-request-label.time-stamp {
+            right: 61em;
+            top: 2em;
+        }
+
+        .rf-clear {
+            clear: both;
+            margin: 0.5em 0 0.5em 0;
+        }
+
+        .add-request-form {
+            margin: 9em 1em;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="center">
+        <div class="ctn-box" style="position: relative;">
+        <span class="add-request-label sender">
+        <span class="rq-label">فرستنده</span>:
+           <span class="ui label black">
+            شرکت خفن
+            </span>
+        </span>
+
+        <span class="add-request-label reciever">
+        <span class="rq-label">گیرنده</span>:
+            <span class="ui label black">
+            شرکت ممد
+            </span>
+        </span>
+
+        <span class="add-request-label time-stamp">
+            ۷ دی ۱۳۹۲
+        </span>
+
+            <div class="rf-clear"></div>
+            <form method="post" action="#" class='add-request-form ui form'>
+                {% csrf_token %}
+                <div class="field">
+                    <div class="ui input">
+                        <label class="input-details">{{ form.cooperation_type.label_tag }}: </label>
+                        {{ form.cooperation_type }}
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui input">
+                        <label class="input-details">{{ form.title.label_tag }}: </label>
+                        {{ form.title }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="input-details">{{ form.content.label_tag }}:</label>
+                    {{ form.content }}
+                </div>
+
+                <input class="inline ui button green" type="submit" style="float:left" value="ثبت"/>
+
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}

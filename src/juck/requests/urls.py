@@ -10,5 +10,5 @@ urlpatterns = patterns('juck.requests.views',
     url(r'^my_needs/$', 'my_needs', {}, name='my_needs'),
     url(r'^jobseeker_requests/$', 'show_js_requests', {}, name='js_requests'),
     url(r'^employer_requests/$', 'show_em_requests', {}, name='em_requests'),
-
+    url(r'^add/$', 'add_request', {}, name='add_request')
 )
