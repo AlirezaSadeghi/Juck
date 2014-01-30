@@ -64,7 +64,7 @@ def homepage(request):
         return render_to_response("accounts/user_panel.html",
                                   {'user_type': user_type, 'news': news, 'article': articles, 'art_sub': art_sub},
                                   context_instance=RequestContext(request, ))
-    # home_details = HomeDetails.objects.filter(state=True)[0]
+        # home_details = HomeDetails.objects.filter(state=True)[0]
 
     form = CaptchaForm()
     return render_to_response("accounts/homepage.html", {'form': form}, context_instance=RequestContext(request))
@@ -246,6 +246,51 @@ class EmployerWizard(SessionWizardView):
     template_name = 'accounts/employer_registration.html'
 
     def done(self, form_list, **kwargs):
+        for index in range(0, len(form_list)):
+            email, first_name, last_name, password, user_rank, company_name, company_type, reg_num, foundation_year, manager, field = '', '', '', '', '', '', '', '', '', '', ''
+            if index == 0:
+                email = form_list[index].cleaned_data['email']
+                first_name = form_list[index].cleaned_data['first_name']
+                last_name = form_list[index].cleaned_data['last_name']
+                password = form_list[index].cleaned_data['password']
+                user_rank = form_list[index].cleaned_data['connector_rank']
+
+            elif index == 1:
+                company_name = form_list[index].cleaned_data['company_name']
+                company_type = form_list[index].cleaned_data['company_type']
+                reg_num = form_list[index].cleaned_data['reg_num']
+                foundation_year = int(form_list[index].cleaned_data['foundation_year'])
+                manager = form_list[index].cleaned_data['manager']
+                field = form_list[index].cleaned_data['field']
+
+            else:
+                website = form_list[index].cleaned_data['website']
+                phone_number = form_list[index].cleaned_data['phone_num']
+                mobile_number = form_list[index].cleaned_data['mobile_num']
+                city = form_list[index].cleaned_data['city']
+                state = form_list[index].cleaned_data['state']
+                address = form_list[index].cleaned_data['address']
+                postal_code = form_list[index].cleaned_data['postal_code']
+
+                try:
+                    state_object = State.objects.get(name=state)
+                except State.DoesNotExist:
+                    state_object = State(name=state)
+                try:
+                    city_object = City.objects.get(name=city, state=state_object)
+                except State.DoesNotExist:
+                    city_object = City(name=city, state=state_object)
+
+                profile = EmployerProfile(company_name=company_name, company_type=company_type,
+                                          foundation_year=foundation_year, reg_num=reg_num,
+                                          manager=manager, user_rank=user_rank, field=field,
+                                          address=address, postal_code=postal_code, phone_number=phone_number,
+                                          mobile_number=mobile_number, website=website,
+                                          state=state_object, city=city_object, approved=False)
+
+                emp = Employer(profile=profile, email=email, first_name=first_name, last_name=last_name, role=3)
+                emp.set_password(password)
+                emp.save()
         return render_to_response('messages.html', {
             'message': u'خب الان باید تموم شده باشه ! :دی'
         })
@@ -406,6 +451,7 @@ def show_profile(request):
     # experience =
     pass
 
+
 @csrf_exempt
 def jobseeker_remove(request, what):
     obj_id = request.POST.get('id', None)
@@ -480,6 +526,7 @@ def captcha_view(request, u_type):
     return render_to_response('accounts/captcha_form.html', {'form': form},
                               context_instance=RequestContext(request))
 
+
 def check_catpcha(request):
     if request.is_ajax():
         form = CaptchaForm(request.POST)
@@ -494,19 +541,17 @@ def check_catpcha(request):
 
 
 def refresh_captcha(request):
-
     kwargs = {'op_status': 'fail'}
 
     if request.is_ajax():
-        new_key             = CaptchaStore.generate_key()
-        kwargs['op_status']   = 'success'
-        kwargs['key']         = new_key
-        kwargs['url']         = captcha_image_url(new_key)
+        new_key = CaptchaStore.generate_key()
+        kwargs['op_status'] = 'success'
+        kwargs['key'] = new_key
+        kwargs['url'] = captcha_image_url(new_key)
 
         return json_response(kwargs)
 
     return json_response(kwargs)
-
 
 
 def get_user_type(pk):

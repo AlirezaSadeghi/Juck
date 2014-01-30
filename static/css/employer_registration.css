@@ -1,6 +1,7 @@
 .register_panel{
     background-color: #108edc;
     font-size: 13px;
+    min-height: 500px;
 }
 
 .reg_form, .reg_other_panel{
@@ -10,13 +11,12 @@
     /*width: 23%;*/
 }
 .reg_form{
-    /*width: 47%;*/
     background-color: #eee;
     width: 550px;
     display: inline-block;
     margin: 0;
     float: left;
-    /*width: */
+    min-height: 500px;
     padding: 15px 20px;
 }
 
@@ -33,7 +33,7 @@
     color: white;
     float: right;
     /*margin: 0;*/
-    height: 500%;
+    min-height: 500px;
 }
 
 .reg_form .input_labels{
