@@ -27,6 +27,7 @@
 
 {% block js %}
 
+
 {% endblock %}
 
 {% block page_title %}
@@ -66,7 +67,7 @@
                             در صورتی که به دنبال اشتغال هستید، ثبت نام کنید.
                         </div>
                         <a class="ui button small elem-hidden" href="#jobseeker-intro">بیشتر بدانید</a>
-                        <a class="ui button small green" href="{% url 'jobseeker_registration' %}">ثبت نام</a>
+                        <span class="ui button small green rf-show-modal"  >ثبت نام</span>
                     </div>
                     <div class="index-column">
                         <div class="employer-column-image"></div>
@@ -76,9 +77,10 @@
                             در صورتی که به دنبال جذب کارمند متخصص هستید، ثبت نام کنید.
                         </div>
                         <a class="ui button small elem-hidden" href="#employer-intro">بیشتر بدانید</a>
-                        <a class="ui button small green" href="{% url 'employer_registration' %}">ثبت
-                            نام</a>
+                        <span class="ui button small green rf-show-modal">ثبت
+                            نام</span>
                     </div>
+                    {% include 'accounts/captcha_form.html' %}
                     <div class="clr"></div>
                 </div>
             </div>

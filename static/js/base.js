@@ -15,6 +15,22 @@ $(document).ready(function () {
     });
 
 
+    $('#captcha-modal')
+        .modal('setting', {
+            closable: false,
+            onDeny: function () {
+//                window.alert('Wait not yet!');
+//                return false;
+            },
+            onApprove: function () {
+
+//                window.alert('Approved!');
+                return false
+            }
+        })
+        .modal('attach events', '.rf-show-modal', 'show');
+
+
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
     $().toastmessage({sticky: true});
