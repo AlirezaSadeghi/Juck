@@ -81,10 +81,6 @@
                     </div>
 
                     <div class="ui segment javab_box">
-
-                        <div class="ui segment">
-                            {{ question.content }}
-                        </div>
                         {% if question.answer %}
                             <div class="ui message">
                                 <p>
@@ -105,38 +101,32 @@
             </div>
 
             {#            FJ#}
+            {% if questions.paginator.num_pages > 1 %}
+            <div style="text-align: center;">
             <div class="ui small pagination menu">
-                {% if page_range|length > 3 %}
-                    <a class="icon item">
-                    <i class="icon right arrow"></i>
-                    </a>
-                    <a class="active item">
-                        ۱
-                    </a>
-                    <a class="item">
-                        ...
-                    </a>
-                    <a class="item">
-                        {{ page_range|last }}
-                    </a>
-                    <a class="icon item">
-                        <i class="icon left arrow"></i>
-                    </a>
-                {% elif page_range|last > 0 %}
-                    <a class="icon item">
-                    <i class="icon right arrow"></i>
-                    </a>
-                    {% for a in page_range %}
-                    <a class="active item">
-                        {{ a }}
-                    </a>
+                    {% if questions.has_previous %}
+                            <a href="?{{ get_params.urlencode }}&page={{ questions.previous_page_number }}"
+                               class="icon item"><i class="icon right arrow"></i></a>
+                    {% endif %}
+
+                    {% for p in page_range %}
+                        {% ifequal p questions.number %}
+                            <a  href="javascript:void(0);" class="active item">{{ p }}</a>
+                        {% else %}
+                            <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                        {% endifequal %}
                     {% endfor %}
-                    <a class="icon item">
-                        <i class="icon left arrow"></i>
-                    </a>
-                {% endif %}
+                    {% if questions.has_next %}
+                        <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
+                           class="icon item"><i class="icon left arrow"></i></a>
+                    {% endif %}
             </div>
+            </div>
+        {% endif %}
             {#            FJ#}
+
+
+
         </div>
     <a href="/question/common?{{ get_params.urlencode }}?page={{ paginator.next_page }}"></a>
     </div>

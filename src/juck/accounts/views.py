@@ -358,7 +358,7 @@ def job_seeker_list(request, approved_status):
 
         return render_to_response('accounts/job_seeker_list.html',
                                   {'job_seekers': job_seekers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range,
+                                   'page_range': page_range, 'approved': approved,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -389,7 +389,7 @@ def employer_list(request, approved_status):
 
         return render_to_response('accounts/employer_list.html',
                                   {'employers': employers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range,
+                                   'page_range': page_range, 'approved': approved,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -420,6 +420,40 @@ def jobseeker_remove(request, what):
     request.session.modified = True
 
     return HttpResponse("SUCCESS")
+
+
+def ajax_remove_or_approve_user(request):
+    if request.is_ajax():
+        function = request.POST.get('function')
+        user_type = request.POST.get('user_type')
+        id = request.POST.get('id')
+        if user_type == 'job_seeker':
+            users = JobSeeker.objects.all()
+        elif user_type == 'employer':
+            users = Employer.objects.all()
+        else:
+            return json_response({'op_status': 'failed', 'message': u'چنین نوع کاربری وجود ندارد.'})
+
+        if users.filter(id=id).exists():
+            user = users.filter(id=id)[0]
+            if function == 'approve':
+                profile = user.profile
+                profile.approved = True
+                profile.save()
+                user.save()
+                return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت تایید شد.'})
+            elif function == 'remove':
+                user.delete()
+                return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت حذف گردید.'})
+            elif function == 'disapprove':
+                profile = user.profile
+                profile.approved = False
+                profile.save()
+                user.save()
+                return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت غیرفعال شد.'})
+            else:
+                return json_response({'op_status': 'failed', 'message': u'چنین کارکردی وجود ندارد.'})
+        return json_response({'op_status': 'failed', 'message': u'حساب کاربری موجود نمی باشد.'})
 
 
 def get_user_type(pk):

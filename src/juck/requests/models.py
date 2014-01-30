@@ -61,6 +61,4 @@ class Response(models.Model):
     request = models.ForeignKey(Request, verbose_name=u'درخواست', related_name='responses')
     timestamp = models.DateField(verbose_name=u'زمان ارسال پاسخ', auto_now=True)
     content = models.TextField(verbose_name=u'متن درخواست')
-
-
-
+    user = models.ForeignKey(JuckUser, verbose_name=u'کاربر پاسخ‌دهنده', null=True, blank=True)

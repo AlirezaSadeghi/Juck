@@ -85,7 +85,7 @@ class JobSeekerRegisterForm2(forms.Form):
 class JobSeekerRegisterEducationForm(forms.Form):
     status = forms.ChoiceField(required=True, label=u'وضغیت تحصیلی',
                                choices=(
-                                   ('student', u'دانشچو'),
+                                   ('student', u'دانشجو'),
                                    ('graduated', u'فارغ التحصیل'),
                                 ))
     certificate = forms.ChoiceField(required=True, label= u'مقطع تحصیلی',
