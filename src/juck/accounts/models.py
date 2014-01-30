@@ -286,3 +286,16 @@ class TemporaryLink(models.Model):
 
     def __unicode__(self):
         return self.email + str(self.expire_date.date())
+
+
+class HomeDetails(models.Model):
+    class Meta:
+        verbose_name = u'متن صفحه اول'
+        verbose_name_plural = u'متون صفحه اول'
+
+    state = models.BooleanField(default=False, verbose_name=u'وضعیت')
+    text1 = models.TextField(verbose_name=u'متن شماره یک')
+    text2 = models.TextField(verbose_name=u'متن شماره دو')
+    text3 = models.TextField(verbose_name=u'متن شماره سه')
+    text4 = models.TextField(verbose_name=u'متن شماره چهار')
+    text5 = models.TextField(verbose_name=u'متن شماره پنج')

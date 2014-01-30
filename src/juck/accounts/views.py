@@ -4,6 +4,7 @@ from captcha.models import CaptchaStore
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect, HttpResponse
 from datetime import datetime, timedelta
 from django.shortcuts import render_to_response
@@ -11,7 +12,7 @@ from django.template.context import RequestContext
 from juck.accounts.forms import LoginForm, CaptchaForm
 from django.contrib import auth
 from django.conf import settings
-from juck.accounts.models import TemporaryLink, JuckUser, Manager, JobSeeker, Employer
+from juck.accounts.models import TemporaryLink, JuckUser, Manager, JobSeeker, Employer, HomeDetails
 from juck.log.models import ActionLog
 from utils import json_response, send_html_mail
 import hashlib
@@ -63,6 +64,8 @@ def homepage(request):
         return render_to_response("accounts/user_panel.html",
                                   {'user_type': user_type, 'news': news, 'article': articles, 'art_sub': art_sub},
                                   context_instance=RequestContext(request, ))
+    # home_details = HomeDetails.objects.filter(state=True)[0]
+
     return render_to_response("accounts/homepage.html", {}, context_instance=RequestContext(request))
 
 
@@ -233,6 +236,7 @@ class JobSeekerWizard(SessionWizardView):
         return context
 
     def done(self, form_list, **kwargs):
+        print('google')
         print form_list
         return render_to_response('messages.html', {
             'message': u'خب الان باید تموم شده باشه ! :دی'
@@ -456,6 +460,26 @@ def ajax_remove_or_approve_user(request):
             else:
                 return json_response({'op_status': 'failed', 'message': u'چنین کارکردی وجود ندارد.'})
         return json_response({'op_status': 'failed', 'message': u'حساب کاربری موجود نمی باشد.'})
+
+
+def captcha_view(request, u_type):
+    if request.method == 'POST':
+        form = CaptchaForm(request.POST)
+        if form.is_valid():
+            url = ''
+            if 'captcha_solve' not in request.session:
+                request.session['captcha_solved'] = True
+                if u_type == 'jobseeker':
+                    url = 'jobseeker_registration'
+                elif u_type == 'employer':
+                    url = 'employer_registration'
+            if url:
+                return HttpResponseRedirect(reverse(url))
+    else:
+        form = CaptchaForm()
+
+    return render_to_response('accounts/captcha_form.html', {'form': form},
+                              context_instance=RequestContext(request))
 
 
 def get_user_type(pk):

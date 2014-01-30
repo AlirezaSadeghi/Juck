@@ -42,8 +42,8 @@ class EmployerJobOffer(Request):
         verbose_name = u'پیشنهاد کاری کارفرما'
         verbose_name_plural = u'پیشنهادات کاری کارفرمایان'
 
-    sender = models.ForeignKey(Employer, verbose_name=u'فرستنده', related_name='sent_offers')
-
+    em_receiver = models.ForeignKey(Employer, verbose_name=u'دریافت کننده کارفرما', related_name='received_offers', blank=True, null=True)
+    js_receiver = models.ForeignKey(JobSeeker, verbose_name=u'دریافت کننده کارجو', related_name='received_offers', blank=True, null=True)
 
 class JobseekerJobOffer(Request):
     class Meta:
@@ -61,6 +61,4 @@ class Response(models.Model):
     request = models.ForeignKey(Request, verbose_name=u'درخواست', related_name='responses')
     timestamp = models.DateField(verbose_name=u'زمان ارسال پاسخ', auto_now=True)
     content = models.TextField(verbose_name=u'متن درخواست')
-
-
-
+    user = models.ForeignKey(JuckUser, verbose_name=u'کاربر پاسخ‌دهنده', null=True, blank=True)
