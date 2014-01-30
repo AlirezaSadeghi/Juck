@@ -66,7 +66,8 @@ def homepage(request):
                                   context_instance=RequestContext(request, ))
     # home_details = HomeDetails.objects.filter(state=True)[0]
 
-    return render_to_response("accounts/homepage.html", {}, context_instance=RequestContext(request))
+    form = CaptchaForm()
+    return render_to_response("accounts/homepage.html", {'form': form}, context_instance=RequestContext(request))
 
 
 def login(request):
@@ -201,9 +202,7 @@ def create_password_recovery_mail_html(hash_value):
 
 JOB_SEEKER_FORMS = [
     ("Phase_1", JobSeekerRegisterForm1),
-    #("Phase_2", JobSeekerRegisterForm2),
     ("Phase_2", JobSeekerRegisterDummyForm),
-    #("Phase_3", JobSeekerRegisterForm3),
     ("Phase_3", JobSeekerRegisterDummyForm),
     ("Phase_4", JobSeekerRegisterForm4),
 ]
@@ -419,7 +418,6 @@ def show_profile(request):
             user = Employer.objects.get(pk=request.GET.get('pk', ''))
             return render_to_response('accounts/employer_profile.html', dict(), context_instance=RequestContext(request))
 
-
 @csrf_exempt
 def jobseeker_remove(request, what):
     obj_id = request.POST.get('id', None)
@@ -490,10 +488,37 @@ def captcha_view(request, u_type):
             if url:
                 return HttpResponseRedirect(reverse(url))
     else:
-        form = CaptchaForm()
-
+        pass
     return render_to_response('accounts/captcha_form.html', {'form': form},
                               context_instance=RequestContext(request))
+
+def check_catpcha(request):
+    if request.is_ajax():
+        form = CaptchaForm(request.POST)
+        if form.is_valid():
+            if request.POST.get('reg_type', '') == 'jobseeker':
+                url = '/accounts/jobseeker_registration/'
+            if request.POST.get('reg_type', '') == 'employer':
+                url = '/accounts/employer_registration/'
+            return json_response({'op_status': 'success', 'url': url})
+
+    return json_response({'op_status': 'fail'})
+
+
+def refresh_captcha(request):
+
+    kwargs = {'op_status': 'fail'}
+
+    if request.is_ajax():
+        new_key             = CaptchaStore.generate_key()
+        kwargs['op_status']   = 'success'
+        kwargs['key']         = new_key
+        kwargs['url']         = captcha_image_url(new_key)
+
+        return json_response(kwargs)
+
+    return json_response(kwargs)
+
 
 
 def get_user_type(pk):

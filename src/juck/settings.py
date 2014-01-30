@@ -89,6 +89,7 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+CAPTCHA_LENGTH = 6
 
 def generate_captcha():
     import random
@@ -98,24 +99,23 @@ def generate_captcha():
     ]
 
     captcha = u''
-    for i in range(4):
+    for i in range(CAPTCHA_LENGTH):
         captcha += words_list[random.randint(0, len(words_list) - 1)]
 
     return captcha, captcha[::-1]
 
 
-# CAPTCHA_CHALLENGE_FUNCT = generate_captcha
+#CAPTCHA_CHALLENGE_FUNCT = generate_captcha
 PROJECT_INAGURATION_YAER = 1392
 
 from datetime import datetime
 
 PROJECT_INAGURATION_EXACT_DATE = datetime.utcfromtimestamp(0)
 
-CAPTCHA_LENGTH = 4
 CAPTCHA_NOISE_FUNCTIONS = ()
-CAPTCHA_BACKGROUND_COLOR = '#C0C0C0'
-CAPTCHA_LETTER_ROTATION = (-15, 15)
-# CAPTCHA_FONT_PATH = BASEPATH + '/static/fonts/BYekan.ttf'
+CAPTCHA_BACKGROUND_COLOR = '#4EAEE5'
+CAPTCHA_LETTER_ROTATION = (-20, 20)
+#CAPTCHA_FONT_PATH = BASEPATH + '/static/fonts/BYekan.ttf'
 
 
 

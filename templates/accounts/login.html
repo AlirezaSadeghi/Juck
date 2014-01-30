@@ -18,52 +18,59 @@
 {% block content %}
     <div class="center">
         <div class="ctn-box">
-            <div class="page-content">
-                <form method="post" action="{% url 'login' %}">
-                    {% csrf_token %}
-
-
-                    <input type="hidden" value="{{ next }}" name="next">
-
-                    <div class="ui segment">
-                        <div class="ui label">نام کاربری</div>
-                        <input class="login-page-input" id="id_login_username" name="login_username"
-                               placeholder="نام کاربری" type="text">
-                        {% if form.login_username.errors %}
-                            <div class="ctn-field-alert">{{ form.login_username.errors }}</div>
-                        {% endif %}
-                    </div>
-
-
-                    <div class="ui segment">
-                        <div class="ui label">رمز عبور</div>
-                        <input class="login-page-input" id="id_login_password" name="login_password"
-                               placeholder="رمز عبور" type="password">
-                        {% if form.login_password.errors %}
-                            <div class="ctn-field-alert">{{ form.login_password.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="right">
-                        <input type="submit" id='enter' class="submit submit-active" value="ورود به سامانه"/>
-                        <input type="hidden" name="next" value="{{ next }}"/>
-                    </div>
-                </form>
-
-
-                <button class="submit"
-                        onclick="$(this).siblings('.recover-form').slideToggle(); $('#enter').toggleClass('submit-active');">
-                    رمز عبور خود را فراموش
-                    کرده ام !
-                </button>
-                <div class="recover-form hidden">
-                    <form action="{% url 'password_recover' %}" method="post">
+            <div class="page-content" style="min-height: 500px;">
+                <div class="ui segment raised" style="width: 60%;margin:0 auto;">
+                    <form method="post" action="{% url 'login' %}" class="ui form">
                         {% csrf_token %}
-                        <div class="ctn-field-cont">
-                            <div class="ctn-field-label">پست الکترونیک</div>
-                            <input type="text" name="email" id="id_email" class="login-page-input"> <br>
+
+
+                        <input type="hidden" value="{{ next }}" name="next">
+
+                        <div class="field">
+                            <label>نام کاربری</label>
+                            <input class="login-page-input" id="id_login_username" name="login_username"
+                                   placeholder="نام کاربری" type="text" dir="ltr">
+                            {% if form.login_username.errors %}
+                                <div class="ctn-field-alert">{{ form.login_username.errors }}</div>
+                            {% endif %}
                         </div>
-                        <input type="submit" value="ارسال رایانامه تغییر رمز عبور" class="submit submit-active">
+
+
+                        <div class="field">
+                            <label>رمز عبور</label>
+                            <input class="login-page-input" id="id_login_password" name="login_password"
+                                   placeholder="رمز عبور" type="password">
+                            {% if form.login_password.errors %}
+                                <div class="ctn-field-alert">{{ form.login_password.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="right">
+                            <input type="submit" id='enter' style="float:right;" class=" ui button submit tiny green submit-active"
+                                   value="ورود"/>
+                            <input type="hidden" name="next" value="{{ next }}"/>
+                        </div>
                     </form>
+
+                    <button class="submit ui linkedin tiny button" style="float:left;"
+                            onclick="$(this).siblings('.recover-form').slideToggle(); $('#enter').toggleClass('submit-active');">
+                        رمز عبور خود را فراموش
+                        کرده ام !
+                    </button>
+
+                    <div class="clr"></div>
+                    <div class="ui section divider"></div>
+
+                    <div class="recover-form hidden" style="display: none;">
+                        <form action="{% url 'password_recover' %}" method="post" class="ui form">
+                            {% csrf_token %}
+                            <div class="field">
+                                <label>پست الکترونیک</label>
+                                <input type="text" name="email" id="id_email" class="ui input" dir="ltr">
+                            </div>
+                            <input type="submit" value="ارسال"
+                                   class=" ui button tiny green submit submit-active">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -21,13 +21,39 @@
         .ftr {
             margin: 0px !important;
         }
+
+        .ui.icon.button {
+            position: absolute;
+            right: 150px;
+            top: 0px;
+            height: 40px;
+            border-radius: 1px;
+            background-color: #4EAEE5;
+        }
+
+        .ui.form img {
+            width: 150px !important;
+            height: 40px !important;
+            border-radius: 1px;
+            margin-bottom: 20px;
+        }
+
+
     </style>
 {% endblock %}
 
 
 {% block js %}
+    <script>
+        $(window).scroll(function () {
 
-
+            if ($(window).scrollTop() < 460 || ($(window).scrollTop() > 705 && $(window).scrollTop() < 830) || ($(window).scrollTop() > 1280 && $(window).scrollTop() < 1350)) {
+                $('.nav-bar .nav-link .label').css('color', 'white');
+            } else {
+                $('.nav-bar .nav-link .label').css('color', '#108edc');
+            }
+        });
+    </script>
 {% endblock %}
 
 {% block page_title %}
@@ -67,7 +93,7 @@
                             در صورتی که به دنبال اشتغال هستید، ثبت نام کنید.
                         </div>
                         <a class="ui button small elem-hidden" href="#jobseeker-intro">بیشتر بدانید</a>
-                        <span class="ui button small green rf-show-modal"  >ثبت نام</span>
+                        <span class="ui button small green rf-show-modal" id="jobseeker">ثبت نام</span>
                     </div>
                     <div class="index-column">
                         <div class="employer-column-image"></div>
@@ -77,7 +103,7 @@
                             در صورتی که به دنبال جذب کارمند متخصص هستید، ثبت نام کنید.
                         </div>
                         <a class="ui button small elem-hidden" href="#employer-intro">بیشتر بدانید</a>
-                        <span class="ui button small green rf-show-modal">ثبت
+                        <span class="ui button small green rf-show-modal" id="employer">ثبت
                             نام</span>
                     </div>
                     {% include 'accounts/captcha_form.html' %}
