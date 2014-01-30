@@ -26,8 +26,16 @@
 
 
 {% block js %}
+    <script>
+        $(window).scroll(function () {
 
-
+            if ($(window).scrollTop() < 460 || ($(window).scrollTop() > 705 && $(window).scrollTop() < 830) || ($(window).scrollTop() > 1280 && $(window).scrollTop() < 1350)) {
+                $('.nav-bar .nav-link .label').css('color', 'white');
+            } else {
+                $('.nav-bar .nav-link .label').css('color', '#108edc');
+            }
+        });
+    </script>
 {% endblock %}
 
 {% block page_title %}
@@ -67,7 +75,7 @@
                             در صورتی که به دنبال اشتغال هستید، ثبت نام کنید.
                         </div>
                         <a class="ui button small elem-hidden" href="#jobseeker-intro">بیشتر بدانید</a>
-                        <span class="ui button small green rf-show-modal"  >ثبت نام</span>
+                        <span class="ui button small green rf-show-modal">ثبت نام</span>
                     </div>
                     <div class="index-column">
                         <div class="employer-column-image"></div>
