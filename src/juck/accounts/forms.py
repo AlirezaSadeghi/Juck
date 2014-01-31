@@ -234,11 +234,11 @@ class EmployerRegisterForm1(forms.Form):
 
 class EmployerRegisterForm2(forms.Form):
     company_name = forms.CharField(required=True, label=u'نام سازمان')
-    company_type = forms.CharField(required=True, label=u'نوع سازمان')
+    company_type = forms.CharField(required=True, label=u'نوع سازمان',help_text=u'دولتی, خصوصی, نیمه دولتی ')
     reg_num = forms.CharField(required=True, label=u'شماره ثبت')
     foundation_year = forms.CharField(required=True, label=u'سال تاسیس')
     manager = forms.CharField(required=False, label=u'نام مدیرعامل')
-    field = forms.CharField(required=True, label=u'زمینه فعالیت')
+    field = forms.CharField(required=True, label=u'زمینه فعالیت', help_text=u'تا جایی که امکان دارد دقیق بنویسید.')
 
     def clean_foundation_year(self):
         data = self.cleaned_data['foundation_year']
@@ -250,8 +250,8 @@ class EmployerRegisterForm2(forms.Form):
 
 
 class EmployerRegisterForm3(forms.Form):
-    website = forms.URLField(required=False, label=u'وب سایت')
-    phone_num = forms.CharField(required=True, label=u'شماره تلفن')
+    website = forms.URLField(required=False, label=u'وب سایت' ,help_text=u'سایت رسمی سازمان یا شرکت شما برای معرفی به بقیه, دقت کنید به فرمت دقیق مانند www.juck.com در فرم بنویسید.')
+    phone_num = forms.CharField(required=True, label=u'شماره تلفن' ,help_text=u'شماره تماس اصلی شرکت برای برقراری ارتباط, این قسمت را حتما پر کنید. پیش شماره شهر خود را نیز حتما درج کنید.')
     mobile_num = forms.CharField(required=False, label=u'شماره تلفن همراه')
     postal_code = forms.CharField(required=False, label=u'کد پستی')
     state = forms.CharField(required=True, label=u'استان', max_length=100)

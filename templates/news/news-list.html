@@ -155,8 +155,7 @@
         {% for item in news %}
             <div class="news_item ui raised segment">
                 <img src="{{ item.image.thumbnail.url|default:'/static/images/news.gif' }}"/>
-
-                <h2>{{ item.title }}</h2>
+                <h2>{{ item.title }} </h2>
 
                 <div class="ui section divider light_margined"></div>
                 <div class="news_content">
