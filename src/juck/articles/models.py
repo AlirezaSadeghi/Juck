@@ -8,7 +8,6 @@ from django.conf import settings
 
 
 class Article(models.Model):
-
     class Meta:
         verbose_name = u'مقاله'
         verbose_name_plural = u'مقالات'
@@ -32,6 +31,26 @@ class Article(models.Model):
 
     def calculate_score(self):
         pass
+
+    def get_likes(self):
+        ratings = self.ratings.all()
+
+        rate = 0
+        for item in ratings:
+            if item.rate > 0:
+                rate += 1
+
+        return rate
+
+    def get_dislikes(self):
+        ratings = self.ratings.all()
+
+        rate = 0
+        for item in ratings:
+            if item.rate < 0:
+                rate += 1
+
+        return rate
 
 
 class Tag(models.Model):

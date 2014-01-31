@@ -10,11 +10,52 @@ register = Library()
 MONTHS = (
     u"فروردين", u"ارديبهشت", u"خرداد", u"تير", u"مرداد", u"شهريور", u"مهر", u"آبان", u"آذر", u"دي", u"بهمن", u"اسفند")
 
+@register.simple_tag
+def get_request_sender(item, req_type, response):
+    if req_type == 'ejo':
+        return item.employer.profile.company_name
+    elif req_type == 'jso':
+        return item.sender.get_full_name()
+    elif req_type == 'jo':
+        return response.user.get_full_name()
+
+    return u'نا مشخص'
 
 @register.simple_tag
-def get_hash_date(date):
-    year, month, day = create_persian_date(date)
-    return year * 1000 + month * 100 + day
+def get_request_receiver(item, req_type, response):
+    if req_type == 'ejo':
+        return item.js_receiver.get_full_name() if item.js_receiver else item.em_receiver.get_full_name()
+    if req_type == 'jso':
+        return item.employer.profile.company_name
+    if req_type == 'jo':
+        return item.employer.profile.company_name
+
+    return u'نا مشخص'
+
+@register.simple_tag
+def get_request_type(req_type):
+    if req_type in ['jso', 'ejo']:
+        return u'پیشنهاد همکاری'
+    elif req_type == 'jo':
+        return u'فرصت شغلی'
+
+    return u'نا مشخص'
+
+@register.simple_tag
+def get_alert_info(item):
+    if item.status is False:
+        return 'negative'
+    if item.status is True:
+        return 'positive'
+    return 'warning'
+
+@register.simple_tag
+def get_request_status(item):
+    if item.status is False:
+        return u'در شده'
+    if item.status is True:
+        return u'تایید شده'
+    return u'در حال بررسی'
 
 
 @register.simple_tag

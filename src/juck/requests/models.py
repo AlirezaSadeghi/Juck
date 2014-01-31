@@ -42,8 +42,11 @@ class EmployerJobOffer(Request):
         verbose_name = u'پیشنهاد کاری کارفرما'
         verbose_name_plural = u'پیشنهادات کاری کارفرمایان'
 
-    em_receiver = models.ForeignKey(Employer, verbose_name=u'دریافت کننده کارفرما', related_name='received_offers', blank=True, null=True)
-    js_receiver = models.ForeignKey(JobSeeker, verbose_name=u'دریافت کننده کارجو', related_name='received_offers', blank=True, null=True)
+    em_receiver = models.ForeignKey(Employer, verbose_name=u'دریافت کننده کارفرما', related_name='received_offers',
+                                    blank=True, null=True)
+    js_receiver = models.ForeignKey(JobSeeker, verbose_name=u'دریافت کننده کارجو', related_name='received_offers',
+                                    blank=True, null=True)
+
 
 class JobseekerJobOffer(Request):
     class Meta:
@@ -53,12 +56,16 @@ class JobseekerJobOffer(Request):
     sender = models.ForeignKey(JobSeeker, verbose_name=u'فرستنده', related_name='sent_offers')
 
 
+class DiscussionThread(models.Model):
+    request = models.ForeignKey(Request, verbose_name=u'درخواست', related_name='dashboard_items')
+    responder = models.ForeignKey(JuckUser, verbose_name=u'فرد دوم مکالمه')
+
+
 class Response(models.Model):
     class Meta:
         verbose_name = u'پاسخ به درخواست'
         verbose_name_plural = u'پاسخ ها به درخواست ها'
 
-    request = models.ForeignKey(Request, verbose_name=u'درخواست', related_name='responses')
+    thread = models.ForeignKey(DiscussionThread, verbose_name=u'مکالمات', related_name='responses')
     timestamp = models.DateField(verbose_name=u'زمان ارسال پاسخ', auto_now=True)
     content = models.TextField(verbose_name=u'متن درخواست')
-    user = models.ForeignKey(JuckUser, verbose_name=u'کاربر پاسخ‌دهنده', null=True, blank=True)

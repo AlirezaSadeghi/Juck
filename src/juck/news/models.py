@@ -22,10 +22,6 @@ class News(models.Model):
     publish_date = models.DateTimeField(verbose_name=u'زمان انتشار', auto_now=True)
     author = models.ForeignKey(Manager, verbose_name=u'نویسنده', related_name='news')
     image = models.ForeignKey(JuckImage, verbose_name=u'عکس', null=True, blank=True)
-    likes = models.IntegerField(default=0)
-    dislikes = models.IntegerField(default=0)
-    score = models.IntegerField(default=0)
-
 
     def __unicode__(self):
         return u'خبر: ' + self.title
@@ -33,11 +29,28 @@ class News(models.Model):
     def get_persian_date(self):
         year, month, day = create_persian_date(self.publish_date)
         if (self.publish_date.time().minute > 9 ):
-            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (str(self.publish_date.time().hour)+ ":" + str(self.publish_date.time().minute)))
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (
+            str(self.publish_date.time().hour) + ":" + str(self.publish_date.time().minute)))
         else:
-            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (str(self.publish_date.time().hour)+ ":" + "0" + str(self.publish_date.time().minute)))
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (
+            str(self.publish_date.time().hour) + ":" + "0" + str(self.publish_date.time().minute)))
 
-    def calculate_score(self):
-        self.score = self.likes - self.dislikes
-        #self.save()
-        return self.score
+    def get_likes(self):
+        ratings = self.ratings.all()
+
+        rate = 0
+        for item in ratings:
+            if item.rate > 0:
+                rate += 1
+
+        return rate
+
+    def get_dislikes(self):
+        ratings = self.ratings.all()
+
+        rate = 0
+        for item in ratings:
+            if item.rate < 0:
+                rate += 1
+
+        return rate

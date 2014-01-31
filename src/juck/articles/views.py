@@ -5,10 +5,12 @@ from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from juck.articles.filter import ArticleListFilter
 from juck.articles.models import Article, Author, Tag, ArticleSubmission
 from forms import ArticleForm
 
 # Create your views here.
+from utils import create_pagination_range
 
 
 def show_articles_list(request):
@@ -21,11 +23,24 @@ def show_articles_list(request):
             response['Content-Disposition'] = 'attachment; filename="%s"' % pdf.name
             return response
         else:
-            articles = Article.objects.all().order_by('-publish_date')
+            get_params = request.GET.copy()
+            if 'page' in get_params:
+                del get_params['page']
             not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
+
+            search_filter = ArticleListFilter()
+            articles, count = search_filter.init_filter(request.GET)
+            search_form = search_filter.get_form()
+
+            page_range = create_pagination_range(articles.number, articles.paginator.num_pages)
+
+
             articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
 
-            return render_to_response('articles/articles_list.html', {'articles': articles}, context_instance=RequestContext(request))
+            return render_to_response('articles/articles_list.html', {'articles': articles, 'count': count,
+                                                                      'search_form': search_form,
+                                                                      'page_range': page_range, 'get_params': get_params},
+                                      context_instance=RequestContext(request))
 
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
