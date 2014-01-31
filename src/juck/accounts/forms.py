@@ -211,7 +211,7 @@ class JobSeekerRegisterForm4(forms.Form):
 
 class EmployerRegisterForm1(forms.Form):
     email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),help_text=u'آدرس الکترونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
-    password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور', validators=[MinLengthValidator(4)],help_text=u'پست التکرونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
+    password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور', validators=[MinLengthValidator(4)],help_text=u'گذرواژه ی شما برای ورود به سایت می باشد. حداقل باید از 4 کارکتر تشکیل شده باشد.')
     re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور', help_text=u'تکرار گذرواژه برای اطمینان از درست وارد شدن آن.')
     # connector_name = forms.CharField(required=True, label=u'نام شخص رابط')
     connector_rank = forms.CharField(label=u'سمت شخص رابط',help_text=u'نقش (شغل) شما در شرکت و یا سازمانی که می خواهید در سامانه ثبت کنید.')
