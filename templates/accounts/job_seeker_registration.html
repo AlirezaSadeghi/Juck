@@ -8,11 +8,13 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/jobseeker_registration.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/help.css' %}"/>
 {% endblock %}
 
 {% block js %}
     {#<script src="{% static 'js/jobseeker_registration.js' %}"></script>#}
     <script src="{% static 'js/jquery.form.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/help.js' %}"></script>
     <script>
         $(document).ready(function () {
             step = {{ wizard.steps.step1 }};
@@ -200,174 +202,62 @@
         </div>
     </div>
     <div class="reg_form reg_1_form">
-        {% if not wizard.steps.prev %}
-            <p>
-                کارفرمای گرامي. با سلام، از اينكه قصد ثبت نام در سامانه جاک را داريد سپاسگزاريم. لطفاً در مرحله اول
-                مشخصات اوليه خواسته شده را وارد نماييد و برای ادامه فرایند ثبت نام روی دکمه مرحله بعد کلیک کنید.
+    {% if not wizard.steps.prev %}
+        <p>
+            کارفرمای گرامي. با سلام، از اينكه قصد ثبت نام در سامانه جاک را داريد سپاسگزاريم. لطفاً در مرحله اول
+            مشخصات اوليه خواسته شده را وارد نماييد و برای ادامه فرایند ثبت نام روی دکمه مرحله بعد کلیک کنید.
 
-            </p>
-        {% else %}
-            <p>
-                لطفا اطلاعات خواسته شده را وارد نمایید.
-            </p>
-        {% endif %}
+        </p>
+    {% else %}
+        <p>
+            لطفا اطلاعات خواسته شده را وارد نمایید.
+        </p>
+    {% endif %}
 
-        {% if wizard.steps.step1 != 2 and wizard.steps.step1 != 3 %}
-            <form action="" method="post">{% csrf_token %}{% endif %}
-        {% if wizard.steps.step1 == 2 %}
-            <h2> سوابق تحصیلی </h2>
+    {% if wizard.steps.step1 != 2 and wizard.steps.step1 != 3 %}
+        <form action="" method="post">{% csrf_token %}{% endif %}
+    {% if wizard.steps.step1 == 2 %}
+        <h2> سوابق تحصیلی </h2>
 
-            <ul id="added-edu" style="margin-bottom:20px;">
-                {% for k, edu in current_edu.items %}
-                    <li>&bull;&nbsp;&nbsp; {{ edu.major }}، {{ edu.orientation }} - {{ edu.university_name }}
-                        (<a href="#" class="delete-edu" edu-id="{{ k }}">حذف</a>)
-                    </li>
-                {% endfor %}
-            </ul>
-
-            <div class="edu-info-form0">
-        {% elif wizard.steps.step1 == 3 %}
-            <h2> سوابق کاری </h2>
-
-            <ul id="added-work" style="margin-bottom:20px;">
-                {% for k, work in current_work.items %}
-                    <li>&bull;&nbsp;&nbsp; {{ work.title }} - {{ work.place }}
-                        (<a href="#" class="delete-work" work-id="{{ k }}">حذف</a>)
-                    </li>
-                {% endfor %}
-            </ul>
-
-            <div class="work-info-form0">
-        {% endif %}
-        <!--<table>-->
-        {{ wizard.management_form }}
-        {% if wizard.form.forms %}
-            {{ wizard.form.management_form }}
-            {% for form in wizard.form.forms %}
-                {{ form }}
+        <ul id="added-edu" style="margin-bottom:20px;">
+            {% for k, edu in current_edu.items %}
+                <li>&bull;&nbsp;&nbsp; {{ edu.major }}، {{ edu.orientation }} - {{ edu.university_name }}
+                    (<a href="#" class="delete-edu" edu-id="{{ k }}">حذف</a>)
+                </li>
             {% endfor %}
-        {% elif wizard.steps.step1 == 2 %}
-            <form id="add-edu-form" action="/accounts/jobseeker_addedu/" method="post">
-                {% csrf_token %}
-                {% for field in edu_form %}
-                    {% if field.field.is_textarea %}
-                        <div class="ui form">
-                    {% endif %}
-                <div class='field'>
-                    <div class="input-details">
-                        <label class="input_labels"> {{ field.label_tag }}
-                            {% if field.field.required %}
-                                <span class="required-field">*</span>
-                            {% endif %}
-                        </label>
+        </ul>
 
-                        <div class="ui small input field-input">
-                            {{ field }}
-                        </div>
-                    </div>
-                    <div class="input-errors">
-                        {{ field.errors }}
-                    </div>
-                </div>
-                {% if field.field.is_textarea %}
-                    </div>
-                {% endif %}
-                {% endfor %}
-            </form>
+        <div class="edu-info-form0">
+    {% elif wizard.steps.step1 == 3 %}
+        <h2> سوابق کاری </h2>
 
-            </div>
-            <div class="add-edu-buttons" dir="ltr" style="margin-top:20px">
-                <div class="ui left attached tiny button">پاک کردن</div>
-                <div id="add-edu" class="right attached ui tiny button rf-btn">اضافه کردن مدرک تحصیلی</div>
-            </div>
+        <ul id="added-work" style="margin-bottom:20px;">
+            {% for k, work in current_work.items %}
+                <li>&bull;&nbsp;&nbsp; {{ work.title }} - {{ work.place }}
+                    (<a href="#" class="delete-work" work-id="{{ k }}">حذف</a>)
+                </li>
+            {% endfor %}
+        </ul>
 
-            <h2>مهارت ها</h2>
-
-            <ul id="added-skills" style="margin-bottom:20px;">
-                {% for k, skill in current_skill.items %}
-                    <li>&bull;&nbsp;&nbsp; {{ skill.skill_title }}
-                        (<a href="#" class="delete-skill" skill-id="{{ k }}">حذف</a>)
-                    </li>
-                {% endfor %}
-            </ul>
-
-            <div class="skill-info-form0">
-
-                <form id="add-skill-form" action="/accounts/jobseeker_addskill/" method="post">
-                    {% csrf_token %}
-                    {% for field in skill_form %}
-                        {% if field.field.is_textarea %}
-                            <div class="ui form">
-                        {% endif %}
-                    <div class='field'>
-                        <div class="input-details">
-                            <label class="input_labels"> {{ field.label_tag }}
-                                {% if field.field.required %}
-                                    <span class="required-field">*</span>
-                                {% endif %}
-                            </label>
-
-                            <div class="ui small input field-input">
-                                {{ field }}
-                            </div>
-                        </div>
-                        <div class="input-errors">
-                            {{ field.errors }}
-                        </div>
-                    </div>
-                    {% if field.field.is_textarea %}
-                        </div>
-                    {% endif %}
-                    {% endfor %}
-                </form>
-
-            </div>
-            <div dir="ltr" style="margin-top:20px">
-                <div class="ui left attached tiny button">پاک کردن</div>
-                <div id="add-skill" class="right attached ui tiny button rf-btn">اضافه کردن مهارت</div>
-            </div>
-
-        {% elif wizard.steps.step1 == 3 %}
-            <form id="add-work-form" action="/accounts/jobseeker_addexp/" method="post">
-                {% csrf_token %}
-                {% for field in experience_form %}
-                    {% if field.field.is_textarea %}
-                        <div class="ui form">
-                    {% endif %}
-                <div class='field'>
-                    <div class="input-details">
-                        <label class="input_labels"> {{ field.label_tag }}
-                            {% if field.field.required %}
-                                <span class="required-field">*</span>
-                            {% endif %}
-                        </label>
-
-                        <div class="ui small input field-input">
-                            {{ field }}
-                        </div>
-                    </div>
-                    <div class="input-errors">
-                        {{ field.errors }}
-                    </div>
-                </div>
-                {% if field.field.is_textarea %}
-                    </div>
-                {% endif %}
-                {% endfor %}
-            </form>
-            </div>
-            <div dir="ltr" style="margin-top:20px">
-                <div class="ui left attached tiny button">پاک کردن</div>
-                <div id="add-work" class="right attached ui tiny button rf-btn">اضافه کردن سابقه کاری</div>
-            </div>
-        {% else %}
-            {% for field in wizard.form %}
+        <div class="work-info-form0">
+    {% endif %}
+    <!--<table>-->
+    {{ wizard.management_form }}
+    {% if wizard.form.forms %}
+        {{ wizard.form.management_form }}
+        {% for form in wizard.form.forms %}
+            {{ form }}
+        {% endfor %}
+    {% elif wizard.steps.step1 == 2 %}
+        <form id="add-edu-form" action="/accounts/jobseeker_addedu/" method="post">
+            {% csrf_token %}
+            {% for field in edu_form %}
                 {% if field.field.is_textarea %}
                     <div class="ui form">
                 {% endif %}
             <div class='field'>
                 <div class="input-details">
-                    <label class="input_labels"> {{ field.label_tag }}
+                    <label class="input_labels" style="display: block"> {{ field.label_tag }}
                         {% if field.field.required %}
                             <span class="required-field">*</span>
                         {% endif %}
@@ -376,6 +266,20 @@
                     <div class="ui small input field-input">
                         {{ field }}
                     </div>
+
+                    {% if field.help_text %}
+                        <label style="display: inline-block">
+
+                            <i class="tiny help icon" id="help_icon" help-id="{{ forloop.counter }}"
+                               style="cursor: pointer"></i>
+
+                            <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news "
+                                 help-id="0"
+                                 style="margin-top: -16px;">
+                                {{ field.help_text }}
+                            </div>
+                        </label>
+                    {% endif %}
                 </div>
                 <div class="input-errors">
                     {{ field.errors }}
@@ -384,28 +288,183 @@
             {% if field.field.is_textarea %}
                 </div>
             {% endif %}
+            {% endfor %}
+        </form>
 
+        </div>
+        <div class="add-edu-buttons" dir="ltr" style="margin-top:20px">
+            <div class="ui left attached tiny button">پاک کردن</div>
+            <div id="add-edu" class="right attached ui tiny button rf-btn">اضافه کردن مدرک تحصیلی</div>
+        </div>
 
-                {% if field.label == 'نوع دانشگاه' %}
+        <h2>مهارت ها</h2>
+
+        <ul id="added-skills" style="margin-bottom:20px;">
+            {% for k, skill in current_skill.items %}
+                <li>&bull;&nbsp;&nbsp; {{ skill.skill_title }}
+                    (<a href="#" class="delete-skill" skill-id="{{ k }}">حذف</a>)
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="skill-info-form0">
+
+            <form id="add-skill-form" action="/accounts/jobseeker_addskill/" method="post">
+                {% csrf_token %}
+                {% for field in skill_form %}
+                    {% if field.field.is_textarea %}
+                        <div class="ui form">
+                    {% endif %}
+                <div class='field'>
+                    <div class="input-details">
+                        <label class="input_labels" style="display: block"> {{ field.label_tag }}
+                            {% if field.field.required %}
+                                <span class="required-field">*</span>
+                            {% endif %}
+                        </label>
+
+                        <div class="ui small input field-input">
+                            {{ field }}
+                        </div>
+                        {% if field.help_text %}
+                            <label style="display: inline-block">
+
+                                <i class="tiny help icon" id="help_icon" help-id="{{ forloop.counter }}"
+                                   style="cursor: pointer"></i>
+
+                                <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news "
+                                     help-id="0"
+                                     style="margin-top: -16px;">
+                                    {{ field.help_text }}
+                                </div>
+                            </label>
+                        {% endif %}
                     </div>
-                    <div class="add-edu-buttons" dir="ltr" style="margin-top:20px">
-                        <div class="ui left attached tiny button">پاک کردن</div>
-                        <div id="add-edu" class="right attached ui tiny button rf-btn">اضافه کردن مدرک تحصیلی</div>
+                    <div class="input-errors">
+                        {{ field.errors }}
+                    </div>
+                </div>
+                {% if field.field.is_textarea %}
+                    </div>
+                {% endif %}
+                {% endfor %}
+            </form>
+
+        </div>
+        <div dir="ltr" style="margin-top:20px">
+            <div class="ui left attached tiny button">پاک کردن</div>
+            <div id="add-skill" class="right attached ui tiny button rf-btn">اضافه کردن مهارت</div>
+        </div>
+
+    {% elif wizard.steps.step1 == 3 %}
+        <form id="add-work-form" action="/accounts/jobseeker_addexp/" method="post">
+            {% csrf_token %}
+            {% for field in experience_form %}
+                {% if field.field.is_textarea %}
+                    <div class="ui form">
+                {% endif %}
+            <div class='field'>
+                <div class="input-details">
+                    <label class="input_labels" style="display: block"> {{ field.label_tag }}
+                        {% if field.field.required %}
+                            <span class="required-field">*</span>
+                        {% endif %}
+                    </label>
+
+                    <div class="ui small input field-input">
+                        {{ field }}
                     </div>
 
-                    <h2>مهارت ها</h2>
-                    <div class="skill-info-form0">
-                        {% elif wizard.steps.step1 == 2 and field.label == 'توضیحات' %}
-                    </div>
-                    <div dir="ltr" style="margin-top:20px">
-                        <div class="ui left attached tiny button">پاک کردن</div>
-                        <div id="add-skill" class="right attached ui tiny button rf-btn">اضافه کردن مهارت</div>
-                    </div>
+                    {% if field.help_text %}
+                        <label style="display: inline-block">
 
+                            <i class="tiny help icon" id="help_icon" help-id="{{ forloop.counter }}"
+                               style="cursor: pointer"></i>
+
+                            <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news "
+                                 help-id="0"
+                                 style="margin-top: -16px;">
+                                {{ field.help_text }}
+                            </div>
+                        </label>
+                    {% endif %}
+                </div>
+                <div class="input-errors">
+                    {{ field.errors }}
+                </div>
+            </div>
+            {% if field.field.is_textarea %}
+                </div>
+            {% endif %}
+            {% endfor %}
+        </form>
+        </div>
+        <div dir="ltr" style="margin-top:20px">
+            <div class="ui left attached tiny button">پاک کردن</div>
+            <div id="add-work" class="right attached ui tiny button rf-btn">اضافه کردن سابقه کاری</div>
+        </div>
+    {% else %}
+        {% for field in wizard.form %}
+            {% if field.field.is_textarea %}
+                <div class="ui form">
+            {% endif %}
+        <div class='field'>
+{#            <div class="input-details ">#}
+            <div class=" inline">
+                <label class="input_labels " > {{ field.label_tag }}
+                    {% if field.field.required %}
+                        <span class="required-field">*</span>
+                    {% endif %}
+                </label>
+
+                <div class="ui small input field-input inline_block">
+                    {{ field }}
+                </div>
+
+                {% if field.help_text %}
+                    <label style="display: inline-block">
+
+                        <i class="tiny help icon" id="help_icon" help-id="{{ forloop.counter }}"
+                           style="cursor: pointer"></i>
+
+                        <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news "
+                             help-id="0"
+                             style="margin-top: -16px;">
+                            {{ field.help_text }}
+                        </div>
+                    </label>
                 {% endif %}
 
-            {% endfor %}
+            </div>
+            <div class="input-errors">
+                {{ field.errors }}
+            </div>
+        </div>
+        {% if field.field.is_textarea %}
+            </div>
         {% endif %}
+
+
+            {% if field.label == 'نوع دانشگاه' %}
+                </div>
+                <div class="add-edu-buttons" dir="ltr" style="margin-top:20px">
+                    <div class="ui left attached tiny button">پاک کردن</div>
+                    <div id="add-edu" class="right attached ui tiny button rf-btn">اضافه کردن مدرک تحصیلی</div>
+                </div>
+
+                <h2>مهارت ها</h2>
+                <div class="skill-info-form0">
+                    {% elif wizard.steps.step1 == 2 and field.label == 'توضیحات' %}
+                </div>
+                <div dir="ltr" style="margin-top:20px">
+                    <div class="ui left attached tiny button">پاک کردن</div>
+                    <div id="add-skill" class="right attached ui tiny button rf-btn">اضافه کردن مهارت</div>
+                </div>
+
+            {% endif %}
+
+        {% endfor %}
+    {% endif %}
     <!--</table>-->
 
                           <span class="netxt-btn-details"> فیلدهای با علامت
