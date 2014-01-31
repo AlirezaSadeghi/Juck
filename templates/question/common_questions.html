@@ -7,10 +7,12 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/help.css' %}"/>
 {% endblock %}
 
 {% block js %}
     <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/help.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -27,6 +29,20 @@
                 <div class="container">
                     <div class="advanced_search_form">
                         <form>
+                            <h3 class="inline_block"> اطلاعات سوالات و جواب ها: </h3>
+
+
+                            <label style="display: inline-block;margin-bottom: 5px ">
+
+                                <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
+
+                                <div id="msg_div1" class="Sina_help Sina_help_news "
+                                     style="margin-top: -26px;">
+                                    {{ search_form.title.help_text }}
+                                </div>
+                            </label>
+
+
                             {% csrf_token %}
                             <div class="two fields">
                                 <span class="inline field">
@@ -38,7 +54,7 @@
 
                             </div>
 
-							<div class="two fields">
+                            <div class="two fields">
                                 <div class="inline field">
                                     <label class="input_labels">عنوان: </label>{{ search_form.title }}
                                 </div>
@@ -53,7 +69,7 @@
 
                             <div class="search_buttons">
                                 <input class="inline ui button" type="reset" value="پاک کردن">
-                                <input class="inline ui button"type="submit" value="جستجو">
+                                <input class="inline ui button" type="submit" value="جستجو">
                             </div>
                         </form>
                     </div>
@@ -66,68 +82,67 @@
             </div>
             <div class="user_list">
                 {% for question in questions %}
-                <div class="ui raised segment single_question">
-                    <span class="question_number">{{ forloop.counter }} - </span>
+                    <div class="ui raised segment single_question">
+                        <span class="question_number">{{ forloop.counter }} - </span>
 
-                    <div class="inlinemiddle inlineblock question_data">
-                        <div class="question_info1">
-                            <span class="question_title">{{ question.title }}</span>
+                        <div class="inlinemiddle inlineblock question_data">
+                            <div class="question_info1">
+                                <span class="question_title">{{ question.title }}</span>
 
-                            <div class="inlineblock ui mini circular icon button slide">
-                                <i class="down icon"></i>
+                                <div class="inlineblock ui mini circular icon button slide">
+                                    <i class="down icon"></i>
+                                </div>
                             </div>
+
                         </div>
 
-                    </div>
-
-                    <div class="ui segment javab_box">
-                        {% if question.answer %}
-                            <div class="ui message">
-                                <p>
-                                    {{ question.answer.content }}
-                                </p>
+                        <div class="ui segment javab_box">
+                            {% if question.answer %}
+                                <div class="ui message">
+                                    <p>
+                                        {{ question.answer.content }}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            <div class="user_info2">
+                                <span class="question_date">اضافه شده در: <span>{{ question.timestamp }}</span></span>
                             </div>
-                        {% endif %}
-                        <div class="user_info2">
-                            <span class="question_date">اضافه شده در: <span>{{ question.timestamp }}</span></span>
+
+
                         </div>
-
-
                     </div>
-                </div>
-                <div class="ui section divider"
-                     style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+                    <div class="ui section divider"
+                         style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
                 {% endfor %}
             </div>
 
             {#            FJ#}
             {% if questions.paginator.num_pages > 1 %}
-            <div style="text-align: center;">
-            <div class="ui small pagination menu">
-                    {% if questions.has_previous %}
+                <div style="text-align: center;">
+                    <div class="ui small pagination menu">
+                        {% if questions.has_previous %}
                             <a href="?{{ get_params.urlencode }}&page={{ questions.previous_page_number }}"
                                class="icon item"><i class="icon right arrow"></i></a>
-                    {% endif %}
+                        {% endif %}
 
-                    {% for p in page_range %}
-                        {% ifequal p questions.number %}
-                            <a  href="javascript:void(0);" class="active item">{{ p }}</a>
-                        {% else %}
-                            <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
-                        {% endifequal %}
-                    {% endfor %}
-                    {% if questions.has_next %}
-                        <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
-                           class="icon item"><i class="icon left arrow"></i></a>
-                    {% endif %}
-            </div>
-            </div>
-        {% endif %}
+                        {% for p in page_range %}
+                            {% ifequal p questions.number %}
+                                <a href="javascript:void(0);" class="active item">{{ p }}</a>
+                            {% else %}
+                                <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                            {% endifequal %}
+                        {% endfor %}
+                        {% if questions.has_next %}
+                            <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
+                               class="icon item"><i class="icon left arrow"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
             {#            FJ#}
 
 
-
         </div>
-    <a href="/question/common?{{ get_params.urlencode }}?page={{ paginator.next_page }}"></a>
+        <a href="/question/common?{{ get_params.urlencode }}?page={{ paginator.next_page }}"></a>
     </div>
 {% endblock %}

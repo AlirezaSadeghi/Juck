@@ -128,8 +128,11 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'juck.system@gmail.com'
+EMAIL_SENDER  = 'juck.system@gmail.com'
 EMAIL_HOST_PASSWORD = 'SadeghiSinaFJBejes'
 EMAIL_PORT = 587
+
+SITE_URL = 'http://127.0.0.1:8000/'
 
 RESULTS_PER_PAGE = 2
 

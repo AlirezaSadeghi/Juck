@@ -12,18 +12,23 @@ class ManagerJobSeekerListFilter:
 
 
         search_input = forms.CharField(max_length=200, required=False,
-                                       widget=forms.TextInput(attrs={'placeholder': "جستجو..."}))
+                                       widget=forms.TextInput(attrs={'placeholder': "جستجو..."}),
+                                       help_text=u'این جستجو میان تمام مشخصات وارد شده ی اشخاص انجام می شود. یعنی در اطلاعات کاربری, اطلاعات تحصیلی, سوابق کاری و همچنین مهارت های کاری هر عبارت مرتبطی پیدا شود, به نمایش گذاشته می شود. ')
 
-        first_name = forms.CharField(label=u'نام', max_length=100, required=False)
+        first_name = forms.CharField(label=u'نام', max_length=100, required=False,
+                                     help_text=u'این بخش بر حسب اطلاعات کاربر عملیات جستجو را انجام می دهد. دقت کنید که  نیتجه عملیات با مشخصات بقیه بخش ها اشتراک گرفته می شود.')
         last_name = forms.CharField(label=u'نام خانوادگی', max_length=150, required=False)
 
         #Educational
         certificate = forms.ChoiceField(label=u'مدرک تحصیلی', required=False,
+
                                         choices=(('', u'انتخاب کنید'),
                                                  ('under_grad', u'کارشناسی'),
                                                  ('grad', u'کارشناسی ارشد'),
                                                  ('phd', u'دکتری'),
-                                                 ('post_doc', u'پست دکتری')), )
+                                                 ('post_doc', u'پست دکتری')),
+                                        help_text=u'این بخش بر اساس مشخصات تحصیلی اشخاص مورد نظر عملیات جستجو را انجام می دهد. دقت کنید که  نیتجه عملیات با مشخصات بقیه بخش ها اشتراک گرفته می شود.')
+
         edu_status = forms.ChoiceField(required=False, label=u'وضعیت تحصیلی',
                                        choices=(
                                            ('', u'انتخاب کنید'),
@@ -43,7 +48,8 @@ class ManagerJobSeekerListFilter:
         ), required=False)
 
         # Skill
-        skill_title = forms.CharField(required=False, max_length=150, label=u'عنوان مهارت')
+        skill_title = forms.CharField(required=False, max_length=150, label=u'عنوان مهارت',
+                                      help_text=u'در این بخش جستجو بر اساس مهارت های اشخاص انجام می شود. دقت کنید که  نیتجه عملیات با مشخصات بقیه بخش ها اشتراک گرفته می شود.')
         skill_level = forms.ChoiceField(required=False, label=u'سطح تسلط',
                                         choices=(
                                             ('', u'انتخاب کنید.'),
@@ -51,10 +57,12 @@ class ManagerJobSeekerListFilter:
                                             ('high', u'مسط'),
                                             ('certificate', u'دارای مدرک معتبر'),
                                         ))
+
         skill_description = forms.CharField(required=False, max_length=250, label=u'توضیحات')
 
         # Experience
-        exp_title = forms.CharField(required=False, max_length=200, label=u'عنوان سابقه')
+        exp_title = forms.CharField(required=False, max_length=200, label=u'عنوان سابقه',
+                                    help_text=u'در این بخش می توانید با توجه به سابقه ی کاری اشخاص مورد نظر خود را انتخاب کنید. دقت کنید که  نیتجه عملیات با مشخصات بقیه بخش ها اشتراک گرفته می شود.')
         exp_place = forms.CharField(required=False, max_length=200, label=u'محل کار')
 
         #Profile details:
@@ -170,10 +178,12 @@ class ManagerEmployerListFilter:
 
         #TODO search what?!
         search_input = forms.CharField(max_length=200, required=False,
-                                       widget=forms.TextInput(attrs={'placeholder': "جستجو..."}))
+                                       widget=forms.TextInput(attrs={'placeholder': "جستجو..."}),
+                                       help_text=u'عبارتی که  اینجا وارد می کنید, در میان تمامی مشخصات هر سازمان جستجو می شود و همه ی نتایج بدست آمده به نمایش گذاشته می شوند.')
 
         #Profile details:
-        company_name = forms.CharField(label=u'نام سازمان', required=False, max_length=200)
+        company_name = forms.CharField(label=u'نام سازمان', required=False, max_length=200,
+                                       help_text=u'این جستجو بر اساس اطلاعات سازمان مورد نظر انجام می شود. دقت شود که حاصل اشتراک قسمت های وارد شده به عنوان نتیجه به نمایش در می آید.')
         company_type = forms.CharField(label=u'نوع سازمان', required=False, max_length=150)
         #TODO: remember me in html
         foundation_year_form = forms.IntegerField(label=u'تاسیس از سال', required=False)

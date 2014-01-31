@@ -24,6 +24,12 @@ urlpatterns = patterns('juck.accounts.views',
                        url(r'employer_registration/$', EmployerWizard.as_view(EMPLOYER_FORMS, ), {},
                            name='employer_registration'),
 
+                       url(r'confirm/(?P<user_type>\w+)/(?P<key>[\w\-]+)/$', 'confirm_registration', {},
+                           name='confirm_registration'),
+
+
+
+
                        url(r'check_catpcha/$', 'check_catpcha', {}, name='check_catpcha'),
 
                        url(r'jobseeker_addedu/$', 'jobseeker_addedu'),

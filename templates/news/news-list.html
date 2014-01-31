@@ -23,33 +23,14 @@
 
 {% block js %}
     <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/help.js' %}"></script>
     <script>
 
         function mySina() {
             x = $("#submit_button")[0];
             x.click();
         }
-        $(document).ready(function () {
-            $(".Sina_help").each(function () {
-                $(this).hide();
-            })
 
-            icons = $(".help.icon")
-            icons.each(function () {
-                        x = this;
-                        num = this.getAttribute('help-id');
-                        id = "#msg_div" + num;
-                        var help = $(id)
-                        $(this).hover(function () {
-                            help.show();
-                            var h = help[0];
-                            h.style.display = 'inline-table';
-                        }, function () {
-                            help.hide()
-                        })
-                    }
-            );
-        });
     </script>
 {% endblock %}
 
@@ -101,22 +82,6 @@
 
                     </div>
 
-
-                    {#                            <div class="inline field">#}
-                    {#                                <label class="input_labels"> توضیحات</label>#}
-                    {#                                {{ search_form.description }}#}
-                    {#                                <label style="display: inline-block">#}
-                    {##}
-                    {#                                    <i class="tiny help icon" id="help_icon" help-id="2" style="cursor: pointer"></i>#}
-                    {##}
-                    {#                                    <div id="msg_div2" class="Sina_help Sina_help_news "#}
-                    {#                                         style="margin-top: -16px;">#}
-                    {#                                        {{ search_form.description.help_text }}#}
-                    {#                                    </div>#}
-                    {#                                </label>#}
-                    {#                            </div>#}
-
-
                     <div class="two fields">
                                 <span class="inline field">
                                 <label class="input_labels">از تاریخ: </label><input type="date"
@@ -150,7 +115,7 @@
 
                             <div id="msg_div3" class="Sina_help Sina_help_news Sina_help_small "
                                  style="margin-top: -20px;">
-                                {{ search_form.min_score.help_text }}
+                                {{ search_form.max_score.help_text }}
                             </div>
 
                         </div>
@@ -189,9 +154,8 @@
     <div class="news_list">
         {% for item in news %}
             <div class="news_item ui raised segment">
-                <img src="{{ item.image.thumbnail.url|default:'/static/images/news.jpg' }}"/>
-
-                <h2>{{ item.title }}</h2>
+                <img src="{{ item.image.thumbnail.url|default:'/static/images/news.gif' }}"/>
+                <h2>{{ item.title }} </h2>
 
                 <div class="ui section divider light_margined"></div>
                 <div class="news_content">
