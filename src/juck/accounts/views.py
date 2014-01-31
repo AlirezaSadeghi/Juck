@@ -26,6 +26,7 @@ from django.contrib.formtools.wizard.views import SessionWizardView
 from juck.accounts.forms import *
 from juck.news.models import News
 from juck.articles.models import Article, ArticleSubmission
+import uuid
 
 
 def user_panel(request):
@@ -246,6 +247,7 @@ class EmployerWizard(SessionWizardView):
     template_name = 'accounts/employer_registration.html'
 
     def done(self, form_list, **kwargs):
+        activation_key = ''
         email, first_name, last_name, password, user_rank, company_name = '', '', '', '', '', ''
         company_type, reg_num, manager, field = '', '', '', ''
         foundation_year = 1392
@@ -288,6 +290,8 @@ class EmployerWizard(SessionWizardView):
                     city_object = City(name=city, state=state_object)
                     city_object.save()
 
+                activation_key = str(uuid.uuid4())
+
                 profile = EmployerProfile(company_name=company_name, company_type=company_type,
                                           foundation_year=foundation_year, reg_num=reg_num,
                                           manager=manager, user_rank=user_rank, field=field,
@@ -295,12 +299,20 @@ class EmployerWizard(SessionWizardView):
                                           mobile_number=mobile_number, website=website,
                                           state=state_object, city=city_object, approved=False)
                 profile.save()
-                print("my email is %s" % email)
-                emp = Employer(email=email, profile=profile, role=2)
+                emp = Employer(email=email, profile=profile, role=2, activation_key=activation_key)
                 emp.set_password(password)
                 emp.save()
+
+                # #TODO
+                # html_content = create_confirm_email_html(activation_key, 'Employer')
+                # try:
+                #     send_html_mail(email, u'سامانه جاک | تایید ثبت‌نام', html=html_content)
+                # except:
+                #     pass
+
         return render_to_response('messages.html', {
-            'message': u'خب الان باید تموم شده باشه ! :دی'
+            'message': activation_key
+            # 'message': u'ثبت‌نام شما با موفقیت انجام شد،جهت تایید ثبت‌نام پست‌الکترونیکی برای شما فرستاده شده است.'
         })
 
 
@@ -470,13 +482,16 @@ def show_profile(request):
                 kwargs['skills'] = user.resume.skills.objects.all()
                 kwargs['experiences'] = user.resume.experience.objects.all()
 
-                return render_to_response('accounts/jobseeker_profile_self.html', kwargs, context_instance=RequestContext(request, ))
+                return render_to_response('accounts/jobseeker_profile_self.html', kwargs,
+                                          context_instance=RequestContext(request, ))
             elif u_type == 'employer':
                 kwargs['employer'] = Employer.objects.get(pk=user.pk)
                 kwargs['profile'] = kwargs['employer'].profile
-                return render_to_response('accounts/employer_profile.html', kwargs, context_instance=RequestContext(request))
+                return render_to_response('accounts/employer_profile.html', kwargs,
+                                          context_instance=RequestContext(request))
 
-    return render_to_response('messages.html', {'message': u'چنین کاربری وجود ندارد'}, context_instance=RequestContext(request, ))
+    return render_to_response('messages.html', {'message': u'چنین کاربری وجود ندارد'},
+                              context_instance=RequestContext(request, ))
 
 
 @csrf_exempt
@@ -520,6 +535,14 @@ def ajax_remove_or_approve_user(request):
                 profile.approved = True
                 profile.save()
                 user.save()
+
+                #TODO
+                # html_content = create_manager_confirm_html()
+                # try:
+                #     send_html_mail(user.email, u'سامانه جاک | تایید حساب‌کاربری', html=html_content)
+                # except:
+                #     pass
+
                 return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت تایید شد.'})
             elif function == 'remove':
                 user.delete()
@@ -579,6 +602,72 @@ def refresh_captcha(request):
         return json_response(kwargs)
 
     return json_response(kwargs)
+
+
+def confirm_registration(request, user_type, key):
+    user, active, exists = '', False, True
+    if user_type == 'job_seeker':
+        try:
+            user = JobSeeker.objects.get(activation_key=key)
+            if user.is_active:
+                active = True
+        except JobSeeker.DoesNotExist:
+            exists = False
+    elif user_type == 'employer':
+        try:
+            user = Employer.objects.get(activation_key=key)
+            if user.is_active:
+                active = True
+        except Employer.DoesNotExist:
+            exists = False
+    else:
+        return render_to_response('messages.html', {'message': u'صفحه موردنظر وجود ندارد.'},
+                                  context_instance=RequestContext(request))
+
+    if active or request.user.is_authenticated():
+        return render_to_response('messages.html', {'message': u'حساب کاربری شما فعال است.'},
+                                  context_instance=RequestContext(request))
+    if exists:
+        user.is_active = True
+        user.save()
+        return render_to_response('messages.html', {
+            'message': u'حساب کاربری شما فعال شد. برای استفاده از امکانات سایت، تا تایید ثبت‌نام توسط مدیر شکیبا باشید.'},
+                                  context_instance=RequestContext(request))
+
+    else:
+        return render_to_response('messages.html', {
+            'message': u'صفحه موردنظر وجود ندارد.'},
+                                  context_instance=RequestContext(request))
+
+
+def create_manager_confirm_html():
+    mail_content = u'اطلاعات ثبت‌نام شما توسط مدیر تایید شد و می‌توانید وارد سایت شوید.'
+
+    builder = HtmlBuilder()
+
+    text = builder.append_tag('p', u'با سلام')
+    text += builder.br()
+    text += builder.append_tag('p', mail_content)
+    text += builder.br()
+    text += builder.append_tag('a', u'برای ورود به سایت کلیک کنید.',
+                               **{'href': (
+                                   settings.SITE_URL )})
+    return text
+
+
+def create_confirm_email_html(activation_key, type):
+    mail_content = u'ثبت‌نام شما در سامانه جاک در مراحل نهایی است.برای تکمیل ثبت‌نام برروی لینک زیر کلیک کنید.همچنین پس از انجام این عمل باید تا زمان تایید مدیریت منتظر بمانید.'
+
+    builder = HtmlBuilder()
+
+    text = builder.append_tag('p', u'با سلام')
+    text += builder.br()
+    text += builder.append_tag('p', mail_content)
+    text += builder.br()
+    text += builder.append_tag('a', u'برای تایید ثبت نام در سامانه جاک اینجا را کلیک کنید',
+                               **{'href': (
+                                   settings.SITE_URL + "accounts/confirm/" + type + "/" + activation_key)})
+    return text
 
 
 def get_user_type(pk):
