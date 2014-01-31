@@ -1,13 +1,16 @@
 
-.help{
+.Sina_help{
     position: absolute;
     border: 1px dotted rgb(0, 115, 183);
+    max-width: 500px;
     /*display: inline-table !important;*/
     /*display: inline-table;*/
 }
+.Sina_help_small{
+    max-width: 170px;
+}
 
-
-.help_news{
-    width: 180px;
+.Sina_help_news{
+    /*width: 180px;*/
     margin-right: 30px;
 }
