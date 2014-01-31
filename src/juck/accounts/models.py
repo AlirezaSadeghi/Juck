@@ -191,6 +191,8 @@ class Employer(JuckUser):
 
     profile = models.OneToOneField(EmployerProfile, verbose_name=u'پروفایل کارفرما', related_name='employer')
 
+    activation_key = models.CharField(verbose_name=u'کد فعال‌سازی', max_length=200, blank=True, null=True)
+
 
 class JobSeeker(JuckUser):
     class Meta:
@@ -204,6 +206,8 @@ class JobSeeker(JuckUser):
 
     profile = models.OneToOneField(JobSeekerProfile, verbose_name=u'پروفایل کارجو', related_name='jobseeker')
     resume = models.OneToOneField('Resume', verbose_name=u'رزومه', null=True, blank=True, related_name='jobseeker')
+
+    activation_key = models.CharField(verbose_name=u'کد فعال‌سازی', max_length=200, blank=True, null=True)
 
 
 class Education(models.Model):
