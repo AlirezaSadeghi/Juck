@@ -11,6 +11,7 @@
 
 {% block css %}
     <link href="{% static 'css/news_description.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/help.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block page_title %}
@@ -18,6 +19,24 @@
 
 {% block js %}
     <script type="text/javascript" src="{% static 'js/Sina_add_news.js' %}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#msg_div").hide();
+            $("#help_icon").hover(function(){
+                $("#msg_div").show();
+                x = $("#msg_div")[0];
+                x.style.display = 'inline-table';
+            }, function(){$("#msg_div").hide()});
+
+            $("#msg_div2").hide();
+            $("#help_icon2").hover(function(){
+                $("#msg_div2").show();
+                x = $("#msg_div2")[0];
+                x.style.display = 'inline-table';
+            }, function(){$("#msg_div2").hide()});
+        });
+    </script>
 
 {% endblock %}
 
@@ -39,10 +58,14 @@
                               enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="field">
-                                {{ form.help_texts.title }}
-{#                                {{ form.title.help_text }}#}
+
+                                {#                                {{ form.title.help_text }}#}
                                 <label class="right_alignment" style="display: inline-block; width: 100px">
                                     عنوان خبر:
+                                    <i class="tiny help icon" id="help_icon" style="cursor: pointer"></i>
+                                    <div id="msg_div" class="help help_news " >
+                                        {{ form.help_texts.title }}
+                                    </div>
                                 </label>
                                 {{ form.title.help_text }}
                                 <div style="width: 660px; display: inline-block">
@@ -52,7 +75,13 @@
                             </div>
 
                             <div class="field right_alignment">
-                                <label style="display: inline-block; width: 100px">شرح خبر</label>
+                                <label style="display: inline-block; width: 100px">شرح خبر
+
+                                    <i class="tiny help icon" id="help_icon2" style="cursor: pointer"></i>
+                                    <div id="msg_div2" class="help help_news " >
+                                        {{ form.help_texts.content }}
+                                    </div>
+                                </label>
 
                                 <div style="width: 660px; display: inline-block">
                                     {{ form.content }}

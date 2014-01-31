@@ -11,6 +11,7 @@ class NewsForm(forms.ModelForm):
 
     help_texts = {
         'title': (u'عنوان خبر را در این جا وارد کنید.'),
+        'content': (u'متن خبر را در این جا وارد کنید.')
     }
     # fields['title'].he
 

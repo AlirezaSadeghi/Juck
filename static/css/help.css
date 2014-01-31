@@ -1,0 +1,13 @@
+
+.help{
+    position: fixed;
+    border: 1px dotted rgb(0, 115, 183);
+    /*display: inline-table !important;*/
+    /*display: inline-table;*/
+}
+
+
+.help_news{
+    width: 180px;
+    margin-right: 30px;
+}
