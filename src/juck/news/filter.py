@@ -7,22 +7,33 @@ from juck.news.models import News
 from juck.question.models import Question
 from django.db.models import Q
 
+
 class NewsListFilter:
     class SecNewsListFilterForm(forms.Form):
 
-        content = forms.CharField(label=u'جستجو کلی', max_length=150, required=False,help_text=u'این متن در بین عنوان ها و متن اخبار جستجو می گردد.' ,widget=forms.TextInput(
-            attrs={ 'placeholder': u'جستجو'}))
+        content = forms.CharField(label=u'جستجو کلی', max_length=150, required=False,
+                                  help_text=u'این متن در بین عنوان ها و متن اخبار جستجو می گردد.',
+                                  widget=forms.TextInput(
+                                      attrs={'placeholder': u'جستجو'}))
 
-        title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(
-            attrs={ 'placeholder': u'عنوان خبر'}))
+        title = forms.CharField(label=u'عنوان', max_length=150, required=False,
+                                help_text=u'عنوان کامل و یا بخشی از عنوان خبر که در جستجوی آن هستید را در این جا وارد کنید. دقت کنید که جواب های به دست آمده از این قسمت با قسمت های دیگر اشتراک گرفته می شود.',
+                                widget=forms.TextInput(
+                                    attrs={'placeholder': u'عنوان خبر'}))
 
-        description = forms.CharField(label=u'توضیحات', max_length=150, required=False, widget=forms.TextInput(
-            attrs={ 'placeholder': u'توضیحات'}))
+        description = forms.CharField(label=u'توضیحات', max_length=150, required=False,
+                                      help_text=u'متن کامل و یا بخشی از متن  خبر که در جستجوی آن هستید را در این جا وارد کنید. دقت کنید که جواب های به دست آمده از این قسمت با قسمت های دیگر اشتراک گرفته می شود.',
+                                      widget=forms.Textarea(
+                                          attrs={'placeholder': u'توضیحات'}))
         #from_date = forms.DateField(label=u'از تاریخ', required=False,widget=forms.DateField )
         #to_date = forms.DateField(label=u'تا تاریخ', required=False,widget=forms.DateField )
 
-        min_score = forms.CharField(label=u'حداقل امتیاز', required=False)
-        max_score = forms.CharField(label=u'حداکثر امتیاز', required=False)
+        min_score = forms.CharField(label=u'حداقل امتیاز', required=False,
+                                    help_text=u'حداقل امتیازی که برای یک خبر در نظر دارید را در این محل وارد کنید. دقت کنید که جواب های به دست آمده از این قسمت با قسمت های دیگر اشتراک گرفته می شود.', )
+        max_score = forms.CharField(label=u'حداکثر امتیاز', required=False,
+                                    help_text=u'حداکثر امتیازی که برای یک خبر در نظر دارید را در این محل وارد کنید. دقت کنید که جواب های به دست آمده از این قسمت با قسمت های دیگر اشتراک گرفته می شود.')
+
+
         #answer = forms.CharField(label=u'پاسخ', max_length=150, required=False, widget=forms.TextInput(
         #    attrs={'class': 'search-tab-content-input input-12', 'placeholder': u'محتوی پاسخ:'}))
         #answered = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
@@ -48,7 +59,7 @@ class NewsListFilter:
             res = News.objects.all()
             #if content:
             #    filter_kwargs.update({'title__icontains': content})
-                #res = res.filter(Q(description__icontains= content))
+            #res = res.filter(Q(description__icontains= content))
 
             if title:
                 filter_kwargs.update({'title__icontains': title})

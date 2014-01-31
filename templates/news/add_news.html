@@ -22,19 +22,25 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#msg_div").hide();
-            $("#help_icon").hover(function(){
-                $("#msg_div").show();
-                x = $("#msg_div")[0];
-                x.style.display = 'inline-table';
-            }, function(){$("#msg_div").hide()});
+            $(".Sina_help").each(function () {
+                $(this).hide();
+            })
 
-            $("#msg_div2").hide();
-            $("#help_icon2").hover(function(){
-                $("#msg_div2").show();
-                x = $("#msg_div2")[0];
-                x.style.display = 'inline-table';
-            }, function(){$("#msg_div2").hide()});
+            icons = $(".help.icon")
+            icons.each(function () {
+                    x = this;
+                    num = this.getAttribute('help-id');
+                    id = "#msg_div" + num;
+                    var help = $(id)
+                    $(this).hover(function () {
+                        help.show();
+                        var h = help[0];
+                        h.style.display = 'inline-table';
+                    }, function () {
+                        help.hide()
+                    })
+                }
+            );
         });
     </script>
 
@@ -62,12 +68,12 @@
                                 {#                                {{ form.title.help_text }}#}
                                 <label class="right_alignment" style="display: inline-block; width: 100px">
                                     عنوان خبر:
-                                    <i class="tiny help icon" id="help_icon" style="cursor: pointer"></i>
-                                    <div id="msg_div" class="help help_news " >
+                                    <i class="tiny help icon" id="help_icon" help-id="0" style="cursor: pointer"></i>
+
+                                    <div id="msg_div0" class="Sina_help Sina_help_news " help-id="0">
                                         {{ form.help_texts.title }}
                                     </div>
                                 </label>
-                                {{ form.title.help_text }}
                                 <div style="width: 660px; display: inline-block">
                                     {{ form.title }}
                                 </div>
@@ -77,8 +83,9 @@
                             <div class="field right_alignment">
                                 <label style="display: inline-block; width: 100px">شرح خبر
 
-                                    <i class="tiny help icon" id="help_icon2" style="cursor: pointer"></i>
-                                    <div id="msg_div2" class="help help_news " >
+                                    <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
+
+                                    <div id="msg_div1" class="Sina_help Sina_help_news " help-id="1">
                                         {{ form.help_texts.content }}
                                     </div>
                                 </label>
