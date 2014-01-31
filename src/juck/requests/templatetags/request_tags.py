@@ -17,7 +17,7 @@ def get_request_sender(item, req_type, response):
     elif req_type == 'jso':
         return item.sender.get_full_name()
     elif req_type == 'jo':
-        return response.user.get_full_name()
+        return response.thread.responder.get_full_name()
 
     return u'نا مشخص'
 

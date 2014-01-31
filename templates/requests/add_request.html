@@ -28,6 +28,10 @@
             right: 5.6em;
         }
 
+        input {
+            margin-top: 10px !important;
+        }
+
         span.label.receiver {
             position: absolute;
             top: 5.7em;
@@ -66,38 +70,73 @@
            {{ user.get_full_name }}
        </span>
 
-       <span class="add-request-label receiver">
-گیرنده:
-       </span>
-       <span class="ui label black receiver">
-           {{ req.employer.profile.company_name }}
-       </span>
-
        <span class="add-request-label time-stamp ui label">
-           {% get_persian_date req.timestamp.date %}
+           {% get_current_pdate %}
        </span>
 
             <div class="rf-clear"></div>
             <form method="post" action="#" class='add-request-form ui form'>
                 {% csrf_token %}
-{#                <div class="field">#}
-{#                    <div class="ui input">#}
-{#                        <label class="input-details">{{ form.cooperation_type.label_tag }}: </label>#}
-{#                        {{ form.cooperation_type }}#}
-{#                    </div>#}
-{#                    {% if form.cooperation_type.errors %}#}
-{#                        <div class="ui red pointing promt label transition visible">{{ form.cooperation_type.errors.0 }}</div>#}
-{#                    {% endif %}#}
-{#                </div>#}
-{#                <div class="field">#}
-{#                    <div class="ui input">#}
-{#                        <label class="input-details">{{ form.title.label_tag }}: </label>#}
-{#                        {{ form.title }}#}
-{#                    </div>#}
-{#                    {% if form.title.errors %}#}
-{#                        <div class="ui red pointing promt label transition visible">{{ form.title.errors.0 }}</div>#}
-{#                    {% endif %}#}
-{#                </div>#}
+                <div class="field" style="margin-top: -80px;">
+                    <div class="ui input">
+                        <label class="input-details">{{ form.cooperation_type.label_tag }}: </label>
+                        {{ form.cooperation_type }}
+                    </div>
+                    {% if form.cooperation_type.errors %}
+                        <div class="ui red pointing prompt label transition visible">{{ form.cooperation_type.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+
+                <div class="field">
+                    <div class="ui input">
+                        <label class="input-details">{{ form.title.label_tag }}: </label>
+                        {{ form.title }}
+                    </div>
+                    {% if form.title.errors %}
+                        <div class="ui red pointing prompt label transition visible">{{ form.title.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="field">
+                    <div class="ui input">
+                        <label class="input-details">{{ form.first_major.label_tag }}: </label>
+                        {{ form.first_major }}
+                    </div>
+                    {% if form.first_major.errors %}
+                        <div class="ui red pointing prompt label transition visible">{{ form.title.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+
+                <div class="field">
+                    <div class="ui input">
+                        <label class="input-details">{{ form.second_major.label_tag }}: </label>
+                        {{ form.second_major }}
+                    </div>
+                    {% if form.second_major.errors %}
+                        <div class="ui red pointing promt label transition visible">{{ form.second_major.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="field">
+                    <div class="ui input">
+                        <label class="input-details">{{ form.certificate.label_tag }}: </label>
+                        {{ form.certificate }}
+                    </div>
+                    {% if form.certificate.errors %}
+                        <div class="ui red pointing promt label transition visible">{{ form.certificate.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="field">
+                    <div class="ui input">
+                        <label class="input-details">{{ form.sex.label_tag }}: </label>
+                        {{ form.sex }}
+                    </div>
+                    {% if form.sex.errors %}
+                        <div class="ui red pointing promt label transition visible">{{ form.sex.errors.0 }}</div>
+                    {% endif %}
+                </div>
 
                 <div class="field">
                     <label class="input-details">{{ form.content.label_tag }}:</label>

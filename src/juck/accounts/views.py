@@ -27,6 +27,7 @@ from juck.accounts.forms import *
 from juck.news.models import News
 from juck.articles.models import Article, ArticleSubmission
 import uuid
+from functools import wraps
 
 
 def user_panel(request):
@@ -248,6 +249,18 @@ class JobSeekerWizard(SessionWizardView):
         return render_to_response('messages.html', {
             'message': u'خب الان باید تموم شده باشه ! :دی'
         })
+
+
+
+def passed_captcha(view):
+    @wraps(view)
+    def wrapper(request, *args, **kwargs):
+        if 'captcha_solved' in request.session and request.session['captcha_solved']:
+            return view(request, request.user.username, *args, **kwargs)
+        else:
+            return HttpResponseRedirect('/')
+    return wrapper
+
 
 
 class EmployerWizard(SessionWizardView):
@@ -562,6 +575,8 @@ def check_catpcha(request):
     if request.is_ajax():
         form = CaptchaForm(request.POST)
         if form.is_valid():
+            request.session['captcha_solved'] = True
+            request.session.modified = True
             if request.POST.get('reg_type', '') == 'jobseeker':
                 url = '/accounts/jobseeker_registration/'
             if request.POST.get('reg_type', '') == 'employer':
@@ -570,19 +585,6 @@ def check_catpcha(request):
 
     return json_response({'op_status': 'fail'})
 
-
-def refresh_captcha(request):
-    kwargs = {'op_status': 'fail'}
-
-    if request.is_ajax():
-        new_key = CaptchaStore.generate_key()
-        kwargs['op_status'] = 'success'
-        kwargs['key'] = new_key
-        kwargs['url'] = captcha_image_url(new_key)
-
-        return json_response(kwargs)
-
-    return json_response(kwargs)
 
 
 def confirm_registration(request, user_type, key):

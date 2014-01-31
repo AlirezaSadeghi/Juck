@@ -4,10 +4,10 @@ $(document).ready(function () {
 
     $('body').on('click', '.view-details', function () {
         var req_id = $(this).attr('data-req');
-        var resp_id = $(this).attr('data-resp');
+        var usr_id = $(this).attr('data-user');
 
-        if (req_id)
-            window.location = '/requests/conversation/@/#/'.replace('@', req_id).replace('#', resp_id);
+        if (usr_id)
+            window.location = '/requests/conversation/@/#/'.replace('@', req_id).replace('#', usr_id);
         else
             window.location = '/requests/conversation/@/'.replace('@', req_id);
     });

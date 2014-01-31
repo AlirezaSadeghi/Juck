@@ -22,6 +22,16 @@ class Request(models.Model):
 
     objects = InheritanceManager()
 
+    def cast(self):
+        for name in dir(self):
+            try:
+                attr = getattr(self, name)
+                if isinstance(attr, self.__class__):
+                    return attr
+            except:
+                pass
+        return self
+
     def __unicode__(self):
         return self.title
 
@@ -31,8 +41,8 @@ class JobOpportunity(Request):
         verbose_name = u'آگهی'
         verbose_name_plural = u'آگهی ها'
 
-    first_major = models.CharField(max_length=200, verbose_name=u'رشته تحصیلی', )
-    second_major = models.CharField(max_length=200, verbose_name=u'رشته تحصیلی', null=True, blank=True)
+    first_major = models.CharField(max_length=200, verbose_name=u'رشته تحصیلی اول', )
+    second_major = models.CharField(max_length=200, verbose_name=u'رشته تحصیلی دوم', null=True, blank=True)
     certificate = models.CharField(max_length=100, verbose_name=u'مدرک تحصیلی', null=True, blank=True)
     sex = models.NullBooleanField(verbose_name=u'جنسیت', null=True, blank=True)
 

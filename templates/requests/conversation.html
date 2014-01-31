@@ -93,7 +93,8 @@
 
             <div class="ui {% get_alert_info req %} message">
                 <div class="header">
-                    وضعیت درخواست : {% get_request)status req %}
+                    وضعیت درخواست :
+                    {% get_request_status req %}
                 </div>
             </div>
 
@@ -107,59 +108,37 @@
                 </ul>
             </div>
 
-            <div class="ui comments  ">
+            <div class="ui comments ">
                 <div class="ui fitted divider"></div>
-                <div class="comment">
-                    <a class="avatar float_right">
-                        <img src="../../static/images/employer.png">
-                    </a>
 
-                    <div class="content">
-                        <a class="author">
-                            {% get_request_sender req 'jo' response %}
+                {% for resp in responses %}
+
+                    <div class="comment">
+                        <a class="avatar float_right">
+                            <img src="../../static/images/employer.png">
                         </a>
 
-                        <div class="metadata">
-                            <div class="date my-date-corrector">
-                                12 دی 1392
-                                {#                                                    {{ item.get_persian_date }}#}
-                            </div>
-                        </div>
-                        <div class="text">
-                            من در خواست را رد می کنم اگر پول بیشتری پرداخت نشود
-                            {#                                                {{ item.content }}#}
-                        </div>
+                        <div class="content">
+                            <a class="author">
+                                {% get_request_sender req req_type resp %}
+                            </a>
 
+                            <div class="metadata">
+                                <div class="date my-date-corrector">
+                                    {% get_persian_date resp.timestamp %}
+                                </div>
+                            </div>
+                            <div class="text">
+                                {{ resp.content }}
+                            </div>
+
+                        </div>
                     </div>
-                </div>
+
+                {% endfor %}
 
                 <div class="ui fitted divider"></div>
 
-                <div class="comment">
-                    <a class="avatar float_right">
-                        <img src="../../static/images/jobseeker.png">
-                    </a>
-
-                    <div class="content">
-                        <a class="author">
-                            آقای رضای اف جی
-                            {#                                                {{ item.user.get_full_name }}#}
-                        </a>
-
-                        <div class="metadata">
-                            <div class="date my-date-corrector">
-                                12 دی 1392
-                                {#                                                    {{ item.get_persian_date }}#}
-                            </div>
-                        </div>
-                        <div class="text">
-                            بنده فقط یک ساعت در هفته وقت دارم و وقت دیگری برای پروژه نمی گذارم.
-                            {#                                                {{ item.content }}#}
-                        </div>
-
-                    </div>
-                </div>
-                <div class="ui fitted divider"></div>
                 <form class="ui reply form">
                     <div class="field">
                         <textarea></textarea>

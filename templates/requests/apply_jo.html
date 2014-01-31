@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load account_tags %}
+{% block title %}
+    جاک‌ | ارسال درخواست
+
+{% endblock %}
+
+{% block css %}
+    <style>
+        .input-details, .add-request-label {
+            font: 13px/15px 'BYekan' !important;
+            color: #333 !important;
+
+        }
+
+        .add-request-label {
+            position: absolute;
+        }
+
+        .add-request-label.sender {
+            right: 2em;
+            top: 2em;
+        }
+
+        span.label.sender {
+            position: absolute;
+            top: 1.6em;
+            right: 5.6em;
+        }
+
+        span.label.receiver {
+            position: absolute;
+            top: 5.7em;
+            right: 5.5em;
+        }
+
+        .add-request-label.receiver {
+            right: 2em;
+            top: 6em;
+        }
+
+        .add-request-label.time-stamp {
+            right: 58em;
+            top: 2em;
+        }
+
+        .rf-clear {
+            clear: both;
+            margin: 0.5em 0 0.5em 0;
+        }
+
+        .add-request-form {
+            margin: 8em 1em;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="center">
+        <div class="ctn-box" style="position: relative;">
+        <span class="add-request-label sender">
+        فرستنده:
+        </span>
+       <span class="ui label black sender">
+           {{ user.get_full_name }}
+       </span>
+
+       <span class="add-request-label receiver">
+گیرنده:
+       </span>
+       <span class="ui label black receiver">
+           {{ req.employer.profile.company_name }}
+       </span>
+
+       <span class="add-request-label time-stamp ui label">
+           {% get_persian_date req.timestamp.date %}
+       </span>
+
+            <div class="rf-clear"></div>
+            <form method="post" action="#" class='add-request-form ui form'>
+                {% csrf_token %}
+                <div class="field">
+                    <label class="input-details">{{ form.content.label_tag }}:</label>
+                    {{ form.content }}
+
+                    {% if form.content.errors %}
+                        <div class="ui red pointing promt label transition visible">{{ form.content.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <input class="inline ui button green" type="submit" style="float:left" value="ارسال درخواست"/>
+
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}

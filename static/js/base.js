@@ -136,9 +136,17 @@ function startLoginProc(){
             message('کد امنیتی صحیح وارد نشده است. لطفا دوباره سعی کنید.', 'Error');
         }
     });
+    return false;
 }
 
 function message(msg, type) {
     var stuff = 'show' + type + 'Toast'
     $().toastmessage(stuff, msg);
+}
+
+function handleKeyPress(event){
+    if(event.keyCode == 13){
+        startLoginProc();
+        return false;
+    }
 }

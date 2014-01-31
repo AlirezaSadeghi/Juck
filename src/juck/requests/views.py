@@ -2,14 +2,14 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect
-
+from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from juck.accounts.models import Employer, JobSeeker
+from juck.accounts.models import Employer, JobSeeker, JuckUser
 from juck.accounts.views import get_user_type, check_user_type
 from juck.requests.filter import RequestListFilter
-from juck.requests.forms import RequestForm, ResponseForm
-from juck.requests.models import Response, Request, JobOpportunity, EmployerJobOffer, JobseekerJobOffer
+from juck.requests.forms import RequestForm, ResponseForm, JobOpportunityForm
+from juck.requests.models import Response, Request, JobOpportunity, EmployerJobOffer, JobseekerJobOffer, DiscussionThread
 from utils import create_pagination_range
 
 
@@ -18,30 +18,27 @@ def dashboard(request):
     if request.method == "GET":
         if get_user_type(request.user.pk) == 'employer':
             employer = Employer.objects.get(pk=request.user.pk)
+            threads = DiscussionThread.objects.filter(Q(request__employer=employer) |
+                                                      Q(responder=employer))
 
-            job_opportunities = JobOpportunity.objects.filter(employer=employer, responses__isnull=False)
-            job_opps = []
-            for item in job_opportunities:
-                if item not in job_opps:
-                    job_opps.append({'request': item, 'responses': item.responses.all(), 'type': 'jo'})
+            dashboard_items = []
+            for item in threads:
+                request_child = item.request.cast()
+                req_type = ''
+                if isinstance(request_child, JobOpportunity):
+                    req_type = 'jo'
+                elif isinstance(request_child, JobseekerJobOffer):
+                    req_type = 'jso'
+                elif isinstance(request_child, EmployerJobOffer):
+                    req_type = 'ejo'
+                dashboard_items.append(
+                    {'request': item.request.cast(), 'response': item.responses.all()[0], 'type': req_type})
 
-            employer_offers = EmployerJobOffer.objects.filter(employer=employer, responses__isnull=False)
-            emp_offs = []
-            for item in employer_offers:
-                if item not in emp_offs:
-                    emp_offs.append({'request': item, 'responses': item.responses.all(), 'type': 'ejo'})
+            return render_to_response('requests/dashboard.html', {'threads': dashboard_items},
+                                      context_instance=RequestContext(request, ))
 
-            jobseeker_offers = JobseekerJobOffer.objects.filter(employer=employer)
-            js_offs = []
-            for item in jobseeker_offers:
-                if item not in js_offs:
-                    js_offs.append({'request': item, 'responses': item.responses.all(), 'type': 'jso'})
-
-            dashboard_items = job_opps + emp_offs + js_offs
-            dashboard_items.sort(key=sort_by_timestamp)
-            dashboard_items.reverse()
-
-    return render_to_response('requests/dashboard.html', {'requests': dashboard_items}, context_instance=RequestContext(request, ))
+    return render_to_response('messages.html', {'message': u'درخواستی موجود نمی‌باشد', 'type': 'warning'},
+                              context_instance=RequestContext(request, ))
 
 
 @login_required
@@ -49,12 +46,26 @@ def offer_conversation(request, req_id):
     req = Request.objects.get(pk=req_id)
     responses = req.responses.all().order_by('-timestamp')
 
-    return render_to_response('requests/conversation.html', {'req': req, 'responses': responses}, context_instance=RequestContext(request, ))
+    return render_to_response('requests/conversation.html', {'req': req, 'responses': responses},
+                              context_instance=RequestContext(request, ))
 
 
 @login_required
-def request_conversation(request, req_id, resp_id):
-    return render_to_response('requests/conversation.html', {}, context_instance=RequestContext(request, ))
+def request_conversation(request, req_id, user_id):
+    dt = DiscussionThread.objects.get(request=Request.objects.get(pk=req_id),
+                                      responder=JuckUser.objects.get(pk=user_id))
+    req = dt.request.cast()
+    req_type = ''
+    if isinstance(req, JobOpportunity):
+        req_type = 'jo'
+    elif isinstance(req, JobseekerJobOffer):
+        req_type = 'jso'
+    elif isinstance(req, EmployerJobOffer):
+        req_type = 'ejo'
+
+    responses = dt.responses.all().order_by('-timestamp')
+    return render_to_response('requests/conversation.html', {'req': req, 'req_type': req_type, 'responses': responses},
+                              context_instance=RequestContext(request, ))
 
 
 @login_required
@@ -187,36 +198,41 @@ def show_em_requests(request):
 
 
 @login_required()
-def add_request(request, request_type, item_pk):
+def add_request(request, request_type):
     u_type = get_user_type(request.user.pk)
     if request.method == "POST":
-        form = ResponseForm(request.POST)
+        form = JobOpportunityForm(request.POST)
         if form.is_valid():
-            content = form.cleaned_data.get('content', '')
-            if request_type == 'jOpp':
-                req = Request.objects.get(pk=item_pk)
-                Response.objects.create(request=req, content=content, user=request.user)
-                return HttpResponseRedirect(reverse('dashboard'))
-            elif request_type == 'eReq':
-                pass
-            elif request_type == 'jReq':
-                pass
+            jopp = form.save(commit=False)
+            jopp.employer = Employer.objects.get(pk=request.user.pk)
+            jopp.save()
+            #elif request_type == 'eReq':
+            #    pass
+            #elif request_type == 'jReq':
+            #    pass
             return render_to_response('messages.html', {'type': 'green', 'message': 'درخواست با موفقیت ثبت شد.'},
                                       context_instance=RequestContext(request, ))
     else:
-        if request_type == 'jOpp':
-            form = ResponseForm()
-        else:
-            form = RequestForm()
-        kwargs = {}
-        req = ''
-        if request_type == 'jOpp':
-            req = JobOpportunity.objects.get(pk=item_pk)
-        elif request == 'eReq':
-            req = EmployerJobOffer.objects.get()
-            pass
+        form = JobOpportunityForm()
 
-    return render_to_response('requests/add_request.html', {'form': form, 'req': req, 'req_type': request_type},
+    return render_to_response('requests/add_request.html', {'form': form, 'req_type': request_type},
+                              context_instance=RequestContext(request, ))
+
+
+@login_required
+def apply_for_job_opportunity(request, item_pk):
+    form = ResponseForm()
+    if request.method == 'POST':
+        form = ResponseForm(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data.get('content', '')
+            req = Request.objects.get(pk=item_pk)
+            thread = DiscussionThread.objects.get_or_create(request=req, responder=request.user)[0]
+            Response.objects.create(thread=thread, content=content)
+            return HttpResponseRedirect(reverse('dashboard'))
+
+    req = JobOpportunity.objects.get(pk=item_pk)
+    return render_to_response('requests/apply_jo.html', {'form': form, 'req': req},
                               context_instance=RequestContext(request, ))
 
 
@@ -234,8 +250,6 @@ def view_request_status(request, request_type, item_pk):
         responses = req.responses.all().order_by('-timestamp')
         return render_to_response('messages.html', {'message': 'Implement Later ! :D'},
                                   context_instance=RequestContext(request, ))
-            
-
 
 
 def sort_by_timestamp(item):
