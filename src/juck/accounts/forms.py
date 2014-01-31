@@ -161,6 +161,8 @@ class JobSeekerRegisterForm4(forms.Form):
     website = forms.URLField(required=False, label=u'وب سایت')
     phone_num = forms.CharField(required=True, label=u'شماره تلفن')
     mobile_num = forms.CharField(required=False, label=u'شماره تلفن همراه')
+    state = forms.CharField(required=True, label=u'استان', max_length=100)
+    city = forms.CharField(required=True, label=u'شهر', max_length=100)
     postal_code = forms.CharField(required=False, label=u'کد پستی')
     address = forms.CharField(required=True, widget=forms.Textarea(), label=u'آدرس')
 
