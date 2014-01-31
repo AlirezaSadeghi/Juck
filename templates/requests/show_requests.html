@@ -41,7 +41,7 @@
 {% block content %}
     <div class="center">
         <div class="ctn-box">
-
+            {% get_user_type as u_type %}
             <form method="GET">
                 <div class="ui icon input left small">
                     <input type="text" placeholder="جستجو...">
@@ -176,15 +176,23 @@
                         {% endif %}
 
                         <div class="news_other">
-
-                            <div class="more_buttons">
-                                <div class="ui animated button green small"
-                                     onclick="window.location='{% url 'add_request' %}'">
-                                    <div class="visible content green">اعلام تمایل به همکاری</div>
-                                    <div class="hidden content"><i class="left arrow icon">  ایجاد درخواست</i></div>
+                            {% if u_type != 'manager' %}
+                                <div class="more_buttons">
+                                    <div class="ui animated button green small"
+                                         onclick="window.location='{% url 'add_request' req_param  item.pk %}'">
+                                        <div class="visible content green">اعلام تمایل به همکاری</div>
+                                        <div class="hidden content"><i class="left arrow icon"> ایجاد درخواست</i></div>
+                                    </div>
                                 </div>
-
-                            </div>
+                            {% else %}
+                                <div class="more_buttons">
+                                    <div class="ui animated button green small"
+                                         onclick="window.location='{% url 'add_request' req_param  item.pk %}'">
+                                        <div class="visible content green">وضعیت درخواست</div>
+                                        <div class="hidden content"><i class="left arrow icon">مشاهده متقاضیان </i></div>
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="ui section divider"

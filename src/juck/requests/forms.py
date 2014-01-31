@@ -14,3 +14,7 @@ class RequestForm(forms.Form):
                                              (3, u'دورکاری'),
                                          ))
     content = forms.CharField(required=True, label=u'متن درخواست', widget=forms.Textarea())
+
+
+class ResponseForm(forms.Form):
+    content = forms.CharField(required=True, label=u'متن درخواست', widget=forms.Textarea())

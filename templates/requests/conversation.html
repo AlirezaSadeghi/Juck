@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load request_tags %}
 
 {% block title %}
 
@@ -41,11 +42,12 @@
             float: left;
         }
 
-        .my-date-corrector{
+        .my-date-corrector {
             width: 120px;
             text-align: center;
         }
-        .my-min-height{
+
+        .my-min-height {
             min-height: 700px;
         }
 
@@ -56,45 +58,42 @@
 {% block content %}
     {% csrf_token %}
     <div class="center">
-        <div class="ctn-box my-font my-min-height" >
+        <div class="ctn-box my-font my-min-height">
 
             <div class="ui icon input left small">
-            <input type="text" placeholder="جستجو...">
-            <i class="inverted search icon"></i>
-        </div>
-             <small class="advanced_search">جستجوی پیشرفته</small>
+                <input type="text" placeholder="جستجو...">
+                <i class="inverted search icon"></i>
+            </div>
+            <small class="advanced_search">جستجوی پیشرفته</small>
 
             <div class="advanced_search_panel ui segment form">
-            <div class="container">
-                <div class="advanced_search_form">
-                    <form>
-                        <div class="two fields">
+                <div class="container">
+                    <div class="advanced_search_form">
+                        <form>
+                            <div class="two fields">
                                 <span class="inline field">
                                 <label class="input_labels">از تاریخ: </label><input type="date"
                                                                                      name="first_date"></span>
                                 <span class="inline field">
                                 <label class="input_labels">تا تاریخ: </label><input type="date" name="secon_date">
                                 </span>
-                        </div>
-                        <div class="search_buttons">
-                            <input class="inline ui button" type="reset" value="پاک کردن">
-                            <input class="inline ui button" type="submit" value="جستجو">
-                        </div>
-                    </form>
-                </div>
-                <div class="ui vertical divider"></div>
-                <div class="advanced_search_info">
-{#                   <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> #}
+                            </div>
+                            <div class="search_buttons">
+                                <input class="inline ui button" type="reset" value="پاک کردن">
+                                <input class="inline ui button" type="submit" value="جستجو">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ui vertical divider"></div>
+                    <div class="advanced_search_info">
 
+                    </div>
                 </div>
             </div>
-        </div>
 
-            <div class="ui warning message">
-                {#                <i class="close icon"></i>#}
-
+            <div class="ui {% get_alert_info req %} message">
                 <div class="header">
-                    وضعیت درخواست در دست بررسی
+                    وضعیت درخواست : {% get_request)status req %}
                 </div>
             </div>
 
@@ -104,12 +103,7 @@
                     درخواست اولیه
                 </div>
                 <ul class="list my-right">
-                    {#                    <li class="my-right">#}
-                    بنده با توجه به نیاز های شرکت در زمینه ی استخدام یک شخص امین و معتمد و همچنین دارای توانایی های
-                    فنی بالا در قسمت های مختلف خواهان به خدمت گرفتن یک نیروی انقلابی و جان فداه در راه خون شهدا با
-                    مبلغ روزی 1000 تومان می باشم.
-
-                    {#                    </li>#}
+                    {{ req.content }}
                 </ul>
             </div>
 
@@ -122,8 +116,7 @@
 
                     <div class="content">
                         <a class="author">
-                            شرکت رهپویان امام
-                            {#                                                {{ item.user.get_full_name }}#}
+                            {% get_request_sender req 'jo' response %}
                         </a>
 
                         <div class="metadata">
@@ -182,7 +175,7 @@
                             <i class="icon checkmark"></i> قبول کردن توافق نامه
                         </div>
 
-                        <div id="reject"  class="negative ui button labeled icon">
+                        <div id="reject" class="negative ui button labeled icon">
                             <i class="icon ban circle"></i> رد کردن پیشنهاد
                         </div>
                     </div>
