@@ -31,7 +31,7 @@ class CaptchaForm(forms.Form):
 class JobSeekerRegisterForm1(forms.Form):
     first_name = forms.CharField(required=True, label=u'نام',help_text=u'نام خود. مانند سینا, مریم , علی')
     last_name = forms.CharField(required=True, label=u'نام خانوادگی',help_text=u'نام خانوادگی. مانند حسن پور, صادقی, فراهانی')
-    email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),help_text=u'پست التکرونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
+    email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),help_text=u'آدرس الکترونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
     national_id = forms.CharField(required=True, label=u'کدملی', max_length=20,help_text=u'کد ملی ذکر شده در کارت ملی شما. فقط اعداد آن به صورت منظم وارد شوند و از گذاشتن فاصله و یا - خودداری شود.')
     password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور', validators=[MinLengthValidator(4)],help_text=u'گذرواژه ی شما برای ورود به سایت می باشد. حداقل باید از 4 کارکتر تشکیل شده باشد.')
     re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور', help_text=u'تکرار گذرواژه برای اطمینان از درست وارد شدن آن.')
@@ -210,7 +210,7 @@ class JobSeekerRegisterForm4(forms.Form):
 
 
 class EmployerRegisterForm1(forms.Form):
-    email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),help_text=u'پست التکرونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
+    email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),help_text=u'آدرس الکترونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
     password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور', validators=[MinLengthValidator(4)],help_text=u'پست التکرونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
     re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور', help_text=u'تکرار گذرواژه برای اطمینان از درست وارد شدن آن.')
     # connector_name = forms.CharField(required=True, label=u'نام شخص رابط')
