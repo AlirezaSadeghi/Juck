@@ -241,8 +241,11 @@ class JobSeekerWizard(SessionWizardView):
         skill_objs = []
         work_objs = []
         edu_session = self.request.session.get("added_edu", None)
+        print(edu_session)
         skill_session = self.request.session.get("added_skills", None)
+        print(skill_session)
         work_session = self.request.session.get("added_work", None)
+        print(work_session)
 
         for form in form_list:
             data.update(form.cleaned_data)
@@ -256,14 +259,6 @@ class JobSeekerWizard(SessionWizardView):
         except City.DoesNotExist:
             city_object = City(name=data['city'], state=state_object)
             city_object.save()
-
-        jobseeker_profile = JobSeekerProfile(city=city_object,state=state_object,
-                                             national_id=data['national_id'],
-                                             phone_number=data['phone_num'],
-                                             mobile_number=data['mobile_num'],
-                                             approved=False)
-
-        jobseeker_profile.save()
 
         jobseeker_resume = Resume()
         jobseeker_resume.save()
@@ -279,9 +274,9 @@ class JobSeekerWizard(SessionWizardView):
                 # edu_objs.append(edu_obj)
 
         for i, skill in skill_session.items():
-                skill_obj = Skill(title=skill['title'],
-                                      level=skill['level'],
-                                      description=skill['description'])
+                skill_obj = Skill(title=skill['skill_title'],
+                                      level=skill['skill_level'],
+                                      description=skill['skill_description'])
                 skill_obj.save()
                 # skill_objs.append(skill_obj)
                 jobseeker_resume.skill.add(skill_obj)
@@ -300,6 +295,15 @@ class JobSeekerWizard(SessionWizardView):
         # jobseeker_resume.save()
 
         activation_key = str(uuid.uuid4())
+
+        jobseeker_profile = JobSeekerProfile(city=city_object, state=state_object,
+                                             national_id=data['national_id'],
+                                             phone_number=data['phone_num'],
+                                             mobile_number=data['mobile_num'],
+                                             approved=False)
+
+        jobseeker_profile.save()
+
 
         jobseeker = JobSeeker(first_name=data['first_name'],
                               last_name=data['last_name'],

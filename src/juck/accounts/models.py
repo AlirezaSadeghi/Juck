@@ -60,8 +60,8 @@ class JobSeekerProfile(models.Model):
 
     approved = models.BooleanField(verbose_name=u'وضعیت تایید', default=False)
 
-    # def __unicode__(self):
-    #     return self.jobseeker.email
+    def __unicode__(self):
+        return " - ".join([u'پروفایل کارجو شماره ', self.id])
 
 class EmployerProfile(models.Model):
     class Meta:
@@ -87,8 +87,8 @@ class EmployerProfile(models.Model):
 
     approved = models.BooleanField(verbose_name=u'وضعیت تایید', default=False)
 
-    # def __unicode__(self):
-    #     return self.employer
+    def __unicode__(self):
+        return " - ".join([u'پروفایل کارفرما شماره ', self.id])
 
 
 class JuckUserManager(UserManager):
@@ -239,8 +239,8 @@ class Experience(models.Model):
     #resume = models.ForeignKey('Resume', verbose_name=u'رزومه', related_name='experiences')
     title = models.CharField(max_length=200, verbose_name=u'عنوان سابقه')
     place = models.CharField(max_length=200, verbose_name=u'سازمان یا دانشگاه مربوطه')
-    from_date = models.DateField(verbose_name=u'از تاریخ')
-    to_date = models.DateField(verbose_name=u'تا تاریخ')
+    from_date = models.IntegerField(verbose_name=u'از تاریخ')
+    to_date = models.IntegerField(verbose_name=u'تا تاریخ')
     description = models.TextField(verbose_name=u'توضیحات', null=True, blank=True)
     cooperation_type = models.CharField(verbose_name=u'نوع همکاری', max_length=150)
     exit_reason = models.CharField(verbose_name=u'دلیل قطع همکاری', max_length=200, null=True, blank=True)
@@ -276,7 +276,7 @@ class Resume(models.Model):
     experience = models.ManyToManyField(Experience, related_name='experiences', verbose_name=u'سوابق کاری')
 
     def __unicode__(self):
-        return self.resume
+        return " - ".join([u'رزومه شماره ', self.id])
 
 class TemporaryLink(models.Model):
     class Meta:
