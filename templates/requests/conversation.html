@@ -28,6 +28,10 @@
             text-align: right !important;
         }
 
+        .tmp {
+            display: none !important;
+        }
+
         .date {
             width: 120px;
             text-align: center;
@@ -57,6 +61,7 @@
 
 {% block content %}
     {% csrf_token %}
+    <input type="hidden" value="{{ dt_id }}" id="dt_id">
     <div class="center">
         <div class="ctn-box my-font my-min-height">
 
@@ -110,52 +115,53 @@
 
             <div class="ui comments ">
                 <div class="ui fitted divider"></div>
+                <div class="my-container">
+                    {% for resp in responses %}
 
-                {% for resp in responses %}
-
-                    <div class="comment">
-                        <a class="avatar float_right">
-                            <img src="../../static/images/employer.png">
-                        </a>
-
-                        <div class="content">
-                            <a class="author">
-                                {% get_request_sender req req_type resp %}
+                        <div class="comment">
+                            <a class="avatar float_right">
+                                <img src="../../static/images/employer.png">
                             </a>
 
-                            <div class="metadata">
-                                <div class="date my-date-corrector">
-                                    {% get_persian_date resp.timestamp %}
+                            <div class="content">
+                                <a class="author">
+                                    {% get_request_sender req req_type resp %}
+                                </a>
+
+                                <div class="metadata">
+                                    <div class="date my-date-corrector">
+                                        {% get_persian_date resp.timestamp %}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="text">
-                                {{ resp.content }}
-                            </div>
+                                <div class="text">
+                                    {{ resp.content }}
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
 
-                {% endfor %}
+                    {% endfor %}
+                </div>
 
                 <div class="ui fitted divider"></div>
 
                 <form class="ui reply form">
                     <div class="field">
-                        <textarea></textarea>
+                        <textarea id="response-content"></textarea>
                     </div>
 
 
-                    <div class="my-font" style="margin-top: 5px">
+                    <div class="my-font" id="send-response" style="margin-top: 5px">
                         <div class="ui button teal submit labeled icon">
-                            <i class="icon edit"></i> ارسال اصلاحیه
+                            <i class="icon edit"></i> ارسال پاسخ
                         </div>
 
                         <div class="positive ui button teal  labeled icon">
-                            <i class="icon checkmark"></i> قبول کردن توافق نامه
+                            <i class="icon checkmark"></i>قبول درخواست
                         </div>
 
                         <div id="reject" class="negative ui button labeled icon">
-                            <i class="icon ban circle"></i> رد کردن پیشنهاد
+                            <i class="icon ban circle"></i> رد درخواست
                         </div>
                     </div>
                 </form>
@@ -165,5 +171,26 @@
         </div>
     </div>
 
+
+    <div class="comment tmp">
+        <a class="avatar float_right">
+            <img src="">
+        </a>
+
+        <div class="content">
+            <a class="author">
+            </a>
+
+            <div class="metadata">
+                <div class="date my-date-corrector">
+                    {% get_current_pdate %}
+                </div>
+            </div>
+            <div class="text">
+
+            </div>
+
+        </div>
+    </div>
 
 {% endblock %}

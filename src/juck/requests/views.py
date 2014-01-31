@@ -10,7 +10,7 @@ from juck.accounts.views import get_user_type, check_user_type
 from juck.requests.filter import RequestListFilter
 from juck.requests.forms import RequestForm, ResponseForm, JobOpportunityForm
 from juck.requests.models import Response, Request, JobOpportunity, EmployerJobOffer, JobseekerJobOffer, DiscussionThread
-from utils import create_pagination_range
+from utils import create_pagination_range, json_response
 
 
 @login_required
@@ -64,7 +64,8 @@ def request_conversation(request, req_id, user_id):
         req_type = 'ejo'
 
     responses = dt.responses.all().order_by('-timestamp')
-    return render_to_response('requests/conversation.html', {'req': req, 'req_type': req_type, 'responses': responses},
+    return render_to_response('requests/conversation.html',
+                              {'req': req, 'req_type': req_type, 'dt_id': dt.pk, 'responses': responses},
                               context_instance=RequestContext(request, ))
 
 
@@ -217,6 +218,20 @@ def add_request(request, request_type):
 
     return render_to_response('requests/add_request.html', {'form': form, 'req_type': request_type},
                               context_instance=RequestContext(request, ))
+
+
+@login_required
+def respond(request):
+    if request.is_ajax() and request.POST.get('dt_id') and request.POST.get('content', ''):
+        dt_id = request.POST.get('dt_id')
+        content = request.POST.get('content', '')
+        dt = DiscussionThread.objects.get(pk=dt_id)
+        resp = Response.objects.create(thread=dt, content=content, user=request.user)
+        author = request.user.get_full_name() if get_user_type(
+            request.user.pk) == 'jobseeker' else Employer.objects.get(pk=request.user.pk).profile.company_name
+        return json_response({'op_status': 'success', 'pk': resp.pk, 'author': author})
+
+    return json_response({'op_status': 'fail', 'message': u'لطفا تمامی قسمت‌های مورد نظر را تکمیل نمایید.'})
 
 
 @login_required
