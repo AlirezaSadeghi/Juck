@@ -118,10 +118,9 @@ function disapprove_user(id, user_type) {
         if (response.op_status == 'success') {
             $('#job_seeker' + id).css('background-color', '#DB4D4D');
             $('#job_seeker' + id + ' .rf-user-info div span').css('color', '#C3B8B8');
-
-//            alert(response.message);
+            message(response.message, 'Success');
         } else {
-//            alert(response.message);
+            message(response.message, 'Error');
         }
     });
 }
@@ -131,12 +130,9 @@ function approve_user(id, user_type) {
     $.post('/accounts/users/approve/', {'csrfmiddlewaretoken': csrfToken, 'function': 'approve', 'id': id, 'user_type': user_type}, function (response) {
         if (response.op_status == 'success') {
             $('#job_seeker' + id).css('background-color', '#00cc66');
-
-            message(data.message, 'Success');
-//            alert(response.message);
+            message(response.message, 'Success');
         } else {
-            message(data.message, 'Error');
-//            alert(response.message);
+            message(response.message, 'Error');
         }
     });
 }
@@ -146,12 +142,9 @@ function remove_user(id, user_type) {
         if (response.op_status == 'success') {
             $('#job_seeker' + id).css('background-color', '#DB4D4D');
             $('#job_seeker' + id + ' .rf-user-info div span').css('color', '#C3B8B8');
-
-            message(data.message, 'Success');
-//            alert(response.message);
+            message(response.message, 'Success');
         } else {
-            message(data.message, 'Error');
-//            alert(response.message);
+            message(response.message, 'Error');
         }
     });
 }

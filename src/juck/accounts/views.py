@@ -314,12 +314,12 @@ class JobSeekerWizard(SessionWizardView):
         jobseeker.set_password(data['password'])
         jobseeker.save()
 
-        # #TODO
-        # html_content = create_confirm_email_html(activation_key, 'JobSeeker')
-        # try:
-        #     send_html_mail(email, u'سامانه جاک | تایید ثبت‌نام', html=html_content)
-        # except:
-        #     pass
+        #TODO
+        html_content = create_confirm_email_html(activation_key, 'job_seeker')
+        try:
+            send_html_mail(data['email'], u'سامانه جاک | تایید ثبت‌نام', html=html_content)
+        except:
+            pass
 
         return render_to_response('messages.html', {
             'message': activation_key
@@ -387,12 +387,12 @@ class EmployerWizard(SessionWizardView):
                 emp.set_password(password)
                 emp.save()
 
-                # #TODO
-                # html_content = create_confirm_email_html(activation_key, 'Employer')
-                # try:
-                #     send_html_mail(email, u'سامانه جاک | تایید ثبت‌نام', html=html_content)
-                # except:
-                #     pass
+                #TODO
+                html_content = create_confirm_email_html(activation_key, 'employer')
+                try:
+                    send_html_mail(email, u'سامانه جاک | تایید ثبت‌نام', html=html_content)
+                except:
+                    pass
 
         return render_to_response('messages.html', {
             'message': activation_key
@@ -622,11 +622,11 @@ def ajax_remove_or_approve_user(request):
                 user.save()
 
                 #TODO
-                # html_content = create_manager_confirm_html()
-                # try:
-                #     send_html_mail(user.email, u'سامانه جاک | تایید حساب‌کاربری', html=html_content)
-                # except:
-                #     pass
+                html_content = create_manager_confirm_html()
+                try:
+                    send_html_mail(user.email, u'سامانه جاک | تایید حساب‌کاربری', html=html_content)
+                except:
+                    pass
 
                 return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت تایید شد.'})
             elif function == 'remove':

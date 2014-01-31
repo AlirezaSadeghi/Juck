@@ -6,7 +6,7 @@ from django.forms.util import ErrorList
 from persian_captcha import PersianCaptchaField
 from django.forms.fields import Field
 from juck.accounts.models import *
-from django.core.validators import MinLengthValidator
+from django.core.validators import MinLengthValidator, MaxLengthValidator
 
 
 class LoginForm(forms.Form):
