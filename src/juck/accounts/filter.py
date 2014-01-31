@@ -178,10 +178,12 @@ class ManagerEmployerListFilter:
 
         #TODO search what?!
         search_input = forms.CharField(max_length=200, required=False,
-                                       widget=forms.TextInput(attrs={'placeholder': "جستجو..."}))
+                                       widget=forms.TextInput(attrs={'placeholder': "جستجو..."}),
+                                       help_text=u'عبارتی که  اینجا وارد می کنید, در میان تمامی مشخصات هر سازمان جستجو می شود و همه ی نتایج بدست آمده به نمایش گذاشته می شوند.')
 
         #Profile details:
-        company_name = forms.CharField(label=u'نام سازمان', required=False, max_length=200)
+        company_name = forms.CharField(label=u'نام سازمان', required=False, max_length=200,
+                                       help_text=u'این جستجو بر اساس اطلاعات سازمان مورد نظر انجام می شود. دقت شود که حاصل اشتراک قسمت های وارد شده به عنوان نتیجه به نمایش در می آید.')
         company_type = forms.CharField(label=u'نوع سازمان', required=False, max_length=150)
         #TODO: remember me in html
         foundation_year_form = forms.IntegerField(label=u'تاسیس از سال', required=False)
