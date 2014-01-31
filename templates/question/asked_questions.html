@@ -32,14 +32,20 @@
 {% block js %}
     <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/FJ_questions.js' %}"></script>
+    <script>
+        function mySina(){
+            x = $("#submit_button")[0];
+            x.click();
+        }
+    </script>
 {% endblock %}
 
 {% block content %}
     <div class="center">
     <div class="ctn-box">
     <div class="ui icon input left small">
-        <input type="text" placeholder="جستجو...">
-        <i class="inverted search icon"></i>
+        {{ search_form.both }}
+        <i class="inverted search icon" onclick="mySina();" style="cursor: pointer;"></i>
     </div>
 
     <small class="advanced_search">جستجوی پیشرفته</small>
@@ -202,7 +208,7 @@
                     {% endifequal %}
                 {% endfor %}
                 {% if questions.has_next %}
-                    <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
+                    <a class="item" href="?{{ get_params.urlencode }}&page={{ articles.next_page_number }}"
                        class="icon item"><i class="icon left arrow"></i></a>
                 {% endif %}
             </div>
