@@ -1,6 +1,6 @@
 
 .help{
-    position: fixed;
+    position: absolute;
     border: 1px dotted rgb(0, 115, 183);
     /*display: inline-table !important;*/
     /*display: inline-table;*/
