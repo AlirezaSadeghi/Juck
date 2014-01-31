@@ -322,8 +322,8 @@ class JobSeekerWizard(SessionWizardView):
             pass
 
         return render_to_response('messages.html', {
-            'message': activation_key
-            # 'message': u'ثبت‌نام شما با موفقیت انجام شد،جهت تایید ثبت‌نام پست‌الکترونیکی برای شما فرستاده شده است.'
+            # 'message': activation_key
+            'message': u'ثبت‌نام شما با موفقیت انجام شد،جهت تایید ثبت‌نام پست‌الکترونیکی برای شما فرستاده شده است.'
         })
 
 
@@ -395,8 +395,8 @@ class EmployerWizard(SessionWizardView):
                     pass
 
         return render_to_response('messages.html', {
-            'message': activation_key
-            # 'message': u'ثبت‌نام شما با موفقیت انجام شد،جهت تایید ثبت‌نام پست‌الکترونیکی برای شما فرستاده شده است.'
+            # 'message': activation_key
+            'message': u'ثبت‌نام شما با موفقیت انجام شد،جهت تایید ثبت‌نام پست‌الکترونیکی برای شما فرستاده شده است.'
         })
 
 
