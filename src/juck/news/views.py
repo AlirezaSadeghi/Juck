@@ -67,7 +67,9 @@ def show_news_description(request):
             return render_to_response('news/news_description.html', {'news': news, 'comments': comments},
                                       context_instance=RequestContext(request))
         except ObjectDoesNotExist:
-            pass
+            return render_to_response('messages.html', {'message': u'چنین صفحه‌ای وجود ندارد.'},
+                          context_instance=RequestContext(request))
+
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 

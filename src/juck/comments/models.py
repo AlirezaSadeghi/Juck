@@ -42,6 +42,7 @@ class JobSeekerComment(models.Model):
 class EmployerComment(models.Model):
     class Meta:
         ordering = ('date_created',)
+        #TODO change theses shits
         verbose_name = u'نظر درمورد کارجو'
         verbose_name_plural = u'نظرات درمورد کارجویان'
 
@@ -68,6 +69,7 @@ class EmployerComment(models.Model):
 class ArticleComment(models.Model):
     class Meta:
         ordering = ('date_created',)
+        #TODO change theses shits
         verbose_name = u'نظر درمورد کارجو'
         verbose_name_plural = u'نظرات درمورد کارجویان'
 
@@ -94,6 +96,7 @@ class ArticleComment(models.Model):
 class NewsComment(models.Model):
     class Meta:
         ordering = ('date_created',)
+        #TODO change theses shits
         verbose_name = u'نظر درمورد کارجو'
         verbose_name_plural = u'نظرات درمورد کارجویان'
 
