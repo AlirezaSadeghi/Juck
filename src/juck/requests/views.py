@@ -155,15 +155,12 @@ def show_em_requests(request):
 
 
 # @login_required()
-def add_request(request):
-    #TODO
-
+def add_request(request, request_type, item_pk):
     if request.method == "POST":
+        if request_type == 'jOop'
         form = RequestForm(request.POST)
-
         if form.is_valid():
-            #TODO
-            return render_to_response('messages.html', {'type':'green', 'message': 'درخواست با موفقیت ثبت شد.'},
+            return render_to_response('messages.html', {'type': 'green', 'message': 'درخواست با موفقیت ثبت شد.'},
                                       context_instance=RequestContext(request, ))
     else:
         form = RequestForm()
