@@ -8,33 +8,45 @@
 
 {% block js %}
     <script>
-        {% if self_profile %}
+        function submitComment() {
+            cm = $('#jobseeker-comment-area').val();
+            if (cm)
+                addComment('job_seeker', {{ user.id }}, '#jobseeker-comment', cm);
+            else
+                message('ابتدا نظر خود را بنویسید.', 'Warning');
+        }
         $(document).ready(function () {
             $('.ui.accordion').accordion();
 
-            $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
-                var content = $(this).parent().next();
-                if ($(this).parent().hasClass('active')) {
+            fetchComments('job_seeker', {{ user.id }}, 1, '#jobseeker-comment');
 
-                    if (!$(this).hasClass('fj_pressed')) {
-                        $(this).addClass('fj_pressed');
-                        content.find('.ui.label').each(function () {
-                            $(this).replaceWith('<input type="text" value="@" style="width:100px;"/>'.replace('@', $(this).text()));
-                        });
 
+            {% if self_profile %}
+
+                $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
+                    var content = $(this).parent().next();
+                    if ($(this).parent().hasClass('active')) {
+
+                        if (!$(this).hasClass('fj_pressed')) {
+                            $(this).addClass('fj_pressed');
+                            content.find('.ui.label').each(function () {
+                                $(this).replaceWith('<input type="text" value="@" style="width:100px;"/>'.replace('@', $(this).text()));
+                            });
+
+                        }
+                        else {
+                            $(this).removeClass('fj_pressed');
+                            content.find('input').each(function () {
+                                $(this).replaceWith('<span class="profile_info ui label">@</span>'.replace('@', $(this).val()));
+                            });
+                        }
                     }
-                    else {
-                        $(this).removeClass('fj_pressed');
-                        content.find('input').each(function () {
-                            $(this).replaceWith('<span class="profile_info ui label">@</span>'.replace('@', $(this).val()));
-                        });
-                    }
-                }
-                e.preventDefault();
-                return false;
-            });
+                    e.preventDefault();
+                    return false;
+                });
+
+            {% endif %}
         })
-        {% endif %}
     </script>
 {% endblock %}
 
@@ -45,7 +57,7 @@
         <div class=" ui small rounded image ">
             <img src="{{ MEDIA_URL }}{{ generalinfo.image.name }}"/>
         </div>
-        <p style="margin: 10px 0; font-size: 24px;">علیرضا فراهانی</p>
+        <p style="margin: 10px 0; font-size: 24px;">{{ user.get_full_name }}</p>
     </div>
     <div class="ui fluid accordion jobseekerprofile">
     <div class="active title general_info">
@@ -231,15 +243,15 @@
             </div>
             <div class="fj_space"></div>
             {% if skill.description %}
-            <div class="fj_row">
-                <div class="col1">
-                    <label class="profile_label">توضیح: </label>
+                <div class="fj_row">
+                    <div class="col1">
+                        <label class="profile_label">توضیح: </label>
+                    </div>
+                    <div class="col15">
+                        <span class="profile_info ui label">{{ skill.description }}</span>
+                    </div>
                 </div>
-                <div class="col15">
-                    <span class="profile_info ui label">{{ skill.description }}</span>
-                </div>
-            </div>
-            <div class="fj_space"></div>
+                <div class="fj_space"></div>
             {% endif %}
             <div class="ui section divider fj_divider"></div>
         {% endfor %}
@@ -318,6 +330,31 @@
             <div class="ui section divider fj_divider"></div>
         {% endfor %}
     </div>
+    </div>
+
+    <div class="ui section divider"></div>
+    <div class="row  ">
+        <div class="ui sixteen column wide segment">
+            <!--<div class="segment">-->
+            <h3 class="ui header">
+                <i class="icon inverted circular blue comment"></i> نظرات
+            </h3>
+
+            <div class="ui comments  ">
+                <div id="jobseeker-comment"></div>
+                {% if user.is_authenticated %}
+                    <form class="ui reply form">
+                        <div class="field">
+                            <textarea id="jobseeker-comment-area"></textarea>
+                        </div>
+                        <div class="ui button teal submit labeled icon" onclick="submitComment()">
+                            <i class="icon edit"></i> ارسال نظر
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+
+        </div>
     </div>
     </div>
     </div>

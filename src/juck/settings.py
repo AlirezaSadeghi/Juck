@@ -194,6 +194,7 @@ INSTALLED_APPS = (
     'articles',
     'question',
     'requests',
+    'comments',
 
     'httplib2', #    These 4 are
     'openid', #      what u need to

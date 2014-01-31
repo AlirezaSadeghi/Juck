@@ -238,16 +238,93 @@ class JobSeekerWizard(SessionWizardView):
 
     def done(self, form_list, **kwargs):
         data = {}
+        edu_objs = []
+        skill_objs = []
+        work_objs = []
+        edu_session = self.request.session.get("added_edu", None)
+        print(edu_session)
+        skill_session = self.request.session.get("added_skills", None)
+        print(skill_session)
+        work_session = self.request.session.get("added_work", None)
+        print(work_session)
+
         for form in form_list:
             data.update(form.cleaned_data)
-        print('google')
-        print form_list
+        try:
+            state_object = State.objects.get(name=data['state'])
+        except State.DoesNotExist:
+            state_object = State(name=data['state'])
+            state_object.save()
+        try:
+            city_object = City.objects.get(name=data['city'])
+        except City.DoesNotExist:
+            city_object = City(name=data['city'], state=state_object)
+            city_object.save()
 
-        for f in form_list:
-                print(f)
-        # print(requ)
+        jobseeker_resume = Resume()
+        jobseeker_resume.save()
+
+        for i, edu in edu_session.items():
+                edu_obj = Education(certificate=edu['certificate'],
+                                    status=edu['status'], major=edu['major'],
+                                    orientation=edu['orientation'],
+                                    university_name=edu['university_name'],
+                                    university_type=edu['university_type'])
+                edu_obj.save()
+                jobseeker_resume.education.add(edu_obj)
+                # edu_objs.append(edu_obj)
+
+        for i, skill in skill_session.items():
+                skill_obj = Skill(title=skill['skill_title'],
+                                      level=skill['skill_level'],
+                                      description=skill['skill_description'])
+                skill_obj.save()
+                # skill_objs.append(skill_obj)
+                jobseeker_resume.skill.add(skill_obj)
+
+        for i, work in work_session.items():
+                work_obj = Experience(title=work['title'],
+                                      to_date=work['to_date'], from_date=work['from_date'],
+                                      place=work['place'],
+                                      description=work['description'],
+                                      cooperation_type=work['cooperation_type'],
+                                      exit_reason=work['exit_reason'])
+                work_obj.save()
+                # work_objs.append(edu_obj)
+                jobseeker_resume.experience.add(work_obj)
+
+        # jobseeker_resume.save()
+
+        activation_key = str(uuid.uuid4())
+
+        jobseeker_profile = JobSeekerProfile(city=city_object, state=state_object,
+                                             national_id=data['national_id'],
+                                             phone_number=data['phone_num'],
+                                             mobile_number=data['mobile_num'],
+                                             approved=False)
+
+        jobseeker_profile.save()
+
+
+        jobseeker = JobSeeker(first_name=data['first_name'],
+                              last_name=data['last_name'],
+                              email=data['email'], role=JuckUser.JOB_SEEKER,
+                              profile=jobseeker_profile, resume=jobseeker_resume,
+                              activation_key=activation_key)
+
+        jobseeker.set_password(data['password'])
+        jobseeker.save()
+
+        #TODO
+        html_content = create_confirm_email_html(activation_key, 'job_seeker')
+        try:
+            send_html_mail(data['email'], u'سامانه جاک | تایید ثبت‌نام', html=html_content)
+        except:
+            pass
+
         return render_to_response('messages.html', {
-            'message': u'خب الان باید تموم شده باشه ! :دی'
+            # 'message': activation_key
+            'message': u'ثبت‌نام شما با موفقیت انجام شد،جهت تایید ثبت‌نام پست‌الکترونیکی برای شما فرستاده شده است.'
         })
 
 
@@ -319,20 +396,20 @@ class EmployerWizard(SessionWizardView):
                                           mobile_number=mobile_number, website=website,
                                           state=state_object, city=city_object, approved=False)
                 profile.save()
-                emp = Employer(email=email, profile=profile, role=2, activation_key=activation_key)
+                emp = Employer(email=email, profile=profile, role=JuckUser.EMPLOYER, activation_key=activation_key)
                 emp.set_password(password)
                 emp.save()
 
-                # #TODO
-                # html_content = create_confirm_email_html(activation_key, 'Employer')
-                # try:
-                #     send_html_mail(email, u'سامانه جاک | تایید ثبت‌نام', html=html_content)
-                # except:
-                #     pass
+                #TODO
+                html_content = create_confirm_email_html(activation_key, 'employer')
+                try:
+                    send_html_mail(email, u'سامانه جاک | تایید ثبت‌نام', html=html_content)
+                except:
+                    pass
 
         return render_to_response('messages.html', {
-            'message': activation_key
-            # 'message': u'ثبت‌نام شما با موفقیت انجام شد،جهت تایید ثبت‌نام پست‌الکترونیکی برای شما فرستاده شده است.'
+            # 'message': activation_key
+            'message': u'ثبت‌نام شما با موفقیت انجام شد،جهت تایید ثبت‌نام پست‌الکترونیکی برای شما فرستاده شده است.'
         })
 
 
@@ -405,6 +482,11 @@ def job_seeker_list(request, approved_status):
         else:
             return render_to_response('messages.html', {'message': u'صفحه موردنظر وجود ندارد.'},
                                       context_instance=RequestContext(request))
+        user_type = get_user_type(request.user.pk)
+
+        if user_type != 'manager' and not approved:
+            return render_to_response('messages.html', {'message': u'دسترسی غیرمجاز'},
+                                      context_instance=RequestContext(request))
 
         get_params = request.GET.copy()
         if 'page' in get_params:
@@ -416,9 +498,10 @@ def job_seeker_list(request, approved_status):
 
         page_range = create_pagination_range(job_seekers.number, job_seekers.paginator.num_pages)
 
+
         return render_to_response('accounts/job_seeker_list.html',
                                   {'job_seekers': job_seekers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range, 'approved': approved,
+                                   'page_range': page_range, 'approved': approved, 'user_type': user_type,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -435,6 +518,11 @@ def employer_list(request, approved_status):
         else:
             return render_to_response('messages.html', {'message': u'صفحه موردنظر وجود ندارد.'},
                                       context_instance=RequestContext(request))
+        user_type = get_user_type(request.user.pk)
+
+        if user_type != 'manager' and not approved:
+            return render_to_response('messages.html', {'message': u'دسترسی غیرمجاز'},
+                                      context_instance=RequestContext(request))
 
         get_params = request.GET.copy()
         if 'page' in get_params:
@@ -448,7 +536,7 @@ def employer_list(request, approved_status):
 
         return render_to_response('accounts/employer_list.html',
                                   {'employers': employers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range, 'approved': approved,
+                                   'page_range': page_range, 'approved': approved, 'user_type':user_type,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -472,8 +560,8 @@ def show_profile(request):
                 kwargs['profile'] = user.profile
                 kwargs['resume'] = user.resume
                 kwargs['educations'] = user.resume.education.all()
-                kwargs['skills'] = user.resume.skills.objects.all()
-                kwargs['experiences'] = user.resume.experience.objects.all()
+                kwargs['skills'] = user.resume.skill.all()
+                kwargs['experiences'] = user.resume.experience.all()
 
                 return render_to_response('accounts/jobseeker_profile_self.html', kwargs,
                                           context_instance=RequestContext(request, ))
@@ -531,11 +619,11 @@ def ajax_remove_or_approve_user(request):
                 user.save()
 
                 #TODO
-                # html_content = create_manager_confirm_html()
-                # try:
-                #     send_html_mail(user.email, u'سامانه جاک | تایید حساب‌کاربری', html=html_content)
-                # except:
-                #     pass
+                html_content = create_manager_confirm_html()
+                try:
+                    send_html_mail(user.email, u'سامانه جاک | تایید حساب‌کاربری', html=html_content)
+                except:
+                    pass
 
                 return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت تایید شد.'})
             elif function == 'remove':
