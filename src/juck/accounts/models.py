@@ -61,7 +61,7 @@ class JobSeekerProfile(models.Model):
     approved = models.BooleanField(verbose_name=u'وضعیت تایید', default=False)
 
     def __unicode__(self):
-        return " - ".join([u'پروفایل کارجو شماره ', self.id])
+        return " - ".join([u'پروفایل کارجو شماره ', str(self.id)])
 
 
 class EmployerProfile(models.Model):
@@ -89,7 +89,7 @@ class EmployerProfile(models.Model):
     approved = models.BooleanField(verbose_name=u'وضعیت تایید', default=False)
 
     def __unicode__(self):
-        return " - ".join([u'پروفایل کارفرما شماره ', self.id])
+        return " - ".join([u'پروفایل کارفرما شماره ', str(self.id)])
 
 
 class JuckUserManager(UserManager):
@@ -266,7 +266,7 @@ class Experience(models.Model):
     exit_reason = models.CharField(verbose_name=u'دلیل قطع همکاری', max_length=200, null=True, blank=True)
 
     def __unicode__(self):
-        return self.title + " در " + self.place + "از تاریخ " + str(self.from_date) + " تا " + str(self.to_date)
+        return self.title + u" در " + self.place + u"از تاریخ " + str(self.from_date) + u" تا " + str(self.to_date)
 
 
 class Skill(models.Model):
@@ -297,7 +297,7 @@ class Resume(models.Model):
     experience = models.ManyToManyField(Experience, related_name='experiences', verbose_name=u'سوابق کاری')
 
     def __unicode__(self):
-        return " - ".join([u'رزومه شماره ', self.id])
+        return " - ".join([u'رزومه شماره ', str(self.id)])
 
 
 class TemporaryLink(models.Model):

@@ -14,7 +14,7 @@ $(document).ready(function () {
         }
     });
 
-    $('body').on('click', '.rf-show-modal', function(){
+    $('body').on('click', '.rf-show-modal', function () {
         var type = $(this).attr('id');
         $("#reg_type").val(type);
     });
@@ -33,7 +33,7 @@ $(document).ready(function () {
         .modal('attach events', '.rf-show-modal', 'show');
 
 
-    var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+    csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
     $().toastmessage({sticky: true});
     $('.ui.dropdown').dropdown();
@@ -108,23 +108,41 @@ $(document).ready(function () {
         }
     });
 
-    $('.thumbs.icon').click(function(){
-        if($(this).hasClass('outline') && $(this).hasClass('down')){
+    $('.thumbs.icon').click(function () {
+        if ($(this).hasClass('outline') && $(this).hasClass('down')) {
             sadeghi('dislike', 'enable');
         }
-        if($(this).hasClass('outline') && $(this).hasClass('up')){
+        if ($(this).hasClass('outline') && $(this).hasClass('up')) {
             sadeghi('like', 'enable');
         }
-        if(!$(this).hasClass('outline') && $(this).hasClass('down')){
+        if (!$(this).hasClass('outline') && $(this).hasClass('down')) {
             sadeghi('dislike', 'disable');
         }
-        if(!$(this).hasClass('outline') && $(this).hasClass('down')){
+        if (!$(this).hasClass('outline') && $(this).hasClass('down')) {
             sadeghi('dislike', 'disable');
         }
-	    $(this).toggleClass('outline');
+        $(this).toggleClass('outline');
     });
 
-    function sadeghi(type, action){
+    function sadeghi(type, action) {
+        $('.thumbs.icon').click(function () {
+            if ($(this).hasClass('outline') && $(this).hasClass('down')) {
+                sadeghi('dislike', 'enable');
+            }
+            if ($(this).hasClass('outline') && $(this).hasClass('up')) {
+                sadeghi('like', 'enable');
+            }
+            if (!$(this).hasClass('outline') && $(this).hasClass('down')) {
+                sadeghi('dislike', 'disable');
+            }
+            if (!$(this).hasClass('outline') && $(this).hasClass('down')) {
+                sadeghi('dislike', 'disable');
+            }
+            $(this).toggleClass('outline');
+        });
+    }
+
+    function sadeghi(type, action) {
 //        alert(type + "    " + action);
     }
 
@@ -137,23 +155,23 @@ function doAjaxLogin(e) {
     }
 }
 
-function refreshCaptchaCrap(){
+function refreshCaptchaCrap() {
 
-    $.getJSON('/accounts/refresh_captcha/', function(data){
+    $.getJSON('/accounts/refresh_captcha/', function (data) {
         $("#id_captcha_0").val(data.key);
-        $("img.captcha").attr('src', data.url + '?'+ new Date().getTime());
+        $("img.captcha").attr('src', data.url + '?' + new Date().getTime());
     });
 
     return false;
 }
 
-function startLoginProc(){
+function startLoginProc() {
 
-    $.post('/accounts/check_catpcha/', $("#captcha-shit").serialize(), function(data){
-        if(data.op_status == 'success'){
+    $.post('/accounts/check_catpcha/', $("#captcha-shit").serialize(), function (data) {
+        if (data.op_status == 'success') {
             window.location = data.url;
         }
-        else{
+        else {
             message('کد امنیتی صحیح وارد نشده است. لطفا دوباره سعی کنید.', 'Error');
         }
     });
@@ -162,4 +180,33 @@ function startLoginProc(){
 function message(msg, type) {
     var stuff = 'show' + type + 'Toast'
     $().toastmessage(stuff, msg);
+}
+
+function fetchComments(obj_type, obj_id, page, div) {
+    $.post('/comments/show/', {csrfmiddlewaretoken: csrfToken, 'type': obj_type, 'id': obj_id, 'page_size': 4, 'page': page, 'obj_div': div}, function (data) {
+        if (data.op_status == 'success') {
+            $(div).html(data.html);
+        }
+        else {
+            message(data.message, 'Error');
+        }
+    });
+}
+
+function addComment(obj_type, obj_id, div, comment) {
+    var dict = {
+        csrfmiddlewaretoken: csrfToken,
+        'comment': comment,
+        'type': obj_type,
+        'id': obj_id
+    }
+
+    $.post('/comments/add/', dict, function (data) {
+        if (data.op_status == 'success') {
+            fetchComments(obj_type, obj_id, 1, div);
+        }
+        else {
+            message(data.message, 'Error');
+        }
+    });
 }

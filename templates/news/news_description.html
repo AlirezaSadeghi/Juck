@@ -11,9 +11,17 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
+            fetchComments('news', {{ news.id }}, 1, '#news-comment');
         });
 
+
+    function submitComment(){
+        cm = $('#news-comment-area').val();
+        if(cm)
+            addComment('news', {{ news.id }}, '#news-comment', cm);
+        else
+            message('ابتدا نظر خود را بنویسید.', 'Warning');
+    }
     </script>
 
 {% endblock %}
@@ -94,35 +102,17 @@
                             </h3>
 
                             <div class="ui comments  ">
-                                <div class="ui fitted divider"></div>
-                                {% for item in comments %}
-                                    <div class="comment">
-                                        <a class="avatar float_right">
-                                            <img src="{% static 'images/jobseeker.png' %}">
-                                        </a>
-
-                                        <div class="content">
-                                            <a class="author">{{ item.user.get_full_name }}</a>
-
-                                            <div class="metadata">
-                                                <div class="date">{{ item.get_persian_date }}</div>
-                                            </div>
-                                            <div class="text">
-                                                {{ item.content }}
-                                            </div>
-
+                                <div id="news-comment"></div>
+                                {% if user.is_authenticated %}
+                                    <form class="ui reply form">
+                                        <div class="field">
+                                            <textarea id='news-comment-area'></textarea>
                                         </div>
-                                    </div>
-                                    <div class="ui fitted divider"></div>
-                                {% endfor %}
-                                <form class="ui reply form">
-                                    <div class="field">
-                                        <textarea></textarea>
-                                    </div>
-                                    <div class="ui button teal submit labeled icon">
-                                        <i class="icon edit"></i> ارسال نظر
-                                    </div>
-                                </form>
+                                        <div class="ui button teal submit labeled icon" onclick="submitComment()">
+                                            <i class="icon edit"></i> ارسال نظر
+                                        </div>
+                                    </form>
+                                {% endif %}
                             </div>
 
                         </div>

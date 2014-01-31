@@ -1,0 +1,49 @@
+{% if comments %}
+
+    {% for com in comments %}
+        <div class="comment segment ui raised" style="position: relative;">
+            <a class="avatar" href="#" style="float: right;">
+                <img src="{{ user.image.thumbnail.url|default:'/static/images/user.png' }}">
+            </a>
+
+            <div class="content">
+                <a class="author" dir="ltr">
+                    {{ com.user.email }}
+                </a>
+                <div class="metadata" style="width:250px">
+                    <small class="date">{{ com.get_persian_date }}  </small>
+                </div>
+                <div class="text" style="margin-top:10px;">
+                    {{ com.comment }}
+                </div>
+            </div>
+        </div>
+
+    <div class="ui fitted divider"></div>
+
+    {% endfor %}
+
+
+    <div class="ui pagination menu">
+        {% for i in pages %}
+            <a onclick="fetchComments('{{ obj_type }}',{{ obj_id }},{{ i }}, '{{ obj_div }}')" class="item
+                        {% if i == page %}
+                            active
+                        {% endif %}
+                    ">
+                {{ i }}
+            </a>
+        {% endfor %}
+    </div>
+
+{% else %}
+
+    <div class="ui error message">
+        <div class="header">
+            نظری وجود ندارد
+        </div>
+        <small>برای نظردادن باید عضو سایت باشید.</small>
+    </div>
+
+
+{% endif %}
