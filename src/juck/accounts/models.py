@@ -32,9 +32,9 @@ class City(models.Model):
         verbose_name = u'شهر'
         verbose_name_plural = u'شهرها'
 
-    state = models.ForeignKey(State, related_name='cities', verbose_name=u'نام استان', unique=True)
+    state = models.ForeignKey(State, related_name='cities', verbose_name=u'نام استان')
 
-    name = models.CharField(max_length=100, verbose_name=u'نام شهر')
+    name = models.CharField(max_length=100, verbose_name=u'نام شهر', unique=True)
 
 
     def __unicode__(self):

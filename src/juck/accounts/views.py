@@ -246,12 +246,17 @@ class EmployerWizard(SessionWizardView):
     template_name = 'accounts/employer_registration.html'
 
     def done(self, form_list, **kwargs):
+        email, first_name, last_name, password, user_rank, company_name = '', '', '', '', '', ''
+        company_type, reg_num, manager, field = '', '', '', ''
+        foundation_year = 1392
         for index in range(0, len(form_list)):
-            email, first_name, last_name, password, user_rank, company_name, company_type, reg_num, foundation_year, manager, field = '', '', '', '', '', '', '', '', '', '', ''
+
             if index == 0:
                 email = form_list[index].cleaned_data['email']
-                first_name = form_list[index].cleaned_data['first_name']
-                last_name = form_list[index].cleaned_data['last_name']
+
+                print(email)
+                # first_name = form_list[index].cleaned_data['first_name']
+                # last_name = form_list[index].cleaned_data['last_name']
                 password = form_list[index].cleaned_data['password']
                 user_rank = form_list[index].cleaned_data['connector_rank']
 
@@ -276,10 +281,12 @@ class EmployerWizard(SessionWizardView):
                     state_object = State.objects.get(name=state)
                 except State.DoesNotExist:
                     state_object = State(name=state)
+                    state_object.save()
                 try:
-                    city_object = City.objects.get(name=city, state=state_object)
-                except State.DoesNotExist:
+                    city_object = City.objects.get(name=city)
+                except City.DoesNotExist:
                     city_object = City(name=city, state=state_object)
+                    city_object.save()
 
                 profile = EmployerProfile(company_name=company_name, company_type=company_type,
                                           foundation_year=foundation_year, reg_num=reg_num,
@@ -287,8 +294,9 @@ class EmployerWizard(SessionWizardView):
                                           address=address, postal_code=postal_code, phone_number=phone_number,
                                           mobile_number=mobile_number, website=website,
                                           state=state_object, city=city_object, approved=False)
-
-                emp = Employer(profile=profile, email=email, first_name=first_name, last_name=last_name, role=3)
+                profile.save()
+                print("my email is %s" % email)
+                emp = Employer(email=email, profile=profile, role=2)
                 emp.set_password(password)
                 emp.save()
         return render_to_response('messages.html', {
@@ -382,7 +390,6 @@ def jobseeker_addexp(request):
 # ------------------------------- these are gaaazjer and u know it ------------------------------------#
 
 @login_required()
-@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def job_seeker_list(request, approved_status):
     if request.method == "GET":
 
@@ -413,7 +420,6 @@ def job_seeker_list(request, approved_status):
 
 
 @login_required()
-@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def employer_list(request, approved_status):
     if request.method == "GET":
 
