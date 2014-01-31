@@ -79,3 +79,4 @@ class Response(models.Model):
     thread = models.ForeignKey(DiscussionThread, verbose_name=u'مکالمات', related_name='responses')
     timestamp = models.DateField(verbose_name=u'زمان ارسال پاسخ', auto_now=True)
     content = models.TextField(verbose_name=u'متن درخواست')
+    user = models.ForeignKey(JuckUser, verbose_name=u'کاربر پاسخ‌دهنده', related_name='responses')
