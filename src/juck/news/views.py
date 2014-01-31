@@ -69,9 +69,10 @@ def show_news_description(request):
 def add_news(request):
     form = NewsForm()
     print "SADSAD"
-    print request.FILES
+    # print request.FILES
     if request.method == "POST":
         form = NewsForm(request.POST)
+        print(request.user.pk)
         author = Manager.objects.get(pk=request.user.pk) # must be user how use the system now
         #title = request.POST.get('title','')
         #name  = request.POST.get('name','')

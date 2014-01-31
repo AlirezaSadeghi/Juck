@@ -39,10 +39,12 @@
                               enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="field">
+                                {{ form.help_texts.title }}
+{#                                {{ form.title.help_text }}#}
                                 <label class="right_alignment" style="display: inline-block; width: 100px">
                                     عنوان خبر:
                                 </label>
-
+                                {{ form.title.help_text }}
                                 <div style="width: 660px; display: inline-block">
                                     {{ form.title }}
                                 </div>

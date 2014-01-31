@@ -10,7 +10,7 @@ from django.db.models import Q
 class NewsListFilter:
     class SecNewsListFilterForm(forms.Form):
 
-        content = forms.CharField(label=u'جستجو کلی', max_length=150, required=False, widget=forms.TextInput(
+        content = forms.CharField(label=u'جستجو کلی', max_length=150, required=False,help_text=u'این متن در بین عنوان ها و متن اخبار جستجو می گردد.' ,widget=forms.TextInput(
             attrs={ 'placeholder': u'جستجو'}))
 
         title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(

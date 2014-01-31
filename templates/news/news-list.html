@@ -24,10 +24,15 @@
     <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
     <script>
 
-        function mySina(){
+        function mySina() {
             x = $("#submit_button")[0];
             x.click();
         }
+
+        $("#help_icon").hover(function () {
+            $("#msg_div").hide();
+            $("#msg_div").show();
+        });
 
     </script>
 {% endblock %}
@@ -37,15 +42,27 @@
     <div class="center">
         <div class="ctn-box">
             <form>
+
                 <div class="ui icon input left small">
+                    <label style="display: inline">
+                        جستجو:
+                        <i class="tiny help icon" id="help_icon" style="cursor: pointer"></i>
+                        <div id="msg_div">
+                            {{ search_form.content.help_text }}
+                        </div>
+                    </label>
+
+                    {#                    <div style="display: inline">#}
                     {{ search_form.content }}
-{#                    <input type="text" placeholder="جستجو...">#}
+                    {#                    {{ search_form.content.help_text }}#}
+                    {#                    <input type="text" placeholder="جستجو...">#}
                     <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
-{#                    <a href="#Sina">#}
-{##}
-{#                    </a>#}
-{##}
-{#                    <input class="inline ui button" type="submit"  id="Sina" style="display: none">#}
+                    {#                    </div>#}
+                    {#                    <a href="#Sina">#}
+                    {##}
+                    {#                    </a>#}
+                    {##}
+                    {#                    <input class="inline ui button" type="submit"  id="Sina" style="display: none">#}
                 </div>
 
                 <small class="advanced_search">جستجوی پیشرفته</small>
@@ -164,27 +181,27 @@
             </div>
             <!-- <div class="ui segment"> -->
             {% if news.paginator.num_pages > 1 %}
-            <div style="text-align: center;">
-            <div class="ui small pagination menu">
-                    {% if news.has_previous %}
+                <div style="text-align: center;">
+                    <div class="ui small pagination menu">
+                        {% if news.has_previous %}
                             <a href="?{{ get_params.urlencode }}&page={{ news.previous_page_number }}"
                                class="icon item"><i class="icon right arrow"></i></a>
-                    {% endif %}
+                        {% endif %}
 
-                    {% for p in page_range %}
-                        {% ifequal p questions.number %}
-                            <a  href="javascript:void(0);" class="active item">{{ p }}</a>
-                        {% else %}
-                            <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
-                        {% endifequal %}
-                    {% endfor %}
-                    {% if news.has_next %}
-                        <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
-                           class="icon item"><i class="icon left arrow"></i></a>
-                    {% endif %}
-            </div>
-            </div>
-        {% endif %}
+                        {% for p in page_range %}
+                            {% ifequal p questions.number %}
+                                <a href="javascript:void(0);" class="active item">{{ p }}</a>
+                            {% else %}
+                                <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                            {% endifequal %}
+                        {% endfor %}
+                        {% if news.has_next %}
+                            <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
+                               class="icon item"><i class="icon left arrow"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
             {#            {% else %}#}
             {#                <div class="ui error message">خبری وجود ندارد</div>#}
             {#            {% endif %}#}
