@@ -23,33 +23,14 @@
 
 {% block js %}
     <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/help.js' %}"></script>
     <script>
 
         function mySina() {
             x = $("#submit_button")[0];
             x.click();
         }
-        $(document).ready(function () {
-            $(".Sina_help").each(function () {
-                $(this).hide();
-            })
 
-            icons = $(".help.icon")
-            icons.each(function () {
-                        x = this;
-                        num = this.getAttribute('help-id');
-                        id = "#msg_div" + num;
-                        var help = $(id)
-                        $(this).hover(function () {
-                            help.show();
-                            var h = help[0];
-                            h.style.display = 'inline-table';
-                        }, function () {
-                            help.hide()
-                        })
-                    }
-            );
-        });
     </script>
 {% endblock %}
 

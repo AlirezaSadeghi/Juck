@@ -10,7 +10,9 @@ class ManagerQuestionListFilter:
     class SecretaryQuestionListFilterForm(forms.Form):
 
 
-        title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(
+        title = forms.CharField(label=u'عنوان', max_length=150, required=False,
+                                help_text=u'با پر کردن موارد مد نظر خود عملیات جستجو در میان سوالات و جواب های موجود انجام می شود. دقت کنید نتیجه ی عملیات اشتراک موارد مشخص شده توسط شماست.'
+                                ,widget=forms.TextInput(
             attrs={'class': 'search-tab-content-input input-12', 'placeholder': u'عنوان سوال:'}))
         answer = forms.CharField(label=u'پاسخ', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': 'search-tab-content-input input-12', 'placeholder': u'محتوی پاسخ:'}))
