@@ -469,6 +469,11 @@ def job_seeker_list(request, approved_status):
         else:
             return render_to_response('messages.html', {'message': u'صفحه موردنظر وجود ندارد.'},
                                       context_instance=RequestContext(request))
+        user_type = get_user_type(request.user.pk)
+
+        if user_type != 'manager' and not approved:
+            return render_to_response('messages.html', {'message': u'دسترسی غیرمجاز'},
+                                      context_instance=RequestContext(request))
 
         get_params = request.GET.copy()
         if 'page' in get_params:
@@ -480,9 +485,10 @@ def job_seeker_list(request, approved_status):
 
         page_range = create_pagination_range(job_seekers.number, job_seekers.paginator.num_pages)
 
+
         return render_to_response('accounts/job_seeker_list.html',
                                   {'job_seekers': job_seekers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range, 'approved': approved,
+                                   'page_range': page_range, 'approved': approved, 'user_type': user_type,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -499,6 +505,11 @@ def employer_list(request, approved_status):
         else:
             return render_to_response('messages.html', {'message': u'صفحه موردنظر وجود ندارد.'},
                                       context_instance=RequestContext(request))
+        user_type = get_user_type(request.user.pk)
+
+        if user_type != 'manager' and not approved:
+            return render_to_response('messages.html', {'message': u'دسترسی غیرمجاز'},
+                                      context_instance=RequestContext(request))
 
         get_params = request.GET.copy()
         if 'page' in get_params:
@@ -512,7 +523,7 @@ def employer_list(request, approved_status):
 
         return render_to_response('accounts/employer_list.html',
                                   {'employers': employers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range, 'approved': approved,
+                                   'page_range': page_range, 'approved': approved, 'user_type':user_type,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -536,8 +547,8 @@ def show_profile(request):
                 kwargs['profile'] = user.profile
                 kwargs['resume'] = user.resume
                 kwargs['educations'] = user.resume.education.all()
-                kwargs['skills'] = user.resume.skills.objects.all()
-                kwargs['experiences'] = user.resume.experience.objects.all()
+                kwargs['skills'] = user.resume.skill.all()
+                kwargs['experiences'] = user.resume.experience.all()
 
                 return render_to_response('accounts/jobseeker_profile_self.html', kwargs,
                                           context_instance=RequestContext(request, ))

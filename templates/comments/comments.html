@@ -2,12 +2,12 @@
 
     {% for com in comments %}
         <div class="comment segment ui raised" style="position: relative;">
-            <a class="avatar" href="#" style="float: right;">
+            <a class="avatar" href="{% url 'show_profile' %}?pk={{ com.user.pk }}" style="float: right;">
                 <img src="{{ user.image.thumbnail.url|default:'/static/images/user.png' }}">
             </a>
 
             <div class="content">
-                <a class="author" dir="ltr">
+                <a class="author" dir="ltr" href="{% url 'show_profile' %}?pk={{ com.user.pk }}">
                     {{ com.user.email }}
                 </a>
                 <div class="metadata" style="width:250px">

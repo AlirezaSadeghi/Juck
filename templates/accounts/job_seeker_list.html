@@ -223,8 +223,9 @@
                     <div class="user_number inlineblock inlinemiddle ">
                         {{ forloop.counter }}
                     </div>
+                    <a href="{% url 'show_profile' %}?pk={{ job_seeker.pk }}">
                     <img class="inlinemiddle"
-                         src="{{ job_seeker.image.thumbnail.url|default:'/static/images/user.png' }}">
+                         src="{{ job_seeker.image.thumbnail.url|default:'/static/images/user.png' }}"></a>
 
                     <div class="inlinemiddle inlineblock user_data">
                         <div class="rf-vertical-divider"></div>
@@ -242,34 +243,65 @@
                         </div>
                     </div>
                     <div class="user-buttons">
-                        {% if approved %}
-                            <div class="ui icon tiny linkedin button rf-button">
-                                <i class=" user icon"></i><br/>
-                                پروفایل
-                            </div>
-                            <div class="ui icon tiny red button rf-button"
-                                 onclick="disapprove_user({{ job_seeker.id }}, 'job_seeker')">
-                                <i class=" remove icon"></i>
-
-                                <div>
-                                    غیرفعال
+                        {% if user_type == 'manager' %}
+                            {% if approved %}
+                                <div class="ui icon tiny linkedin button rf-button" onclick='window.location="{% url 'show_profile' %}?pk={{ job_seeker.pk }}"'>
+                                    <i class=" user icon"></i><br/>
+                                    پروفایل
                                 </div>
-                            </div>
+                                <div class="ui icon tiny red button rf-button"
+                                     onclick="disapprove_user({{ job_seeker.id }}, 'job_seeker')">
+                                    <i class=" remove icon"></i>
+
+                                    <div>
+                                        غیرفعال
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="ui icon tiny linkedin button rf-button"
+                                     onclick="approve_user({{ job_seeker.id }}, 'job_seeker')">
+                                    <i class=" user icon"></i><br/>
+                                    تایید
+                                </div>
+                                <div class="ui icon tiny red button rf-button"
+                                     onclick="remove_user({{ job_seeker.id }}, 'job_seeker')">
+                                    <i class=" remove icon"></i>
+
+                                    <div>
+                                        حذف
+                                    </div>
+                                </div>
+
+                            {% endif %}
+                        {% elif user_type == 'jobseeker' %}
+
+                                <div class="ui icon tiny linkedin button rf-button" onclick='window.location="{% url 'show_profile' %}?pk={{ job_seeker.pk }}"'>
+                                    <i class=" user icon"></i><br/>
+                                    پروفایل
+                                </div>
+{#                                <div class="ui icon tiny red button rf-button"#}
+{#                                     onclick="disapprove_user({{ job_seeker.id }}, 'job_seeker')">#}
+{#                                    <i class=" remove icon"></i>#}
+{##}
+{#                                    <div>#}
+{#                                        غیرفعال#}
+{#                                    </div>#}
+{#                                </div>#}
+
+                        {% elif user_type == 'employer' %}
+
+                                <div class="ui icon tiny linkedin button rf-button" onclick='window.location="{% url 'show_profile' %}?pk={{ job_seeker.pk }}"'>
+                                    <i class=" user icon"></i><br/>
+                                    پروفایل
+                                </div>
+                                <div class="ui icon tiny green button rf-button">
+                                    <i class=" add icon"></i>
+
+                                    <div>
+درخواست
+                                    </div>
+                                </div>
                         {% else %}
-                            <div class="ui icon tiny linkedin button rf-button"
-                                 onclick="approve_user({{ job_seeker.id }}, 'job_seeker')">
-                                <i class=" user icon"></i><br/>
-                                تایید
-                            </div>
-                            <div class="ui icon tiny red button rf-button"
-                                 onclick="remove_user({{ job_seeker.id }}, 'job_seeker')">
-                                <i class=" remove icon"></i>
-
-                                <div>
-                                    حذف
-                                </div>
-                            </div>
-
                         {% endif %}
                     </div>
                 </div>
