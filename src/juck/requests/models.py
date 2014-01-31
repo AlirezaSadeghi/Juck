@@ -77,6 +77,6 @@ class Response(models.Model):
         verbose_name_plural = u'پاسخ ها به درخواست ها'
 
     thread = models.ForeignKey(DiscussionThread, verbose_name=u'مکالمات', related_name='responses')
-    timestamp = models.DateField(verbose_name=u'زمان ارسال پاسخ', auto_now=True)
+    timestamp = models.DateTimeField(verbose_name=u'زمان ارسال پاسخ', auto_now=True)
     content = models.TextField(verbose_name=u'متن درخواست')
     user = models.ForeignKey(JuckUser, verbose_name=u'کاربر پاسخ‌دهنده', related_name='responses')

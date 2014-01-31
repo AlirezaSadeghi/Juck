@@ -37,6 +37,28 @@ def dashboard(request):
             return render_to_response('requests/dashboard.html', {'threads': dashboard_items},
                                       context_instance=RequestContext(request, ))
 
+        else:
+            jobseeker = JobSeeker.objects.get(pk=request.user.pk)
+            threads = DiscussionThread.objects.filter(Q(responder=jobseeker)|
+                                                      Q(request__jobseekerjoboffer__sender=jobseeker))
+
+            dashboard_items = []
+            for item in threads:
+                request_child = item.request.cast()
+                req_type = ''
+                if isinstance(request_child, JobOpportunity):
+                    req_type = 'jo'
+                elif isinstance(request_child, JobseekerJobOffer):
+                    req_type = 'jso'
+                elif isinstance(request_child, EmployerJobOffer):
+                    req_type = 'ejo'
+                dashboard_items.append(
+                    {'request': item.request.cast(), 'response': item.responses.all()[0], 'type': req_type})
+
+            return render_to_response('requests/dashboard.html', {'threads': dashboard_items},
+                                      context_instance=RequestContext(request, ))
+
+
     return render_to_response('messages.html', {'message': u'درخواستی موجود نمی‌باشد', 'type': 'warning'},
                               context_instance=RequestContext(request, ))
 
@@ -243,7 +265,7 @@ def apply_for_job_opportunity(request, item_pk):
             content = form.cleaned_data.get('content', '')
             req = Request.objects.get(pk=item_pk)
             thread = DiscussionThread.objects.get_or_create(request=req, responder=request.user)[0]
-            Response.objects.create(thread=thread, content=content)
+            Response.objects.create(thread=thread, content=content, user=request.user)
             return HttpResponseRedirect(reverse('dashboard'))
 
     req = JobOpportunity.objects.get(pk=item_pk)
