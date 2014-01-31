@@ -257,7 +257,7 @@
                 {% endif %}
             <div class='field'>
                 <div class="input-details">
-                    <label class="input_labels" style="display: block"> {{ field.label_tag }}
+                    <label class="input_labels help_inline" > {{ field.label_tag }}
                         {% if field.field.required %}
                             <span class="required-field">*</span>
                         {% endif %}
@@ -273,7 +273,7 @@
                             <i class="tiny help icon" id="help_icon" help-id="{{ forloop.counter }}"
                                style="cursor: pointer"></i>
 
-                            <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news "
+                            <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news Sina_help_small"
                                  help-id="0"
                                  style="margin-top: -16px;">
                                 {{ field.help_text }}
@@ -317,7 +317,7 @@
                     {% endif %}
                 <div class='field'>
                     <div class="input-details">
-                        <label class="input_labels" style="display: block"> {{ field.label_tag }}
+                        <label class="input_labels help_inline" > {{ field.label_tag }}
                             {% if field.field.required %}
                                 <span class="required-field">*</span>
                             {% endif %}
@@ -332,7 +332,7 @@
                                 <i class="tiny help icon" id="help_icon" help-id="{{ forloop.counter }}"
                                    style="cursor: pointer"></i>
 
-                                <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news "
+                                <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news Sina_help_small "
                                      help-id="0"
                                      style="margin-top: -16px;">
                                     {{ field.help_text }}
@@ -365,7 +365,7 @@
                 {% endif %}
             <div class='field'>
                 <div class="input-details">
-                    <label class="input_labels" style="display: block"> {{ field.label_tag }}
+                    <label class="input_labels help_inline" > {{ field.label_tag }}
                         {% if field.field.required %}
                             <span class="required-field">*</span>
                         {% endif %}
@@ -381,7 +381,7 @@
                             <i class="tiny help icon" id="help_icon" help-id="{{ forloop.counter }}"
                                style="cursor: pointer"></i>
 
-                            <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news "
+                            <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news Sina_help_small"
                                  help-id="0"
                                  style="margin-top: -16px;">
                                 {{ field.help_text }}
@@ -411,13 +411,13 @@
         <div class='field'>
 {#            <div class="input-details ">#}
             <div class=" inline">
-                <label class="input_labels " > {{ field.label_tag }}
+                <label class="input_labels help_inline" > {{ field.label_tag }}
                     {% if field.field.required %}
                         <span class="required-field">*</span>
                     {% endif %}
                 </label>
 
-                <div class="ui small input field-input inline_block">
+                <div class="ui small input field-input ">
                     {{ field }}
                 </div>
 
@@ -427,7 +427,7 @@
                         <i class="tiny help icon" id="help_icon" help-id="{{ forloop.counter }}"
                            style="cursor: pointer"></i>
 
-                        <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news "
+                        <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news Sina_help_small"
                              help-id="0"
                              style="margin-top: -16px;">
                             {{ field.help_text }}
