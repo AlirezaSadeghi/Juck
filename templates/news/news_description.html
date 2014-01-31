@@ -73,20 +73,20 @@
 
                                 <div class="field">
 
-                                    <div class="ui positive button icon small" id="like">
+                                    <div class="ui positive button icon small" id="like" onclick="addRate('news',{{ news.id }},1)">
                                         <i class="thumbs up icon "></i>
 
                                         <i >
-                                            {{ news.likes }}&nbsp
+                                            {{ news.get_likes }}&nbsp
                                         </i>
                                     </div>
 
 
-                                    <div class="ui negative button icon small" id="dislike">
+                                    <div class="ui negative button icon small" id="dislike" onclick="addRate('news',{{ news.id }},-1)">
                                         <i class="thumbs down icon"></i>
 
                                         <i>
-                                            {{ news.dislikes }}&nbsp
+                                            {{ news.get_dislikes }}&nbsp
                                         </i>
                                     </div>
 

@@ -218,3 +218,22 @@ function addComment(obj_type, obj_id, div, comment) {
         }
     });
 }
+
+
+function addRate(obj_type, obj_id, rate){
+        var dict = {
+        csrfmiddlewaretoken: csrfToken,
+        'rate': rate,
+        'obj_type': obj_type,
+        'obj_id': obj_id
+    }
+
+    $.post('/rating/add/', dict, function (data) {
+        if (data.op_status == 'success') {
+            location.reload();
+        }
+        else {
+            message(data.message, 'Error');
+        }
+    });
+}
