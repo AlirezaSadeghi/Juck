@@ -28,17 +28,16 @@
             x = $("#submit_button")[0];
             x.click();
         }
-
-        $("#help_icon").hover(function () {
-            $("#msg_div").hide();
-            $("#msg_div").show();
+        $(document).ready(function () {
+            $("#help_icon").hover(function () {
+                $("#msg_div").hide();
+                $("#msg_div").show();
+            });
         });
-
     </script>
 {% endblock %}
 
 {% block content %}
-    <!-- rf & reza.fj-->
     <div class="center">
         <div class="ctn-box">
             <form>
@@ -47,6 +46,7 @@
                     <label style="display: inline">
                         جستجو:
                         <i class="tiny help icon" id="help_icon" style="cursor: pointer"></i>
+
                         <div id="msg_div">
                             {{ search_form.content.help_text }}
                         </div>
