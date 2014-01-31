@@ -102,6 +102,27 @@
                                     <div class="score">
                                         {{ article.calculate_score }}
                                     </div>
+
+                                    {#  gazgej to gofti like o dislike. in rating ha chie pas??                                  #}
+                                    <div class="field" style="margin-top: 5px">
+
+                                        <div class="ui green label icon tiny" id="like">
+                                            <i class="thumbs up icon "></i>
+
+                                            <i>
+                                                {{ item.likes }}&nbsp
+                                            </i>
+                                        </div>
+
+
+                                        <div class="ui red label icon tiny" id="dislike">
+                                            <i class="thumbs down icon"></i>
+
+                                            <i>
+                                                {{ item.dislikes }}&nbsp
+                                            </i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

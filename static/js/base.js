@@ -75,6 +75,27 @@ $(document).ready(function () {
         }
     });
 
+    $('.thumbs.icon').click(function(){
+        if($(this).hasClass('outline') && $(this).hasClass('down')){
+            sadeghi('dislike', 'enable');
+        }
+        if($(this).hasClass('outline') && $(this).hasClass('up')){
+            sadeghi('like', 'enable');
+        }
+        if(!$(this).hasClass('outline') && $(this).hasClass('down')){
+            sadeghi('dislike', 'disable');
+        }
+        if(!$(this).hasClass('outline') && $(this).hasClass('down')){
+            sadeghi('dislike', 'disable');
+        }
+	    $(this).toggleClass('outline');
+    });
+
+    function sadeghi(type, action){
+//        alert(type + "    " + action);
+    }
+
+
 });
 
 function doAjaxLogin(e){
