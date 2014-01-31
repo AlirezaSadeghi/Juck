@@ -24,7 +24,7 @@ def show_news_list(request):
         get_params = request.GET.copy()
         if 'page' in get_params:
             del get_params['page']
-        #news = {}
+            #news = {}
         #count = 0
         #search_form = None
         #page_range = None
@@ -33,10 +33,16 @@ def show_news_list(request):
         search_form = search_filter.get_form()
         page_range = create_pagination_range(news.number, news.paginator.num_pages)
 
-        return render_to_response('news/news-list.html',
-                                  {'news': news, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range, 'get_params': get_params},
-                                  context_instance=RequestContext(request))
+        if not count:
+            return render_to_response('messages.html',
+                                      {'message': 'متاسفانه خبری موجود نمی باشد.'},
+                                      context_instance=RequestContext(request))
+        else:
+
+            return render_to_response('news/news-list.html',
+                                      {'news': news, 'count': count, 'search_form': search_form,
+                                       'page_range': page_range, 'get_params': get_params},
+                                      context_instance=RequestContext(request))
 
     else:
         return render_to_response('messages.html',
