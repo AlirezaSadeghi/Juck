@@ -353,33 +353,6 @@ def jobseeker_addexp(request):
     return HttpResponse("")
 
 
-# ------------------------------- these are gaaazjer and u know it ------------------------------------#
-
-# def job_seeker_list(request):
-#     if request.method == "GET":
-#         return render_to_response('accounts/job_seeker_list.html', {}, context_instance=RequestContext(request))
-#     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
-#                               context_instance=RequestContext(request))
-#
-#
-# def employer_list(request):
-#     if request.method == "GET":
-#         return render_to_response('accounts/employer_list.html', {}, context_instance=RequestContext(request))
-#     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
-#                               context_instance=RequestContext(request))
-
-
-# @login_required
-# def pending_employers_list(request, type):
-#     pass
-#
-#
-# @login_required
-# def pending_jobseekers_list(request, type):
-#     pass
-
-
-# ------------------------------- these are gaaazjer and u know it ------------------------------------#
 
 @login_required()
 @user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
@@ -576,6 +549,11 @@ def refresh_captcha(request):
 
 
 def get_user_type(pk):
+    try:
+        int(pk)
+    except TypeError:
+        return 'external'
+
     try:
         Manager.objects.get(pk=pk)
         user_type = 'manager'

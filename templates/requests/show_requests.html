@@ -9,6 +9,26 @@
         p {
             font: 13px/20px "BYekan", tahoma !important;
         }
+
+        .news_item .more_buttons {
+            left: 4px;
+            bottom: 16px;
+        }
+
+        .ui.label {
+            line-height: 10px;
+            display: block;
+            background-color: aliceblue;
+            padding-right: 5px;
+            border-radius: 1px;
+            border: 1px solid lightblue;
+        }
+
+        .ui.label:hover {
+            background-color: #178edc;
+            cursor: pointer;
+        }
+
     </style>
 {% endblock %}
 
@@ -99,18 +119,18 @@
                                 </p>
                             </div>
                         {% else %}
-                            <div class="ui blue segment">
+                            <div class="ui segment">
                                 <div class="ui inverted relaxed divided list">
 
                                     <div class="item">
                                         <div class="content">
-                                            <div class="header">فرستاده شده از طرف:</div>
+                                            <div class="header ui label">فرستاده شده از طرف:</div>
                                             {{ item.employer.get_full_name }}
                                         </div>
                                     </div>
                                     <div class="item">
                                         <div class="content">
-                                            <div class="header">رشته های تحصیلی مرتبط:</div>
+                                            <div class="header ui label">رشته های تحصیلی مرتبط:</div>
                                             {{ item.first_major }}
                                             <br>
                                             {{ item.second_major }}
@@ -120,7 +140,7 @@
                                     {% if item.certificate %}
                                         <div class="item">
                                             <div class="content">
-                                                <div class="header">مدرک تحصیلی مورد نیاز:</div>
+                                                <div class="header ui label">مدرک تحصیلی مورد نیاز:</div>
                                                 {{ item.certificate }}
                                             </div>
                                         </div>
@@ -130,7 +150,7 @@
                                     {% if item.sex %}
                                         <div class="item">
                                             <div class="content">
-                                                <div class="header">چنسیت مورد نظر:</div>
+                                                <div class="header ui label">چنسیت مورد نظر:</div>
                                                 {{ item.sex }}
                                             </div>
                                         </div>
@@ -140,19 +160,19 @@
                                     {% if item.content %}
                                         <div class="item">
                                             <div class="content">
-                                                <div class="header">توضیحات آگهی:</div>
+                                                <div class="header ui label">توضیحات آگهی</div>
                                                 {{ item.content }}
                                             </div>
                                         </div>
 
                                     {% endif %}
 
-                                 <div class="item">
-                                            <div class="content" style="position: absolute;right: 670px;bottom: 120px">
-                                                <div class="header">زمان ارسال:</div>
-                                              {% get_persian_date item.timestamp.date %} ساعت {{ item.timestamp.time }}
-                                            </div>
+                                    <div class="item">
+                                        <div class="content" style="position: absolute;right: 670px;top: 17px;">
+                                            <div class="header ui label">زمان ارسال:</div>
+                                            {% get_persian_date item.timestamp.date %} ساعت {{ item.timestamp.time }}
                                         </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -161,10 +181,10 @@
                         <div class="news_other">
 
                             <div class="more_buttons">
-                                <div class="ui animated button  small"
+                                <div class="ui animated button green small"
                                      onclick="window.location='/product/profile/{{ item.pk }}/'">
-                                    <div class="visible content">توضیحات آگهی</div>
-                                    <div class="hidden content"><i class="left arrow icon"></i></div>
+                                    <div class="visible content green">اعلام تمایل به همکاری</div>
+                                    <div class="hidden content"><i class="left arrow icon">  ایجاد درخواست</i></div>
                                 </div>
 
                             </div>
