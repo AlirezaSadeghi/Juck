@@ -32,3 +32,12 @@
     display: inline-block;
 }
 
+.help_block{
+    display: block;
+}
+
+.help_inline{
+    display: inline !important;
+}
+
+
