@@ -236,8 +236,15 @@ class JobSeekerWizard(SessionWizardView):
         return context
 
     def done(self, form_list, **kwargs):
+        data = {}
+        for form in form_list:
+            data.update(form.cleaned_data)
         print('google')
         print form_list
+
+        for f in form_list:
+                print(f)
+        # print(requ)
         return render_to_response('messages.html', {
             'message': u'خب الان باید تموم شده باشه ! :دی'
         })
@@ -500,7 +507,8 @@ def jobseeker_remove(request, what):
     if not obj_id:
         return HttpResponse("ERROR")
     else:
-        #obj_id = int(obj_id)
+        obj_id = int(obj_id)
+        # print(obj_id)
         pass
 
     if what == "edu":

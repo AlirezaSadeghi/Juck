@@ -47,10 +47,9 @@ class JobSeekerRegisterForm1(forms.Form):
 
     def clean_national_id(self):
         data = self.cleaned_data['national_id']
-        try:
-            JobSeekerProfile.objects.get(national_id=data)
+        if JobSeekerProfile.objects.filter(national_id=data):
             raise forms.ValidationError((u"کدمدلی قبلا استفاده شده است."), code='userExists')
-        except JuckUser.DoesNotExist:
+        else:
             return data
 
     def clean(self):
@@ -155,48 +154,54 @@ class JobSeekerRegisterForm3(forms.Form):
 
 class JobSeekerRegisterForm4(forms.Form):
     website = forms.URLField(required=False, label=u'وب سایت')
-    phone_num = forms.IntegerField(required=True, label=u'شماره تلفن')
-    mobile_num = forms.IntegerField(required=False, label=u'شماره تلفن همراه')
+    phone_num = forms.CharField(required=True, label=u'شماره تلفن')
+    mobile_num = forms.CharField(required=False, label=u'شماره تلفن همراه')
     postal_code = forms.CharField(required=False, label=u'کد پستی')
     address = forms.CharField(required=True, widget=forms.Textarea(), label=u'آدرس')
 
-    # def clean_postal_code(self):
-    #     data = self.cleaned_data['postal_code']
-    #     ok = True
-    #     for i in data.split('-'):
-    #         if not i.isdigit():
-    #             ok = False
-    #             break
-    #     if ok:
-    #         return data
-    #     else:
-    #         print('it\'s not')
-    #         raise forms.ValidationError((u" کدپستی واردشده نامعتبر است."), code='notNumber')
-    #
-    # def clean_phone_num(self):
-    #     data = self.cleaned_data['phone_num']
-    #     ok = True
-    #     for i in data.split('-'):
-    #         if not i.isdigit():
-    #             ok = False
-    #             break
-    #     if ok:
-    #         return data
-    #     else:
-    #         print('it\'s not')
-    #         raise forms.ValidationError((u"شماره تلفن واردشده نامعتبر است."), code='notNumber')
-    #
-    # def clean_mobile_num(self):
-    #     data = self.cleaned_data['mobile_num']
-    #     ok = True
-    #     for i in data.split('-'):
-    #         if not i.isdigit():
-    #             ok = False
-    #             break
-    #     if ok or (not data):
-    #         return data
-    #     else:
-    #         raise forms.ValidationError((u"شماره تلفن همراه واردشده نامعتبر است."), code='notNumber')
+    def clean_postal_code(self):
+        data = self.cleaned_data['postal_code']
+        ok = True
+        if not data:
+            return data
+        for i in data.split('-'):
+            if not i.isdigit():
+                ok = False
+                break
+        if ok:
+            return data
+        else:
+            print('it\'s not')
+            raise forms.ValidationError((u" کدپستی واردشده نامعتبر است."), code='notNumber')
+
+
+    def clean_phone_num(self):
+        data = self.cleaned_data['phone_num']
+        ok = True
+
+        for i in data.split('-'):
+            if not i.isdigit():
+                ok = False
+                break
+        if ok:
+            return data
+        else:
+            print('it\'s not')
+            raise forms.ValidationError((u"شماره تلفن واردشده نامعتبر است."), code='notNumber')
+
+    def clean_mobile_num(self):
+        data = self.cleaned_data['mobile_num']
+        if not data:
+            return data
+        ok = True
+        for i in data.split('-'):
+            if not i.isdigit():
+                ok = False
+                break
+        if ok:
+            return data
+        else:
+            raise forms.ValidationError((u"شماره تلفن همراه واردشده نامعتبر است."), code='notNumber')
 
 
 class EmployerRegisterForm1(forms.Form):
