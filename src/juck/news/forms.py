@@ -7,7 +7,13 @@ from juck.news.models import News
 class NewsForm(forms.ModelForm):
     class Meta:
         model = News
-        fields = ['title', 'content' ]
+        fields = ['title', 'content']
+
+    help_texts = {
+        'title': (u'عنوان خبر را در این جا وارد کنید.'),
+        'content': (u'متن خبر را در این جا وارد کنید.')
+    }
+    # fields['title'].he
 
     #image = forms.ImageField
 

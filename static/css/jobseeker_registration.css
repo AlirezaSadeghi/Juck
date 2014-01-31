@@ -1,6 +1,7 @@
 .register_panel{
     background-color: #108edc;
     font-size: 13px;
+    min-height: 500px;
 }
 
 .reg_form{
@@ -18,6 +19,7 @@
     float: left;
     /*width: */
     padding: 15px 20px;
+    min-height: 500px;
 }
 
 .edu-info-form{
@@ -38,7 +40,7 @@
     color: white;
     float: right;
     /*margin: 0;*/
-    height: 500%;
+    min-height: 500px;
 }
 
 .reg_form .input_labels{

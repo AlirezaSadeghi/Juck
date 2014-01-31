@@ -128,8 +128,11 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'juck.system@gmail.com'
+EMAIL_SENDER  = 'juck.system@gmail.com'
 EMAIL_HOST_PASSWORD = 'SadeghiSinaFJBejes'
 EMAIL_PORT = 587
+
+SITE_URL = 'http://127.0.0.1:8000/'
 
 RESULTS_PER_PAGE = 2
 
@@ -157,7 +160,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_auth.middleware.SocialAuthExceptionMiddleware',
 
@@ -183,7 +186,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'captcha',
     'crumbs',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'accounts',
     'image',
     'log',

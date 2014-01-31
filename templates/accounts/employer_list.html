@@ -8,10 +8,34 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/RF.css' %}"/>
+    <link href="{% static 'css/help.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block js %}
     <script src="{% static 'js/rf.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $(".Sina_help").each(function () {
+                $(this).hide();
+            })
+
+            icons = $(".help.icon")
+            icons.each(function () {
+                        x = this;
+                        num = this.getAttribute('help-id');
+                        id = "#msg_div" + num;
+                        var help = $(id)
+                        $(this).hover(function () {
+                            help.show();
+                            var h = help[0];
+                            h.style.display = 'inline-table';
+                        }, function () {
+                            help.hide()
+                        })
+                    }
+            );
+        });
+    </script>
 
 
 {% endblock %}
@@ -26,12 +50,37 @@
                 </div>
 
                 <small class="advanced_search">جستجوی پیشرفته</small>
+                <label style="display: inline-block">
+
+                    <i class="tiny help icon" id="help_icon" help-id="0"
+                       style="cursor: pointer"></i>
+
+                    <div id="msg_div0" class="Sina_help Sina_help_news "
+                         style="margin-top: -30px;">
+                        {{ search_form.search_input.help_text }}
+                    </div>
+                </label>
+
 
                 <div class="advanced_search_panel ui segment form">
                     <div class="container">
                         <div class="advanced_search_form rf">
                             <div class="ui form">
                                 <div class="section">
+                                    <h3 class="inline_block"> اطلاعات سازمان </h3>
+
+                                    <label style="display: inline-block">
+
+                                        <i class="tiny help icon" id="help_icon" help-id="1"
+                                           style="cursor: pointer"></i>
+
+                                        <div id="msg_div1" class="Sina_help Sina_help_news "
+                                             style="margin-top: -16px;">
+                                            {{ search_form.company_name.help_text }}
+                                        </div>
+                                    </label>
+
+
                                     <div class="three fields">
                                         <div class="inline field">
                                             <label class="input-details">{{ search_form.manager.label_tag }}: </label>
@@ -86,7 +135,8 @@
                             <div class="inlinemiddle inlineblock user_data">
                                 <div class="rf-vertical-divider"></div>
                                 <div class="rf-user-info i1">
-                                    <div class="user_title"><span>نام شرکت: </span>{{ employer.profile.company_name }}</div>
+                                    <div class="user_title"><span>نام شرکت: </span>{{ employer.profile.company_name }}
+                                    </div>
                                     <div class="user_email"><span>نام کاربری: </span>{{ employer.email }}</div>
                                     <div class="user_national_id">
                                         <span>نوع شرکت: </span>{{ employer.profile.company_type }}

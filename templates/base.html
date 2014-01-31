@@ -153,13 +153,10 @@
                         </a>
                     {% elif u_type == "jobseeker" %}
                         <div class="ui dropdown item" id="request-page">
-                            درخواست ها<i class="dropdown icon"></i>
+                            بازار کار<i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'em_requests' %}">مشاهده وضعیت درخواست‌های ارسالی</a>
-                                <a class="item" href="{% url 'js_requests' %}">مشاهده وضعیت پیشنهاد‌های
-                                    دریافتی</a>
-                                <a class="item" href="{% url 'my_needs' %}">مشاهده آگهی‌های مورد درخواست من</a>
+                                <a class="item" href="{% url 'dashboard' %}">کارتابل</a>
                                 <a class="item" href="{% url 'advertisements' %}"> مشاهده
                                     آگهی‌های
                                     نیاز به نیرو</a>
@@ -179,14 +176,10 @@
                         </a>
                     {% else %}
                         <div class="ui dropdown item" id="request-page">
-                            درخواست ها<i class="dropdown icon"></i>
+                            بازار کار<i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'em_requests' %}">مشاهده وضعیت درخواست‌های ارسالی</a>
-                                <a class="item" href="{% url 'js_requests' %}">مشاهده وضعیت پیشنهاد‌های
-                                    دریافتی</a>
-                                <a class="item" href="{% url 'my_needs' %}">مشاهده وضعیت
-                                    آگهی‌ها من</a>
+                                <a class="item" href="{% url 'dashboard' %}">کارتابل</a>
                                 <a class="item" href="{% url 'advertisements' %}"> مشاهده
                                     آگهی‌های
                                     نیاز به نیرو</a>

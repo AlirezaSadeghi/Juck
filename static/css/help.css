@@ -1,0 +1,43 @@
+
+.Sina_help{
+    /*.ui .message .blue;*/
+    background-color: #E6F4F9;
+    color: #4D8796;
+    font-size: 1em;
+    min-height: 18px;
+    margin: 1em 0;
+    line-height: 1.33;
+    border-radius: .325em;
+    z-index: 1;
+
+    margin-top: -10px;
+
+    position: absolute ;
+    border: 1px dotted rgb(0, 115, 183);
+    padding: 5px;
+    max-width: 450px;
+    /*display: inline-table !important;*/
+    /*display: inline-table;*/
+}
+.Sina_help_small{
+    max-width: 170px;
+}
+
+.Sina_help_news{
+    /*width: 180px;*/
+    margin-right: 30px;
+}
+
+.inline_block{
+    display: inline-block;
+}
+
+.help_block{
+    display: block;
+}
+
+.help_inline{
+    display: inline !important;
+}
+
+

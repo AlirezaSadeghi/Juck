@@ -26,6 +26,7 @@ from django.contrib.formtools.wizard.views import SessionWizardView
 from juck.accounts.forms import *
 from juck.news.models import News
 from juck.articles.models import Article, ArticleSubmission
+import uuid
 
 
 def user_panel(request):
@@ -64,7 +65,7 @@ def homepage(request):
         return render_to_response("accounts/user_panel.html",
                                   {'user_type': user_type, 'news': news, 'article': articles, 'art_sub': art_sub},
                                   context_instance=RequestContext(request, ))
-    # home_details = HomeDetails.objects.filter(state=True)[0]
+        # home_details = HomeDetails.objects.filter(state=True)[0]
 
     form = CaptchaForm()
     return render_to_response("accounts/homepage.html", {'form': form}, context_instance=RequestContext(request))
@@ -235,8 +236,15 @@ class JobSeekerWizard(SessionWizardView):
         return context
 
     def done(self, form_list, **kwargs):
+        data = {}
+        for form in form_list:
+            data.update(form.cleaned_data)
         print('google')
         print form_list
+
+        for f in form_list:
+                print(f)
+        # print(requ)
         return render_to_response('messages.html', {
             'message': u'خب الان باید تموم شده باشه ! :دی'
         })
@@ -246,8 +254,72 @@ class EmployerWizard(SessionWizardView):
     template_name = 'accounts/employer_registration.html'
 
     def done(self, form_list, **kwargs):
+        activation_key = ''
+        email, first_name, last_name, password, user_rank, company_name = '', '', '', '', '', ''
+        company_type, reg_num, manager, field = '', '', '', ''
+        foundation_year = 1392
+        for index in range(0, len(form_list)):
+
+            if index == 0:
+                email = form_list[index].cleaned_data['email']
+
+                print(email)
+                # first_name = form_list[index].cleaned_data['first_name']
+                # last_name = form_list[index].cleaned_data['last_name']
+                password = form_list[index].cleaned_data['password']
+                user_rank = form_list[index].cleaned_data['connector_rank']
+
+            elif index == 1:
+                company_name = form_list[index].cleaned_data['company_name']
+                company_type = form_list[index].cleaned_data['company_type']
+                reg_num = form_list[index].cleaned_data['reg_num']
+                foundation_year = int(form_list[index].cleaned_data['foundation_year'])
+                manager = form_list[index].cleaned_data['manager']
+                field = form_list[index].cleaned_data['field']
+
+            else:
+                website = form_list[index].cleaned_data['website']
+                phone_number = form_list[index].cleaned_data['phone_num']
+                mobile_number = form_list[index].cleaned_data['mobile_num']
+                city = form_list[index].cleaned_data['city']
+                state = form_list[index].cleaned_data['state']
+                address = form_list[index].cleaned_data['address']
+                postal_code = form_list[index].cleaned_data['postal_code']
+
+                try:
+                    state_object = State.objects.get(name=state)
+                except State.DoesNotExist:
+                    state_object = State(name=state)
+                    state_object.save()
+                try:
+                    city_object = City.objects.get(name=city)
+                except City.DoesNotExist:
+                    city_object = City(name=city, state=state_object)
+                    city_object.save()
+
+                activation_key = str(uuid.uuid4())
+
+                profile = EmployerProfile(company_name=company_name, company_type=company_type,
+                                          foundation_year=foundation_year, reg_num=reg_num,
+                                          manager=manager, user_rank=user_rank, field=field,
+                                          address=address, postal_code=postal_code, phone_number=phone_number,
+                                          mobile_number=mobile_number, website=website,
+                                          state=state_object, city=city_object, approved=False)
+                profile.save()
+                emp = Employer(email=email, profile=profile, role=2, activation_key=activation_key)
+                emp.set_password(password)
+                emp.save()
+
+                # #TODO
+                # html_content = create_confirm_email_html(activation_key, 'Employer')
+                # try:
+                #     send_html_mail(email, u'سامانه جاک | تایید ثبت‌نام', html=html_content)
+                # except:
+                #     pass
+
         return render_to_response('messages.html', {
-            'message': u'خب الان باید تموم شده باشه ! :دی'
+            'message': activation_key
+            # 'message': u'ثبت‌نام شما با موفقیت انجام شد،جهت تایید ثبت‌نام پست‌الکترونیکی برای شما فرستاده شده است.'
         })
 
 
@@ -308,36 +380,8 @@ def jobseeker_addexp(request):
     return HttpResponse("")
 
 
-# ------------------------------- these are gaaazjer and u know it ------------------------------------#
-
-# def job_seeker_list(request):
-#     if request.method == "GET":
-#         return render_to_response('accounts/job_seeker_list.html', {}, context_instance=RequestContext(request))
-#     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
-#                               context_instance=RequestContext(request))
-#
-#
-# def employer_list(request):
-#     if request.method == "GET":
-#         return render_to_response('accounts/employer_list.html', {}, context_instance=RequestContext(request))
-#     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
-#                               context_instance=RequestContext(request))
-
-
-# @login_required
-# def pending_employers_list(request, type):
-#     pass
-#
-#
-# @login_required
-# def pending_jobseekers_list(request, type):
-#     pass
-
-
-# ------------------------------- these are gaaazjer and u know it ------------------------------------#
 
 @login_required()
-@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def job_seeker_list(request, approved_status):
     if request.method == "GET":
 
@@ -368,7 +412,6 @@ def job_seeker_list(request, approved_status):
 
 
 @login_required()
-@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def employer_list(request, approved_status):
     if request.method == "GET":
 
@@ -419,13 +462,17 @@ def show_profile(request):
                 kwargs['skills'] = user.resume.skills.objects.all()
                 kwargs['experiences'] = user.resume.experience.objects.all()
 
-                return render_to_response('accounts/jobseeker_profile_self.html', kwargs, context_instance=RequestContext(request, ))
+                return render_to_response('accounts/jobseeker_profile_self.html', kwargs,
+                                          context_instance=RequestContext(request, ))
             elif u_type == 'employer':
                 kwargs['employer'] = Employer.objects.get(pk=user.pk)
                 kwargs['profile'] = kwargs['employer'].profile
-                return render_to_response('accounts/employer_profile.html', kwargs, context_instance=RequestContext(request))
+                return render_to_response('accounts/employer_profile.html', kwargs,
+                                          context_instance=RequestContext(request))
 
-    return render_to_response('messages.html', {'message': u'چنین کاربری وجود ندارد'}, context_instance=RequestContext(request, ))
+    return render_to_response('messages.html', {'message': u'چنین کاربری وجود ندارد'},
+                              context_instance=RequestContext(request, ))
+
 
 @csrf_exempt
 def jobseeker_remove(request, what):
@@ -433,7 +480,8 @@ def jobseeker_remove(request, what):
     if not obj_id:
         return HttpResponse("ERROR")
     else:
-        #obj_id = int(obj_id)
+        obj_id = int(obj_id)
+        # print(obj_id)
         pass
 
     if what == "edu":
@@ -468,6 +516,14 @@ def ajax_remove_or_approve_user(request):
                 profile.approved = True
                 profile.save()
                 user.save()
+
+                #TODO
+                # html_content = create_manager_confirm_html()
+                # try:
+                #     send_html_mail(user.email, u'سامانه جاک | تایید حساب‌کاربری', html=html_content)
+                # except:
+                #     pass
+
                 return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت تایید شد.'})
             elif function == 'remove':
                 user.delete()
@@ -501,6 +557,7 @@ def captcha_view(request, u_type):
     return render_to_response('accounts/captcha_form.html', {'form': form},
                               context_instance=RequestContext(request))
 
+
 def check_catpcha(request):
     if request.is_ajax():
         form = CaptchaForm(request.POST)
@@ -515,22 +572,91 @@ def check_catpcha(request):
 
 
 def refresh_captcha(request):
-
     kwargs = {'op_status': 'fail'}
 
     if request.is_ajax():
-        new_key             = CaptchaStore.generate_key()
-        kwargs['op_status']   = 'success'
-        kwargs['key']         = new_key
-        kwargs['url']         = captcha_image_url(new_key)
+        new_key = CaptchaStore.generate_key()
+        kwargs['op_status'] = 'success'
+        kwargs['key'] = new_key
+        kwargs['url'] = captcha_image_url(new_key)
 
         return json_response(kwargs)
 
     return json_response(kwargs)
 
 
+def confirm_registration(request, user_type, key):
+    user, active, exists = '', False, True
+    if user_type == 'job_seeker':
+        try:
+            user = JobSeeker.objects.get(activation_key=key)
+            if user.is_active:
+                active = True
+        except JobSeeker.DoesNotExist:
+            exists = False
+    elif user_type == 'employer':
+        try:
+            user = Employer.objects.get(activation_key=key)
+            if user.is_active:
+                active = True
+        except Employer.DoesNotExist:
+            exists = False
+    else:
+        return render_to_response('messages.html', {'message': u'صفحه موردنظر وجود ندارد.'},
+                                  context_instance=RequestContext(request))
+
+    if active or request.user.is_authenticated():
+        return render_to_response('messages.html', {'message': u'حساب کاربری شما فعال است.'},
+                                  context_instance=RequestContext(request))
+    if exists:
+        user.is_active = True
+        user.save()
+        return render_to_response('messages.html', {
+            'message': u'حساب کاربری شما فعال شد. برای استفاده از امکانات سایت، تا تایید ثبت‌نام توسط مدیر شکیبا باشید.'},
+                                  context_instance=RequestContext(request))
+
+    else:
+        return render_to_response('messages.html', {
+            'message': u'صفحه موردنظر وجود ندارد.'},
+                                  context_instance=RequestContext(request))
+
+
+def create_manager_confirm_html():
+    mail_content = u'اطلاعات ثبت‌نام شما توسط مدیر تایید شد و می‌توانید وارد سایت شوید.'
+
+    builder = HtmlBuilder()
+
+    text = builder.append_tag('p', u'با سلام')
+    text += builder.br()
+    text += builder.append_tag('p', mail_content)
+    text += builder.br()
+    text += builder.append_tag('a', u'برای ورود به سایت کلیک کنید.',
+                               **{'href': (
+                                   settings.SITE_URL )})
+    return text
+
+
+def create_confirm_email_html(activation_key, type):
+    mail_content = u'ثبت‌نام شما در سامانه جاک در مراحل نهایی است.برای تکمیل ثبت‌نام برروی لینک زیر کلیک کنید.همچنین پس از انجام این عمل باید تا زمان تایید مدیریت منتظر بمانید.'
+
+    builder = HtmlBuilder()
+
+    text = builder.append_tag('p', u'با سلام')
+    text += builder.br()
+    text += builder.append_tag('p', mail_content)
+    text += builder.br()
+    text += builder.append_tag('a', u'برای تایید ثبت نام در سامانه جاک اینجا را کلیک کنید',
+                               **{'href': (
+                                   settings.SITE_URL + "accounts/confirm/" + type + "/" + activation_key)})
+    return text
+
 
 def get_user_type(pk):
+    try:
+        int(pk)
+    except TypeError:
+        return 'external'
+
     try:
         Manager.objects.get(pk=pk)
         user_type = 'manager'

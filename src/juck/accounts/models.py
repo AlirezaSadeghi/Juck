@@ -32,9 +32,9 @@ class City(models.Model):
         verbose_name = u'شهر'
         verbose_name_plural = u'شهرها'
 
-    state = models.ForeignKey(State, related_name='cities', verbose_name=u'نام استان', unique=True)
+    state = models.ForeignKey(State, related_name='cities', verbose_name=u'نام استان')
 
-    name = models.CharField(max_length=100, verbose_name=u'نام شهر')
+    name = models.CharField(max_length=100, verbose_name=u'نام شهر', unique=True)
 
 
     def __unicode__(self):
@@ -48,7 +48,7 @@ class JobSeekerProfile(models.Model):
 
     city = models.ForeignKey(City, verbose_name=u'شهر', related_name='jobseekerprofiles')
     state = models.ForeignKey(State, verbose_name=u'استان', related_name='jobseekerprofiles')
-    national_id = models.CharField(max_length=20, verbose_name=u'کد ملی')
+    national_id = models.CharField(max_length=20, verbose_name=u'کد ملی', unique = True)
     date_of_birth = models.DateField(verbose_name=u'تاریخ تولد', blank=True, null=True)
     sex = models.PositiveSmallIntegerField(verbose_name=u'جنسیت', blank=True, null=True)
     married = models.BooleanField(verbose_name=u'وضعیت تاهل', blank=True, default=False)
@@ -141,7 +141,7 @@ class JuckUser(AbstractBaseUser, PermissionsMixin):
 
     role = models.IntegerField(default=1, verbose_name=u'نوع کاربری', choices=USER_CHOICES)
 
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(u'زمان عضویت', default=timezone.now)
@@ -191,6 +191,8 @@ class Employer(JuckUser):
 
     profile = models.OneToOneField(EmployerProfile, verbose_name=u'پروفایل کارفرما', related_name='employer')
 
+    activation_key = models.CharField(verbose_name=u'کد فعال‌سازی', max_length=200, blank=True, null=True)
+
 
 class JobSeeker(JuckUser):
     class Meta:
@@ -204,6 +206,8 @@ class JobSeeker(JuckUser):
 
     profile = models.OneToOneField(JobSeekerProfile, verbose_name=u'پروفایل کارجو', related_name='jobseeker')
     resume = models.OneToOneField('Resume', verbose_name=u'رزومه', null=True, blank=True, related_name='jobseeker')
+
+    activation_key = models.CharField(verbose_name=u'کد فعال‌سازی', max_length=200, blank=True, null=True)
 
 
 class Education(models.Model):
