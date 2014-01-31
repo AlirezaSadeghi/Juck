@@ -3,6 +3,7 @@
 from django import forms
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.conf import settings
+from django.db.models.query_utils import Q
 from juck.question.models import Question
 
 
@@ -19,6 +20,9 @@ class ManagerQuestionListFilter:
         answered = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
             ('', u'وضعیت پاسخ'), (True, u'پاسخ داده شده'), (False, u'پاسخ داده نشده'), ))
 
+        both = forms.CharField(label=u'جستجو کلی', max_length=100, required=False, widget=forms.TextInput(
+            attrs={'placeholder': u'جستجو'}))
+
     Form = SecretaryQuestionListFilterForm
 
     def init_filter(self, GET_dict, **kwargs):
@@ -30,6 +34,7 @@ class ManagerQuestionListFilter:
             title = self.form.cleaned_data.get('title', '')
             answer = self.form.cleaned_data.get('answer', '')
             answered = self.form.cleaned_data.get('answered', '')
+            both = self.form.cleaned_data.get('both', '')
 
             if title:
                 filter_kwargs.update({'title__icontains': title})
@@ -39,6 +44,7 @@ class ManagerQuestionListFilter:
                 filter_kwargs.update({'answer__content__icontains': answer})
 
         questions = Question.objects.filter(**filter_kwargs)
+        questions = questions.filter((Q(title__icontains=both) | Q(answer__content__icontains=both)))
         count = questions.count()
 
         questions = questions.order_by('-timestamp')

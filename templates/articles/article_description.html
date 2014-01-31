@@ -13,6 +13,8 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+                        fetchComments('article', {{ article.id }}, 1, '#article-comment');
+
             $('#more-info').click(function () {
                 $('.test.modal').modal('show');
             });
@@ -20,6 +22,15 @@
             x.rating('enable');
             x.modal('set rating', 2);
         });
+
+
+    function submitComment(){
+        cm = $('#article-comment-area').val();
+        if(cm)
+            addComment('article', {{ article.id }}, '#article-comment', cm);
+        else
+            message('ابتدا نظر خود را بنویسید.', 'Warning');
+    }
     </script>
 
 {% endblock %}
@@ -102,6 +113,27 @@
                                     <div class="score">
                                         {{ article.calculate_score }}
                                     </div>
+
+                                    {#  gazgej to gofti like o dislike. in rating ha chie pas??                                  #}
+                                    <div class="field" style="margin-top: 5px">
+
+                                        <div class="ui green label icon tiny" id="like">
+                                            <i class="thumbs up icon "></i>
+
+                                            <i>
+                                                {{ item.likes }}&nbsp
+                                            </i>
+                                        </div>
+
+
+                                        <div class="ui red label icon tiny" id="dislike">
+                                            <i class="thumbs down icon"></i>
+
+                                            <i>
+                                                {{ item.dislikes }}&nbsp
+                                            </i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -115,37 +147,17 @@
                             </h3>
 
                             <div class="ui comments  ">
-                                <div class="ui fitted divider"></div>
-                                {% for item in comments %}
-                                    <div class="comment">
-                                        <a class="avatar right_alignment">
-                                            <img src="../images/a.jpg">
-                                        </a>
-
-                                        <div class="content">
-                                            <a class="author">{{ item.user.get_full_name }}</a>
-
-                                            <div class="metadata">
-                                                <div class="date">{{ item.get_persian_date }}</div>
-                                            </div>
-                                            <div class="text">
-                                                {{ item.content }}
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="ui fitted divider"></div>
-                                {% endfor %}
-
+                                 <div id="article-comment"></div>
+                                {% if user.is_authenticated %}
                                 <form class="ui reply form">
                                     <div class="field">
-                                        <textarea></textarea>
+                                        <textarea id="article-comment-area"></textarea>
                                     </div>
-                                    <div class="ui button teal submit labeled icon">
+                                    <div class="ui button teal submit labeled icon" onclick="submitComment()">
                                         <i class="icon edit"></i> ارسال نظر
                                     </div>
                                 </form>
+                                {% endif %}
                             </div>
 
                         </div>

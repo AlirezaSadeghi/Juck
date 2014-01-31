@@ -48,7 +48,7 @@ class JobSeekerProfile(models.Model):
 
     city = models.ForeignKey(City, verbose_name=u'شهر', related_name='jobseekerprofiles')
     state = models.ForeignKey(State, verbose_name=u'استان', related_name='jobseekerprofiles')
-    national_id = models.CharField(max_length=20, verbose_name=u'کد ملی', unique = True)
+    national_id = models.CharField(max_length=20, verbose_name=u'کد ملی', unique=True)
     date_of_birth = models.DateField(verbose_name=u'تاریخ تولد', blank=True, null=True)
     sex = models.PositiveSmallIntegerField(verbose_name=u'جنسیت', blank=True, null=True)
     married = models.BooleanField(verbose_name=u'وضعیت تاهل', blank=True, default=False)
@@ -60,8 +60,9 @@ class JobSeekerProfile(models.Model):
 
     approved = models.BooleanField(verbose_name=u'وضعیت تایید', default=False)
 
-    # def __unicode__(self):
-    #     return self.jobseeker.email
+    def __unicode__(self):
+        return " - ".join([u'پروفایل کارجو شماره ', str(self.id)])
+
 
 class EmployerProfile(models.Model):
     class Meta:
@@ -87,8 +88,8 @@ class EmployerProfile(models.Model):
 
     approved = models.BooleanField(verbose_name=u'وضعیت تایید', default=False)
 
-    # def __unicode__(self):
-    #     return self.employer
+    def __unicode__(self):
+        return " - ".join([u'پروفایل کارفرما شماره ', str(self.id)])
 
 
 class JuckUserManager(UserManager):
@@ -193,6 +194,15 @@ class Employer(JuckUser):
 
     activation_key = models.CharField(verbose_name=u'کد فعال‌سازی', max_length=200, blank=True, null=True)
 
+    def get_rate(self):
+        ratings = self.ratings.all()
+
+        rate = 0.0
+        for item in ratings:
+            rate += item.rate
+
+        return round(rate / len(ratings))
+
 
 class JobSeeker(JuckUser):
     class Meta:
@@ -201,13 +211,22 @@ class JobSeeker(JuckUser):
 
 
     def __unicode__(self):
-        # return self.name
         return self.email
 
     profile = models.OneToOneField(JobSeekerProfile, verbose_name=u'پروفایل کارجو', related_name='jobseeker')
     resume = models.OneToOneField('Resume', verbose_name=u'رزومه', null=True, blank=True, related_name='jobseeker')
 
     activation_key = models.CharField(verbose_name=u'کد فعال‌سازی', max_length=200, blank=True, null=True)
+
+
+    def get_rate(self):
+        ratings = self.ratings.all()
+
+        rate = 0.0
+        for item in ratings:
+            rate += item.rate
+
+        return round(rate / len(ratings))
 
 
 class Education(models.Model):
@@ -231,6 +250,7 @@ class Education(models.Model):
     def __unicode__(self):
         return " ".join([self.status, self.certificate, self.orientation, self.major, self.university_name])
 
+
 class Experience(models.Model):
     class Meta:
         verbose_name = u'سابقه'
@@ -239,14 +259,15 @@ class Experience(models.Model):
     #resume = models.ForeignKey('Resume', verbose_name=u'رزومه', related_name='experiences')
     title = models.CharField(max_length=200, verbose_name=u'عنوان سابقه')
     place = models.CharField(max_length=200, verbose_name=u'سازمان یا دانشگاه مربوطه')
-    from_date = models.DateField(verbose_name=u'از تاریخ')
-    to_date = models.DateField(verbose_name=u'تا تاریخ')
+    from_date = models.IntegerField(verbose_name=u'از تاریخ')
+    to_date = models.IntegerField(verbose_name=u'تا تاریخ')
     description = models.TextField(verbose_name=u'توضیحات', null=True, blank=True)
     cooperation_type = models.CharField(verbose_name=u'نوع همکاری', max_length=150)
     exit_reason = models.CharField(verbose_name=u'دلیل قطع همکاری', max_length=200, null=True, blank=True)
 
     def __unicode__(self):
-        return self.title+" در "+self.place+"از تاریخ "+ str(self.from_date) + " تا " + str(self.to_date)
+        return self.title + u" در " + self.place + u"از تاریخ " + str(self.from_date) + u" تا " + str(self.to_date)
+
 
 class Skill(models.Model):
     class Meta:
@@ -276,7 +297,8 @@ class Resume(models.Model):
     experience = models.ManyToManyField(Experience, related_name='experiences', verbose_name=u'سوابق کاری')
 
     def __unicode__(self):
-        return self.resume
+        return " - ".join([u'رزومه شماره ', str(self.id)])
+
 
 class TemporaryLink(models.Model):
     class Meta:

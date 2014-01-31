@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    ثبت‌نام کارفرما | مرحله
+ثبت نام کارجو | مرحله
     {{ wizard.steps.step1 }}
 {% endblock %}
 
@@ -233,7 +233,7 @@
 
         <ul id="added-work" style="margin-bottom:20px;">
             {% for k, work in current_work.items %}
-                <li>&bull;&nbsp;&nbsp; {{ work.title }} - {{ work.place }}
+                <li>&bull;&nbsp;&nbsp; {{ work.title }} - {{ work.place }} , {{ work.from_date }} - {{ work.to_date }}
                     (<a href="#" class="delete-work" work-id="{{ k }}">حذف</a>)
                 </li>
             {% endfor %}

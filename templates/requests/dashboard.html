@@ -1,5 +1,6 @@
-{%  extends 'base.html' %}
+{% extends 'base.html' %}
 {% load staticfiles %}
+{% load request_tags %}
 
 {% block title %}
 
@@ -13,30 +14,34 @@
     کارتابل
 {% endblock %}
 
-
-
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/requests.js' %}"></script>
+{% endblock %}
 
 {% block css %}
 
     <style>
         .my-right {
-            text-align: right !important;
+            text-align: center !important;
         }
 
         .my-font {
             font: 14px/25px "BYekan", tahoma !important;
         }
 
-        .my-min-height{
+        td {
+            text-align: center !important;
+        }
+
+        .my-min-height {
             min-height: 700px;
         }
 
         .ui.inverted.table {
 
-{#            background-color: #ffffff !important;#}
-        {#            color: rgba(200, 0, 255, 0.7);#}
+        {#            background-color: #ffffff !important;#} {#            color: rgba(200, 0, 255, 0.7);#}
         }
-        </style>
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -44,74 +49,40 @@
     {% csrf_token %}
     <div class="center">
         <div class="ctn-box my-min-height">
-
             <div class="ui center aligned">
-                <table class="ui  six column table segment collapsing  my-font" style="width: 880px">
+                <table class="ui eight column table segment collapsing  my-font" style="width: 880px">
                     <thead>
                     <tr>
-                        <th class="my-right"> ردیف</th>
-                        
-						<th class="my-right">مخاطب</th>
-						<th class="my-right">نوع درخواست</th>
-						<th class="my-right"> وضعیت</th>
+                        <th class="my-right one wide"> ردیف</th>
 
-						<th class="my-right"> تاریخ</th>
-						<th class="my-right">مشاهده</th>
+                        <th class="my-right">فرستنده</th>
+                        <th class="my-right">گیرنده</th>
+                        <th class="my-right">نوع درخواست</th>
+                        <th class="my-right five wide">عنوان درخواست</th>
+                        <th class="my-right"> وضعیت</th>
+                        <th class="my-right"> تاریخ</th>
+                        <th class="my-right">مشاهده</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>شرکت اف جی</td>
-                        <td>پیشنهاد</td>
-                        <td class="warning">نا معلوم</td>
-                        
-                        <td >12 دی 1392</td>
-						<td><div class="ui button small">مشاهده</td>
-                    </tr>
-                    <tr>
-						<td>2</td>
-                        <td>شرکت بینهایت</td>
-                        <td>درخواست</td>
-                        <td class="positive">  توافق شده</td>
-                        <td>
-                            11 دی 1392
-                        </td>
-                        
-						<td><div class="ui button small">مشاهده</td>
-                        
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>
-                            هوشنگ مرادخانی
-                        </td>
-                        <td> پیشنهاد</td>
-                        <td class="negative">رد شده</td>
-                        
-                        <td>
-                            10 دی 1391
-                        </td>
-						<td><div class="ui button small">مشاهده</td>
-                    </tr>
+                    {% for item in requests %}
+                        {% for response in item.responses %}
+                        <tr>
+                            <td class="one wide">{{ forloop.counter }}</td>
+                            <td>{% get_request_sender item.request item.type response %}</td>
+                            <td>{% get_request_receiver item.request item.type response %}</td>
+                            <td>{% get_request_type item.type %}</td>
+                            <td class="five wide">{{ item.request.title }}</td>
+                            <td class="{% get_alert_info item.request %}">{% get_request_status item.request %}</td>
 
-
+                            <td>{% get_persian_date item.request.timestamp.date %}</td>
+                            <td>
+                                <div class="ui button small teal view-details" data-req="{{ item.pk }}" data-user="{{ response.pk }}">مشاهده</div>
+                            </td>
+                        </tr>
+                            {% endfor %}
+                    {% endfor %}
                     </tbody>
-                    <tfoot>
-                    <tr>
-
-                        <th class=" my-right">-----</th>
-                        <th class="my-right">------</th>
-                        <th class="my-right"> -----</th>
-                        <th class="my-right">
-                            تعداد توافقات: 1
-                        </th>
-                        <th class="my-right">
-                            -----
-                        </th>
-                        <th class="my-right">-----</th>
-                    </tr>
-                    </tfoot>
                 </table>
             </div>
 

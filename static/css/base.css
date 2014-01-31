@@ -689,3 +689,8 @@ ul {
 #osx-container span {color:#777;}
 
 /*                  ^  simpleModal ^              */
+
+
+.ui.animated.button {
+    border-radius: 1px !important;
+}
