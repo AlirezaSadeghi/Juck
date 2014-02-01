@@ -25,13 +25,13 @@ class RequestListFilter:
             attrs={'class': '', 'placeholder': u'کارجو'}))
 
         title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u'عنوان'}))
+            attrs={'class': ''}))
 
         content = forms.CharField(label=u'متن', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': '', 'placeholder': u'متن درخواست'}))
 
-        major = forms.CharField(required=False , widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u'رشته تحصیلی'}))
+        major = forms.CharField(required=False, label=u'رشته تحصیلی' , widget=forms.TextInput(
+            attrs={'class': ''}))
 
         cooperation_type = forms.ChoiceField(label=u'نوع همکاری', required=False, choices=(
             ('', u''), (Request.COOPERATION_TYPES['full_time'], u'تمام وقت'),
@@ -39,19 +39,18 @@ class RequestListFilter:
         ))
 
         sex = forms.ChoiceField(label=u'جنسیت', required=False, choices=(
-            ('', u'جنسیت نیروها'), ('', u'مرد'), ('', u'زن'),
+            ('', u'جنسیت نیروها'), (True, u'مرد'), (False, u'زن'),(None, u'دیگر')
         ))
 
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-            ('', u'وضعیت پاسخ'), (True, u'پاسخ داده شده'), (False, u'پاسخ داده نشده'), ))
+            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
 
 
 
-    def __init(self, *args, **kwargs):
-        super(RequestListFilter, self).__init__(*args, **kwargs)
-
-        for field in self.fields:
-            self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
+        def __init__(self, *args, **kwargs):
+            super(RequestListFilter.RequestFilterForm, self).__init__(*args, **kwargs)
+            for field in self.fields:
+                self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
 
     Form = RequestFilterForm
 
@@ -160,7 +159,14 @@ class ResponseListFilter:
         response = forms.CharField(label=u'متن', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': '', 'placeholder': u''}))
 
-        status = forms.CharField(required=False)
+        status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
+            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
+
+
+        def __init__(self, *args, **kwargs):
+            super(ResponseListFilter.ResponseFilterForm, self).__init__(*args, **kwargs)
+            for field in self.fields:
+                self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
 
     Form = ResponseFilterForm
 
@@ -282,7 +288,12 @@ class DashboardListFilter:
         # ))
 
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-            ('', u'وضعیت پاسخ'), (True, u'پاسخ داده شده'), (False, u'پاسخ داده نشده'), ))
+            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
+
+        def __init__(self, *args, **kwargs):
+            super(DashboardListFilter.DashboardFilterForm, self).__init__(*args, **kwargs)
+            for field in self.fields:
+                self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
 
 
     Form = DashboardFilterForm
@@ -299,7 +310,7 @@ class DashboardListFilter:
             title = self.form.cleaned_data.get('title', '')
             # sender = self.form.cleaned_data.get('sender', '')
             # getter = self.form.cleaned_data.get('getter', '')
-            cooperation_type = self.form.cleaned_data.get('type', '')
+            cooperation_type = self.form.cleaned_data.get('cooperation_type', '')
             status = self.form.cleaned_data.get('status', '')
             # sex = self.form.cleaned_data.get('sex', '')
             # major = self.form.cleaned_data.get('major', '')
@@ -318,7 +329,7 @@ class DashboardListFilter:
                 filter_kwargs.update({'request__cooperation_type': cooperation_type})
             # if sex:
             #     filter_kwargs.update({'sex': sex})
-            if status:
+            if status!='':
                 filter_kwargs.update({'request__status': status})
 
 
@@ -350,7 +361,9 @@ class DashboardListFilter:
                 {'request': item.request.cast(), 'response': item.responses.all()[0], 'type': req_type})
 
 
+        print('ben')
 
+        print(cooperation_type)
         paginator = Paginator(dashboard_items, settings.RESULTS_PER_PAGE)
         page = GET_dict.get('page')
 
