@@ -57,7 +57,7 @@ class JobSeekerRegisterForm1(forms.Form):
         pass1 = cleaned_data.get('password', '')
         pass2 = cleaned_data.get('re_password', '')
 
-        if pass1 != pass2:
+        if pass1 != pass2 and pass1 and pass2:
             self._errors['password'] = ErrorList([u'رمز عبور و تکرار آن باید یکسان باشند.'])
             del cleaned_data['password']
 

@@ -116,13 +116,11 @@ def ajax_login(request):
                     if not user.profile.approved:
                         return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
                 elif role == 3:
-                    #TODO here
                     user = JobSeeker.objects.get(pk=user.pk)
                     if not user.profile.approved:
                         return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
 
                 if user.is_active:
-                    #TODO
                     auth.login(request, user)
                     if user.is_staff:
                         redirect_to_url = '/admin/'
@@ -260,6 +258,10 @@ class JobSeekerWizard(SessionWizardView):
         work_session = self.request.session.get("added_work", None)
         print(work_session)
 
+        del self.request.session['added_edu']
+        del self.request.session['added_skills']
+        del self.request.session['added_work']
+
         for form in form_list:
             data.update(form.cleaned_data)
         try:
@@ -276,34 +278,37 @@ class JobSeekerWizard(SessionWizardView):
         jobseeker_resume = Resume()
         jobseeker_resume.save()
 
-        for i, edu in edu_session.items():
-                edu_obj = Education(certificate=edu['certificate'],
-                                    status=edu['status'], major=edu['major'],
-                                    orientation=edu['orientation'],
-                                    university_name=edu['university_name'],
-                                    university_type=edu['university_type'])
-                edu_obj.save()
-                jobseeker_resume.education.add(edu_obj)
-                # edu_objs.append(edu_obj)
+        if edu_session:
+            for i, edu in edu_session.items():
+                    edu_obj = Education(certificate=edu['certificate'],
+                                        status=edu['status'], major=edu['major'],
+                                        orientation=edu['orientation'],
+                                        university_name=edu['university_name'],
+                                        university_type=edu['university_type'])
+                    edu_obj.save()
+                    jobseeker_resume.education.add(edu_obj)
+                    # edu_objs.append(edu_obj)
 
-        for i, skill in skill_session.items():
-                skill_obj = Skill(title=skill['skill_title'],
-                                      level=skill['skill_level'],
-                                      description=skill['skill_description'])
-                skill_obj.save()
-                # skill_objs.append(skill_obj)
-                jobseeker_resume.skill.add(skill_obj)
+        if skill_session:
+            for i, skill in skill_session.items():
+                    skill_obj = Skill(title=skill['skill_title'],
+                                          level=skill['skill_level'],
+                                          description=skill['skill_description'])
+                    skill_obj.save()
+                    # skill_objs.append(skill_obj)
+                    jobseeker_resume.skill.add(skill_obj)
 
-        for i, work in work_session.items():
-                work_obj = Experience(title=work['title'],
-                                      to_date=work['to_date'], from_date=work['from_date'],
-                                      place=work['place'],
-                                      description=work['description'],
-                                      cooperation_type=work['cooperation_type'],
-                                      exit_reason=work['exit_reason'])
-                work_obj.save()
-                # work_objs.append(edu_obj)
-                jobseeker_resume.experience.add(work_obj)
+        if work_session:
+            for i, work in work_session.items():
+                    work_obj = Experience(title=work['title'],
+                                          to_date=work['to_date'], from_date=work['from_date'],
+                                          place=work['place'],
+                                          description=work['description'],
+                                          cooperation_type=work['cooperation_type'],
+                                          exit_reason=work['exit_reason'])
+                    work_obj.save()
+                    # work_objs.append(edu_obj)
+                    jobseeker_resume.experience.add(work_obj)
 
         # jobseeker_resume.save()
 
