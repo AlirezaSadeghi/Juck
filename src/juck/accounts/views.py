@@ -169,7 +169,8 @@ def password_recover(request):
         mail = request.POST.get('email', '')
         if mail:
             try:
-                user = User.objects.get(email=mail)
+                user = JuckUser.objects.get(email=mail)
+                # user = User.objects.get(email=mail)
             except ObjectDoesNotExist:
                 message = u'چنین رایانامه‌ای در پایگاه داده جاک موجود نمی‌باشد'
                 return render_to_response('messages.html', {'message': message},
@@ -739,18 +740,60 @@ def confirm_registration(request, user_type, key):
 
 
 @login_required
+@user_passes_test(lambda user: check_user_type(user.pk, 'employer'))
 def employer_edit_profile(request):
+    try:
+        profile = Employer.objects.get(pk=request.user.pk).profile
+    except ObjectDoesNotExist:
+        return render_to_response('messages.html', {
+            'message': u'صفحه موردنظر وجود ندارد.'}, context_instance=RequestContext(request))
+
     if request.method == "POST":
-        form = EditEmployerProfile(request.POST)
-
+        form = EditEmployerProfile(request.POST, request.FILES, instance=profile)
+        # print('post with form')
         if form.is_valid():
-            return HttpResponseRedirect(reverse('show_profile'))
-    else:
-        form = EditEmployerProfile()
+            data = form.cleaned_data
+            try:
+                state_object = State.objects.get(name=data['state'])
+            except State.DoesNotExist:
+                state_object = State(name=data['state'])
+                state_object.save()
+            try:
+                city_object = City.objects.get(name=data['city'])
+            except City.DoesNotExist:
+                city_object = City(name=data['city'], state=state_object)
+                city_object.save()
 
+            new_profile = EmployerProfile(city=city_object, state=state_object,
+                                          company_name=data['company_name'], company_type=data['company_type'],
+                                          foundation_year=data['foundation_year'], reg_num=data['reg_num'],
+                                          user_rank=data['user_rank'], field=data['field'], address=data['address'],
+                                          postal_code=data['postal_code'], mobile_number=data['mobile_number'],
+                                          phone_number=data['phone_number'], manager=data['manager'],
+                                          approved=True)
+
+            image = request.FILES.get('image', '')
+            if image:
+                picture = JuckImage(upload_root="news")
+                picture.create_picture(image)
+                picture.save()
+                new_profile.image = picture
+
+            new_profile.save()
+            emp = Employer.objects.get(pk=request.user.pk)
+            emp.profile = new_profile
+            emp.save()
+            # print('doooooneeeeee')
+            return HttpResponseRedirect('accounts/show_profile/?pk=%s' % request.user.pk)
+    else:
+        initial = {'city': profile.city.name, 'state': profile.state.name}
+        if profile.image:
+            initial.update({'image': profile.image.image})
+        form = EditEmployerProfile(instance=profile, initial=initial)
+
+    # print('no done :-<')
     return render_to_response('accounts/employer_edit_form.html', {'form': form},
                               context_instance=RequestContext(request))
-
 
 @login_required
 def jobseeker_edit_profile(request):
@@ -770,7 +813,8 @@ def edit_js_profile(request):
     if request.method == 'POST':
         form = JobSeekerEditProfileForm(request.POST)
 
-    return render_to_response('accounts/js_profile_edit.html', {'form': form}, context_instance=RequestContext(request, ))
+    return render_to_response('accounts/js_profile_edit.html', {'form': form},
+                              context_instance=RequestContext(request, ))
 
 
 def create_manager_confirm_html(function):

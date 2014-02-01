@@ -37,6 +37,8 @@ def get_edu_status_rep(status):
 
 @register.simple_tag
 def get_edu_certificate_rep(certificate):
+    if certificate == 'diploma':
+        return u'دیپلم'
     if certificate == 'under_grad':
         return u'کارشناسی'
     if certificate == 'grad':

@@ -37,7 +37,7 @@ def common_questions(request):
         search_form = search_filter.get_form()
         page_range = create_pagination_range(questions.number, questions.paginator.num_pages)
 
-        if get_user_type(request.user) == 'manager':
+        if get_user_type(request.user.pk) == 'manager':
             return render_to_response('question/manager_common_questions.html',
                                       {'questions': questions, 'count': count, 'search_form': search_form,
                                        'page_range': page_range, 'get_params': get_params, 'form': form},

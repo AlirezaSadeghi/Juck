@@ -27,6 +27,7 @@
                 </a>
             </div>
             <div class="user_list ui bottom attached faq_list segment">
+                {% if questions %}
                 {% for question in questions %}
                     <div class="ui raised segment single_question" qid={{ question.pk }}>
                         <span class="question_number">{{ forloop.counter }} - </span>
@@ -68,6 +69,11 @@
                     <div class="ui section divider"
                          style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
                 {% endfor %}
+                {% else %}
+                    <div class="ui error message">
+                        سوالی موجود نیست.
+                    </div>
+                {% endif %}
 
                 {% if questions.paginator.num_pages > 1 %}
                     <div style="text-align: center;">

@@ -8,9 +8,10 @@ from utils import json_response
 from juck.rating.models import *
 
 
-@login_required()
+# @login_required()
 def add_rate(request):
     if request.method == 'POST':
+        print("inja ?!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         obj_type, obj_id, rate = request.POST['obj_type'], request.POST['obj_id'], int(request.POST['rate'])
         user_type = get_user_type(request.user.pk)
         again = True

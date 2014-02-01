@@ -93,20 +93,19 @@
 
                                 {% endif %}
 
-                                {% if u_type == 'employer' %}<span class="user_name">
-                                    {{ user.cast.profile.company_name }}
-                                    </span>
-                                    <a class="avatar">
+                                {% if u_type == 'employer' %}
                                         {% if user.cast.profile.image.thumbnail.url %}
-                                            <img src="{{ MEDIA_URL }}{{ user.cast.profile.image.thumbnail.url }}">
+                                            <img src="{{ MEDIA_URL }}{{ user.cast.profile.image.thumbnail.url }}" class="fj_avatar">
                                         {% else %}
                                             <img src="{% static 'images/user.png' %}" class="fj_avatar">
                                         {% endif %}
-                                    </a>
+                                    <span class="user_name">
+                                    {{ user.cast.profile.company_name }}
+                                    </span>
                                 {% endif %}
-                            {% if u_type == 'manager' %}<span class="user_name">{{ user.get_full_name }}
-                                </span>
-                            {% endif %}
+                                {% if u_type == 'manager' %}<span class="user_name">{{ user.cast.get_full_name }}
+                                    </span>
+                                {% endif %}
                             </div>
                         {% endif %}
                         {#        fj_sadeghi            #}
@@ -199,7 +198,7 @@
                             سوالات<i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'asked_questions' %}">سوالات کاربران</a>
+                                <a class="item" href="{% url 'your_questions' %}">سوالات من</a>
                                 <a class="item" href="{% url 'common_questions' %}">سوالات متداول</a>
                             </div>
                         </div>
@@ -263,6 +262,16 @@
                                 <a class="item" href="{% url 'news_list' %}">مشاهده اخبار</a>
                             </div>
                         </div>
+
+                        <div class="ui dropdown item" id="questions-page">
+                            سوالات<i class="dropdown icon"></i>
+
+                            <div class="menu">
+                                <a class="item" href="{% url 'asked_questions' %}">سوالات کاربران</a>
+                                <a class="item" href="{% url 'common_questions' %}">سوالات متداول</a>
+                            </div>
+                        </div>
+
                         <a class="item" href="{% url 'show_profile' %}?pk={{ user.pk }}" id="profile-page">
                             <i class="user icon"></i> پروفایل
                         </a>

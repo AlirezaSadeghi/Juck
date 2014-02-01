@@ -77,7 +77,7 @@ def show_article_description(request):
 #     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
 #                               context_instance=RequestContext(request))
 
-
+@login_required
 def add_article(request):
     form = ArticleForm()
     if request.method == 'POST':
