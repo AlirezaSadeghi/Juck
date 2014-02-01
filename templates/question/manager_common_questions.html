@@ -19,18 +19,18 @@
 {% block content %}
     <div class="center">
         <div class="ctn-box">
-            <div class="ui icon input left small">
-                <input type="text" placeholder="جستجو...">
-                <i class="inverted search icon"></i>
-            </div>
+            <form>
+                <div class="ui icon input left small">
+                    <input type="text" placeholder="جستجو...">
+                    <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
+                </div>
 
-            <small class="advanced_search">جستجوی پیشرفته</small>
+                <small class="advanced_search">جستجوی پیشرفته</small>
 
-            <div class="advanced_search_panel ui segment form">
-                <div class="container">
-                    <div class="advanced_search_form">
-                        <form>
-                             <h3 class="inline_block"> اطلاعات سوالات و جواب ها: </h3>
+                <div class="advanced_search_panel ui segment form">
+                    <div class="container">
+                        <div class="advanced_search_form">
+                            <h3 class="inline_block"> اطلاعات سوالات و جواب ها: </h3>
 
 
                             <label style="display: inline-block;margin-bottom: 5px ">
@@ -45,15 +45,15 @@
 
 
                             {% csrf_token %}
-{#                            <div class="two fields">#}
-{#                                <span class="inline field">#}
-{#                                <label class="input_labels">تا تاریخ: </label><input type="date" name="secon_date">#}
-{#                                </span>#}
-{#                                <span class="inline field">#}
-{#                                <label class="input_labels">از تاریخ: </label><input type="date" name="first_date">#}
-{#								</span>#}
-{##}
-{#                            </div>#}
+                            {#                            <div class="two fields">#}
+                            {#                                <span class="inline field">#}
+                            {#                                <label class="input_labels">تا تاریخ: </label><input type="date" name="secon_date">#}
+                            {#                                </span>#}
+                            {#                                <span class="inline field">#}
+                            {#                                <label class="input_labels">از تاریخ: </label><input type="date" name="first_date">#}
+                            {#								</span>#}
+                            {##}
+                            {#                            </div>#}
 
                             <div class="two fields">
                                 <div class="inline field">
@@ -64,23 +64,22 @@
                                 </div>
                             </div>
 
-{#                            <div class="inline field">#}
-{#                                <label class="input_labels">وضعیت پاسخ: </label>{{ search_form.answered }}#}
-{#                            </div>#}
+                            {#                            <div class="inline field">#}
+                            {#                                <label class="input_labels">وضعیت پاسخ: </label>{{ search_form.answered }}#}
+                            {#                            </div>#}
                             <div class="search_buttons">
                                 <input class="inline ui button" type="reset" value="پاک کردن">
                                 <input class="inline ui button" type="submit" value="جستجو">
                             </div>
-                        </form>
-                    </div>
-                    <div class="ui vertical divider"></div>
-                    <div class="advanced_search_info">
-                        <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
+                        </div>
+                        <div class="ui vertical divider"></div>
+                        <div class="advanced_search_info">
+                            <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
 
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            </form>
             <div class="ui section divider" style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
 
             <div class="ui top attached tabular menu">
@@ -93,100 +92,100 @@
             </div>
             <div class="user_list ui bottom attached faq_list segment">
                 {% if questions %}
-                {% for question in questions %}
-                    <div class="ui raised segment single_question" qid={{ question.pk }}>
-                        <span class="question_number">{{ forloop.counter }}</span>
+                    {% for question in questions %}
+                        <div class="ui raised segment single_question" qid={{ question.pk }}>
+                            <span class="question_number">{{ forloop.counter }}</span>
 
-                        <div class="inlinemiddle inlineblock question_data">
-                            <div class="question_info1">
-                                <span class="question_title">{{ question.title }}</span>
+                            <div class="inlinemiddle inlineblock question_data">
+                                <div class="question_info1">
+                                    <span class="question_title">{{ question.title }}</span>
 
-                                <div class="inlineblock ui mini circular icon button slide">
-                                    <i class="down icon"></i>
+                                    <div class="inlineblock ui mini circular icon button slide">
+                                        <i class="down icon"></i>
+                                    </div>
                                 </div>
+
+                                <div class="user_buttons question_button">
+                                    <div class="ui icon small red button del_common_q">
+                                        <i class=" remove icon"></i>
+                                        حذف سوال
+                                    </div>
+                                </div>
+
                             </div>
 
-                            <div class="user_buttons question_button">
-                                <div class="ui icon small red button del_common_q">
-                                    <i class=" remove icon"></i>
-                                    حذف سوال
+                            <div class="ui segment javab_box">
+
+                                <div class="user_info2">
+                                    <span class="mngr_question_date">اضافه شده در: <span>{{ question.get_persian_date }}</span></span>
+
+                                    <div class="ui icon small blue button edit_common_q">
+                                        <i class=" edit icon"></i>
+                                        ویرایش
+                                    </div>
                                 </div>
-                            </div>
-
-                        </div>
-
-                        <div class="ui segment javab_box">
-
-                            <div class="user_info2">
-                                <span class="mngr_question_date">اضافه شده در: <span>{{ question.get_persian_date }}</span></span>
-
-                                <div class="ui icon small blue button edit_common_q">
-                                    <i class=" edit icon"></i>
-                                    ویرایش
-                                </div>
-                            </div>
-{#                            {% if question.answer %}#}
+                                {#                            {% if question.answer %}#}
                                 <div class="ui message">
                                     <p>
                                         {{ question.answer.content }}
                                     </p>
                                 </div>
-{#                            {% endif %}#}
+                                {#                            {% endif %}#}
+                            </div>
                         </div>
-                    </div>
+                        <div class="ui section divider"
+                             style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
+
+                    {% endfor %}
+
                     <div class="ui section divider"
                          style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
-
-                {% endfor %}
-
-                <div class="ui section divider"
-                     style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
                 {% else %}
                     <div class="ui error message">
                         سوالی وجود ندارد.
                     </div>
                 {% endif %}
-                 {#            FJ#}
-            {% if questions.paginator.num_pages > 1 %}
-                <div style="text-align: center;">
-                    <div class="ui small pagination menu">
-                        {% if questions.has_previous %}
-                            <a href="?{{ get_params.urlencode }}&page={{ questions.previous_page_number }}"
-                               class="icon item"><i class="icon right arrow"></i></a>
-                        {% endif %}
+                {#            FJ#}
+                {% if questions.paginator.num_pages > 1 %}
+                    <div style="text-align: center;">
+                        <div class="ui small pagination menu">
+                            {% if questions.has_previous %}
+                                <a href="?{{ get_params.urlencode }}&page={{ questions.previous_page_number }}"
+                                   class="icon item"><i class="icon right arrow"></i></a>
+                            {% endif %}
 
-                        {% for p in page_range %}
-                            {% ifequal p questions.number %}
-                                <a href="javascript:void(0);" class="active item">{{ p }}</a>
-                            {% else %}
-                                <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
-                            {% endifequal %}
-                        {% endfor %}
-                        {% if questions.has_next %}
-                            <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
-                               class="icon item"><i class="icon left arrow"></i></a>
-                        {% endif %}
+                            {% for p in page_range %}
+                                {% ifequal p questions.number %}
+                                    <a href="javascript:void(0);" class="active item">{{ p }}</a>
+                                {% else %}
+                                    <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                                {% endifequal %}
+                            {% endfor %}
+                            {% if questions.has_next %}
+                                <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
+                                   class="icon item"><i class="icon left arrow"></i></a>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-            {% endif %}
-            {#            FJ#}
+                {% endif %}
+                {#            FJ#}
             </div>
 
             <div class="display_none faq_add">
-                    <div class="ui form segment">
-                        {% csrf_token %}
-                        <div class="field">
-                            <label>عنوان: </label>
-                            {{ form.title }}
-                        </div>
-                        <div class="field">
-                            <label>پاسخ: </label>
-                            {{ form.content }}
-                        </div>
-                        <div class="field">
-                            <div class="ui blue button small usr_mngr_ans_q">ایجاد</div>
-                        </div>
+                <div class="ui form segment">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label>عنوان: </label>
+                        {{ form.title }}
                     </div>
+                    <div class="field">
+                        <label>پاسخ: </label>
+                        {{ form.content }}
+                    </div>
+                    <div class="field">
+                        <div class="ui blue button small usr_mngr_ans_q">ایجاد</div>
+                    </div>
+                </div>
             </div>
 
         </div>

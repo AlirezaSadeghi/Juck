@@ -34,7 +34,7 @@
     <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/FJ_questions.js' %}"></script>
     <script>
-        function mySina(){
+        function mySina() {
             x = $("#submit_button")[0];
             x.click();
         }
@@ -45,40 +45,40 @@
 {% block content %}
     <div class="center">
     <div class="ctn-box">
-    <div class="ui icon input left small">
-        {{ search_form.both }}
-        <i class="inverted search icon" onclick="mySina();" style="cursor: pointer;"></i>
-    </div>
+    <form>
+        <div class="ui icon input left small">
+            {{ search_form.both }}
+            <i class="inverted search icon" onclick="mySina();" style="cursor: pointer;"></i>
+        </div>
 
-    <small class="advanced_search">جستجوی پیشرفته</small>
+        <small class="advanced_search">جستجوی پیشرفته</small>
 
-    <div class="advanced_search_panel ui segment form">
-        <div class="container">
-            <div class="advanced_search_form">
-                <form>
+        <div class="advanced_search_panel ui segment form">
+            <div class="container">
+                <div class="advanced_search_form">
                     <h3 class="inline_block"> اطلاعات سوالات و جواب ها: </h3>
 
-                    {% csrf_token %}
-{#                    <div class="two fields">#}
-{#                                <span class="inline field">#}
-{#                                <label class="input_labels">تا تاریخ: </label><input type="date" name="secon_date">#}
-{#                                </span>#}
-{#                                <span class="inline field">#}
-{#                                <label class="input_labels">از تاریخ: </label><input type="date" name="first_date">#}
-{#								</span>#}
-{##}
-{#                    </div>#}
+                    {#                    {% csrf_token %}#}
+                    {#                    <div class="two fields">#}
+                    {#                                <span class="inline field">#}
+                    {#                                <label class="input_labels">تا تاریخ: </label><input type="date" name="secon_date">#}
+                    {#                                </span>#}
+                    {#                                <span class="inline field">#}
+                    {#                                <label class="input_labels">از تاریخ: </label><input type="date" name="first_date">#}
+                    {#								</span>#}
+                    {##}
+                    {#                    </div>#}
 
                     <div class="inline field">
                         <label class="input_labels">عنوان: </label>{{ search_form.title }}
                         <label style="display: inline-block;margin-bottom: 5px ">
 
-                        <i class="tiny help icon" id="help_icon" help-id="0" style="cursor: pointer"></i>
+                            <i class="tiny help icon" id="help_icon" help-id="0" style="cursor: pointer"></i>
 
-                        <div id="msg_div0" class="Sina_help Sina_help_news "
-                             style="margin-top: -26px;">
-                            {{ search_form.title.help_text }}
-                        </div>
+                            <div id="msg_div0" class="Sina_help Sina_help_news "
+                                 style="margin-top: -26px;">
+                                {{ search_form.title.help_text }}
+                            </div>
                         </label>
                     </div>
 
@@ -86,12 +86,12 @@
                         <label class="input_labels">عنوان: </label>{{ search_form.content }}
                         <label style="display: inline-block;margin-bottom: 5px ">
 
-                        <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
+                            <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
 
-                        <div id="msg_div1" class="Sina_help Sina_help_news "
-                             style="margin-top: -26px;">
-                            {{ search_form.content.help_text }}
-                        </div>
+                            <div id="msg_div1" class="Sina_help Sina_help_news "
+                                 style="margin-top: -26px;">
+                                {{ search_form.content.help_text }}
+                            </div>
                         </label>
                     </div>
 
@@ -99,25 +99,25 @@
                         <label class="input_labels">پاسخ: </label>{{ search_form.answer }}
                         <label style="display: inline-block;margin-bottom: 5px ">
 
-                        <i class="tiny help icon" id="help_icon" help-id="2" style="cursor: pointer"></i>
+                            <i class="tiny help icon" id="help_icon" help-id="2" style="cursor: pointer"></i>
 
-                        <div id="msg_div2" class="Sina_help Sina_help_news "
-                             style="margin-top: -26px;">
-                            {{ search_form.answer.help_text }}
-                        </div>
-                    </label>
+                            <div id="msg_div2" class="Sina_help Sina_help_news "
+                                 style="margin-top: -26px;">
+                                {{ search_form.answer.help_text }}
+                            </div>
+                        </label>
                     </div>
 
                     <div class="inline field">
                         <label class="input_labels">وضعیت پاسخ: </label>{{ search_form.answered }}
                         <label style="display: inline-block;margin-bottom: 5px ">
 
-                        <i class="tiny help icon" id="help_icon" help-id="3" style="cursor: pointer"></i>
+                            <i class="tiny help icon" id="help_icon" help-id="3" style="cursor: pointer"></i>
 
-                        <div id="msg_div3" class="Sina_help Sina_help_news "
-                             style="margin-top: -26px;">
-                            {{ search_form.answered.help_text }}
-                        </div>
+                            <div id="msg_div3" class="Sina_help Sina_help_news "
+                                 style="margin-top: -26px;">
+                                {{ search_form.answered.help_text }}
+                            </div>
                         </label>
                     </div>
 
@@ -125,64 +125,64 @@
                         <input class="inline ui button" type="reset" value="پاک کردن">
                         <input class="inline ui button" type="submit" value="جستجو">
                     </div>
-                </form>
-            </div>
-            <div class="ui vertical divider"></div>
-            <div class="advanced_search_info">
-                <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
+                </div>
+                <div class="ui vertical divider"></div>
+                <div class="advanced_search_info">
+                    <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
 
+                </div>
             </div>
         </div>
-    </div>
+    </form>
     <div class="user_list">
         {% for question in questions %}
             {% if not question.common %}
-            {% if not question.answer %}
-                <div class="ui raised segment single_question" qid="{{ question.pk }}">
-                    <span class="question_number">{{ forloop.counter }} - </span>
+                {% if not question.answer %}
+                    <div class="ui raised segment single_question" qid="{{ question.pk }}">
+                        <span class="question_number">{{ forloop.counter }} - </span>
 
-                    <div class="inlinemiddle inlineblock question_data">
-                        <div class="question_info1">
-                            <span class="question_title">{{ question.title }}</span>
+                        <div class="inlinemiddle inlineblock question_data">
+                            <div class="question_info1">
+                                <span class="question_title">{{ question.title }}</span>
 
-                            <div class="inlineblock ui mini circular icon button slide">
-                                <i class="down icon"></i>
+                                <div class="inlineblock ui mini circular icon button slide">
+                                    <i class="down icon"></i>
+                                </div>
+                            </div>
+                            <div class="user_buttons question_button">
+                                <div class="ui icon small red button del_q">
+                                    <i class=" remove icon"></i>
+                                    حذف سوال
+                                </div>
                             </div>
                         </div>
-                        <div class="user_buttons question_button">
-                            <div class="ui icon small red button del_q">
-                                <i class=" remove icon"></i>
-                                حذف سوال
+
+
+                        <div class="ui segment answer_box">
+                            <div class="ui segment">
+                                {{ question.content }}
+                            </div>
+
+                            <div class="user_info2">
+                                <span class="question_asker">پرسش گر: <span>{{ question.sender }}</span></span>
+                                <span class="question_date">پرسیده شده در:<span>{{ question.get_persian_date }}</span></span>
+                            </div>
+
+
+                            <div class="ui form">
+                                <div class="field">
+                                    <textarea cols="70" rows="6" name="answer" name="answer"
+                                              placeholder="جواب سوال"></textarea>
+                                </div>
+                            </div>
+                            <div class="ui icon small blue button answer_q">
+                                <i class="checkmark icon"></i>
+                                پاسخ
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="ui segment answer_box">
-                        <div class="ui segment">
-                            {{ question.content }}
-                        </div>
-
-                        <div class="user_info2">
-                            <span class="question_asker">پرسش گر: <span>{{ question.sender }}</span></span>
-                            <span class="question_date">پرسیده شده در:<span>{{ question.get_persian_date }}</span></span>
-                        </div>
-
-
-                        <div class="ui form">
-                            <div class="field">
-                                <textarea cols="70" rows="6" name="answer" name="answer"
-                                          placeholder="جواب سوال"></textarea>
-                            </div>
-                        </div>
-                        <div class="ui icon small blue button answer_q">
-                            <i class="checkmark icon"></i>
-                            پاسخ
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            {% if question.answer %}
+                {% endif %}
+                {% if question.answer %}
                     <div class="ui raised segment single_question" qid="{{ question.pk }}">
                         <span class="question_number">{{ forloop.counter }} - </span>
 
@@ -196,7 +196,7 @@
                             </div>
 
                             <div class="user_buttons question_button">
-                                <div class="ui icon small red button del_q" >
+                                <div class="ui icon small red button del_q">
                                     <i class=" remove icon"></i>
                                     حذف سوال
                                 </div>
@@ -226,7 +226,7 @@
                             </div>
                         </div>
                     </div>
-            {% endif %}
+                {% endif %}
             {% endif %}
             <div class="ui section divider"
                  style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
