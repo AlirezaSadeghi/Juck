@@ -16,7 +16,7 @@ class ArticleListFilter:
                                required=False, widget=forms.TextInput(attrs={'placeholder': u'جستجو'}))
         title = forms.CharField(help_text=u'جستجو در عناوین مقالات', label=u'عنوان', max_length=100, required=False, widget=forms.TextInput(
             attrs={'class': 'search-tab-content-input input-12', 'placeholder': u'عنوان'}))
-        summary = forms.CharField(label=u'جستجو در خلاصه مقالات', max_length=100, required=False, widget=forms.TextInput(
+        summary = forms.CharField(help_text=u'جستجو در خلاصه مقالات',label=u'خلاصه' , max_length=100, required=False, widget=forms.TextInput(
             attrs={'class': 'search-tab-content-input input-12', 'placeholder': u'خلاصه'}))
         dl_count = forms.IntegerField(help_text=u'مقالاتی که حداقل به این تعداد دانلود شده اند.' , required=False, widget=forms.TextInput(attrs={
             'placeholder': u'بار'
