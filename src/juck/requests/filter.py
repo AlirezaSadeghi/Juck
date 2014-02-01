@@ -19,18 +19,19 @@ class RequestListFilter:
                                            attrs={'placeholder': u'جستجو'}))
 
         employer = forms.CharField(label=u'کارفرما', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u''}))
+            attrs={'class': '', 'placeholder': u'کارفرما'}))
 
         job_seeker = forms.CharField(label=u'کارجو', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u''}))
+            attrs={'class': '', 'placeholder': u'کارجو'}))
 
         title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u''}))
+            attrs={'class': '', 'placeholder': u'عنوان'}))
 
         content = forms.CharField(label=u'متن', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u''}))
+            attrs={'class': '', 'placeholder': u'متن درخواست'}))
 
-        major = forms.CharField(required=False)
+        major = forms.CharField(required=False , widget=forms.TextInput(
+            attrs={'class': '', 'placeholder': u'رشته تحصیلی'}))
 
         cooperation_type = forms.ChoiceField(label=u'نوع همکاری', required=False, choices=(
             ('', u''), (Request.COOPERATION_TYPES['full_time'], u'تمام وقت'),
@@ -44,6 +45,13 @@ class RequestListFilter:
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
             ('', u'وضعیت پاسخ'), (True, u'پاسخ داده شده'), (False, u'پاسخ داده نشده'), ))
 
+
+
+    def __init(self, *args, **kwargs):
+        super(RequestListFilter, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
 
     Form = RequestFilterForm
 
@@ -313,8 +321,6 @@ class DashboardListFilter:
             if status:
                 filter_kwargs.update({'request__status': status})
 
-        # print(self.form.NON_FIELD_ERRORS)
-
 
         threads = []
 
@@ -329,15 +335,6 @@ class DashboardListFilter:
                                                       Q(request__jobseekerjoboffer__sender=jobseeker))
 
         threads = threads.filter(**filter_kwargs)
-# why ?????????????????????????????????????????????????????????????????????????
-        # if request_type == "jsjo":
-        #     requests = JobseekerJobOffer.objects.filter(**filter_kwargs)
-        # elif request_type == "ejo":
-        #     requests = EmployerJobOffer.objects.filter(**filter_kwargs)
-        # elif request_type == 'jo':
-        #     requests = JobOpportunity.objects.filter(**filter_kwargs)
-        # else:
-        #     requests = Request.objects.none()
 
         dashboard_items = []
         for item in threads:
@@ -354,32 +351,6 @@ class DashboardListFilter:
 
 
 
-
-        # if request_type in ['jsjo', 'ejo']:
-        #     if job_seeker:
-        #         requests = requests.filter(
-        #             Q(sender__last_name__icontains=job_seeker) |
-        #             Q(sender__first_name__icontains=job_seeker))
-        #     if major:
-        #         requests = requests.filter(Q(first_major=major) |
-        #                                    Q(second_major=major))
-        #
-        # if request_type == 'ejo' and employer_filter:
-        #     requests = requests.filter(Q(employer=employer_filter) | Q(em_receiver=employer_filter))
-        # print(threads)
-        content = total_search
-        # requests = requests.filter((Q(title__icontains=content)  | Q(
-        #     employer__profile__company_name__icontains=content)   ))
-        #| Q(sex=content) | Q( cooperation_type=content)| Q(status=content) | Q(content__icontains=content)
-        # print(content)
-        # print('12322222222')
-
-        # count = requests.count()
-        # print "Ben"
-        # print(requests)
-        # print(count)
-        # print(len(dashboard_items))
-        # requests = requests.order_by('-timestamp')
         paginator = Paginator(dashboard_items, settings.RESULTS_PER_PAGE)
         page = GET_dict.get('page')
 
