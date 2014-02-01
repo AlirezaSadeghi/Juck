@@ -107,7 +107,6 @@ function submit_jobseeker_list(event) {
 }
 
 function submit_employer_list(event) {
-//    alert(event.keyCode);
     if (event.keyCode == 13) {
         $('#employer_list_form').submit();
     }
@@ -153,7 +152,6 @@ function update_usr_ask_q() {
     $('.usr_ask_q').click(function () {
         var title = $('.field input[name="title"]').val();
         var content = $('.field textarea[name="content"]').val();
-        alert(content);
         send_ajax({title: title, content: content, csrfmiddlewaretoken: csrfToken}, '/question/ask_question/', redirect);
     });
 }

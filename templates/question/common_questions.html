@@ -81,6 +81,7 @@
                 </div>
             </div>
             <div class="user_list">
+                {% if questions %}
                 {% for question in questions %}
                     <div class="ui raised segment single_question">
                         <span class="question_number">{{ forloop.counter }} - </span>
@@ -114,6 +115,11 @@
                     <div class="ui section divider"
                          style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
                 {% endfor %}
+                {% else %}
+                    <div class="ui error message">
+                        سوالی وجود ندارد.
+                    </div>
+                {% endif %}
             </div>
 
             {#            FJ#}

@@ -75,6 +75,40 @@
                     </div>
                 {% else %}
                     <div class="ui buttons-tmp">
+                        {#        fj_sadeghi            #}
+                        {% get_user_type as u_type %}
+                        {% if user.is_authenticated %}
+                            <div class="fj_name_avatar">
+                                {{ user.jobseekerprofile }}
+                                {% if u_type == 'jobseeker' %}
+                                    {% if user.cast.profile.image.thumbnail.url %}
+                                        <img src="{{ user.cast.profile.image.thumbnail.url }}" class="fj_avatar">
+                                    {% else %}
+                                        <img src="{% static 'images/user.png' %}" class="fj_avatar">
+                                    {% endif %}
+
+                                    <span class="user_name">{{ user.get_full_name }}
+                                </span>
+
+
+                                {% endif %}
+
+                                {% if u_type == 'employer' %}
+                                        {% if user.cast.profile.image.thumbnail.url %}
+                                            <img src="{{ MEDIA_URL }}{{ user.cast.profile.image.thumbnail.url }}" class="fj_avatar">
+                                        {% else %}
+                                            <img src="{% static 'images/user.png' %}" class="fj_avatar">
+                                        {% endif %}
+                                    <span class="user_name">
+                                    {{ user.cast.profile.company_name }}
+                                    </span>
+                                {% endif %}
+                                {% if u_type == 'manager' %}<span class="user_name">{{ user.cast.get_full_name }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        {#        fj_sadeghi            #}
                         <a href="{% url 'logout' %}"><i class="ui button down arrow linkedin small"
                                                         id="sign-in">خروج</i></a>
                     </div>
@@ -151,6 +185,7 @@
                     {% elif u_type == "jobseeker" %}
                         <div class="ui dropdown item" id="request-page">
                             بازار کار<i class="dropdown icon"></i>
+
                             <div class="menu">
                                 <a class="item" href="{% url 'dashboard' %}">کارتابل</a>
                                 <a class="item" href="{% url 'employer_list' 'approved' %}">لیست کارفرمایان</a>
@@ -163,7 +198,7 @@
                             سوالات<i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'asked_questions' %}">سوالات کاربران</a>
+                                <a class="item" href="{% url 'your_questions' %}">سوالات من</a>
                                 <a class="item" href="{% url 'common_questions' %}">سوالات متداول</a>
                             </div>
                         </div>
@@ -172,8 +207,17 @@
                             اخبار <i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'add_news' %}">افزودن خبر</a>
                                 <a class="item" href="{% url 'news_list' %}">مشاهده اخبار</a>
+                            </div>
+                        </div>
+
+                        <div class="ui dropdown item" id="articles-page">
+                        مقالات
+                            <i class="dropdown icon"></i>
+
+                            <div class="menu">
+                                <a class="item" href="{% url 'add_article' %}">افزودن مقاله</a>
+                                <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
                             </div>
                         </div>
 
@@ -215,10 +259,20 @@
                             اخبار<i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'add_article' %}">مشاهده اخبار</a>
+                                <a class="item" href="{% url 'news_list' %}">مشاهده اخبار</a>
                             </div>
                         </div>
-                        <a class="item" href="{% url 'show_profile'  %}?pk={{ user.pk }}" id="profile-page">
+
+                        <div class="ui dropdown item" id="questions-page">
+                            سوالات<i class="dropdown icon"></i>
+
+                            <div class="menu">
+                                <a class="item" href="{% url 'asked_questions' %}">سوالات کاربران</a>
+                                <a class="item" href="{% url 'common_questions' %}">سوالات متداول</a>
+                            </div>
+                        </div>
+
+                        <a class="item" href="{% url 'show_profile' %}?pk={{ user.pk }}" id="profile-page">
                             <i class="user icon"></i> پروفایل
                         </a>
                     {% endif %}

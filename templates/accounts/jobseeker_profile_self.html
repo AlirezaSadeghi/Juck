@@ -9,6 +9,20 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/FJ_test.css' %}" type="text/css"/>
+    <style type="text/css">
+        input[type='text'] {
+            width: 100px;
+            height: 25px;
+            margin-top: -15px;
+            padding: 0px 5px;
+            color: #555;
+        }
+
+        input[name='city'], input[name='state'] {
+            width: 50px !important;
+        }
+
+    </style>
 {% endblock %}
 
 {% block js %}
@@ -30,9 +44,7 @@
 
             fetchComments('job_seeker', {{ jobseeker.id }}, 1, '#jobseeker-comment');
 
-{#            alert('{{ jobseeker }}');#}
             {% if self_profile %}
-                alert('self');
                 $('#js_rating').rating({interactive: false});
                 $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
                     var content = $(this).parent().next();
@@ -41,14 +53,29 @@
                         if (!$(this).hasClass('fj_pressed')) {
                             $(this).addClass('fj_pressed');
                             content.find('.ui.label').each(function () {
-                                $(this).replaceWith('<input type="text" value="@" style="width:100px;"/>'.replace('@', $(this).text()));
-                            });
+                                if ($(this).attr('name') == 'sex') {
+                                    $(this).replaceWith('<select name="#" value="@" style="width:100px;"><option value="">انتخاب جنسیت</option>' +
+                                            '<option value="True">مرد</option>' +
+                                            '<option value="False">زن</option>' +
+                                            '<option value="None">دیگر</option>' +
+                                            '</select>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
+                                }
+                                else if ($(this).attr('name') == 'marital_status') {
+                                    $(this).replaceWith('<select name="#" value="@" style="width:100px;"><option value="">وضعیت تاهل</option>' +
+                                            '<option value="True">مجرد</option>' +
+                                            '<option value="False">متاهل</option>' +
+                                            '</select>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
+                                }
+                                else if($(this).attr('name') == 'marital_status'){
 
+                                }
+                                $(this).replaceWith('<input type="text" name="#" value="@" style="width:100px;"/>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
+                            });
                         }
                         else {
                             $(this).removeClass('fj_pressed');
                             content.find('input').each(function () {
-                                $(this).replaceWith('<span class="profile_info ui label">@</span>'.replace('@', $(this).val()));
+                                $(this).replaceWith('<span class="profile_info ui label" name="#" >@</span>'.replace('@', $(this).val()).replace('#', $(this).attr('name')));
                             });
                         }
                     }
@@ -123,7 +150,8 @@
                 <label class="profile_label">تاریخ تولد: </label>
             </div>
             <div class="col15">
-                <span class="profile_info ui label" name="date_of_birth">{{ jobseeker.profile.date_of_birth|default:'نامشخص' }}</span>
+                <span class="profile_info ui label"
+                      name="date_of_birth">{{ jobseeker.profile.date_of_birth|default:'نامشخص' }}</span>
             </div>
             <div class="col2">
                 <label class="profile_label">جنسیت: </label>
@@ -135,7 +163,8 @@
                 <label class="profile_label">وضعیت تاهل: </label>
             </div>
             <div class="col35">
-                <span class="profile_info ui label" name="exemption">{{ jobseeker.profile.exemption|default:'نامشخص' }}</span>
+                <span class="profile_info ui label"
+                      name="marital_status">{{ jobseeker.profile.exemption|default:'نامشخص' }}</span>
             </div>
         </div>
         <div class="fj_space"></div>
@@ -145,13 +174,15 @@
                 <label class="profile_label">شماره تلفن: </label>
             </div>
             <div class="col15">
-                <span class="profile_info ui label" name="phone_number">{{ jobseeker.profile.phone_number|default:'نامشخص' }}</span>
+                <span class="profile_info ui label"
+                      name="phone_number">{{ jobseeker.profile.phone_number|default:'نامشخص' }}</span>
             </div>
             <div class="col2">
                 <label class="profile_label">شماره همراه: </label>
             </div>
             <div class="col25">
-                <span class="profile_info ui label" name="mobile_number">{{ jobseeker.profile.mobile_number|default:'نامشخص' }}</span>
+                <span class="profile_info ui label"
+                      name="mobile_number">{{ jobseeker.profile.mobile_number|default:'نامشخص' }}</span>
             </div>
         </div>
         <div class="fj_space"></div>
@@ -168,13 +199,15 @@
                 <label class="profile_label">وضعیت سربازی: </label>
             </div>
             <div class="col25">
-                <span class="profile_info ui label" name='military_service_status'>{{ jobseeker.profile.military_service_status|default:'نامشخص' }}</span>
+                <span class="profile_info ui label"
+                      name='military_service_status'>{{ jobseeker.profile.military_service_status|default:'نامشخص' }}</span>
             </div>
             <div class="col3">
                 <label class="profile_label">علت معافیت: </label>
             </div>
             <div class="col35">
-                <span class="profile_info ui label" name="exemption_type">{{ jobseeker.profile.exemption_type|default:'نامشخص' }}</span>
+                <span class="profile_info ui label"
+                      name="exemption_type">{{ jobseeker.profile.exemption_type|default:'نامشخص' }}</span>
             </div>
         </div>
         <div class="fj_space"></div>
@@ -185,7 +218,8 @@
                 <label class="profile_label">درباره کارجو: </label>
             </div>
             <div class="col15">
-                <span class="profile_info ui label " name="about_me">{{ jobseeker.resume.about_me|default:'نامشخص' }}</span>
+                <span class="profile_info ui label "
+                      name="about_me">{{ jobseeker.resume.about_me|default:'نامشخص' }}</span>
             </div>
         </div>
         <div class="fj_space"></div>

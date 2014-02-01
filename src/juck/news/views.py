@@ -73,7 +73,7 @@ def show_news_description(request):
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
-
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def add_news(request):
     form = NewsForm()
     # print "SADSAD"
