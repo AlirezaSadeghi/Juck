@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block css %}
+
+    <style type="text/css">
+        select {
+            border-radius: 3px;
+            border-color: lightgray;
+            background-color: white;
+            height: 28px;
+            width: 143px;
+        }
+
+        .row {
+            margin: 10px 10px;
+            display: inline-block;
+            width: 410px;
+        }
+
+        .ui.label {
+            width: 120px;
+        }
+
+        input[type='text'] {
+            width: 280px !important;
+            display: inline-block;
+        }
+
+        .notre {
+            background-color: rgba(167, 163, 126, 0.6);
+            -webkit-box-shadow: inset 0 0 27px #8A765C;
+            box-shadow: inset 0 0 27px #8A765C;
+            min-height: 500px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block content %}
+    <div class="center">
+        <div class="ctn-box">
+            <form class="notre">
+                {% for field in form %}
+                    <div class="ui form row">
+                        <div class="ui label"> {{ field.label_tag }} </div>
+                        {{ field }}
+                        {% if field.errors %}
+                            {{ field }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
