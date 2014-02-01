@@ -66,8 +66,12 @@
                                             '<option value="False">متاهل</option>' +
                                             '</select>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
                                 }
-                                else if($(this).attr('name') == 'marital_status'){
-
+                                else if ($(this).attr('name') == 'military_service_status') {
+                                    $(this).replaceWith('<select name="#" value="@" style="width:100px;"><option value="">وضعیت سربازی</option>' +
+                                            '<option value="انجام شده">انجام شده</option>' +
+                                            '<option value="انجام نشده">انجام نشده</option>' +
+                                            '<option value="معاف">معاف</option>' +
+                                            '</select>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
                                 }
                                 $(this).replaceWith('<input type="text" name="#" value="@" style="width:100px;"/>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
                             });
