@@ -18,4 +18,11 @@ urlpatterns = patterns('juck.requests.views',
                            name='apply_for_job_opportunity'),
                        url(r'^req_status/(?P<request_type>\w+)/(?P<item_pk>\d+)/$', 'view_request_status', {},
                            name='request_status'),
+
+
+                        url(r'^related_ads/$', 'related_ads', {}, name='related_ads'),
+                       url(r'approve/$', 'approve_request', {}, name='approve_request'),
+                       url(r'reject/$', 'reject_request', {}, name='reject_request'),
 )
+
+

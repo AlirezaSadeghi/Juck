@@ -71,6 +71,8 @@
                     <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
 
 
+
+
                 </div>
                 <small class="advanced_search">جستجوی پیشرفته</small>
 
@@ -79,7 +81,7 @@
                     <i class="tiny help icon" id="help_icon" help-id="0" style="cursor: pointer"></i>
 
                     <div id="msg_div0" class="Sina_help Sina_help_news " help-id="0" style="margin-top: -16px;">
-                        {{ search_form.content.help_text }}
+                        {{ search_form.total_search.help_text }}
                     </div>
                 </label>
 
@@ -91,16 +93,6 @@
                             <div class="inline field">
                                 <label class="input_labels"> عنوان</label>
                                 {{ search_form.title }}
-
-                                <label style="display: inline-block">
-
-                                    <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
-
-                                    <div id="msg_div1" class="Sina_help Sina_help_news "
-                                         style="margin-top: -26px;">
-                                        {{ search_form.title.help_text }}
-                                    </div>
-                                </label>
 
                             </div>
 
@@ -120,16 +112,6 @@
                                 </label>
 
                             </div>
-                            {#                            <div class="two fields">#}
-                            {#                                <span class="inline field">#}
-                            {#                                <label class="input_labels">از تاریخ: </label><input type="date"#}
-                            {#                                                                                     name="first_date"></span>#}
-                            {#                                <span class="inline field">#}
-                            {#                                <label class="input_labels">تا تاریخ: </label>#}
-                            {#                                    {{ search_form.min_sco }}#}
-                            {#                                    <input type="date" name="second_date">#}
-                            {#                                </span>#}
-                            {#                            </div>#}
                             <div class="inline field">
                                 <label class="input_labels">{{ search_form.cooperation_type.label }}</label>
                                 {{ search_form.cooperation_type }}
@@ -183,7 +165,7 @@
                             <td>{% get_persian_date item.request.timestamp.date %}</td>
                             <td>
                                 <div class="ui button small teal view-details" data-req="{{ item.request.pk }}"
-                                     data-user="{{ item.response.thread.responder.pk }}">مشاهده
+                                     data-user="{{ item.responder_pk }}">مشاهده
                                 </div>
                             </td>
                         </tr>

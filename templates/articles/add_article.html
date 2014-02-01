@@ -7,10 +7,24 @@
 
 {% block css %}
     <link href="{% static  'css/FJ_add_article.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static  'css/help.css' %}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .ui.form.segment .field input[type="text"], .ui.form.segment .field textarea {
+            width: 50%;
+        }
+
+        .ui.form.segment {
+            background-color: rgba(167, 163, 126, 0.6);
+            -moz-box-shadow: inset 0 0 27px #8A765C;
+            -webkit-box-shadow: inset 0 0 27px #8A765C;
+            box-shadow: inset 0 0 27px #8A765C;
+        }
+    </style>
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src= "{% static 'js/FJ_add_article.js'%} "></script>
+    <script type="text/javascript" src="{% static 'js/FJ_add_article.js' %} "></script>
+    <script type="text/javascript" src="{% static 'js/help.js' %} "></script>
 {% endblock %}
 
 {% block content %}
@@ -31,14 +45,15 @@
                                     عنوان مقاله
                                 </label>
                                 {{ form.title }}
-                                <label style="display: inline-block; width: 100px">شرح خبر
+                                <label style="display: inline-block; width: 100px">
 
-                                <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
+                                    <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
 
-                                <div id="msg_div1" class="Sina_help Sina_help_news " help-id="0" style="margin-right: 36px;margin-top: 1px">
-                                    {{ form.help_texts.title }}
-                                </div>
-                            </label>
+                                    <div id="msg_div1" class="Sina_help Sina_help_news " help-id="0"
+                                         style="margin-right: 36px;margin-top: 1px">
+                                        {{ form.help_texts.title }}
+                                    </div>
+                                </label>
                             </div>
 
                             <div class="field">
@@ -46,42 +61,43 @@
                                     خلاصه مقاله
                                 </label>
                                 {{ form.summary }}
-                                <label style="display: inline-block; width: 100px">شرح خبر
+                                <label style="display: inline-block; width: 100px">
 
-                                <i class="tiny help icon" id="help_icon" help-id="2" style="cursor: pointer"></i>
+                                    <i class="tiny help icon" id="help_icon" help-id="2" style="cursor: pointer"></i>
 
-                                <div id="msg_div2" class="Sina_help Sina_help_news " help-id="2" style="margin-right: 36px;margin-top: 1px">
-                                    {{ form.help_texts.summary }}
+                                    <div id="msg_div2" class="Sina_help Sina_help_news " help-id="2"
+                                         style="margin-right: 36px;margin-top: 1px">
+                                        {{ form.help_texts.summary }}
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="clr">
+                                <div class="field inlineblock">
+                                    <label class="right_alignment">
+                                        نویسندگان
+                                    </label>
+                                    <input placeholder="نویسنده" type="text" id="author1" class="author">
                                 </div>
-                            </label>
+                                <i class="add-icon plus icon" id="add_author"></i>
                             </div>
-
+                            {#                            <div class="inline fields">#}
+                            {#                                <label>Phone Number</label>#}
+                            {#                                <div class="field">#}
+                            {#                                  <input type="text" placeholder="(xxx)">#}
+                            {#                                </div>#}
+                            {#                                <div class="field">#}
+                            {#                                  <input type="text" placeholder="(xxx)">#}
+                            {#                                </div>#}
+                            {#                              </div>#}
                             <div class="clr">
-                            <div class="field inlineblock">
-                                <label class="right_alignment">
-                                    نویسندگان
-                                </label>
-                                <input placeholder="نویسنده" type="text" id="author1" class="author">
-                            </div>
-                            <i class="add-icon plus icon" id="add_author"></i>
-                            </div>
-{#                            <div class="inline fields">#}
-{#                                <label>Phone Number</label>#}
-{#                                <div class="field">#}
-{#                                  <input type="text" placeholder="(xxx)">#}
-{#                                </div>#}
-{#                                <div class="field">#}
-{#                                  <input type="text" placeholder="(xxx)">#}
-{#                                </div>#}
-{#                              </div>#}
-                            <div class="clr">
-                            <div class="field inlineblock">
-                                <label class="right_alignment">
-                                    برچسب ها
-                                </label>
-                                <input placeholder="برچسب" type="text" id="tag1" class="tag">
-                            </div>
-                            <i class="add-icon plus icon" id="add_tag"></i>
+                                <div class="field inlineblock">
+                                    <label class="right_alignment">
+                                        برچسب ها
+                                    </label>
+                                    <input placeholder="برچسب" type="text" id="tag1" class="tag">
+                                </div>
+                                <i class="add-icon plus icon" id="add_tag"></i>
                             </div>
 
                             <input type="hidden" name="authors" value="" id="id_authors"/>

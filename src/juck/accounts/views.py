@@ -749,7 +749,7 @@ def employer_edit_profile(request):
         form = EditEmployerProfile(request.POST)
 
         if form.is_valid():
-            
+
 
             return HttpResponseRedirect(reverse('show_profile'))
     else:
