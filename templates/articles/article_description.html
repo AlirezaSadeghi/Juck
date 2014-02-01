@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load account_tags %}
 
 {% block title %}
     جاک | جزئیات مقاله
@@ -73,12 +74,19 @@
                                     <i class="download disk icon"></i>
                                     بارگذاری
                                 </div>
+                                {%  get_user_type as u_type %}
+                                {% if u_type == 'manager' %}
+                                <div class="ui icon small red button article">
+                                    <i class="remove icon"></i>
+                                    حذف
+                                </div>
+                                {% endif %}
                             </div>
                             <div class="field">
                                 <div class="authors">
                                     <span class="authors-label">نویسندگان:</span>
                                     {% for author in article.authors.all %}
-                                        <a class="ui small label authors-name">{{ author.full_name }}</a>
+                                        <a class="ui black small label authors-name">{{ author.full_name }}</a>
                                     {% endfor %}
                                 </div>
                             </div>

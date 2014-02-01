@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load account_tags %}
 
 {% block title %}
     جاک | مقالات
@@ -140,9 +141,10 @@
                             <h2 class="article-header">{{ item.title }}</h2>
 
                             <div class="ui section divider light_margined"></div>
-                            <div class="news_content"><p>
+                            <div class="news_content" style="position: relative;">
+                                <p>
                                 {{ item.summary }}
-                            </p>
+                                </p>
                             </div>
                             <div class="news_other">
                                 <div class="authors">
@@ -170,11 +172,18 @@
                                     {% endfor %}
                                 </div>
                                 <div class="more_buttons">
-                                    <div class="ui icon small blue button dl_a" id="a{{ item.pk }}">
+                                    {%  get_user_type as u_type %}
+                                    {% if u_type == 'manager' %}
+                                        <div class="ui icon small red button article" dir="ltr">
+                                            <i class="remove icon"></i>
+                                            حذف
+                                        </div>
+                                    {% endif %}
+                                    <div class="ui icon small blue button dl_a" id="a{{ item.pk }}" dir="ltr">
                                         <i class="download disk icon"></i>
                                         بارگذاری
                                     </div>
-                                    <a href="{% url 'show_article_description' %}/?pk={{ item.pk }}">
+                                    <a href="{% url 'show_article_description' %}/?pk={{ item.pk }}" dir="ltr">
                                         <div class="ui animated button  small">
                                             <div class="visible content">
                                                 بیشتر
