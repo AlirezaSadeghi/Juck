@@ -122,6 +122,10 @@ def upload_news_pic(request):
                               context_instance=RequestContext(request))
 
 
+def unreachable(request):
+        return render_to_response('messages.html', {'message': u' متاسفانه شما در سیستم ما حساب کاربری ندارید.'},
+                              context_instance=RequestContext(request))
+
 class ImageUploadForm(forms.Form):
     """Image upload form."""
     image = forms.ImageField()
