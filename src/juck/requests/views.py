@@ -233,6 +233,7 @@ def add_request(request, request_type):
                     jreq.sender = JobSeeker.objects.get(pk=request.user.pk)
                     jreq.employer = Employer.objects.get(pk=pp_pk)
                     jreq.save()
+                    DiscussionThread.objects.create(request=jreq, responder=jreq.employer)
 
         return render_to_response('messages.html', {'type': 'green', 'message': 'درخواست با موفقیت ثبت شد.'},
                                   context_instance=RequestContext(request, ))
