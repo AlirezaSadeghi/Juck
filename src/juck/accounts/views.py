@@ -258,9 +258,6 @@ class JobSeekerWizard(SessionWizardView):
         work_session = self.request.session.get("added_work", None)
         print(work_session)
 
-        del self.request.session['added_edu']
-        del self.request.session['added_skills']
-        del self.request.session['added_work']
 
         for form in form_list:
             data.update(form.cleaned_data)
@@ -279,6 +276,7 @@ class JobSeekerWizard(SessionWizardView):
         jobseeker_resume.save()
 
         if edu_session:
+            del self.request.session['added_edu']
             for i, edu in edu_session.items():
                     edu_obj = Education(certificate=edu['certificate'],
                                         status=edu['status'], major=edu['major'],
@@ -290,6 +288,7 @@ class JobSeekerWizard(SessionWizardView):
                     # edu_objs.append(edu_obj)
 
         if skill_session:
+            del self.request.session['added_skills']
             for i, skill in skill_session.items():
                     skill_obj = Skill(title=skill['skill_title'],
                                           level=skill['skill_level'],
@@ -299,6 +298,7 @@ class JobSeekerWizard(SessionWizardView):
                     jobseeker_resume.skill.add(skill_obj)
 
         if work_session:
+            del self.request.session['added_work']
             for i, work in work_session.items():
                     work_obj = Experience(title=work['title'],
                                           to_date=work['to_date'], from_date=work['from_date'],
@@ -567,7 +567,7 @@ def employer_list(request, approved_status):
 @login_required
 def show_profile(request):
     if request.method == "GET" and request.GET.get('pk', ''):
-        pk = request.GET.get('pk', '')
+        pk = int(request.GET.get('pk', ''))
         self_profile = pk == request.user.pk
         user = JuckUser.objects.get(pk=pk) if not self_profile else request.user
 
@@ -576,6 +576,7 @@ def show_profile(request):
             kwargs = {}
 
             kwargs['self_profile'] = True if self_profile else False
+            print(kwargs['self_profile'])
             if u_type == 'jobseeker':
                 kwargs['jobseeker'] = JobSeeker.objects.get(pk=user.pk)
                 # user = kwargs['jobseeker']

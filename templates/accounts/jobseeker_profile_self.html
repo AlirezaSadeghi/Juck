@@ -30,7 +30,9 @@
 
             fetchComments('job_seeker', {{ jobseeker.id }}, 1, '#jobseeker-comment');
 
+{#            alert('{{ jobseeker }}');#}
             {% if self_profile %}
+                alert('self');
                 $('#js_rating').rating({interactive: false});
                 $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
                     var content = $(this).parent().next();
@@ -99,19 +101,19 @@
                 <label class="profile_label">نام: </label>
             </div>
             <div class="col15">
-                <span class="profile_info ui label ">{{ jobseeker.first_name }}</span>
+                <span class="profile_info ui label " name='first_name'>{{ jobseeker.first_name }}</span>
             </div>
             <div class="col2">
                 <label class="profile_label">نام خانوادگی: </label>
             </div>
             <div class="col25">
-                <span class="profile_info ui label ">{{ jobseeker.last_name }}</span>
+                <span class="profile_info ui label " name="last_name">{{ jobseeker.last_name }}</span>
             </div>
             <div class="col3">
                 <label class="profile_label">شماره ملی: </label>
             </div>
             <div class="col35">
-                <span class="profile_info ui label ">{{ jobseeker.profile.national_id }}</span>
+                <span class="profile_info ui label " name='national_id'>{{ jobseeker.profile.national_id }}</span>
             </div>
         </div>
         <div class="fj_space"></div>
@@ -121,19 +123,19 @@
                 <label class="profile_label">تاریخ تولد: </label>
             </div>
             <div class="col15">
-                <span class="profile_info ui label">{{ jobseeker.profile.date_of_birth|default:'نامشخص' }}</span>
+                <span class="profile_info ui label" name="date_of_birth">{{ jobseeker.profile.date_of_birth|default:'نامشخص' }}</span>
             </div>
             <div class="col2">
                 <label class="profile_label">جنسیت: </label>
             </div>
             <div class="col25">
-                <span class="profile_info ui label">{% get_sex_rep jobseeker.profile.sex %}</span>
+                <span class="profile_info ui label" name='sex'>{% get_sex_rep jobseeker.profile.sex %}</span>
             </div>
             <div class="col3">
                 <label class="profile_label">وضعیت تاهل: </label>
             </div>
             <div class="col35">
-                <span class="profile_info ui label">{{ jobseeker.profile.exemption|default:'نامشخص' }}</span>
+                <span class="profile_info ui label" name="exemption">{{ jobseeker.profile.exemption|default:'نامشخص' }}</span>
             </div>
         </div>
         <div class="fj_space"></div>
@@ -143,13 +145,13 @@
                 <label class="profile_label">شماره تلفن: </label>
             </div>
             <div class="col15">
-                <span class="profile_info ui label">{{ jobseeker.profile.phone_number|default:'نامشخص' }}</span>
+                <span class="profile_info ui label" name="phone_number">{{ jobseeker.profile.phone_number|default:'نامشخص' }}</span>
             </div>
             <div class="col2">
                 <label class="profile_label">شماره همراه: </label>
             </div>
             <div class="col25">
-                <span class="profile_info ui label">{{ jobseeker.profile.mobile_number|default:'نامشخص' }}</span>
+                <span class="profile_info ui label" name="mobile_number">{{ jobseeker.profile.mobile_number|default:'نامشخص' }}</span>
             </div>
         </div>
         <div class="fj_space"></div>
@@ -159,20 +161,20 @@
                 <label class="profile_label">ساکن: </label>
             </div>
             <div class="col15">
-                <span class="profile_info ui label">{{ jobseeker.profile.city }}</span>-<span
-                    class="profile_info ui label">{{ jobseeker.profile.state }}</span>
+                <span class="profile_info ui label" name='city'>{{ jobseeker.profile.city }}</span>-<span
+                    class="profile_info ui label" name="state">{{ jobseeker.profile.state }}</span>
             </div>
             <div class="col2">
                 <label class="profile_label">وضعیت سربازی: </label>
             </div>
             <div class="col25">
-                <span class="profile_info ui label">{{ jobseeker.profile.military_service_status|default:'نامشخص' }}</span>
+                <span class="profile_info ui label" name='military_service_status'>{{ jobseeker.profile.military_service_status|default:'نامشخص' }}</span>
             </div>
             <div class="col3">
                 <label class="profile_label">علت معافیت: </label>
             </div>
             <div class="col35">
-                <span class="profile_info ui label">{{ jobseeker.profile.exemption_type|default:'نامشخص' }}</span>
+                <span class="profile_info ui label" name="exemption_type">{{ jobseeker.profile.exemption_type|default:'نامشخص' }}</span>
             </div>
         </div>
         <div class="fj_space"></div>
@@ -183,7 +185,7 @@
                 <label class="profile_label">درباره کارجو: </label>
             </div>
             <div class="col15">
-                <span class="profile_info ui label ">{{ jobseeker.resume.about_me|default:'نامشخص' }}</span>
+                <span class="profile_info ui label " name="about_me">{{ jobseeker.resume.about_me|default:'نامشخص' }}</span>
             </div>
         </div>
         <div class="fj_space"></div>
