@@ -32,28 +32,28 @@
 
             {% if self_profile %}
                 $('#em_rating').rating({interactive: false});
-
-                $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
-                    var content = $(this).parent().next();
-                    if ($(this).parent().hasClass('active')) {
-
-                        if (!$(this).hasClass('fj_pressed')) {
-                            $(this).addClass('fj_pressed');
-                            content.find('.ui.label').each(function () {
-                                $(this).replaceWith('<input type="text" value="@" style="width:100px;"/>'.replace('@', $(this).text()));
-                            });
-
-                        }
-                        else {
-                            $(this).removeClass('fj_pressed');
-                            content.find('input').each(function () {
-                                $(this).replaceWith('<span class="profile_info ui label">@</span>'.replace('@', $(this).val()));
-                            });
-                        }
-                    }
-                    e.preventDefault();
-                    return false;
-                });
+                $('.ui.accordion .title a.edit_profile_accordion').attr('href', '{% url 'employer_edit_profile' %}');
+{#                $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {#}
+{#                    var content = $(this).parent().next();#}
+{#                    if ($(this).parent().hasClass('active')) {#}
+{##}
+{#                        if (!$(this).hasClass('fj_pressed')) {#}
+{#                            $(this).addClass('fj_pressed');#}
+{#                            content.find('.ui.label').each(function () {#}
+{#                                $(this).replaceWith('<input type="text" value="@" name="*" style="width:100px;"/>'.replace('@', $(this).text()).replace('*', $(this).data('name')));#}
+{#                            });#}
+{##}
+{#                        }#}
+{#                        else {#}
+{#                            $(this).removeClass('fj_pressed');#}
+{#                            content.find('input').each(function () {#}
+{#                                $(this).replaceWith('<span class="profile_info ui label">@</span>'.replace('@', $(this).val()));#}
+{#                            });#}
+{#                        }#}
+{#                    }#}
+{#                    e.preventDefault();#}
+{#                    return false;#}
+{#                });#}
             {% endif %}
         })
     </script>
@@ -99,19 +99,19 @@
                             <label class="profile_label">نام شرکت: </label>
                         </div>
                         <div class="col15">
-                            <span class="profile_info ui label " name='company_name'>{{ employer.profile.company_name }}</span>
+                            <span class="profile_info ui label " data-name='company_name'>{{ employer.profile.company_name }}</span>
                         </div>
                         <div class="col2">
                             <label class="profile_label">سال تاسیس: </label>
                         </div>
                         <div class="col25">
-                            <span class="profile_info ui label" name="foundation_year">{{ employer.profile.foundation_year }}</span>
+                            <span class="profile_info ui label" data-name="foundation_year">{{ employer.profile.foundation_year }}</span>
                         </div>
                         <div class="col3">
                             <label class="profile_label">شماره ثبت: </label>
                         </div>
                         <div class="col35">
-                            <span class="profile_info ui label" name="reg_num">{{ employer.profile.reg_num }}</span>
+                            <span class="profile_info ui label" data-name="reg_num">{{ employer.profile.reg_num }}</span>
                         </div>
                     </div>
                     <div class="fj_space"></div>
@@ -121,19 +121,19 @@
                             <label class="profile_label">شماره تلفن: </label>
                         </div>
                         <div class="col15">
-                            <span class="profile_info ui label" name="phone_number">{{ employer.profile.phone_number }}</span>
+                            <span class="profile_info ui label" data-name="phone_number">{{ employer.profile.phone_number }}</span>
                         </div>
                         <div class="col2">
                             <label class="profile_label">شماره همراه: </label>
                         </div>
                         <div class="col25">
-                            <span class="profile_info ui label" name="mobile_number">{{ employer.profile.mobile_number|default:'نامشخص' }}</span>
+                            <span class="profile_info ui label" data-name="mobile_number">{{ employer.profile.mobile_number|default:'نامشخص' }}</span>
                         </div>
                         <div class="col3">
                             <label class="profile_label">وب سایت: </label>
                         </div>
                         <div class="col35">
-                            <span class="profile_info ui label" name="website">{{ employer.profile.website|default:'نامشخص' }}</span>
+                            <span class="profile_info ui label" data-name="website">{{ employer.profile.website|default:'نامشخص' }}</span>
                         </div>
                     </div>
                     <div class="fj_space"></div>
@@ -143,20 +143,20 @@
                             <label class="profile_label">محل سازمان: </label>
                         </div>
                         <div class="col15">
-                            <span class="profile_info ui label" name='city'>{{ employer.profile.city }}</span>-<span
-                                class="profile_info ui label" name="state">{{ employer.profile.state }}</span>
+                            <span class="profile_info ui label" data-name='city'>{{ employer.profile.city }}</span>-<span
+                                class="profile_info ui label" data-name="state">{{ employer.profile.state }}</span>
                         </div>
                         <div class="col2">
                             <label class="profile_label">آدرس: </label>
                         </div>
                         <div class="col25">
-                            <span class="profile_info ui label" name='address'>{{ employer.profile.address }}</span>
+                            <span class="profile_info ui label" data-name='address'>{{ employer.profile.address }}</span>
                         </div>
                         <div class="col3">
                             <label class="profile_label">کد پستی: </label>
                         </div>
                         <div class="col35">
-                            <span class="profile_info ui label" name="postal_code">{{ employer.profile.postal_code|default:'نامشخص' }}</span>
+                            <span class="profile_info ui label" data-name="postal_code">{{ employer.profile.postal_code|default:'نامشخص' }}</span>
                         </div>
                     </div>
                     <div class="fj_space"></div>
@@ -175,13 +175,13 @@
                             <label class="profile_label">نوع سازمان: </label>
                         </div>
                         <div class="col15">
-                            <span class="profile_info ui label" name="company_type">{{ employer.profile.company_type }}</span>
+                            <span class="profile_info ui label" data-name="company_type">{{ employer.profile.company_type }}</span>
                         </div>
                         <div class="col2">
                             <label class="profile_label">زمینه کاری: </label>
                         </div>
                         <div class="col25">
-                            <span class="profile_info ui label" name="field">{{ employer.profile.field }}</span>
+                            <span class="profile_info ui label" data-name="field">{{ employer.profile.field }}</span>
                         </div>
                     </div>
                     <div class="fj_space"></div>
