@@ -12,17 +12,17 @@ class ArticleListFilter:
 
         #from_date = forms.DateField(required=False, widget=forms.DateInput)
         #to_date = forms.DateField(required=False, widget=forms.DateInput)
-        both = forms.CharField(label=u'جستجو کلی', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'placeholder': u'جستجو'}))
-        title = forms.CharField(label=u'عنوان', max_length=100, required=False, widget=forms.TextInput(
+        both = forms.CharField(help_text=u'جستجو در عناوین و خلاصه مقالات. در صورت استفاده از این فیلد سایر فیلد ها را خالی بگذارید.', label=u'جستجو کلی', max_length=150,
+                               required=False, widget=forms.TextInput(attrs={'placeholder': u'جستجو'}))
+        title = forms.CharField(help_text=u'جستجو در عناوین مقالات', label=u'عنوان', max_length=100, required=False, widget=forms.TextInput(
             attrs={'class': 'search-tab-content-input input-12', 'placeholder': u'عنوان'}))
-        summary = forms.CharField(label=u'عنوان', max_length=100, required=False, widget=forms.TextInput(
+        summary = forms.CharField(label=u'جستجو در خلاصه مقالات', max_length=100, required=False, widget=forms.TextInput(
             attrs={'class': 'search-tab-content-input input-12', 'placeholder': u'خلاصه'}))
-        dl_count = forms.IntegerField(required=False, widget=forms.TextInput(attrs={
+        dl_count = forms.IntegerField(help_text=u'مقالاتی که حداقل به این تعداد دانلود شده اند.' , required=False, widget=forms.TextInput(attrs={
             'placeholder': u'بار'
         }))
-        author = forms.CharField(label=u'نویسنده', required=False, widget=forms.TextInput())
-        tag = forms.CharField(label=u'برچسب', required=False, widget=forms.TextInput())
+        author = forms.CharField(help_text=u'مقالاتی که شخص مورد نظر از نویسندگان آن است.',  label=u'نویسنده', required=False, widget=forms.TextInput())
+        tag = forms.CharField(help_text=u'مقالاتی که برچسپ مورد نظر را دارند.', label=u'برچسب', required=False, widget=forms.TextInput())
 
     Form = SecretaryArticleListFilterForm
 

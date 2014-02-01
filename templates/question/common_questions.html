@@ -31,18 +31,6 @@
                         <form>
                             <h3 class="inline_block"> اطلاعات سوالات و جواب ها: </h3>
 
-
-                            <label style="display: inline-block;margin-bottom: 5px ">
-
-                                <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
-
-                                <div id="msg_div1" class="Sina_help Sina_help_news "
-                                     style="margin-top: -26px;">
-                                    {{ search_form.title.help_text }}
-                                </div>
-                            </label>
-
-
                             {% csrf_token %}
                             <div class="two fields">
                                 <span class="inline field">
@@ -54,18 +42,30 @@
 
                             </div>
 
-                            <div class="two fields">
                                 <div class="inline field">
                                     <label class="input_labels">عنوان: </label>{{ search_form.title }}
+                                    <label style="display: inline-block;margin-bottom: 5px ">
+
+                                    <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
+
+                                    <div id="msg_div1" class="Sina_help Sina_help_news "
+                                     style="margin-top: -26px;">
+                                    {{ search_form.title.help_text }}
+                                </div>
+                                </label>
                                 </div>
                                 <div class="inline field">
                                     <label class="input_labels">پاسخ: </label>{{ search_form.answer }}
-                                </div>
-                            </div>
+                                    <label style="display: inline-block;margin-bottom: 5px ">
 
-                            <div class="inline field">
-                                {{ search_form.answered }}
-                            </div>
+                                    <i class="tiny help icon" id="help_icon" help-id="2" style="cursor: pointer"></i>
+
+                                    <div id="msg_div2" class="Sina_help Sina_help_news "
+                                         style="margin-top: -26px;">
+                                        {{ search_form.answer.help_text }}
+                                    </div>
+                                    </label>
+                                </div>
 
                             <div class="search_buttons">
                                 <input class="inline ui button" type="reset" value="پاک کردن">
