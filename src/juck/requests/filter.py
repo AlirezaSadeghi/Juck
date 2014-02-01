@@ -43,8 +43,7 @@ class RequestListFilter:
         ))
 
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-            ('', u'تمامی حالات'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
-
+            ('', u'تمامی حالات'), (True, u'قبول شده'), (False, u'رد شده'), (None, u'در دست بررسی') ))
 
 
         def __init__(self, *args, **kwargs):
@@ -110,8 +109,14 @@ class RequestListFilter:
                 for item in educations:
                     major_list.append(item.major)
 
-                requests = requests.filter(Q(first_major__in=major_list) |
-                                           Q(second_major__in=major_list))
+                cert_list = []
+                for item in educations:
+                    cert_list.append(item.certificate)
+                final_requests = JobOpportunity.objects.none()
+                for i in range(len(educations)):
+                    final_requests = final_requests | requests.filter(
+                        (Q(first_major__icontains=major_list[i]) | Q(second_major__icontains=major_list[i])),
+                        certificate__icontains=cert_list[0])
 
         else:
             print("why ???")
@@ -282,7 +287,7 @@ class DashboardListFilter:
                                            attrs={'placeholder': u'جستجو'}))
 
         employer = forms.CharField(label=u'نام سازمان', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u''}) ,help_text=u'هم در میان فرستندگان و هم گیرندگان جستجو می شود.')
+            attrs={'class': '', 'placeholder': u''}), help_text=u'هم در میان فرستندگان و هم گیرندگان جستجو می شود.')
 
         title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': '', 'placeholder': u''}))
@@ -293,7 +298,7 @@ class DashboardListFilter:
         ))
 
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-            ('', u'همه موارد'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
+            ('', u'همه موارد'), (True, u'قبول شده'), (False, u'رد شده'), (None, u'در دست بررسی') ))
 
         def __init__(self, *args, **kwargs):
             super(DashboardListFilter.DashboardFilterForm, self).__init__(*args, **kwargs)
@@ -351,7 +356,8 @@ class DashboardListFilter:
 
         threads = threads.filter(**filter_kwargs)
 
-        threads = threads.filter((Q(request__title__icontains=total_search) | Q( request__employer__profile__company_name__icontains=total_search)  ))
+        threads = threads.filter((Q(request__title__icontains=total_search) | Q(
+            request__employer__profile__company_name__icontains=total_search)  ))
 
         dashboard_items = []
         for item in threads:

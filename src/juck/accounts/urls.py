@@ -16,7 +16,7 @@ urlpatterns = patterns('juck.accounts.views',
                        url(r'password_recover/$', 'password_recover', name='password_recover'),
 
                        url(r'register/(?P<u_type>\w+)/$', 'captcha_view', name='captcha_view'),
-
+                       url(r'js_edit_profile/$', 'edit_js_profile', {}, name='js_edit_profile'),
                        url(r'jobseeker_registration/$',
                            passed_captcha(JobSeekerWizard.as_view(JOB_SEEKER_FORMS, )), {},
                            name='jobseeker_registration'),
@@ -29,7 +29,7 @@ urlpatterns = patterns('juck.accounts.views',
 
 
                        url(r'show_profile/emp/edit/$', 'employer_edit_profile', {}, name='employer_edit_profile'),
-                        url(r'show_profile/js/edit/$', 'jobseeker_edit_profile', {}, name='jobseeker_edit_profile'),
+                       url(r'show_profile/js/edit/$', 'jobseeker_edit_profile', {}, name='jobseeker_edit_profile'),
 
 
                        url(r'check_catpcha/$', 'check_catpcha', {}, name='check_catpcha'),
@@ -63,7 +63,8 @@ urlpatterns = patterns('juck.accounts.views',
                            password_reset_complete, {'template_name': 'accounts/password_reset_complete.html'}),
                        #Sina kharej mishavad
 
-                       url(r'^job_seeker_list/(?P<approved_status>[\w\-]+)/$', 'job_seeker_list', {}, name='job_seeker_list'),
+                       url(r'^job_seeker_list/(?P<approved_status>[\w\-]+)/$', 'job_seeker_list', {},
+                           name='job_seeker_list'),
                        url(r'^employer_list/(?P<approved_status>[\w\-]+)/$', 'employer_list', {}, name='employer_list'),
 
                        url(r'^show_profile/', 'show_profile', {}, name='show_profile'),

@@ -241,6 +241,27 @@ class JobSeekerRegisterForm4(forms.Form):
             raise forms.ValidationError((u"شماره تلفن همراه واردشده نامعتبر است."), code='notNumber')
 
 
+class JobSeekerEditProfileForm(forms.ModelForm):
+
+    image = forms.ImageField(label=u'عکس پروفایل')
+
+    class Meta:
+        model = JobSeekerProfile
+        exclude = ('approved', 'image', )
+        widgets = {
+            'married': forms.Select(choices=(
+                ('', u'انتخاب وضعیت'),
+                (True, u'متاهل'),
+                (False, u'مجرد'),
+            )),
+            'sex': forms.Select(choices=(
+                ('', u'انتخاب جنسیت'),
+                (True, u'مرد'),
+                (False, u'زن'),
+            )),
+        }
+
+
 class EmployerRegisterForm1(forms.Form):
     email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),
                              help_text=u'آدرس الکترونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
@@ -346,6 +367,8 @@ class EmployerRegisterForm3(forms.Form):
             return data
         else:
             raise forms.ValidationError((u"شماره تلفن همراه واردشده نامعتبر است."), code='notNumber')
+
+
 
 
 setattr(Field, 'is_textarea', lambda self: isinstance(self.widget, forms.Textarea))
