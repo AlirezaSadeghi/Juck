@@ -57,7 +57,7 @@ class JobSeekerRegisterForm1(forms.Form):
         pass1 = cleaned_data.get('password', '')
         pass2 = cleaned_data.get('re_password', '')
 
-        if pass1 != pass2:
+        if pass1 != pass2 and pass1 and pass2:
             self._errors['password'] = ErrorList([u'رمز عبور و تکرار آن باید یکسان باشند.'])
             del cleaned_data['password']
 
@@ -163,8 +163,8 @@ class JobSeekerRegisterForm4(forms.Form):
     mobile_num = forms.CharField(required=False, label=u'شماره تلفن همراه')
     state = forms.CharField(required=True, label=u'استان', max_length=100)
     city = forms.CharField(required=True, label=u'شهر', max_length=100)
+    address = forms.CharField(required=True, widget=forms.Textarea(attrs={'style':'width:400px;margin-top:-15px'}), label=u'آدرس')
     postal_code = forms.CharField(required=False, label=u'کد پستی')
-    address = forms.CharField(required=True, widget=forms.Textarea(), label=u'آدرس')
 
     def clean_postal_code(self):
         data = self.cleaned_data['postal_code']
@@ -263,7 +263,7 @@ class EmployerRegisterForm3(forms.Form):
     postal_code = forms.CharField(required=False, label=u'کد پستی')
     state = forms.CharField(required=True, label=u'استان', max_length=100)
     city = forms.CharField(required=True, label=u'شهر', max_length=100)
-    address = forms.CharField(required=True, widget=forms.Textarea(), label=u'آدرس')
+    address = forms.CharField(required=True,  label=u'آدرس', widget=forms.Textarea(attrs={'style':'width:400px;margin-top:-15px'}))
 
     def clean_postal_code(self):
         data = self.cleaned_data['postal_code']

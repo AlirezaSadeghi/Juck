@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block title %}
+    جاک |‌ پروفایل کاربر
+{% endblock %}
+
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/FJ_test.css' %}" type="text/css"/>
@@ -8,30 +12,49 @@
 
 {% block js %}
     <script>
+        function submitComment() {
+            cm = $('#employer-comment-area').val();
+            if (cm)
+                addComment('employer', {{ employer.id }}, '#employer-comment', cm);
+            else
+                message('ابتدا نظر خود را بنویسید.', 'Warning');
+        }
+
         $(document).ready(function () {
+
             $('.ui.accordion').accordion();
 
-            $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
-                var content = $(this).parent().next();
-                if ($(this).parent().hasClass('active')) {
+            $('#em_rating').rating('set rating', {{ employer.get_rate }}).rating({interactive: true, onRate: function (value) {
+                addRate('employer', {{ employer.id }}, value);
+            }});
 
-                    if (!$(this).hasClass('fj_pressed')) {
-                        $(this).addClass('fj_pressed');
-                        content.find('.ui.label').each(function () {
-                            $(this).replaceWith('<input type="text" value="@" style="width:100px;"/>'.replace('@', $(this).text()));
-                        });
+            fetchComments('employer', {{ employer.id }}, 1, '#employer-comment');
 
+            {% if self_profile %}
+                $('#em_rating').rating({interactive: false});
+
+                $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
+                    var content = $(this).parent().next();
+                    if ($(this).parent().hasClass('active')) {
+
+                        if (!$(this).hasClass('fj_pressed')) {
+                            $(this).addClass('fj_pressed');
+                            content.find('.ui.label').each(function () {
+                                $(this).replaceWith('<input type="text" value="@" style="width:100px;"/>'.replace('@', $(this).text()));
+                            });
+
+                        }
+                        else {
+                            $(this).removeClass('fj_pressed');
+                            content.find('input').each(function () {
+                                $(this).replaceWith('<span class="profile_info ui label">@</span>'.replace('@', $(this).val()));
+                            });
+                        }
                     }
-                    else {
-                        $(this).removeClass('fj_pressed');
-                        content.find('input').each(function () {
-                            $(this).replaceWith('<span class="profile_info ui label">@</span>'.replace('@', $(this).val()));
-                        });
-                    }
-                }
-                e.preventDefault();
-                return false;
-            });
+                    e.preventDefault();
+                    return false;
+                });
+            {% endif %}
         })
     </script>
 {% endblock %}
@@ -41,9 +64,26 @@
         <div class="ctn-box">
             <div class="fj_profile">
                 <div class=" ui small rounded image ">
-                    <img src="{% static 'images/grumpy.jpeg' %}"/>
+                    <img src="{{ employer.profile.image.thumbnail.url|default:'/static/images/user.png' }}"/>
                 </div>
-                <p style="margin: 10px 0; font-size: 24px;">شرکت سامانه پروران اسمی</p>
+                <p style="margin: 10px 0; font-size: 24px;">{{ employer.profile.company_name }}</p>
+
+                <div class="ui form" style="margin-bottom: 10px;">
+                    <label>امتیاز: </label>
+
+                    <div class="ui large rating" id="em_rating">
+                        <i class="icon"></i>
+                        <i class="icon"></i>
+                        <i class="icon"></i>
+                        <i class="icon"></i>
+                        <i class="icon"></i>
+                    </div>
+                    <label>
+                        (از
+                        {{ employer.get_numer_of_rates }}
+                        رای)
+                    </label>
+                </div>
             </div>
             <div class="ui fluid accordion jobseekerprofile">
                 <div class="active title general_info">
@@ -59,19 +99,19 @@
                             <label class="profile_label">نام شرکت: </label>
                         </div>
                         <div class="col15">
-                            <span class="profile_info ui label ">سامانه پروران اسمی</span>
+                            <span class="profile_info ui label ">{{ employer.profile.company_name }}</span>
                         </div>
                         <div class="col2">
                             <label class="profile_label">سال تاسیس: </label>
                         </div>
                         <div class="col25">
-                            <span class="profile_info ui label ">۱۳۷۰</span>
+                            <span class="profile_info ui label ">{{ employer.profile.foundation_year }}</span>
                         </div>
                         <div class="col3">
                             <label class="profile_label">شماره ثبت: </label>
                         </div>
                         <div class="col35">
-                            <span class="profile_info ui label ">۲۳۵۲۳۴۶۲</span>
+                            <span class="profile_info ui label ">{{ employer.profile.reg_num }}</span>
                         </div>
                     </div>
                     <div class="fj_space"></div>
@@ -81,44 +121,46 @@
                             <label class="profile_label">شماره تلفن: </label>
                         </div>
                         <div class="col15">
-                            <span class="profile_info ui label">۰۲۱۲۲۲۲۲۲۲</span>
+                            <span class="profile_info ui label">{{ employer.profile.phone_number }}</span>
                         </div>
                         <div class="col2">
                             <label class="profile_label">شماره همراه: </label>
                         </div>
                         <div class="col25">
-                            <span class="profile_info ui label">۰۹۳۶۵۹۳۲۴۷۹</span>
+                            <span class="profile_info ui label">{{ employer.profile.mobile_number|default:'نامشخص' }}</span>
                         </div>
-                        <div class="col30">
+                        <div class="col3">
                             <label class="profile_label">وب سایت: </label>
                         </div>
                         <div class="col35">
-                            <span class="profile_info ui label">www.laashi.com</span>
+                            <span class="profile_info ui label">{{ employer.profile.website|default:'نامشخص' }}</span>
                         </div>
                     </div>
                     <div class="fj_space"></div>
                     <div class="ui section divider fj_divider"></div>
                     <div class="fj_row">
                         <div class="col1">
-                            <label class="profile_label">محل شرکت: </label>
+                            <label class="profile_label">محل سازمان: </label>
                         </div>
                         <div class="col15">
-                            <span class="profile_info ui label">اندیشه</span><span
-                                class="profile_info ui label">تهران</span>
+                            <span class="profile_info ui label">{{ employer.profile.city }}</span>-<span
+                                class="profile_info ui label">{{ employer.profile.state }}</span>
                         </div>
                         <div class="col2">
                             <label class="profile_label">آدرس: </label>
                         </div>
                         <div class="col25">
-                            <span class="profile_info ui label">فاز ۳ محله ۲۶</span>
+                            <span class="profile_info ui label">{{ employer.profile.address }}</span>
                         </div>
-                        <div class="col30">
+                        <div class="col3">
                             <label class="profile_label">کد پستی: </label>
                         </div>
                         <div class="col35">
-                            <span class="profile_info ui label">۲۳۴۵۲۳۰</span>
+                            <span class="profile_info ui label">{{ employer.profile.postal_code|default:'نامشخص' }}</span>
                         </div>
                     </div>
+                    <div class="fj_space"></div>
+
                 </div>
 
 
@@ -130,24 +172,50 @@
                 <div class="content education">
                     <div class="fj_row">
                         <div class="col1">
-                            <label class="profile_label">نوع شرکت: </label>
+                            <label class="profile_label">نوع سازمان: </label>
                         </div>
                         <div class="col15">
-                            <span class="profile_info ui label">تحقیق و توسعه</span>
+                            <span class="profile_info ui label">{{ employer.profile.company_type }}</span>
                         </div>
                         <div class="col2">
                             <label class="profile_label">زمینه کاری: </label>
                         </div>
                         <div class="col25">
-                            <span class="profile_info ui label">تجاوز به عنف</span>
+                            <span class="profile_info ui label">{{ employer.profile.field }}</span>
                         </div>
                     </div>
                     <div class="fj_space"></div>
 
                 </div>
-
-
             </div>
+
+
+            <div class="ui section divider"></div>
+            <div class="row  ">
+                <div class="ui sixteen column wide segment">
+                    <!--<div class="segment">-->
+                    <h3 class="ui header">
+                        <i class="icon inverted circular blue comment"></i> نظرات
+                    </h3>
+
+                    <div class="ui comments  ">
+                        <div id="employer-comment"></div>
+                        {% if user.is_authenticated %}
+                            <form class="ui reply form">
+                                <div class="field">
+                                    <textarea id="employer-comment-area"></textarea>
+                                </div>
+                                <div class="ui button teal submit labeled icon" onclick="submitComment()">
+                                    <i class="icon edit"></i> ارسال نظر
+                                </div>
+                            </form>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+
         </div>
     </div>
 {% endblock %}

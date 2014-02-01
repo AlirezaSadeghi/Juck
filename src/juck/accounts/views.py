@@ -110,13 +110,23 @@ def ajax_login(request):
         if JuckUser.objects.filter(email=username).count():
             user = auth.authenticate(username=username, password=password)
             if user is not None:
+                role = user.role
+                if role == 2:
+                    user_cast = Employer.objects.get(pk=user.pk)
+                    if not user_cast.profile.approved:
+                        return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
+                elif role == 3:
+                    user_cast = JobSeeker.objects.get(pk=user.pk)
+                    if not user_cast.profile.approved:
+                        return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
+
                 if user.is_active:
                     auth.login(request, user)
                     if user.is_staff:
                         redirect_to_url = '/admin/'
                     return json_response({'op_status': 'success', 'redirect_url': redirect_to_url})
                 else:
-                    return json_response({'op_status': 'not_active', 'message': u'حساب کاربری  مسدود می باشد.'})
+                    return json_response({'op_status': 'not_active', 'message': u'حساب کاربری  فعال نمی باشد.'})
             else:
                 return json_response({'op_status': 'failed', 'message': u'نام کاربری یا رمز عبور صحیح نیست.'})
 
@@ -248,6 +258,10 @@ class JobSeekerWizard(SessionWizardView):
         work_session = self.request.session.get("added_work", None)
         print(work_session)
 
+        del self.request.session['added_edu']
+        del self.request.session['added_skills']
+        del self.request.session['added_work']
+
         for form in form_list:
             data.update(form.cleaned_data)
         try:
@@ -264,34 +278,37 @@ class JobSeekerWizard(SessionWizardView):
         jobseeker_resume = Resume()
         jobseeker_resume.save()
 
-        for i, edu in edu_session.items():
-                edu_obj = Education(certificate=edu['certificate'],
-                                    status=edu['status'], major=edu['major'],
-                                    orientation=edu['orientation'],
-                                    university_name=edu['university_name'],
-                                    university_type=edu['university_type'])
-                edu_obj.save()
-                jobseeker_resume.education.add(edu_obj)
-                # edu_objs.append(edu_obj)
+        if edu_session:
+            for i, edu in edu_session.items():
+                    edu_obj = Education(certificate=edu['certificate'],
+                                        status=edu['status'], major=edu['major'],
+                                        orientation=edu['orientation'],
+                                        university_name=edu['university_name'],
+                                        university_type=edu['university_type'])
+                    edu_obj.save()
+                    jobseeker_resume.education.add(edu_obj)
+                    # edu_objs.append(edu_obj)
 
-        for i, skill in skill_session.items():
-                skill_obj = Skill(title=skill['skill_title'],
-                                      level=skill['skill_level'],
-                                      description=skill['skill_description'])
-                skill_obj.save()
-                # skill_objs.append(skill_obj)
-                jobseeker_resume.skill.add(skill_obj)
+        if skill_session:
+            for i, skill in skill_session.items():
+                    skill_obj = Skill(title=skill['skill_title'],
+                                          level=skill['skill_level'],
+                                          description=skill['skill_description'])
+                    skill_obj.save()
+                    # skill_objs.append(skill_obj)
+                    jobseeker_resume.skill.add(skill_obj)
 
-        for i, work in work_session.items():
-                work_obj = Experience(title=work['title'],
-                                      to_date=work['to_date'], from_date=work['from_date'],
-                                      place=work['place'],
-                                      description=work['description'],
-                                      cooperation_type=work['cooperation_type'],
-                                      exit_reason=work['exit_reason'])
-                work_obj.save()
-                # work_objs.append(edu_obj)
-                jobseeker_resume.experience.add(work_obj)
+        if work_session:
+            for i, work in work_session.items():
+                    work_obj = Experience(title=work['title'],
+                                          to_date=work['to_date'], from_date=work['from_date'],
+                                          place=work['place'],
+                                          description=work['description'],
+                                          cooperation_type=work['cooperation_type'],
+                                          exit_reason=work['exit_reason'])
+                    work_obj.save()
+                    # work_objs.append(edu_obj)
+                    jobseeker_resume.experience.add(work_obj)
 
         # jobseeker_resume.save()
 
@@ -561,18 +578,18 @@ def show_profile(request):
             kwargs['self_profile'] = True if self_profile else False
             if u_type == 'jobseeker':
                 kwargs['jobseeker'] = JobSeeker.objects.get(pk=user.pk)
-                user = kwargs['jobseeker']
-                kwargs['profile'] = user.profile
-                kwargs['resume'] = user.resume
-                kwargs['educations'] = user.resume.education.all()
-                kwargs['skills'] = user.resume.skill.all()
-                kwargs['experiences'] = user.resume.experience.all()
-
+                # user = kwargs['jobseeker']
+                # kwargs['profile'] = user.profile
+                # kwargs['resume'] = user.resume
+                # kwargs['educations'] = user.resume.education.all()
+                # kwargs['skills'] = user.resume.skill.all()
+                # kwargs['experiences'] = user.resume.experience.all()
+                #
                 return render_to_response('accounts/jobseeker_profile_self.html', kwargs,
                                           context_instance=RequestContext(request, ))
             elif u_type == 'employer':
                 kwargs['employer'] = Employer.objects.get(pk=user.pk)
-                kwargs['profile'] = kwargs['employer'].profile
+                # kwargs['profile'] = kwargs['employer'].profile
                 return render_to_response('accounts/employer_profile.html', kwargs,
                                           context_instance=RequestContext(request))
 

@@ -55,7 +55,7 @@ def add_comment(request):
     if request.method == 'POST':
         print('post')
         obj_type, obj_id, comment = request.POST['type'], request.POST['id'], request.POST['comment']
-        print(obj_type+" "+obj_id+" "+comment)
+        # print(obj_type+" "+obj_id+" "+comment)
         if obj_type == 'job_seeker':
             try:
                 print('js')

@@ -211,7 +211,10 @@ function addComment(obj_type, obj_id, div, comment) {
 
     $.post('/comments/add/', dict, function (data) {
         if (data.op_status == 'success') {
+
             fetchComments(obj_type, obj_id, 1, div);
+            message(data.message, 'Success');
+
         }
         else {
             message(data.message, 'Error');
@@ -221,6 +224,7 @@ function addComment(obj_type, obj_id, div, comment) {
 
 
 function addRate(obj_type, obj_id, rate){
+    console.log('adding rate...');
         var dict = {
         csrfmiddlewaretoken: csrfToken,
         'rate': rate,
@@ -230,12 +234,20 @@ function addRate(obj_type, obj_id, rate){
 
     $.post('/rating/add/', dict, function (data) {
         if (data.op_status == 'success') {
+            console.log('success...');
             location.reload();
+
         }
         else {
             message(data.message, 'Error');
+            if(obj_type == 'job_seeker' || obj_type == 'employer'){
+//                console.log('errorrr...');
+                location.reload();
+            }
+
         }
     });
+
 }
 
 function deletItem(item_type, item_id){

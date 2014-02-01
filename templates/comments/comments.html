@@ -1,25 +1,51 @@
+<style>
+    .author {
+        float: right;
+        margin-top: 10px;
+    }
+
+    .float_right {
+        float: right !important;
+        padding-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    .text {
+        clear: both;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid lightgray;
+    }
+
+    .metadata {
+        float: left;
+        margin-top: 10px;
+    }
+</style>
+
 {% if comments %}
 
     {% for com in comments %}
-        <div class="comment segment ui raised" style="position: relative;">
-            <a class="avatar" href="{% url 'show_profile' %}?pk={{ com.user.pk }}" style="float: right;">
+        <div class="comment segment ui raised" style="background-color:aliceblue; position: relative;">
+            <a class="avatar float_right" href="{% url 'show_profile' %}?pk={{ com.user.pk }}" style="float: right;">
                 <img src="{{ user.image.thumbnail.url|default:'/static/images/user.png' }}">
             </a>
 
-            <div class="content">
+            <div class="content" style="margin-left: 0">
                 <a class="author" dir="ltr" href="{% url 'show_profile' %}?pk={{ com.user.pk }}">
                     {{ com.user.email }}
                 </a>
-                <div class="metadata" style="width:250px">
+
+                <div class="metadata" style="width:250px;text-algin:left">
                     <small class="date">{{ com.get_persian_date }}  </small>
                 </div>
-                <div class="text" style="margin-top:10px;">
+                <div class="text" style="border-top:1px solid lightgray;margin-top:10px;">
                     {{ com.comment }}
                 </div>
             </div>
         </div>
 
-    <div class="ui fitted divider"></div>
+        <div class="ui fitted divider"></div>
 
     {% endfor %}
 

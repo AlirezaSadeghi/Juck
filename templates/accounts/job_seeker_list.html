@@ -279,14 +279,6 @@
                                     <i class=" user icon"></i><br/>
                                     پروفایل
                                 </div>
-{#                                <div class="ui icon tiny red button rf-button"#}
-{#                                     onclick="disapprove_user({{ job_seeker.id }}, 'job_seeker')">#}
-{#                                    <i class=" remove icon"></i>#}
-{##}
-{#                                    <div>#}
-{#                                        غیرفعال#}
-{#                                    </div>#}
-{#                                </div>#}
 
                         {% elif user_type == 'employer' %}
 
@@ -294,7 +286,7 @@
                                     <i class=" user icon"></i><br/>
                                     پروفایل
                                 </div>
-                                <div class="ui icon tiny green button rf-button">
+                                <div class="ui icon tiny green button rf-button" onclick='window.location="{% url 'add_request' 'eReq' %}?pk={{ job_seeker.pk }}"'>
                                     <i class=" add icon"></i>
 
                                     <div>

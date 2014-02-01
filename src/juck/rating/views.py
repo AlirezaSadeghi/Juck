@@ -13,11 +13,11 @@ def add_rate(request):
     if request.method == 'POST':
         obj_type, obj_id, rate = request.POST['obj_type'], request.POST['obj_id'], int(request.POST['rate'])
         user_type = get_user_type(request.user.pk)
-        user = JuckUser.objects.get(id=request.user.id)
         again = True
 
         if obj_type == 'job_seeker' and user_type == 'employer':
             try:
+                user = Employer.objects.get(id=request.user.id)
                 js = JobSeeker.objects.get(id=obj_id)
                 if not JobseekerRating.objects.filter(jobseeker=js, employer=user):
                     rate = JobseekerRating(rate=rate, jobseeker=js,
@@ -29,6 +29,7 @@ def add_rate(request):
 
         elif obj_type == 'employer' and user_type in ['employer', 'job_seeker']:
             try:
+                user = JuckUser.objects.get(id=request.user.id)
                 em = Employer.objects.get(id=obj_id)
                 if not EmployerRating.objects.filter(employer=em, user=user):
                     rate = EmployerRating(rate=rate, employer=em,
@@ -40,6 +41,7 @@ def add_rate(request):
 
         elif obj_type == 'article' and user_type in ['employer', 'job_seeker']:
             try:
+                user = JuckUser.objects.get(id=request.user.id)
                 ar = Article.objects.get(id=obj_id)
                 if not ArticleRating.objects.filter(user=user, article=ar):
                     rate = ArticleRating(rate=rate, article=ar,
@@ -51,6 +53,7 @@ def add_rate(request):
 
         elif obj_type == 'news' and user_type in ['employer', 'job_seeker']:
             try:
+                user = JuckUser.objects.get(id=request.user.id)
                 n = News.objects.get(id=obj_id)
                 if not NewsRating.objects.filter(user=user, news=n):
                     rate = NewsRating(rate=rate, news=n,
