@@ -208,7 +208,6 @@
                             اخبار <i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'add_news' %}">افزودن خبر</a>
                                 <a class="item" href="{% url 'news_list' %}">مشاهده اخبار</a>
                             </div>
                         </div>
@@ -261,7 +260,7 @@
                             اخبار<i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'add_article' %}">مشاهده اخبار</a>
+                                <a class="item" href="{% url 'news_list' %}">مشاهده اخبار</a>
                             </div>
                         </div>
                         <a class="item" href="{% url 'show_profile' %}?pk={{ user.pk }}" id="profile-page">
