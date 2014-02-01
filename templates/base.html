@@ -78,26 +78,36 @@
                         {#        fj_sadeghi            #}
                         {% get_user_type as u_type %}
                         {% if user.is_authenticated %}
-                            {{ user.jobseekerprofile }}
-                            {% if u_type == 'jobseeker' %}<span class="user_name">{{ user.get_full_name }}
-                                </span>
-                                <a class="fj_avatar">
-                                    <img src="{{ user.cast.profile.image.thumbnail.url }}">
-                                </a>
+                            <div class="fj_name_avatar">
+                                {{ user.jobseekerprofile }}
+                                {% if u_type == 'jobseeker' %}
+                                    {% if user.cast.profile.image.thumbnail.url %}
+                                        <img src="{{ user.cast.profile.image.thumbnail.url }}" class="fj_avatar">
+                                    {% else %}
+                                        <img src="{% static 'images/user.png' %}" class="fj_avatar">
+                                    {% endif %}
 
-                            {% endif %}
-
-                            {% if u_type == 'employer' %}<span class="user_name">
-                                {{ request.user.employerprofile.company_name }}
+                                    <span class="user_name">{{ user.get_full_name }}
                                 </span>
-                                <a class="avatar">
-                                    <img src="{{ MEDIA_URL }}{{ request.user.employerprofile.image.name }}">
-                                </a>
-                            {% endif %}
-                            {% if u_type == 'manager' %}<span class="user_name">{{ request.user.get_full_name }}
+
+
+                                {% endif %}
+
+                                {% if u_type == 'employer' %}<span class="user_name">
+                                    {{ user.cast.profile.company_name }}
+                                    </span>
+                                    <a class="avatar">
+                                        {% if user.cast.profile.image.thumbnail.url %}
+                                            <img src="{{ MEDIA_URL }}{{ user.cast.profile.image.thumbnail.url }}">
+                                        {% else %}
+                                            <img src="{% static 'images/user.png' %}" class="fj_avatar">
+                                        {% endif %}
+                                    </a>
+                                {% endif %}
+                            {% if u_type == 'manager' %}<span class="user_name">{{ user.get_full_name }}
                                 </span>
                             {% endif %}
-
+                            </div>
                         {% endif %}
                         {#        fj_sadeghi            #}
                         <a href="{% url 'logout' %}"><i class="ui button down arrow linkedin small"
@@ -203,6 +213,16 @@
                             </div>
                         </div>
 
+                        <div class="ui dropdown item" id="articles-page">
+                        مقالات
+                            <i class="dropdown icon"></i>
+
+                            <div class="menu">
+                                <a class="item" href="{% url 'add_article' %}">افزودن مقاله</a>
+                                <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
+                            </div>
+                        </div>
+
                         <a class="item" href="{% url 'show_profile' %}?pk={{ user.pk }}" id="profile-page">
                             <i class="user icon"></i> پروفایل
                         </a>
@@ -244,7 +264,7 @@
                                 <a class="item" href="{% url 'add_article' %}">مشاهده اخبار</a>
                             </div>
                         </div>
-                        <a class="item" href="{% url 'show_profile'  %}?pk={{ user.pk }}" id="profile-page">
+                        <a class="item" href="{% url 'show_profile' %}?pk={{ user.pk }}" id="profile-page">
                             <i class="user icon"></i> پروفایل
                         </a>
                     {% endif %}
