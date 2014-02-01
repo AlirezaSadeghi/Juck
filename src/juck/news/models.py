@@ -42,7 +42,7 @@ class News(models.Model):
         for item in ratings:
             if item.rate > 0:
                 rate += 1
-
+        self.set_score(self)
         return rate
 
     def get_dislikes(self):
@@ -52,5 +52,5 @@ class News(models.Model):
         for item in ratings:
             if item.rate < 0:
                 rate += 1
-
+        self.set_score(self)
         return rate

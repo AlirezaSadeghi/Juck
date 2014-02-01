@@ -82,45 +82,45 @@
 
                             </div>
 
-                            <div class="two fields">
-                                <span class="inline field">
-                                <label class="input_labels">از تاریخ: </label><input type="date"
-                                                                                     name="first_date"></span>
-                                <span class="inline field">
-                                <label class="input_labels">تا تاریخ: </label>
-{#                                    {{ search_form.min_sco }}#}
-                                    <input type="date" name="second_date">
-                                </span>
-                            </div>
+                            {#                            <div class="two fields">#}
+                            {#                                <span class="inline field">#}
+                            {#                                <label class="input_labels">از تاریخ: </label><input type="date"#}
+                            {#                                                                                     name="first_date"></span>#}
+                            {#                                <span class="inline field">#}
+                            {#                                <label class="input_labels">تا تاریخ: </label>#}
+                            {#                                    {{ search_form.min_sco }}#}
+                            {#                                    <input type="date" name="second_date">#}
+                            {#                                </span>#}
+                            {#                            </div>#}
 
-                            <div class="two fields">
-                                <div class="inline field ">
-                                    <label class="input_labels">حداقل امتیاز: </label>
-                                    {{ search_form.min_score }}
-                                    <label style="display: inline-block">
-
-                                        <i class="tiny help icon" id="help_icon" help-id="2"
-                                           style="cursor: pointer"></i>
-
-                                        <div id="msg_div2" class="Sina_help Sina_help_news Sina_help_small "
-                                             style="margin-top: -20px;">
-                                            {{ search_form.min_score.help_text }}
-                                        </div>
-                                    </label>
-
-                                </div>
-                                <div class="inline field ">
-                                    <label class="input_labels"> حداکثر امتیاز: </label>
-                                    {{ search_form.max_score }}
-                                    <i class="tiny help icon" id="help_icon" help-id="3" style="cursor: pointer"></i>
-
-                                    <div id="msg_div3" class="Sina_help Sina_help_news Sina_help_small "
-                                         style="margin-top: -20px;">
-                                        {{ search_form.max_score.help_text }}
-                                    </div>
-
-                                </div>
-                            </div>
+{#                            <div class="two fields">#}
+{#                                <div class="inline field ">#}
+{#                                    <label class="input_labels">حداقل امتیاز: </label>#}
+{#                                    {{ search_form.min_score }}#}
+{#                                    <label style="display: inline-block">#}
+{##}
+{#                                        <i class="tiny help icon" id="help_icon" help-id="2"#}
+{#                                           style="cursor: pointer"></i>#}
+{##}
+{#                                        <div id="msg_div2" class="Sina_help Sina_help_news Sina_help_small "#}
+{#                                             style="margin-top: -20px;">#}
+{#                                            {{ search_form.min_score.help_text }}#}
+{#                                        </div>#}
+{#                                    </label>#}
+{##}
+{#                                </div>#}
+{#                                <div class="inline field ">#}
+{#                                    <label class="input_labels"> حداکثر امتیاز: </label>#}
+{#                                    {{ search_form.max_score }}#}
+{#                                    <i class="tiny help icon" id="help_icon" help-id="3" style="cursor: pointer"></i>#}
+{##}
+{#                                    <div id="msg_div3" class="Sina_help Sina_help_news Sina_help_small "#}
+{#                                         style="margin-top: -20px;">#}
+{#                                        {{ search_form.max_score.help_text }}#}
+{#                                    </div>#}
+{##}
+{#                                </div>#}
+{#                            </div>#}
                             <div class="inline field">
                                 <label class="input_labels" style="display: inline-block"> توضیحات</label>
 
@@ -139,7 +139,7 @@
 
                             <div class="search_buttons">
                                 <input class="inline ui button" type="reset" value="پاک کردن">
-                                <input class="inline ui button" type="submit" +value="جستجو">
+                                <input class="inline ui button" type="submit" id="submit_button" value="جستجو">
                             </div>
 
                         </div>
@@ -179,7 +179,8 @@
 
                         <div class="more_buttons">
                             <div class="ui animated button  small"
-                                 onclick="window.location='{% url "show_news_description" %}?pk={{ item.pk }}'" style="margin-bottom: 10px;">
+                                 onclick="window.location='{% url "show_news_description" %}?pk={{ item.pk }}'"
+                                 style="margin-bottom: 10px;">
                                 <div class="visible content">مشروح خبر</div>
                                 <div class="hidden content"><i class="left arrow icon"></i></div>
                             </div>
@@ -187,38 +188,39 @@
                         </div>
                     </div>
 
-                    </div>
-                    </div>
+
+
                     <div class="ui section divider"
                          style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
                 {% endfor %}
-    </div>
-    <!-- <div class="ui segment"> -->
-    {% if news.paginator.num_pages > 1 %}
-        <div style="text-align: center;">
-            <div class="ui small pagination menu">
-                {% if news.has_previous %}
-                    <a href="?{{ get_params.urlencode }}&page={{ news.previous_page_number }}"
-                       class="icon item"><i class="icon right arrow"></i></a>
-                {% endif %}
-
-                {% for p in page_range %}
-                    {% ifequal p questions.number %}
-                        <a href="javascript:void(0);" class="active item">{{ p }}</a>
-                    {% else %}
-                        <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
-                    {% endifequal %}
-                {% endfor %}
-                {% if news.has_next %}
-                    <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
-                       class="icon item"><i class="icon left arrow"></i></a>
-                {% endif %}
             </div>
         </div>
-    {% endif %}
-    {#            {% else %}#}
-    {#                <div class="ui error message">خبری وجود ندارد</div>#}
-    {#            {% endif %}#}
+        <!-- <div class="ui segment"> -->
+        {% if news.paginator.num_pages > 1 %}
+            <div style="text-align: center;">
+                <div class="ui small pagination menu">
+                    {% if news.has_previous %}
+                        <a href="?{{ get_params.urlencode }}&page={{ news.previous_page_number }}"
+                           class="icon item"><i class="icon right arrow"></i></a>
+                    {% endif %}
+
+                    {% for p in page_range %}
+                        {% ifequal p questions.number %}
+                            <a href="javascript:void(0);" class="active item">{{ p }}</a>
+                        {% else %}
+                            <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                        {% endifequal %}
+                    {% endfor %}
+                    {% if news.has_next %}
+                        <a class="item" href="?{{ get_params.urlencode }}&page={{ materials.next_page_number }}"
+                           class="icon item"><i class="icon left arrow"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        {#            {% else %}#}
+        {#                <div class="ui error message">خبری وجود ندارد</div>#}
+        {#            {% endif %}#}
     </div>
     </div>
     <!-- </div> -->
