@@ -28,6 +28,8 @@ urlpatterns = patterns('juck.accounts.views',
                            name='confirm_registration'),
 
 
+                       url(r'show_profile/emp/edit/$', 'employer_edit_profile', {}, name='employer_edit_profile'),
+                        url(r'show_profile/js/edit/$', 'jobseeker_edit_profile', {}, name='jobseeker_edit_profile'),
 
 
                        url(r'check_catpcha/$', 'check_catpcha', {}, name='check_catpcha'),

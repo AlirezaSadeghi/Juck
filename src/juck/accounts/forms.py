@@ -9,6 +9,22 @@ from juck.accounts.models import *
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 
 
+class EditEmployerProfile(forms.Form):
+    company_name = forms.CharField(required=True, label=u'نام سازمان')
+    company_type = forms.CharField(required=True, label=u'نوع سازمان', help_text=u'دولتی, خصوصی, نیمه دولتی ')
+    reg_num = forms.CharField(required=True, label=u'شماره ثبت')
+    foundation_year = forms.CharField(required=True, label=u'سال تاسیس')
+    field = forms.CharField(required=True, label=u'زمینه فعالیت')
+    website = forms.URLField(required=False, label=u'وب سایت')
+    state = forms.CharField(required=True, label=u'استان', max_length=100)
+    city = forms.CharField(required=True, label=u'شهر', max_length=100)
+    phone_number = forms.CharField(required=True, label=u'شماره تلفن')
+    mobile_number = forms.CharField(required=False, label=u'شماره تلفن همراه')
+    address = forms.CharField(required=True, label=u'آدرس', )
+    postal_code = forms.CharField(required=False, label=u'کد پستی')
+    # manager = forms.CharField(required=False, label=u'نام مدیرعامل')
+
+
 class LoginForm(forms.Form):
     username = forms.CharField(required=True, label=u'نام کاربری')
     password = forms.CharField(required=True, widget=forms.PasswordInput(render_value=False), label=u'رمز عبور')
@@ -29,12 +45,18 @@ class CaptchaForm(forms.Form):
 
 
 class JobSeekerRegisterForm1(forms.Form):
-    first_name = forms.CharField(required=True, label=u'نام',help_text=u'نام خود. مانند سینا, مریم , علی')
-    last_name = forms.CharField(required=True, label=u'نام خانوادگی',help_text=u'نام خانوادگی. مانند حسن پور, صادقی, فراهانی')
-    email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),help_text=u'آدرس الکترونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
-    national_id = forms.CharField(required=True, label=u'کدملی', max_length=20,help_text=u'کد ملی ذکر شده در کارت ملی شما. فقط اعداد آن به صورت منظم وارد شوند و از گذاشتن فاصله و یا - خودداری شود.')
-    password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور', validators=[MinLengthValidator(4)],help_text=u'گذرواژه ی شما برای ورود به سایت می باشد. حداقل باید از 4 کارکتر تشکیل شده باشد.')
-    re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور', help_text=u'تکرار گذرواژه برای اطمینان از درست وارد شدن آن.')
+    first_name = forms.CharField(required=True, label=u'نام', help_text=u'نام خود. مانند سینا, مریم , علی')
+    last_name = forms.CharField(required=True, label=u'نام خانوادگی',
+                                help_text=u'نام خانوادگی. مانند حسن پور, صادقی, فراهانی')
+    email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),
+                             help_text=u'آدرس الکترونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
+    national_id = forms.CharField(required=True, label=u'کدملی', max_length=20,
+                                  help_text=u'کد ملی ذکر شده در کارت ملی شما. فقط اعداد آن به صورت منظم وارد شوند و از گذاشتن فاصله و یا - خودداری شود.')
+    password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور',
+                               validators=[MinLengthValidator(4)],
+                               help_text=u'گذرواژه ی شما برای ورود به سایت می باشد. حداقل باید از 4 کارکتر تشکیل شده باشد.')
+    re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور',
+                                  help_text=u'تکرار گذرواژه برای اطمینان از درست وارد شدن آن.')
     # captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')
 
     def clean_email(self):
@@ -69,7 +91,7 @@ class JobSeekerRegisterForm2(forms.Form):
                                choices=(
                                    ('student', u'دانشچو'),
                                    ('grauated', u'فارغ التحصیل'),
-                               ),help_text=u'وضعیت تحصیلی کنونی شما.')
+                               ), help_text=u'وضعیت تحصیلی کنونی شما.')
     certificate = forms.ChoiceField(required=True, label=u'مقطع تحصیلی',
                                     choices=(
                                         ('under_grad', u'کارشناسی'),
@@ -101,8 +123,9 @@ class JobSeekerRegisterForm2(forms.Form):
                                     ),
                                     help_text=u'میزان تسلط شما به مهارت معرفی شده .'
 
-                                    )
-    skill_description = forms.CharField(required=False, max_length=250, label=u'توضیحات', help_text=u'اگر نکاتی وجود دارد که به نظر شما در فرم لحاظ نشده است در این جا درج کنید.')
+    )
+    skill_description = forms.CharField(required=False, max_length=250, label=u'توضیحات',
+                                        help_text=u'اگر نکاتی وجود دارد که به نظر شما در فرم لحاظ نشده است در این جا درج کنید.')
 
 
 class JobSeekerRegisterEducationForm(forms.Form):
@@ -148,22 +171,29 @@ class JobSeekerRegisterDummyForm(forms.Form):
 
 
 class JobSeekerRegisterForm3(forms.Form):
-    title = forms.CharField(required=True, max_length=200, label=u'عنوان سابقه' ,help_text=u'در کمتر از 200 حرف عنوان مناسب را انتخاب کنید.')
+    title = forms.CharField(required=True, max_length=200, label=u'عنوان سابقه',
+                            help_text=u'در کمتر از 200 حرف عنوان مناسب را انتخاب کنید.')
     place = forms.CharField(required=False, max_length=200, label=u'سازمان یا دانشگاه مربوطه')
     from_date = forms.IntegerField(required=True, label=u'از سال')
     to_date = forms.IntegerField(required=True, label=u'تا سال')
-    description = forms.CharField(widget=forms.Textarea(), required=False, label=u'توضیحات', help_text=u'لطفا توضیحات را هرچه دقیق تر بیان کنید و از کلی گویی بپرهیزید.')
-    cooperation_type = forms.CharField(required=False, label=u'نوع همکاری', max_length=150,help_text=u'استخدام یا قراردادی بودن')
-    exit_reason = forms.CharField(required=False, label=u'دلیل قطع همکاری', max_length=200, help_text=u'در صورت امکان دلیل جدایی خود را از کار قبلی به صورت مختصر ( 200 حرف) شرح دهید.')
+    description = forms.CharField(widget=forms.Textarea(), required=False, label=u'توضیحات',
+                                  help_text=u'لطفا توضیحات را هرچه دقیق تر بیان کنید و از کلی گویی بپرهیزید.')
+    cooperation_type = forms.CharField(required=False, label=u'نوع همکاری', max_length=150,
+                                       help_text=u'استخدام یا قراردادی بودن')
+    exit_reason = forms.CharField(required=False, label=u'دلیل قطع همکاری', max_length=200,
+                                  help_text=u'در صورت امکان دلیل جدایی خود را از کار قبلی به صورت مختصر ( 200 حرف) شرح دهید.')
 
 
 class JobSeekerRegisterForm4(forms.Form):
-    website = forms.URLField(required=False, label=u'وب سایت',help_text=u'سایت رسمی خود را در این جا بنویسید., دقت کنید به فرمت دقیق مانند www.juck.com در فرم بنویسید.')
-    phone_num = forms.CharField(required=True, label=u'شماره تلفن',help_text=u'شماره تماس اصلی خودتان زا برای برقراری ارتباط وارد کنید. پیش شماره شهر خود را نیز حتما درج کنید.')
+    website = forms.URLField(required=False, label=u'وب سایت',
+                             help_text=u'سایت رسمی خود را در این جا بنویسید., دقت کنید به فرمت دقیق مانند www.juck.com در فرم بنویسید.')
+    phone_num = forms.CharField(required=True, label=u'شماره تلفن',
+                                help_text=u'شماره تماس اصلی خودتان زا برای برقراری ارتباط وارد کنید. پیش شماره شهر خود را نیز حتما درج کنید.')
     mobile_num = forms.CharField(required=False, label=u'شماره تلفن همراه')
     state = forms.CharField(required=True, label=u'استان', max_length=100)
     city = forms.CharField(required=True, label=u'شهر', max_length=100)
-    address = forms.CharField(required=True, widget=forms.Textarea(attrs={'style':'width:400px;margin-top:-15px'}), label=u'آدرس')
+    address = forms.CharField(required=True, widget=forms.Textarea(attrs={'style': 'width:400px;margin-top:-15px'}),
+                              label=u'آدرس')
     postal_code = forms.CharField(required=False, label=u'کد پستی')
 
     def clean_postal_code(self):
@@ -212,11 +242,16 @@ class JobSeekerRegisterForm4(forms.Form):
 
 
 class EmployerRegisterForm1(forms.Form):
-    email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),help_text=u'آدرس الکترونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
-    password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور', validators=[MinLengthValidator(4)],help_text=u'گذرواژه ی شما برای ورود به سایت می باشد. حداقل باید از 4 کارکتر تشکیل شده باشد.')
-    re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور', help_text=u'تکرار گذرواژه برای اطمینان از درست وارد شدن آن.')
+    email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),
+                             help_text=u'آدرس الکترونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
+    password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'رمز عبور',
+                               validators=[MinLengthValidator(4)],
+                               help_text=u'گذرواژه ی شما برای ورود به سایت می باشد. حداقل باید از 4 کارکتر تشکیل شده باشد.')
+    re_password = forms.CharField(widget=forms.PasswordInput(), required=True, label=u'تکرار رمز عبور',
+                                  help_text=u'تکرار گذرواژه برای اطمینان از درست وارد شدن آن.')
     # connector_name = forms.CharField(required=True, label=u'نام شخص رابط')
-    connector_rank = forms.CharField(label=u'سمت شخص رابط',help_text=u'نقش (شغل) شما در شرکت و یا سازمانی که می خواهید در سامانه ثبت کنید.')
+    connector_rank = forms.CharField(label=u'سمت شخص رابط',
+                                     help_text=u'نقش (شغل) شما در شرکت و یا سازمانی که می خواهید در سامانه ثبت کنید.')
     # captcha = PersianCaptchaField(required=True, label=u'کد امنیتی')
 
     def clean_email(self):
@@ -241,7 +276,7 @@ class EmployerRegisterForm1(forms.Form):
 
 class EmployerRegisterForm2(forms.Form):
     company_name = forms.CharField(required=True, label=u'نام سازمان')
-    company_type = forms.CharField(required=True, label=u'نوع سازمان',help_text=u'دولتی, خصوصی, نیمه دولتی ')
+    company_type = forms.CharField(required=True, label=u'نوع سازمان', help_text=u'دولتی, خصوصی, نیمه دولتی ')
     reg_num = forms.CharField(required=True, label=u'شماره ثبت')
     foundation_year = forms.CharField(required=True, label=u'سال تاسیس')
     manager = forms.CharField(required=False, label=u'نام مدیرعامل')
@@ -257,13 +292,16 @@ class EmployerRegisterForm2(forms.Form):
 
 
 class EmployerRegisterForm3(forms.Form):
-    website = forms.URLField(required=False, label=u'وب سایت' ,help_text=u'سایت رسمی سازمان یا شرکت شما برای معرفی به بقیه, دقت کنید به فرمت دقیق مانند www.juck.com در فرم بنویسید.')
-    phone_num = forms.CharField(required=True, label=u'شماره تلفن' ,help_text=u'شماره تماس اصلی شرکت برای برقراری ارتباط, این قسمت را حتما پر کنید. پیش شماره شهر خود را نیز حتما درج کنید.')
+    website = forms.URLField(required=False, label=u'وب سایت',
+                             help_text=u'سایت رسمی سازمان یا شرکت شما برای معرفی به بقیه, دقت کنید به فرمت دقیق مانند www.juck.com در فرم بنویسید.')
+    phone_num = forms.CharField(required=True, label=u'شماره تلفن',
+                                help_text=u'شماره تماس اصلی شرکت برای برقراری ارتباط, این قسمت را حتما پر کنید. پیش شماره شهر خود را نیز حتما درج کنید.')
     mobile_num = forms.CharField(required=False, label=u'شماره تلفن همراه')
     postal_code = forms.CharField(required=False, label=u'کد پستی')
     state = forms.CharField(required=True, label=u'استان', max_length=100)
     city = forms.CharField(required=True, label=u'شهر', max_length=100)
-    address = forms.CharField(required=True,  label=u'آدرس', widget=forms.Textarea(attrs={'style':'width:400px;margin-top:-15px'}))
+    address = forms.CharField(required=True, label=u'آدرس',
+                              widget=forms.Textarea(attrs={'style': 'width:400px;margin-top:-15px'}))
 
     def clean_postal_code(self):
         data = self.cleaned_data['postal_code']

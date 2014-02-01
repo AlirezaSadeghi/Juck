@@ -742,6 +742,27 @@ def confirm_registration(request, user_type, key):
                                   context_instance=RequestContext(request))
 
 
+
+@login_required
+def employer_edit_profile(request):
+    if request.method == "POST":
+        form = EditEmployerProfile(request.POST)
+
+        if form.is_valid():
+            
+
+            return HttpResponseRedirect(reverse('show_profile'))
+    else:
+        form = EditEmployerProfile()
+
+    return render_to_response('accounts/employer_edit_form.html', {'form': form},  context_instance=RequestContext(request))
+
+@login_required
+def jobseeker_edit_profile(request):
+    pass
+
+
+
 def create_manager_confirm_html(function):
     mail_content = ''
     if function == 'approve':
