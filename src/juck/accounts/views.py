@@ -112,12 +112,12 @@ def ajax_login(request):
             if user is not None:
                 role = user.role
                 if role == 2:
-                    user = Employer.objects.get(pk=user.pk)
-                    if not user.profile.approved:
+                    user_cast = Employer.objects.get(pk=user.pk)
+                    if not user_cast.profile.approved:
                         return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
                 elif role == 3:
-                    user = JobSeeker.objects.get(pk=user.pk)
-                    if not user.profile.approved:
+                    user_cast = JobSeeker.objects.get(pk=user.pk)
+                    if not user_cast.profile.approved:
                         return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
 
                 if user.is_active:

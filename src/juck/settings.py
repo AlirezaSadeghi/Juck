@@ -65,7 +65,7 @@ MEDIA_URL = SITE_URL + 'media/'
 UPLOAD_URL = 'uploads'
 UPLOAD_ROOT = MEDIA_ROOT + 'uploads'
 LOGIN_REDIRECT_URL = '/'
-LOGIN_ERROR_URL = '/me'
+LOGIN_ERROR_URL = '/news/unreachable'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
 
@@ -213,7 +213,9 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleOAuth2Backend',
     'social_auth.backends.contrib.github.GithubBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'social_auth.backends.facebook.FacebookBackend',
 )
+
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "social_auth.context_processors.social_auth_by_type_backends",
@@ -234,3 +236,11 @@ GITHUB_API_SECRET = ''
 
 GOOGLE_OAUTH2_CLIENT_ID = '524830416483-pddbupi0qf5eoapq2q1vdi25q93mm6cc.apps.googleusercontent.com'
 GOOGLE_OAUTH2_CLIENT_SECRET = 'yTsABLiLfsN3Qkqcyq058JmM'
+
+
+FACEBOOK_APP_ID='292598287553846'
+FACEBOOK_API_SECRET='7a9385571e7a52e8e238e8de5d2a747a' \
+
+
+DROPBOX_APP_ID = '41o23nyo4mwwqw0'
+DROPBOX_API_SECRET = '3936v0jrd2475ip'

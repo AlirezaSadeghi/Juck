@@ -76,7 +76,7 @@ def show_news_description(request):
 
 def add_news(request):
     form = NewsForm()
-    print "SADSAD"
+    # print "SADSAD"
     # print request.FILES
     if request.method == "POST":
         form = NewsForm(request.POST)
@@ -86,15 +86,15 @@ def add_news(request):
         #name  = request.POST.get('name','')
         #description = request.POST.get('description', '')
         #form = ImageUploadForm(request.POST, request.FILES)
-        print ("1111111111")
+        # print ("1111111111")
         if form.is_valid():
             news = form.save(commit=False)
             news.author = author
 
             image = request.FILES.get('image', '')
-            print ("2222222222")
+            # print ("2222222222")
             if image:
-                print ("3333333333333")
+                # print ("3333333333333")
                 picture = JuckImage(upload_root="news")
                 picture.create_picture(image)
                 picture.save()
@@ -123,6 +123,10 @@ def upload_news_pic(request):
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
+
+def unreachable(request):
+        return render_to_response('messages.html', {'message': u' متاسفانه شما در سیستم ما حساب کاربری ندارید.'},
+                              context_instance=RequestContext(request))
 
 class ImageUploadForm(forms.Form):
     """Image upload form."""

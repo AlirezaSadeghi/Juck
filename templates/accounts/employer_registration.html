@@ -74,7 +74,7 @@
                                         <div class="ui form">
                                     {% endif %}
                                 <div class='field'>
-                                    <div class="input-details" style="display: inline">
+                                    <div class="input-details help_inline" >
                                         <label class="input_labels inline_block"> {{ field.label_tag }}
                                             {% if field.field.required %}
                                                 <span class="required-field">*</span>
@@ -90,7 +90,7 @@
                                                 <i class="tiny help icon" id="help_icon" help-id="{{ forloop.counter }}"
                                                    style="cursor: pointer"></i>
 
-                                                <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news "
+                                                <div id="msg_div{{ forloop.counter }}" class="Sina_help Sina_help_news Sina_help_small "
                                                      help-id="0"
                                                      style="margin-top: -16px;">
                                                     {{ field.help_text }}

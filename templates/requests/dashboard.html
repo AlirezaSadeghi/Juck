@@ -11,10 +11,30 @@
 
 {% block js %}
     <script type="text/javascript" src="{% static 'js/requests.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/help.js' %}"></script>
+    <script>
+
+        function mySina() {
+            x = $("#submit_button")[0];
+            x.click();
+        }
+
+    </script>
 {% endblock %}
 
 {% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
+    <link href="{% static 'css/help.css' %}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .author-link {
+            color: #777;
+        }
 
+        .author-link:hover {
+            color: #178edc;
+        }
+    </style>
     <style>
         .my-right {
             text-align: center !important;
@@ -39,6 +59,102 @@
     {% csrf_token %}
     <div class="center">
         <div class="ctn-box my-min-height">
+            <form>
+
+                <div class="ui icon input left small">
+
+
+                    <div style="width: 180px; display: inline-block">
+                        {{ search_form.total_search }}
+
+                    </div>
+                    <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
+
+
+                </div>
+                <small class="advanced_search">جستجوی پیشرفته</small>
+
+                <label style="display: inline-block">
+
+                    <i class="tiny help icon" id="help_icon" help-id="0" style="cursor: pointer"></i>
+
+                    <div id="msg_div0" class="Sina_help Sina_help_news " help-id="0" style="margin-top: -16px;">
+                        {{ search_form.content.help_text }}
+                    </div>
+                </label>
+
+
+                <div class="advanced_search_panel ui segment form">
+                    <div class="container">
+                        <div class="advanced_search_form">
+
+                            <div class="inline field">
+                                <label class="input_labels"> عنوان</label>
+                                {{ search_form.title }}
+
+                                <label style="display: inline-block">
+
+                                    <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
+
+                                    <div id="msg_div1" class="Sina_help Sina_help_news "
+                                         style="margin-top: -26px;">
+                                        {{ search_form.title.help_text }}
+                                    </div>
+                                </label>
+
+                            </div>
+
+
+                            <div class="inline field">
+                                <label class="input_labels"> نام سازمان</label>
+                                {{ search_form.employer }}
+
+                                <label style="display: inline-block">
+
+                                    <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
+
+                                    <div id="msg_div1" class="Sina_help Sina_help_news "
+                                         style="margin-top: -26px;">
+                                        {{ search_form.employer.help_text }}
+                                    </div>
+                                </label>
+
+                            </div>
+                            {#                            <div class="two fields">#}
+                            {#                                <span class="inline field">#}
+                            {#                                <label class="input_labels">از تاریخ: </label><input type="date"#}
+                            {#                                                                                     name="first_date"></span>#}
+                            {#                                <span class="inline field">#}
+                            {#                                <label class="input_labels">تا تاریخ: </label>#}
+                            {#                                    {{ search_form.min_sco }}#}
+                            {#                                    <input type="date" name="second_date">#}
+                            {#                                </span>#}
+                            {#                            </div>#}
+                            <div class="inline field">
+                                <label class="input_labels">{{ search_form.cooperation_type.label }}</label>
+                                {{ search_form.cooperation_type }}
+                            </div>
+                            <div class="inline field">
+                                <label class="input_labels">{{ search_form.status.label }}</label>
+                                {{ search_form.status }}
+                            </div>
+
+
+                            <div class="search_buttons">
+                                <input class="inline ui button" type="reset" value="پاک کردن">
+                                <input class="inline ui button" type="submit" id="submit_button" value="جستجو">
+                            </div>
+
+                        </div>
+                        {#                        <div class="ui vertical divider"></div>#}
+                        <div class="advanced_search_info">
+                            <!-- <h3>برای جستجوی پیشرفته،اینجا را پر کنید.</h3> -->
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
             <div class="ui center aligned">
                 <table class="ui eight column table segment collapsing  my-font" style="width: 880px">
                     <thead>
@@ -76,16 +192,28 @@
                 </table>
             </div>
 
+            {% if threads.paginator.num_pages > 1 %}
+                <div style="text-align: center;">
+                    <div class="ui small pagination menu">
+                        {% if threads.has_previous %}
+                            <a href="?{{ get_params.urlencode }}&page={{ threads.previous_page_number }}"
+                               class="icon item"><i class="icon right arrow"></i></a>
+                        {% endif %}
 
-            <div class="result-pagination ">
-                <ul>
-                    <li><a href="javascript:void(0);" class="page-indicator active" data-page="1">1</a></li>
-                    <li><a href="javascript:void(0);" class="page-indicator ^" data-page="2">2</a></li>
-                    <li><a href="javascript:void(0);" class="page-indicator ^" data-page="3">3</a></li>
-                    <li><a href="javascript:void(0);" class="page-indicator ^" data-page="4">4</a></li>
-                </ul>
-            </div>
-
+                        {% for p in page_range %}
+                            {% ifequal p requests.number %}
+                                <a href="javascript:void(0);" class="active item">{{ p }}</a>
+                            {% else %}
+                                <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>
+                            {% endifequal %}
+                        {% endfor %}
+                        {% if requests.has_next %}
+                            <a class="item" href="?{{ get_params.urlencode }}&page={{ threads.next_page_number }}"
+                               class="icon item"><i class="icon left arrow"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
 
         </div>
     </div>

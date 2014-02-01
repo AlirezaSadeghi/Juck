@@ -18,6 +18,15 @@ MONTHS = (
 
 
 @register.simple_tag
+def get_sex_rep(sex):
+    if sex:
+        return u'مرد'
+    if sex is False:
+        return u'زن'
+    return u'دیگر'
+
+
+@register.simple_tag
 def get_hash_date(date):
     year, month, day = create_persian_date(date)
     return year * 1000 + month * 100 + day

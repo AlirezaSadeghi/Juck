@@ -79,8 +79,8 @@ class NewsListFilter:
             if max_score:
                 filter_kwargs.update({'score__lte': max_score})
 
-
-        #filter_kwargs.update({'title__icontains': content})
+        # filter_kwargs.update( Q(title__icontains=content) | (Q(content__icontains=content)))
+        # filter_kwargs.update({'title__icontains': content})
         news = News.objects.filter(**filter_kwargs)
         news = news.filter((Q(title__icontains=content) | Q(content__icontains=content)))
         count = news.count()
