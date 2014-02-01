@@ -65,6 +65,7 @@ def add_rate(request):
 
         if again:
             return json_response({'op_status': 'failed', 'message': u'قبلا امتیاز داده‌اید.'})
+
         return json_response({'op_status': 'success', 'message': u'اضافه کردن امتیاز با موفقیت انجام شد.'})
 
     else:
