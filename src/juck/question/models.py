@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from juck.accounts.models import Manager, JuckUser
+from persian_date.gregorian_persian_convertor import create_persian_date
 
+MONTHS = (
+    u"فروردين", u"ارديبهشت", u"خرداد", u"تير"
+    , u"مرداد", u"شهريور", u"مهر", u"آبان", u"آذر", u"دي", u"بهمن", u"اسفند", )
 
 class Question(models.Model):
     class Meta:
@@ -16,6 +20,15 @@ class Question(models.Model):
 
     def __unicode__(self):
         return self.sender.email + u' ' + self.title
+    
+    def get_persian_date(self):
+        year, month, day = create_persian_date(self.timestamp)
+        if (self.timestamp.time().minute > 9 ):
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (
+            str(self.timestamp.time().hour) + ":" + str(self.timestamp.time().minute)))
+        else:
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (
+            str(self.timestamp.time().hour) + ":" + "0" + str(self.timestamp.time().minute)))
 
 
 class Answer(models.Model):
@@ -30,3 +43,12 @@ class Answer(models.Model):
 
     def __unicode__(self):
         return u'پاسخ ' + self.responder.user.email + u' ' + self.question.title
+    
+    def get_persian_date(self):
+        year, month, day = create_persian_date(self.timestamp)
+        if (self.timestamp.time().minute > 9 ):
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (
+            str(self.timestamp.time().hour) + ":" + str(self.timestamp.time().minute)))
+        else:
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (
+            str(self.timestamp.time().hour) + ":" + "0" + str(self.timestamp.time().minute)))

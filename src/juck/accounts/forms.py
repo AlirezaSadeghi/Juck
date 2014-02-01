@@ -2,6 +2,7 @@
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms.models import ModelForm
 from django.forms.util import ErrorList
 from persian_captcha import PersianCaptchaField
 from django.forms.fields import Field
@@ -9,20 +10,58 @@ from juck.accounts.models import *
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 
 
-class EditEmployerProfile(forms.Form):
-    company_name = forms.CharField(required=True, label=u'نام سازمان')
-    company_type = forms.CharField(required=True, label=u'نوع سازمان', help_text=u'دولتی, خصوصی, نیمه دولتی ')
-    reg_num = forms.CharField(required=True, label=u'شماره ثبت')
-    foundation_year = forms.CharField(required=True, label=u'سال تاسیس')
-    field = forms.CharField(required=True, label=u'زمینه فعالیت')
-    website = forms.URLField(required=False, label=u'وب سایت')
+class EditEmployerProfile(ModelForm):
     state = forms.CharField(required=True, label=u'استان', max_length=100)
     city = forms.CharField(required=True, label=u'شهر', max_length=100)
-    phone_number = forms.CharField(required=True, label=u'شماره تلفن')
-    mobile_number = forms.CharField(required=False, label=u'شماره تلفن همراه')
-    address = forms.CharField(required=True, label=u'آدرس', )
-    postal_code = forms.CharField(required=False, label=u'کد پستی')
-    # manager = forms.CharField(required=False, label=u'نام مدیرعامل')
+    image = forms.ImageField(required=False, label=u'عکس')
+
+    def clean_postal_code(self):
+
+        data = self.cleaned_data['postal_code']
+        ok = True
+        if not data:
+            return data
+        for i in data.split('-'):
+            if not i.isdigit():
+                ok = False
+                break
+        if ok:
+            return data
+        else:
+            print('it\'s not')
+            raise forms.ValidationError((u" کدپستی واردشده نامعتبر است."), code='notNumber')
+
+    def clean_phone_number(self):
+        data = self.cleaned_data['phone_number']
+        ok = True
+
+        for i in data.split('-'):
+            if not i.isdigit():
+                ok = False
+                break
+        if ok:
+            return data
+        else:
+            print('it\'s not')
+            raise forms.ValidationError((u"شماره تلفن واردشده نامعتبر است."), code='notNumber')
+
+    def clean_mobile_number(self):
+        data = self.cleaned_data['mobile_number']
+        if not data:
+            return data
+        ok = True
+        for i in data.split('-'):
+            if not i.isdigit():
+                ok = False
+                break
+        if ok:
+            return data
+        else:
+            raise forms.ValidationError((u"شماره تلفن همراه واردشده نامعتبر است."), code='notNumber')
+
+    class Meta:
+        model = EmployerProfile
+        exclude = ('approved', 'city', 'state', 'image')
 
 
 class LoginForm(forms.Form):
@@ -94,6 +133,7 @@ class JobSeekerRegisterForm2(forms.Form):
                                ), help_text=u'وضعیت تحصیلی کنونی شما.')
     certificate = forms.ChoiceField(required=True, label=u'مقطع تحصیلی',
                                     choices=(
+                                        ('diploma', u'دیپلم'),
                                         ('under_grad', u'کارشناسی'),
                                         ('grad', u'کارشناسی ارشد'),
                                         ('phd', u'دکتری'),
@@ -241,6 +281,27 @@ class JobSeekerRegisterForm4(forms.Form):
             raise forms.ValidationError((u"شماره تلفن همراه واردشده نامعتبر است."), code='notNumber')
 
 
+class JobSeekerEditProfileForm(forms.ModelForm):
+
+    image = forms.ImageField(label=u'عکس پروفایل')
+
+    class Meta:
+        model = JobSeekerProfile
+        exclude = ('approved', 'image', )
+        widgets = {
+            'married': forms.Select(choices=(
+                ('', u'انتخاب وضعیت'),
+                (True, u'متاهل'),
+                (False, u'مجرد'),
+            )),
+            'sex': forms.Select(choices=(
+                ('', u'انتخاب جنسیت'),
+                (True, u'مرد'),
+                (False, u'زن'),
+            )),
+        }
+
+
 class EmployerRegisterForm1(forms.Form):
     email = forms.EmailField(required=True, label=u'پست الکترونیکی', widget=forms.TextInput(attrs={'dir': 'ltr'}),
                              help_text=u'آدرس الکترونیکی خودتان. حتما درست و کامل وارد شود زیرا برای تایید شدن شما نیاز است و همچنین نام کاربری شما در سایت می باشد. به فرمت درست مانند alireza@juck.com وارد شود. همچنین دقت شود از هر آدرس الکترونیک فقط یک بار در سایت می توانید ثبت نام کنید.')
@@ -346,6 +407,8 @@ class EmployerRegisterForm3(forms.Form):
             return data
         else:
             raise forms.ValidationError((u"شماره تلفن همراه واردشده نامعتبر است."), code='notNumber')
+
+
 
 
 setattr(Field, 'is_textarea', lambda self: isinstance(self.widget, forms.Textarea))

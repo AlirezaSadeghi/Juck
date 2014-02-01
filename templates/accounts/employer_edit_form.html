@@ -1,10 +1,291 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}
-جاک | ویرایش اطلاعات کاربری
+    جاک | ویرایش اطلاعات کاربری
+{% endblock %}
+
+{% block css %}
+    <style>
+        .gaz-error{
+            color:red;display: inline-block;
+        }
+        .gaz-sub-btn{
+            position: absolute;
+            left: 20px;bottom: 20px;
+        }
+
+        .gaz-form {
+            position: relative;
+            padding: 10px;
+            font-size: 13px;
+            background-color: rgba(167, 163, 126, 0.6);
+            -webkit-box-shadow: inset 0 0 27px #8A765C;
+            box-shadow: inset 0 0 27px #8A765C;
+        }
+
+        .field-input {
+            width: 200px !important;
+        }
+
+        .input_labels {
+            display: inline-block;
+            width: 105px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
+    <div class="center">
+        <div class="ctn-box">
+            <form method="post" enctype="multipart/form-data" class='ui form gaz-form'>
+                {#                {% for field in form %}#}
+                {% csrf_token %}
+                <div class="two fields">
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.manager.label_tag }}
+                                {% if form.manager.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
 
+                            <div class="ui small input field-input">
+                                {{ form.manager }}
+                            </div>
+                        </div>
+
+                        {% if form.manager.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.manager.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.company_name.label_tag }}
+                                {% if form.company_name.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+
+                            <div class="ui small input field-input">
+                                {{ form.company_name }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="two fields">
+
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.reg_num.label_tag }}
+                                {% if form.reg_num.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.reg_num }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.foundation_year.label_tag }}
+                                {% if form.foundation_year.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+
+                            <div class="ui small input field-input">
+                                {{ form.foundation_year }}
+                            </div>
+                        </div>
+
+                        {% if form.foundation_year.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.foundation_year.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="two fields">
+
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.user_rank.label_tag }}
+                                {% if form.user_rank.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.user_rank }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.company_type.label_tag }}
+                                {% if form.company_type.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.company_type }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="two fields">
+
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.website.label_tag }}
+                                {% if form.website.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.website }}
+                            </div>
+
+                        {% if form.website.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.website.errors.0 }}</div>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.field.label_tag }}
+                                {% if form.field.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.field }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="two fields">
+
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.mobile_number.label_tag }}
+                                {% if form.mobile_number.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.mobile_number }}
+                            </div>
+                        </div>
+
+                        {% if form.mobile_number.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.mobile_number.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.phone_number.label_tag }}
+                                {% if form.phone_number.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.phone_number }}
+                            </div>
+                        </div>
+
+                        {% if form.phone_number.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.phone_number.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="two fields">
+
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.city.label_tag }}
+                                {% if form.city.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.city }}
+                            </div>
+                        </div>
+
+                        {% if form.city.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.city.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.state.label_tag }}
+                                {% if form.state.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.state }}
+                            </div>
+                        </div>
+
+                        {% if form.state.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.state.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="two fields">
+
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.postal_code.label_tag }}
+                                {% if form.postal_code.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.postal_code }}
+                            </div>
+                        </div>
+
+                        {% if form.postal_code.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.postal_code.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="inline field">
+                        <div class="input-details">
+                            <label class="input_labels"> {{ form.address.label_tag }}
+                                {% if form.address.required %}
+                                    <span class="required-field">*</span>
+                                {% endif %}:
+                            </label>
+                            <div class="ui small input field-input">
+                                {{ form.address }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="inline field">
+                    <div class="input-details">
+                        <label class="input_labels"> {{ form.image.label_tag }}
+                            {% if form.image.required %}
+                                <span class="required-field">*</span>
+                            {% endif %}:
+                        </label>
+                        <div class="ui small input field-input">
+                            {{ form.image }}
+                        </div>
+                    </div>
+                </div>
+
+                {#                {% endfor %}#}
+                <input type="submit" class='ui button linkedin gaz-sub-btn' value="ثبت">
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

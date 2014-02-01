@@ -114,11 +114,13 @@ def ajax_login(request):
                 if role == 2:
                     user_cast = Employer.objects.get(pk=user.pk)
                     if not user_cast.profile.approved:
-                        return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
+                        return json_response(
+                            {'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
                 elif role == 3:
                     user_cast = JobSeeker.objects.get(pk=user.pk)
                     if not user_cast.profile.approved:
-                        return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
+                        return json_response(
+                            {'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
 
                 if user.is_active:
                     auth.login(request, user)
@@ -167,7 +169,7 @@ def password_recover(request):
         mail = request.POST.get('email', '')
         if mail:
             try:
-                user = JuckUser.objects.get(email= mail)
+                user = JuckUser.objects.get(email=mail)
                 # user = User.objects.get(email=mail)
             except ObjectDoesNotExist:
                 message = u'چنین رایانامه‌ای در پایگاه داده جاک موجود نمی‌باشد'
@@ -259,7 +261,6 @@ class JobSeekerWizard(SessionWizardView):
         work_session = self.request.session.get("added_work", None)
         print(work_session)
 
-
         for form in form_list:
             data.update(form.cleaned_data)
         try:
@@ -279,37 +280,37 @@ class JobSeekerWizard(SessionWizardView):
         if edu_session:
             del self.request.session['added_edu']
             for i, edu in edu_session.items():
-                    edu_obj = Education(certificate=edu['certificate'],
-                                        status=edu['status'], major=edu['major'],
-                                        orientation=edu['orientation'],
-                                        university_name=edu['university_name'],
-                                        university_type=edu['university_type'])
-                    edu_obj.save()
-                    jobseeker_resume.education.add(edu_obj)
-                    # edu_objs.append(edu_obj)
+                edu_obj = Education(certificate=edu['certificate'],
+                                    status=edu['status'], major=edu['major'],
+                                    orientation=edu['orientation'],
+                                    university_name=edu['university_name'],
+                                    university_type=edu['university_type'])
+                edu_obj.save()
+                jobseeker_resume.education.add(edu_obj)
+                # edu_objs.append(edu_obj)
 
         if skill_session:
             del self.request.session['added_skills']
             for i, skill in skill_session.items():
-                    skill_obj = Skill(title=skill['skill_title'],
-                                          level=skill['skill_level'],
-                                          description=skill['skill_description'])
-                    skill_obj.save()
-                    # skill_objs.append(skill_obj)
-                    jobseeker_resume.skill.add(skill_obj)
+                skill_obj = Skill(title=skill['skill_title'],
+                                  level=skill['skill_level'],
+                                  description=skill['skill_description'])
+                skill_obj.save()
+                # skill_objs.append(skill_obj)
+                jobseeker_resume.skill.add(skill_obj)
 
         if work_session:
             del self.request.session['added_work']
             for i, work in work_session.items():
-                    work_obj = Experience(title=work['title'],
-                                          to_date=work['to_date'], from_date=work['from_date'],
-                                          place=work['place'],
-                                          description=work['description'],
-                                          cooperation_type=work['cooperation_type'],
-                                          exit_reason=work['exit_reason'])
-                    work_obj.save()
-                    # work_objs.append(edu_obj)
-                    jobseeker_resume.experience.add(work_obj)
+                work_obj = Experience(title=work['title'],
+                                      to_date=work['to_date'], from_date=work['from_date'],
+                                      place=work['place'],
+                                      description=work['description'],
+                                      cooperation_type=work['cooperation_type'],
+                                      exit_reason=work['exit_reason'])
+                work_obj.save()
+                # work_objs.append(edu_obj)
+                jobseeker_resume.experience.add(work_obj)
 
         # jobseeker_resume.save()
 
@@ -322,7 +323,6 @@ class JobSeekerWizard(SessionWizardView):
                                              approved=False)
 
         jobseeker_profile.save()
-
 
         jobseeker = JobSeeker(first_name=data['first_name'],
                               last_name=data['last_name'],
@@ -346,7 +346,6 @@ class JobSeekerWizard(SessionWizardView):
         })
 
 
-
 def passed_captcha(view):
     @wraps(view)
     def wrapper(request, *args, **kwargs):
@@ -354,8 +353,8 @@ def passed_captcha(view):
             return view(request, request.user.username, *args, **kwargs)
         else:
             return HttpResponseRedirect('/')
-    return wrapper
 
+    return wrapper
 
 
 class EmployerWizard(SessionWizardView):
@@ -493,7 +492,6 @@ def jobseeker_addexp(request):
     return HttpResponse("")
 
 
-
 @login_required()
 def job_seeker_list(request, approved_status):
     if request.method == "GET":
@@ -520,7 +518,6 @@ def job_seeker_list(request, approved_status):
         search_form = search_filter.get_form()
 
         page_range = create_pagination_range(job_seekers.number, job_seekers.paginator.num_pages)
-
 
         return render_to_response('accounts/job_seeker_list.html',
                                   {'job_seekers': job_seekers, 'count': count, 'search_form': search_form,
@@ -559,7 +556,7 @@ def employer_list(request, approved_status):
 
         return render_to_response('accounts/employer_list.html',
                                   {'employers': employers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range, 'approved': approved, 'user_type':user_type,
+                                   'page_range': page_range, 'approved': approved, 'user_type': user_type,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -706,7 +703,6 @@ def check_catpcha(request):
     return json_response({'op_status': 'fail'})
 
 
-
 def confirm_registration(request, user_type, key):
     user, active, exists = '', False, True
     if user_type == 'job_seeker':
@@ -743,25 +739,82 @@ def confirm_registration(request, user_type, key):
                                   context_instance=RequestContext(request))
 
 
-
 @login_required
+@user_passes_test(lambda user: check_user_type(user.pk, 'employer'))
 def employer_edit_profile(request):
+    try:
+        profile = Employer.objects.get(pk=request.user.pk).profile
+    except ObjectDoesNotExist:
+        return render_to_response('messages.html', {
+            'message': u'صفحه موردنظر وجود ندارد.'}, context_instance=RequestContext(request))
+
     if request.method == "POST":
-        form = EditEmployerProfile(request.POST)
-
+        form = EditEmployerProfile(request.POST, request.FILES, instance=profile)
+        # print('post with form')
         if form.is_valid():
+            data = form.cleaned_data
+            try:
+                state_object = State.objects.get(name=data['state'])
+            except State.DoesNotExist:
+                state_object = State(name=data['state'])
+                state_object.save()
+            try:
+                city_object = City.objects.get(name=data['city'])
+            except City.DoesNotExist:
+                city_object = City(name=data['city'], state=state_object)
+                city_object.save()
 
+            new_profile = EmployerProfile(city=city_object, state=state_object,
+                                          company_name=data['company_name'], company_type=data['company_type'],
+                                          foundation_year=data['foundation_year'], reg_num=data['reg_num'],
+                                          user_rank=data['user_rank'], field=data['field'], address=data['address'],
+                                          postal_code=data['postal_code'], mobile_number=data['mobile_number'],
+                                          phone_number=data['phone_number'], manager=data['manager'],
+                                          approved=True)
 
-            return HttpResponseRedirect(reverse('show_profile'))
+            image = request.FILES.get('image', '')
+            if image:
+                picture = JuckImage(upload_root="news")
+                picture.create_picture(image)
+                picture.save()
+                new_profile.image = picture
+
+            new_profile.save()
+            emp = Employer.objects.get(pk=request.user.pk)
+            emp.profile = new_profile
+            emp.save()
+            # print('doooooneeeeee')
+            return HttpResponseRedirect('accounts/show_profile/?pk=%s' % request.user.pk)
     else:
-        form = EditEmployerProfile()
+        initial = {'city': profile.city.name, 'state': profile.state.name}
+        if profile.image:
+            initial.update({'image': profile.image.image})
+        form = EditEmployerProfile(instance=profile, initial=initial)
 
-    return render_to_response('accounts/employer_edit_form.html', {'form': form},  context_instance=RequestContext(request))
+    # print('no done :-<')
+    return render_to_response('accounts/employer_edit_form.html', {'form': form},
+                              context_instance=RequestContext(request))
 
 @login_required
 def jobseeker_edit_profile(request):
     pass
 
+
+@user_passes_test(lambda user: check_user_type(user.pk, 'jobseeker'))
+def edit_js_profile(request):
+    initial = {}
+    try:
+        image = request.user.cast().profile.image
+        initial = {'image': image}
+    except:
+        initial = {}
+
+    form = JobSeekerEditProfileForm(instance=request.user.cast().profile, initial=initial)
+    if request.method == 'POST':
+        form = JobSeekerEditProfileForm(request.POST)
+
+    return render_to_response('accounts/js_profile_edit.html', {'form': form},
+                              context_instance=RequestContext(request, ))
 
 
 def create_manager_confirm_html(function):

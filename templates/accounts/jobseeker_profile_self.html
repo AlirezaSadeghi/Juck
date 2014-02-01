@@ -22,6 +22,11 @@
             width: 50px !important;
         }
 
+        textarea {
+            width: 300px !important;
+            height: 80px;
+        }
+
     </style>
 {% endblock %}
 
@@ -48,37 +53,6 @@
                 $('#js_rating').rating({interactive: false});
                 $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
                     var content = $(this).parent().next();
-                    if ($(this).parent().hasClass('active')) {
-
-                        if (!$(this).hasClass('fj_pressed')) {
-                            $(this).addClass('fj_pressed');
-                            content.find('.ui.label').each(function () {
-                                if ($(this).attr('name') == 'sex') {
-                                    $(this).replaceWith('<select name="#" value="@" style="width:100px;"><option value="">انتخاب جنسیت</option>' +
-                                            '<option value="True">مرد</option>' +
-                                            '<option value="False">زن</option>' +
-                                            '<option value="None">دیگر</option>' +
-                                            '</select>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
-                                }
-                                else if ($(this).attr('name') == 'marital_status') {
-                                    $(this).replaceWith('<select name="#" value="@" style="width:100px;"><option value="">وضعیت تاهل</option>' +
-                                            '<option value="True">مجرد</option>' +
-                                            '<option value="False">متاهل</option>' +
-                                            '</select>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
-                                }
-                                else if($(this).attr('name') == 'marital_status'){
-
-                                }
-                                $(this).replaceWith('<input type="text" name="#" value="@" style="width:100px;"/>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
-                            });
-                        }
-                        else {
-                            $(this).removeClass('fj_pressed');
-                            content.find('input').each(function () {
-                                $(this).replaceWith('<span class="profile_info ui label" name="#" >@</span>'.replace('@', $(this).val()).replace('#', $(this).attr('name')));
-                            });
-                        }
-                    }
                     e.preventDefault();
                     return false;
                 });
@@ -118,9 +92,11 @@
     <div class="active title general_info">
         <i class="triangle left icon"></i>
         اطلاعات کلی
-        {% if self_profile %}<a class="fj_link edit_profile_accordion">ویرایش</a>{% endif %}
+        {% if self_profile %}
+            <a class="fj_link edit_profile_accordion" onclick="window.location='{% url "js_edit_profile" %}'">ویرایش
+            </a>{% endif %}
     </div>
-    <div class="active content general_info">
+    <div class="active content general_info" id="first">
 
         <div class="fj_row">
 
@@ -222,6 +198,7 @@
                       name="about_me">{{ jobseeker.resume.about_me|default:'نامشخص' }}</span>
             </div>
         </div>
+        <div class="fj_space"></div>
         <div class="fj_space"></div>
     </div>
 

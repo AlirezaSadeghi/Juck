@@ -160,7 +160,13 @@ function update_mngr_ans_common_q() {
     $('.usr_mngr_ans_q').click(function () {
         var title = $('.faq_add #id_title').val();
         var content = $('.field textarea[name="content"]').val();
-        send_ajax({title: title, content: content, csrfmiddlewaretoken: csrfToken}, '/question/add_common_question/', redirect);
+        alert(title + 'sdfsd' + content);
+        if (!title || !content) {
+            message('هر دو فیلد باید پر شوند.', 'Error');
+        }
+        else {
+            send_ajax({title: title, content: content, csrfmiddlewaretoken: csrfToken}, '/question/add_common_question/', redirect);
+        }
     });
 }
 

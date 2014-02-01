@@ -68,7 +68,9 @@
         <div class="header">
             نظری وجود ندارد
         </div>
-        <small>برای نظردادن باید عضو سایت باشید.</small>
+        {% if user.is_authenticated %}
+            <small>برای نظردادن باید عضو سایت باشید.</small>
+        {% endif %}
     </div>
 
 
