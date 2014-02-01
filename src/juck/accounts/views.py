@@ -578,18 +578,18 @@ def show_profile(request):
             kwargs['self_profile'] = True if self_profile else False
             if u_type == 'jobseeker':
                 kwargs['jobseeker'] = JobSeeker.objects.get(pk=user.pk)
-                user = kwargs['jobseeker']
-                kwargs['profile'] = user.profile
-                kwargs['resume'] = user.resume
-                kwargs['educations'] = user.resume.education.all()
-                kwargs['skills'] = user.resume.skill.all()
-                kwargs['experiences'] = user.resume.experience.all()
-
+                # user = kwargs['jobseeker']
+                # kwargs['profile'] = user.profile
+                # kwargs['resume'] = user.resume
+                # kwargs['educations'] = user.resume.education.all()
+                # kwargs['skills'] = user.resume.skill.all()
+                # kwargs['experiences'] = user.resume.experience.all()
+                #
                 return render_to_response('accounts/jobseeker_profile_self.html', kwargs,
                                           context_instance=RequestContext(request, ))
             elif u_type == 'employer':
                 kwargs['employer'] = Employer.objects.get(pk=user.pk)
-                kwargs['profile'] = kwargs['employer'].profile
+                # kwargs['profile'] = kwargs['employer'].profile
                 return render_to_response('accounts/employer_profile.html', kwargs,
                                           context_instance=RequestContext(request))
 

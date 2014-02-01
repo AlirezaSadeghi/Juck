@@ -25,6 +25,50 @@ def get_sex_rep(sex):
         return u'زن'
     return u'دیگر'
 
+@register.simple_tag
+def get_edu_status_rep(status):
+    if status == 'student':
+        return u'دانشجو'
+    elif status == 'graduated':
+        return u'فارغ التحصیل'
+    return u'تعیین نشده'
+
+@register.simple_tag
+def get_edu_certificate_rep(certificate):
+    if certificate == 'under_grad':
+        return u'کارشناسی'
+    if certificate == 'grad':
+        return u'کارشناسی ارشد '
+    if certificate == 'phd':
+        return u'دکتری'
+    if certificate == 'post_doc':
+        return u'پست دکتری'
+    return u'تعیین نشده'
+
+@register.simple_tag
+def get_edu_uni_type_rep(uni_type):
+    if uni_type == 'dolati':
+        return u'دولتی'
+    if uni_type == 'azad':
+        return u' آزاد '
+    if uni_type == 'payam_nur':
+        return u'پیام'
+    if uni_type == 'foregin':
+        return u'خارجی'
+    if uni_type == 'entefaei':
+        return u'غیرانتفاعی'
+    return u'تعیین نشده'
+
+@register.simple_tag
+def get_skill_level_rep(title):
+    if title == 'low':
+        return u'آشنا'
+    if title == 'high':
+        return u' مسط '
+    if title == 'certificate':
+        return  u'دارای مدرک معتبر'
+    return u'تعیین نشده'
+
 
 @register.simple_tag
 def get_hash_date(date):

@@ -200,9 +200,12 @@ class Employer(JuckUser):
         rate = 0.0
         for item in ratings:
             rate += item.rate
+        if len(ratings):
+            return int(round(rate / len(ratings)))
+        return 0
 
-        return round(rate / len(ratings))
-
+    def get_numer_of_rates(self):
+        return self.ratings.all().count()
 
 class JobSeeker(JuckUser):
     class Meta:
@@ -218,6 +221,8 @@ class JobSeeker(JuckUser):
 
     activation_key = models.CharField(verbose_name=u'کد فعال‌سازی', max_length=200, blank=True, null=True)
 
+    def get_numer_of_rates(self):
+        return self.ratings.all().count()
 
     def get_rate(self):
         ratings = self.ratings.all()
@@ -226,8 +231,9 @@ class JobSeeker(JuckUser):
         for item in ratings:
             rate += item.rate
 
-        return round(rate / len(ratings))
-
+        if len(ratings):
+            return int(round(rate / len(ratings)))
+        return 0
 
 class Education(models.Model):
     class Meta:

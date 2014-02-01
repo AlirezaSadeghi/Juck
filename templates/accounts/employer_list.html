@@ -151,7 +151,8 @@
                     <div class="user-buttons">
                         {% if user_type == 'manager' %}
                             {% if approved %}
-                                <div class="ui icon tiny linkedin button rf-button">
+                                <div class="ui icon tiny linkedin button rf-button"
+                                        onclick='window.location="{% url 'show_profile' %}?pk={{ employer.pk }}"'>
                                     <i class=" user icon"></i><br/>
                                     پروفایل
                                 </div>
