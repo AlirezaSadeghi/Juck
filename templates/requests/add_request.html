@@ -75,18 +75,25 @@
        </span>
 
             <div class="rf-clear"></div>
-            <form method="post" action="#" class='add-request-form ui form'>
+            <form method="post" class='add-request-form ui form'>
                 {% csrf_token %}
-                <div class="field" style="margin-top: -80px;">
-                    <div class="ui input">
-                        <label class="input-details">{{ form.cooperation_type.label_tag }}: </label>
-                        {{ form.cooperation_type }}
-                    </div>
-                    {% if form.cooperation_type.errors %}
-                        <div class="ui red pointing prompt label transition visible">{{ form.cooperation_type.errors.0 }}</div>
-                    {% endif %}
-                </div>
 
+                <input type="hidden" value="{{ req_type }}" name="req_type">
+                <input type="hidden" value="{{ pp_pk }}" name="pp_pk">
+
+                {% if req_type == 'jOpp' %}
+
+                    <div class="field" style="margin-top: -80px;">
+                        <div class="ui input">
+                            <label class="input-details">{{ form.cooperation_type.label_tag }}: </label>
+                            {{ form.cooperation_type }}
+                        </div>
+                        {% if form.cooperation_type.errors %}
+                            <div class="ui red pointing prompt label transition visible">{{ form.cooperation_type.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                {% endif %}
 
                 <div class="field">
                     <div class="ui input">
@@ -97,46 +104,51 @@
                         <div class="ui red pointing prompt label transition visible">{{ form.title.errors.0 }}</div>
                     {% endif %}
                 </div>
-                <div class="field">
-                    <div class="ui input">
-                        <label class="input-details">{{ form.first_major.label_tag }}: </label>
-                        {{ form.first_major }}
+
+                {% if req_type == 'jOpp' %}
+
+                    <div class="field">
+                        <div class="ui input">
+                            <label class="input-details">{{ form.first_major.label_tag }}: </label>
+                            {{ form.first_major }}
+                        </div>
+                        {% if form.first_major.errors %}
+                            <div class="ui red pointing prompt label transition visible">{{ form.title.errors.0 }}</div>
+                        {% endif %}
                     </div>
-                    {% if form.first_major.errors %}
-                        <div class="ui red pointing prompt label transition visible">{{ form.title.errors.0 }}</div>
-                    {% endif %}
-                </div>
 
 
-                <div class="field">
-                    <div class="ui input">
-                        <label class="input-details">{{ form.second_major.label_tag }}: </label>
-                        {{ form.second_major }}
+                    <div class="field">
+                        <div class="ui input">
+                            <label class="input-details">{{ form.second_major.label_tag }}: </label>
+                            {{ form.second_major }}
+                        </div>
+                        {% if form.second_major.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.second_major.errors.0 }}</div>
+                        {% endif %}
                     </div>
-                    {% if form.second_major.errors %}
-                        <div class="ui red pointing promt label transition visible">{{ form.second_major.errors.0 }}</div>
-                    {% endif %}
-                </div>
 
-                <div class="field">
-                    <div class="ui input">
-                        <label class="input-details">{{ form.certificate.label_tag }}: </label>
-                        {{ form.certificate }}
+                    <div class="field">
+                        <div class="ui input">
+                            <label class="input-details">{{ form.certificate.label_tag }}: </label>
+                            {{ form.certificate }}
+                        </div>
+                        {% if form.certificate.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.certificate.errors.0 }}</div>
+                        {% endif %}
                     </div>
-                    {% if form.certificate.errors %}
-                        <div class="ui red pointing promt label transition visible">{{ form.certificate.errors.0 }}</div>
-                    {% endif %}
-                </div>
 
-                <div class="field">
-                    <div class="ui input">
-                        <label class="input-details">{{ form.sex.label_tag }}: </label>
-                        {{ form.sex }}
+                    <div class="field">
+                        <div class="ui input">
+                            <label class="input-details">{{ form.sex.label_tag }}: </label>
+                            {{ form.sex }}
+                        </div>
+                        {% if form.sex.errors %}
+                            <div class="ui red pointing promt label transition visible">{{ form.sex.errors.0 }}</div>
+                        {% endif %}
                     </div>
-                    {% if form.sex.errors %}
-                        <div class="ui red pointing promt label transition visible">{{ form.sex.errors.0 }}</div>
-                    {% endif %}
-                </div>
+
+                {% endif %}
 
                 <div class="field">
                     <label class="input-details">{{ form.content.label_tag }}:</label>
