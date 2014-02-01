@@ -759,8 +759,14 @@ def jobseeker_edit_profile(request):
 
 @user_passes_test(lambda user: check_user_type(user.pk, 'jobseeker'))
 def edit_js_profile(request):
-    image = request.user.cast().profile.image
-    form = JobSeekerEditProfileForm(instance=request.user.cast().profile, image=image)
+    initial = {}
+    try:
+        image = request.user.cast().profile.image
+        initial = {'image': image}
+    except:
+        initial = {}
+
+    form = JobSeekerEditProfileForm(instance=request.user.cast().profile, initial=initial)
     if request.method == 'POST':
         form = JobSeekerEditProfileForm(request.POST)
 

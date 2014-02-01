@@ -25,6 +25,7 @@ def get_sex_rep(sex):
         return u'زن'
     return u'دیگر'
 
+
 @register.simple_tag
 def get_edu_status_rep(status):
     if status == 'student':
@@ -32,6 +33,7 @@ def get_edu_status_rep(status):
     elif status == 'graduated':
         return u'فارغ التحصیل'
     return u'تعیین نشده'
+
 
 @register.simple_tag
 def get_edu_certificate_rep(certificate):

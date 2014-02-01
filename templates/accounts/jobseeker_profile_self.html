@@ -53,58 +53,6 @@
                 $('#js_rating').rating({interactive: false});
                 $('.ui.accordion .title a.edit_profile_accordion').click(function (e) {
                     var content = $(this).parent().next();
-                    if ($(this).parent().hasClass('active')) {
-
-                        if (!$(this).hasClass('fj_pressed')) {
-                            $(this).addClass('fj_pressed');
-                            content.find('.ui.label').each(function () {
-                                if ($(this).attr('name') == 'sex') {
-                                    $(this).replaceWith('<select name="#" value="@" style="width:100px;"><option value="">انتخاب جنسیت</option>'.replace('@', $(this).text().trim()).replace('#', $(this).attr('name')) +
-                                            '<option value="مرد">مرد</option>' +
-                                            '<option value="زن">زن</option>' +
-                                            '<option value="دیگر">دیگر</option>' +
-                                            '</select>');
-                                }
-                                else if ($(this).attr('name') == 'marital_status') {
-                                    $(this).replaceWith('<select name="#" value="@" style="width:100px;"><option value="">وضعیت تاهل</option>' +
-                                            '<option value="مجرد">مجرد</option>' +
-                                            '<option value="متاهل">متاهل</option>' +
-                                            '</select>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
-                                }
-                                else if ($(this).attr('name') == 'military_service_status') {
-                                    $(this).replaceWith('<select name="#" value="@" style="width:100px;"><option value="">وضعیت سربازی</option>' +
-                                            '<option value="انجام شده">انجام شده</option>' +
-                                            '<option value="انجام نشده">انجام نشده</option>' +
-                                            '<option value="معاف">معاف</option>' +
-                                            '</select>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
-                                }
-                                else if ($(this).attr('name') == 'exemption_type') {
-                                    $(this).replaceWith('<select name="#" value="@" style="width:100px;">' +
-                                            '<option value="">انتخاب معافیت</option>' +
-                                            '<option value="Educational" label="تحصیلی">تحصیلی</option>' +
-                                            '<option value="Guardianship" label="کفالت">کفالت</option>' +
-                                            '<option value="Purchased" label="خرید">خرید</option>' +
-                                            '<option value="Medical" label="پزشکی">پزشکی</option>' +
-                                            '<option value="Other" label="سایر">سایر</option>' +
-                                            '</select>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
-                                }
-                                else if ($(this).attr('name') == 'about_me') {
-                                    $(this).replaceWith('<textarea name="#" style="width:100px;">@</textarea>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
-                                }
-                                $(this).replaceWith('<input type="text" name="#" value="@" style="width:100px;"/>'.replace('@', $(this).text()).replace('#', $(this).attr('name')));
-                            });
-                        }
-                        else {
-                            $(this).removeClass('fj_pressed');
-                            content.find('input').each(function () {
-                                $(this).replaceWith('<span class="profile_info ui label" name="#" >@</span>'.replace('@', $(this).val()).replace('#', $(this).attr('name')));
-                            });
-
-                            content.find('select').each(function () {
-                                $(this).replaceWith('<span class="profile_info ui label" name="#" >@</span>'.replace('@', $(this).val()).replace('#', $(this).attr('name')));
-                            });
-                        }
-                    }
                     e.preventDefault();
                     return false;
                 });
