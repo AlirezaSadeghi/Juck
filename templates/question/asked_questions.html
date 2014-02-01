@@ -59,15 +59,7 @@
                     <h3 class="inline_block"> اطلاعات سوالات و جواب ها: </h3>
 
 
-                    <label style="display: inline-block;margin-bottom: 5px ">
 
-                        <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
-
-                        <div id="msg_div1" class="Sina_help Sina_help_news "
-                             style="margin-top: -26px;">
-                            {{ search_form.title.help_text }}
-                        </div>
-                    </label>
 
                     {% csrf_token %}
                     <div class="two fields">
@@ -82,13 +74,54 @@
 
                     <div class="inline field">
                         <label class="input_labels">عنوان: </label>{{ search_form.title }}
+                        <label style="display: inline-block;margin-bottom: 5px ">
+
+                        <i class="tiny help icon" id="help_icon" help-id="0" style="cursor: pointer"></i>
+
+                        <div id="msg_div0" class="Sina_help Sina_help_news "
+                             style="margin-top: -26px;">
+                            {{ search_form.title.help_text }}
+                        </div>
+                        </label>
                     </div>
+
                     <div class="inline field">
-                        <label class="input_labels">متن: </label>{{ search_form.answer }}
+                        <label class="input_labels">عنوان: </label>{{ search_form.content }}
+                        <label style="display: inline-block;margin-bottom: 5px ">
+
+                        <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
+
+                        <div id="msg_div1" class="Sina_help Sina_help_news "
+                             style="margin-top: -26px;">
+                            {{ search_form.content.help_text }}
+                        </div>
+                        </label>
+                    </div>
+
+                    <div class="inline field">
+                        <label class="input_labels">پاسخ: </label>{{ search_form.answer }}
+                        <label style="display: inline-block;margin-bottom: 5px ">
+
+                        <i class="tiny help icon" id="help_icon" help-id="2" style="cursor: pointer"></i>
+
+                        <div id="msg_div2" class="Sina_help Sina_help_news "
+                             style="margin-top: -26px;">
+                            {{ search_form.answer.help_text }}
+                        </div>
+                    </label>
                     </div>
 
                     <div class="inline field">
                         <label class="input_labels">وضعیت پاسخ: </label>{{ search_form.answered }}
+                        <label style="display: inline-block;margin-bottom: 5px ">
+
+                        <i class="tiny help icon" id="help_icon" help-id="3" style="cursor: pointer"></i>
+
+                        <div id="msg_div3" class="Sina_help Sina_help_news "
+                             style="margin-top: -26px;">
+                            {{ search_form.answered.help_text }}
+                        </div>
+                        </label>
                     </div>
 
                     <div class="search_buttons">

@@ -12,15 +12,19 @@ class ManagerQuestionListFilter:
 
 
         title = forms.CharField(label=u'عنوان', max_length=150, required=False,
-                                help_text=u'با پر کردن موارد مد نظر خود عملیات جستجو در میان سوالات و جواب های موجود انجام می شود. دقت کنید نتیجه ی عملیات اشتراک موارد مشخص شده توسط شماست.'
+                                help_text=u'جستجو در عناوین سوالات. دقت کنید اشتراک این فیلد با سایر فیلد ها به عنوان نتیجه برگردانده می شود.'
                                 ,widget=forms.TextInput(
             attrs={'class': 'search-tab-content-input input-12', 'placeholder': u'عنوان سوال:'}))
-        answer = forms.CharField(label=u'پاسخ', max_length=150, required=False, widget=forms.TextInput(
+
+        content = forms.CharField(label=u'شرح', max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': u'عنوان سوال:'}),
+                                  help_text=u'جستجو در متن سوالات. دقت کنید اشتراک این فیلد با سایر فیلد ها به عنوان نتیجه برگردانده می شود.')
+
+        answer = forms.CharField(help_text=u'جستجو در پاسخ سوالات. دقت کنید که اشتراک این فیلد با سایر فیلدها به عنوان نتیجه بازگردانده می شود.', label=u'پاسخ', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': 'search-tab-content-input input-12', 'placeholder': u'محتوی پاسخ:'}))
-        answered = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
+        answered = forms.ChoiceField(help_text=u'دسته بندی سوالات بر اساس وجود یا عدم پاسخ.دقت کنید که اشتراک این فیلد با سایر فیلدها به عنوان نتیجه باز گردانده می وشد.', label=u'وضعیت پاسخ', required=False, choices=(
             ('', u'وضعیت پاسخ'), (True, u'پاسخ داده شده'), (False, u'پاسخ داده نشده'), ))
 
-        both = forms.CharField(label=u'جستجو کلی', max_length=100, required=False, widget=forms.TextInput(
+        both = forms.CharField(help_text=u'جستجو در بین عناوین و پاسخ ها. اگر می خواهید از این فیلد استفاده کنید سایر فیلدهای جستجوی پیشرفته را خالی بگذارید.', label=u'جستجو کلی', max_length=100, required=False, widget=forms.TextInput(
             attrs={'placeholder': u'جستجو'}))
 
     Form = SecretaryQuestionListFilterForm

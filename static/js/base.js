@@ -35,7 +35,7 @@ $(document).ready(function () {
 
     csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
-    $().toastmessage({sticky: true});
+    $().toastmessage({sticky: false});
     $('.ui.dropdown').dropdown();
 
     $('.index-column').hover(function () {
@@ -236,4 +236,14 @@ function addRate(obj_type, obj_id, rate){
             message(data.message, 'Error');
         }
     });
+}
+
+function deletItem(item_type, item_id){
+    if(item_type == 'news'){
+
+    }else if(item_typ == 'article'){
+
+    }else{
+
+    }
 }
