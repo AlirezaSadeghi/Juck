@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
@@ -10,7 +11,7 @@ from juck.articles.models import Article, Author, Tag, ArticleSubmission
 from forms import ArticleForm
 
 # Create your views here.
-from utils import create_pagination_range
+from utils import create_pagination_range, json_response
 
 
 def show_articles_list(request):
@@ -26,6 +27,7 @@ def show_articles_list(request):
             get_params = request.GET.copy()
             if 'page' in get_params:
                 del get_params['page']
+
             not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
 
             search_filter = ArticleListFilter()
@@ -114,20 +116,51 @@ def submitted_article_description(request):
             # article_sub = ArticleSubmission.objects.values_list('article', flat=True)
             # article = Article.objects.get(pk=pk)
             article_sub = ArticleSubmission.objects.get(article__pk=pk)
-            return render_to_response('articles/submitted_article_description.html', {'article': article_sub.article,'sub_article':article_sub},
+            return render_to_response('articles/submitted_article_description.html', {'article': article_sub.article, 'sub_article':article_sub},
                                       context_instance=RequestContext(request))
         except ObjectDoesNotExist:
             pass
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
+
 def review_submitted_article(request):
     if request.method == "POST" and request.is_ajax():
-        if request.POST['id'] and request.POST['is_accepted']:
-            return HttpResponse('i want to review this')
-    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
-                            context_instance=RequestContext(request))
+        if request.POST['id'] and request.POST['review']:
+            try:
+                article = ArticleSubmission.objects.get(id=int(request.POST['id']))
+                if request.POST['review'] == 'delete':
+                    article.delete()
+                    return json_response({'op_status': 'success', 'message': u'مقاله موردنظر با موفقیت حذف گردید.'})
+                elif request.POST['review'] == 'accept':
+                    article.is_accepted = True
+                    article.save()
+                    return json_response({'op_status': 'success', 'message': u'مقاله موردنظر با موفقیت تایید و به لیست مقالات اضافه گردید.'})
+                else:
+                    return json_response({'op_status': 'failed', 'message': u'چنین کارکردی وجود ندارد.'})
 
+            except ObjectDoesNotExist:
+                return json_response({'op_status': 'failed', 'message': u'چنین خبری وجود ندارد.'})
+    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+                              context_instance=RequestContext(request))
+
+
+def remove_article(request):
+    if request.method == "POST" and request.is_ajax():
+        if request.POST['id']:
+            try:
+                article = Article.objects.get(id=int(request.POST['id']))
+                article.delete()
+                return json_response({'op_status': 'success', 'message': u'خبر موردنظر باموفقیت حذف شد.'})
+            except ObjectDoesNotExist:
+                return json_response({'op_status': 'failed', 'message': u'چنین خبری وجود ندارد.'})
+
+    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+                              context_instance=RequestContext(request))
+
+
+
+@login_required
 def submit_article(request):
     form = ArticleForm()
     if request.method == 'POST':
@@ -145,7 +178,7 @@ def submit_article(request):
             for tag in tags:
                 article.tags.add(Tag.objects.get_or_create(name=tag)[0])
 
-            ArticleSubmission(user = request.user, article=article).save()
+            ArticleSubmission(user=request.user, article=article).save()
 
             return HttpResponseRedirect(reverse('articles_list'))
 
