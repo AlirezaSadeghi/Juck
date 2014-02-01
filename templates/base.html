@@ -75,6 +75,23 @@
                     </div>
                 {% else %}
                     <div class="ui buttons-tmp">
+                        {#        fj_sadeghi            #}
+                        {% get_user_type as u_type %}
+                        <span class="user_name">
+                            {% if u_type == 'manager' %}{{ request.user. }}
+                                <a class="avatar">
+                                    <img src="{{ MEDIA_URL }}{{ req }}">
+                                </a>
+                            {% endif %}
+                        </span>
+
+                        {% if u_type == 'jobseeker' %}
+                            <span class="user_name"></span>
+                        {% endif %}
+                        {% if u_type == 'employer' %}
+                            <span class="user_name"></span>
+                        {% endif %}
+                        {#        fj_sadeghi            #}
                         <a href="{% url 'logout' %}"><i class="ui button down arrow linkedin small"
                                                         id="sign-in">خروج</i></a>
                     </div>
@@ -151,6 +168,7 @@
                     {% elif u_type == "jobseeker" %}
                         <div class="ui dropdown item" id="request-page">
                             بازار کار<i class="dropdown icon"></i>
+
                             <div class="menu">
                                 <a class="item" href="{% url 'dashboard' %}">کارتابل</a>
                                 <a class="item" href="{% url 'employer_list' 'approved' %}">لیست کارفرمایان</a>
