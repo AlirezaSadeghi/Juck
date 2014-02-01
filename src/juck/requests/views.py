@@ -21,23 +21,16 @@ def dashboard(request):
             del get_params['page']
 
         search_filter = DashboardListFilter()
-        threads, count = search_filter.init_filter(request.GET, user_type=get_user_type(request.user.pk), user_pk=request.user.pk, **{})
+        threads, count = search_filter.init_filter(request.GET, user_type=get_user_type(request.user.pk),
+                                                   user_pk=request.user.pk, **{})
         search_form = search_filter.get_form()
 
         page_range = create_pagination_range(threads.number, threads.paginator.num_pages)
-        print("sss")
-        print(threads)
-        print(count)
-        # print()
 
         return render_to_response('requests/dashboard.html',
-                                      {'threads': threads, 'count': count, 'search_form': search_form,
-                                       'page_range': page_range, 'get_params': get_params},
-                                      context_instance=RequestContext(request))
-
-        # return render_to_response('requests/dashboard.html', {'threads': threads},
-        #                           context_instance=RequestContext(request, ))
-
+                                  {'threads': threads, 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
+                                  context_instance=RequestContext(request))
 
     return render_to_response('messages.html', {'message': u'درخواستی موجود نمی‌باشد', 'type': 'warning'},
                               context_instance=RequestContext(request, ))
@@ -102,6 +95,7 @@ def my_needs(request):
     return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'})
 
 
+@login_required
 def advertisements(request):
     if request.method == "GET":
         get_params = request.GET.copy()
@@ -127,6 +121,7 @@ def show_requests(request):
     return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))
 
 
+@login_required
 def show_js_requests(request):
     if request.method == "GET":
         get_params = request.GET.copy()
@@ -164,6 +159,7 @@ def show_js_requests(request):
     return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))
 
 
+@login_required
 def show_em_requests(request):
     if request.method == "GET":
         get_params = request.GET.copy()
@@ -200,25 +196,54 @@ def show_em_requests(request):
     return render_to_response('messages.html', {}, context_instance=RequestContext(request, ))
 
 
-@login_required()
+@login_required
 def add_request(request, request_type):
-    u_type = get_user_type(request.user.pk)
     if request.method == "POST":
-        form = JobOpportunityForm(request.POST)
-        if form.is_valid():
-            jopp = form.save(commit=False)
-            jopp.employer = Employer.objects.get(pk=request.user.pk)
-            jopp.save()
-            #elif request_type == 'eReq':
-            #    pass
-            #elif request_type == 'jReq':
-            #    pass
-            return render_to_response('messages.html', {'type': 'green', 'message': 'درخواست با موفقیت ثبت شد.'},
-                                      context_instance=RequestContext(request, ))
-    else:
-        form = JobOpportunityForm()
+        if request_type == 'jOpp':
+            form = JobOpportunityForm(request.POST)
+            if form.is_valid():
+                jopp = form.save(commit=False)
+                jopp.employer = Employer.objects.get(pk=request.user.pk)
+                jopp.save()
+        elif request_type in ['jReq', 'eReq']:
+            form = RequestForm(request.POST)
+            if form.is_valid():
+                content = form.cleaned_data.get('content', '')
+                title = form.cleaned_data.get('title', '')
+                pp_pk = request.POST.get('pp_pk', '')
+                dest_user = JuckUser.objects.get(pk=pp_pk).role
 
-    return render_to_response('requests/add_request.html', {'form': form, 'req_type': request_type},
+                if request_type == 'eReq':
+                    ereq = EmployerJobOffer(content=content, title=title)
+                    ereq.employer = Employer.objects.get(pk=request.user.pk)
+                    if dest_user == 2:
+                        ereq.em_receiver = Employer.objects.get(pk=pp_pk)
+                    else:
+                        ereq.js_receiver = JobSeeker.objects.get(pk=pp_pk)
+                    ereq.save()
+
+                if request_type == 'jReq':
+                    jreq = JobseekerJobOffer(content=content, title=title)
+                    jreq.sender = JobSeeker.objects.get(pk=request.user.pk)
+                    jreq.employer = Employer.objects.get(pk=pp_pk)
+                    jreq.save()
+
+        return render_to_response('messages.html', {'type': 'green', 'message': 'درخواست با موفقیت ثبت شد.'},
+                                  context_instance=RequestContext(request, ))
+    else:
+        if request_type == 'jOpp':
+            form = JobOpportunityForm()
+        elif request_type == 'eReq':
+            pp_pk = request.GET.get('pk', '')
+            form = RequestForm()
+        elif request_type == 'jReq':
+            pp_pk = request.GET.get('pk', '')
+            form = RequestForm()
+        else:
+            return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز', 'type': 'Error'},
+                                      context_instance=RequestContext(request, ))
+
+    return render_to_response('requests/add_request.html', {'form': form, 'req_type': request_type, 'pp_pk': pp_pk},
                               context_instance=RequestContext(request, ))
 
 
