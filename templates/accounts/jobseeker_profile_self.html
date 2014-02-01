@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block title %}
+   جاک |
+{% endblock %}
+
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/FJ_test.css' %}" type="text/css"/>
@@ -73,7 +77,7 @@
                 <label class="profile_label">نام: </label>
             </div>
             <div class="col15">
-                <span class="profile_info ui label ">{{ user.first_name }}</span>
+                <span class="profile_info ui label ">{{ jobseeker.first_name }}</span>
             </div>
             <div class="col2">
                 <label class="profile_label">نام خانوادگی: </label>

@@ -110,13 +110,25 @@ def ajax_login(request):
         if JuckUser.objects.filter(email=username).count():
             user = auth.authenticate(username=username, password=password)
             if user is not None:
+                role = user.role
+                if role == 2:
+                    user = Employer.objects.get(pk=user.pk)
+                    if not user.profile.approved:
+                        return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
+                elif role == 3:
+                    #TODO here
+                    user = JobSeeker.objects.get(pk=user.pk)
+                    if not user.profile.approved:
+                        return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
+
                 if user.is_active:
+                    #TODO
                     auth.login(request, user)
                     if user.is_staff:
                         redirect_to_url = '/admin/'
                     return json_response({'op_status': 'success', 'redirect_url': redirect_to_url})
                 else:
-                    return json_response({'op_status': 'not_active', 'message': u'حساب کاربری  مسدود می باشد.'})
+                    return json_response({'op_status': 'not_active', 'message': u'حساب کاربری  فعال نمی باشد.'})
             else:
                 return json_response({'op_status': 'failed', 'message': u'نام کاربری یا رمز عبور صحیح نیست.'})
 
