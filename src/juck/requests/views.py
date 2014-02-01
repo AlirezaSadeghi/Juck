@@ -7,7 +7,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from juck.accounts.models import Employer, JobSeeker, JuckUser
 from juck.accounts.views import get_user_type, check_user_type
-from juck.requests.filter import RequestListFilter
+from juck.requests.filter import RequestListFilter, DashboardListFilter
 from juck.requests.forms import RequestForm, ResponseForm, JobOpportunityForm
 from juck.requests.models import Response, Request, JobOpportunity, EmployerJobOffer, JobseekerJobOffer, DiscussionThread
 from utils import create_pagination_range, json_response
@@ -16,47 +16,27 @@ from utils import create_pagination_range, json_response
 @login_required
 def dashboard(request):
     if request.method == "GET":
-        if get_user_type(request.user.pk) == 'employer':
-            employer = Employer.objects.get(pk=request.user.pk)
-            threads = DiscussionThread.objects.filter(Q(request__employer=employer) |
-                                                      Q(responder=employer))
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
 
-            dashboard_items = []
-            for item in threads:
-                request_child = item.request.cast()
-                req_type = ''
-                if isinstance(request_child, JobOpportunity):
-                    req_type = 'jo'
-                elif isinstance(request_child, JobseekerJobOffer):
-                    req_type = 'jso'
-                elif isinstance(request_child, EmployerJobOffer):
-                    req_type = 'ejo'
-                dashboard_items.append(
-                    {'request': item.request.cast(), 'response': item.responses.all()[0], 'type': req_type})
+        search_filter = DashboardListFilter()
+        threads, count = search_filter.init_filter(request.GET, user_type=get_user_type(request.user.pk), user_pk=request.user.pk, **{})
+        search_form = search_filter.get_form()
 
-            return render_to_response('requests/dashboard.html', {'threads': dashboard_items},
-                                      context_instance=RequestContext(request, ))
+        page_range = create_pagination_range(threads.number, threads.paginator.num_pages)
+        print("sss")
+        print(threads)
+        print(count)
+        # print()
 
-        else:
-            jobseeker = JobSeeker.objects.get(pk=request.user.pk)
-            threads = DiscussionThread.objects.filter(Q(responder=jobseeker)|
-                                                      Q(request__jobseekerjoboffer__sender=jobseeker))
+        return render_to_response('requests/dashboard.html',
+                                      {'threads': threads, 'count': count, 'search_form': search_form,
+                                       'page_range': page_range, 'get_params': get_params},
+                                      context_instance=RequestContext(request))
 
-            dashboard_items = []
-            for item in threads:
-                request_child = item.request.cast()
-                req_type = ''
-                if isinstance(request_child, JobOpportunity):
-                    req_type = 'jo'
-                elif isinstance(request_child, JobseekerJobOffer):
-                    req_type = 'jso'
-                elif isinstance(request_child, EmployerJobOffer):
-                    req_type = 'ejo'
-                dashboard_items.append(
-                    {'request': item.request.cast(), 'response': item.responses.all()[0], 'type': req_type})
-
-            return render_to_response('requests/dashboard.html', {'threads': dashboard_items},
-                                      context_instance=RequestContext(request, ))
+        # return render_to_response('requests/dashboard.html', {'threads': threads},
+        #                           context_instance=RequestContext(request, ))
 
 
     return render_to_response('messages.html', {'message': u'درخواستی موجود نمی‌باشد', 'type': 'warning'},
