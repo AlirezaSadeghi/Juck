@@ -25,17 +25,35 @@
                             <div class="field">
                                 {{ form.source_file }}
                             </div>
+
                             <div class="field">
                                 <label class="right_alignment">
                                     عنوان مقاله
                                 </label>
                                 {{ form.title }}
+                                <label style="display: inline-block; width: 100px">شرح خبر
+
+                                <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
+
+                                <div id="msg_div1" class="Sina_help Sina_help_news " help-id="0" style="margin-right: 36px;margin-top: 1px">
+                                    {{ form.help_texts.title }}
+                                </div>
+                            </label>
                             </div>
+
                             <div class="field">
                                 <label class="right_alignment">
                                     خلاصه مقاله
                                 </label>
                                 {{ form.summary }}
+                                <label style="display: inline-block; width: 100px">شرح خبر
+
+                                <i class="tiny help icon" id="help_icon" help-id="2" style="cursor: pointer"></i>
+
+                                <div id="msg_div2" class="Sina_help Sina_help_news " help-id="2" style="margin-right: 36px;margin-top: 1px">
+                                    {{ form.help_texts.summary }}
+                                </div>
+                            </label>
                             </div>
 
                             <div class="clr">
