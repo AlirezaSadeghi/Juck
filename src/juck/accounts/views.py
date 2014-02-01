@@ -167,7 +167,8 @@ def password_recover(request):
         mail = request.POST.get('email', '')
         if mail:
             try:
-                user = User.objects.get(email=mail)
+                user = JuckUser.objects.get(email= mail)
+                # user = User.objects.get(email=mail)
             except ObjectDoesNotExist:
                 message = u'چنین رایانامه‌ای در پایگاه داده جاک موجود نمی‌باشد'
                 return render_to_response('messages.html', {'message': message},

@@ -39,11 +39,11 @@ class RequestListFilter:
         ))
 
         sex = forms.ChoiceField(label=u'جنسیت', required=False, choices=(
-            ('', u'جنسیت نیروها'), (True, u'مرد'), (False, u'زن'), (None, u'دیگر')
+            ('', u'همه موارد'), (True, u'مرد'), (False, u'زن'), (None, u'دیگر')
         ))
-
-        status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-            ('', u'تمامی حالات'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
+        #
+        # status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
+        #     ('', u'تمامی حالات'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
 
 
 
@@ -82,7 +82,7 @@ class RequestListFilter:
             cooperation_type = self.form.cleaned_data.get('cooperation_type', '')
             sex = self.form.cleaned_data.get('sex', '')
             major = self.form.cleaned_data.get('major', '')
-            status = self.form.cleaned_data.get('status', '')
+            # status = self.form.cleaned_data.get('status', '')
 
             if title:
                 filter_kwargs.update({'title__icontains': title})
@@ -91,11 +91,11 @@ class RequestListFilter:
             if content:
                 filter_kwargs.update({'content__icontains': content})
             if cooperation_type:
-                filter_kwargs.update({'cooperation__type': cooperation_type})
+                filter_kwargs.update({'cooperation_type': cooperation_type})
             if sex != '':
                 filter_kwargs.update({'sex': eval(sex)})
-            if status != '':
-                filter_kwargs.update({'status': eval(status)})
+            # if status != '':
+            #     filter_kwargs.update({'status': eval(status)})
 
         if request_type == "jsjo":
             requests = JobseekerJobOffer.objects.filter(**filter_kwargs)
