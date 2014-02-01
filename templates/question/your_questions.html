@@ -27,7 +27,7 @@
                 </a>
             </div>
             <div class="user_list ui bottom attached faq_list segment">
-                {% if question %}
+                {% if questions %}
                 {% for question in questions %}
                     <div class="ui raised segment single_question" qid={{ question.pk }}>
                         <span class="question_number">{{ forloop.counter }} - </span>
