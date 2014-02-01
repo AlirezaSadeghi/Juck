@@ -10,7 +10,6 @@ from django.db.models import Q
 class ManagerJobSeekerListFilter:
     class ManagerJobSeekerListFilterFrom(forms.Form):
 
-
         search_input = forms.CharField(max_length=200, required=False,
                                        widget=forms.TextInput(attrs={'placeholder': "جستجو..."}),
                                        help_text=u'این جستجو میان تمام مشخصات وارد شده ی اشخاص انجام می شود. یعنی در اطلاعات کاربری, اطلاعات تحصیلی, سوابق کاری و همچنین مهارت های کاری هر عبارت مرتبطی پیدا شود, به نمایش گذاشته می شود. ')
@@ -72,6 +71,12 @@ class ManagerJobSeekerListFilter:
                                 choices=((0, u'انتخاب کنید'), (1, u'مرد'), (2, u'زن'), (3, u'دیگر'),), required=False)
         married = forms.ChoiceField(label=u'وضعیت تاهل ',
                                     choices=((0, u'انتخاب کنید'), (1, u'مجرد'), (2, u'متاهل'), ), required=False)
+
+        def __init__(self, *args, **kwargs):
+            super(ManagerJobSeekerListFilter.ManagerJobSeekerListFilterFrom, self).__init__(*args, **kwargs)
+            for field in self.fields:
+                self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
+
 
     Form = ManagerJobSeekerListFilterFrom
 
@@ -193,6 +198,11 @@ class ManagerEmployerListFilter:
 
         city = forms.CharField(label=u'شهر', max_length=100, required=False)
         state = forms.CharField(label=u'استان', max_length=100, required=False)
+
+        def __init__(self, *args, **kwargs):
+            super(ManagerEmployerListFilter.ManagerEmployerListFilterForm, self).__init__(*args, **kwargs)
+            for field in self.fields:
+                self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
 
     Form = ManagerEmployerListFilterForm
 

@@ -14,15 +14,15 @@ class RequestListFilter:
     class RequestFilterForm(forms.Form):
 
         total_search = forms.CharField(label=u'جستجو کلی', max_length=150, required=False,
-                                       help_text=u'این متن در بین عنوان ها و متن اخبار جستجو می گردد.',
+                                       help_text=u'این قسمت میان عنوان, متن و نام کارفرمایان عملیات جستجو را انجام می دهد.',
                                        widget=forms.TextInput(
                                            attrs={'placeholder': u'جستجو'}))
 
         employer = forms.CharField(label=u'کارفرما', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': '', 'placeholder': u'کارفرما'}))
 
-        job_seeker = forms.CharField(label=u'کارجو', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u'کارجو'}))
+        # job_seeker = forms.CharField(label=u'کارجو', max_length=150, required=False, widget=forms.TextInput(
+        #     attrs={'class': '', 'placeholder': u'کارجو'}))
 
         title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': ''}))
@@ -34,7 +34,7 @@ class RequestListFilter:
             attrs={'class': ''}))
 
         cooperation_type = forms.ChoiceField(label=u'نوع همکاری', required=False, choices=(
-            ('', u''), (Request.COOPERATION_TYPES['full_time'], u'تمام وقت'),
+            ('', u'تمامی حالات'), (Request.COOPERATION_TYPES['full_time'], u'تمام وقت'),
             (Request.COOPERATION_TYPES['half_time'], u'پاره وقت'), (Request.COOPERATION_TYPES['tele_work'], u'دور کاری')
         ))
 
@@ -43,7 +43,8 @@ class RequestListFilter:
         ))
 
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'), (None, u'در دست بررسی') ))
+            ('', u'تمامی حالات'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
+
 
 
         def __init__(self, *args, **kwargs):
@@ -86,11 +87,11 @@ class RequestListFilter:
             if title:
                 filter_kwargs.update({'title__icontains': title})
             if employer:
-                filter_kwargs.update({'employer_profile__company_name__icontains': employer})
+                filter_kwargs.update({'employer__profile__company_name__icontains': employer})
             if content:
                 filter_kwargs.update({'content__icontains': content})
             if cooperation_type:
-                filter_kwargs.update({'cooperation_type': cooperation_type})
+                filter_kwargs.update({'cooperation__type': cooperation_type})
             if sex:
                 filter_kwargs.update({'sex': sex})
             if status:
@@ -113,7 +114,10 @@ class RequestListFilter:
                                            Q(second_major__in=major_list))
 
         else:
+            print("why ???")
             requests = Request.objects.none()
+
+        print(requests)
 
         if request_type in ['jsjo', 'ejo']:
             if job_seeker:
@@ -211,7 +215,7 @@ class ResponseListFilter:
             if title:
                 filter_kwargs.update({'title__icontains': title})
             if employer:
-                filter_kwargs.update({'employer__profile__company__name__icontains': employer})
+                filter_kwargs.update({'employer__profile__company_name__icontains': employer})
             if content:
                 filter_kwargs.update({'content__icontains': content})
             if cooperation_type:
@@ -273,23 +277,23 @@ class DashboardListFilter:
     class DashboardFilterForm(forms.Form):
 
         total_search = forms.CharField(label=u'جستجو کلی', max_length=150, required=False,
-                                       # help_text=u'این متن در بین عنوان ها و متن اخبار جستجو می گردد.',
+                                       help_text=u'این قسمت میان عنوان و نام کارفرمایان جستجو می کند.',
                                        widget=forms.TextInput(
                                            attrs={'placeholder': u'جستجو'}))
 
         employer = forms.CharField(label=u'نام سازمان', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u''}))
+            attrs={'class': '', 'placeholder': u''}) ,help_text=u'هم در میان فرستندگان و هم گیرندگان جستجو می شود.')
 
         title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': '', 'placeholder': u''}))
 
         cooperation_type = forms.ChoiceField(label=u'نوع همکاری', required=False, choices=(
-            ('', u''), (Request.COOPERATION_TYPES['full_time'], u'تمام وقت'),
+            ('', u'همه موارد'), (Request.COOPERATION_TYPES['full_time'], u'تمام وقت'),
             (Request.COOPERATION_TYPES['half_time'], u'پاره وقت'), (Request.COOPERATION_TYPES['tele_work'], u'دور کاری')
         ))
 
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'), (None, u'در دست بررسی') ))
+            ('', u'همه موارد'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
 
         def __init__(self, *args, **kwargs):
             super(DashboardListFilter.DashboardFilterForm, self).__init__(*args, **kwargs)
@@ -346,6 +350,8 @@ class DashboardListFilter:
                                                       Q(request__jobseekerjoboffer__sender=jobseeker))
 
         threads = threads.filter(**filter_kwargs)
+
+        threads = threads.filter((Q(request__title__icontains=total_search) | Q( request__employer__profile__company_name__icontains=total_search)  ))
 
         dashboard_items = []
         for item in threads:
