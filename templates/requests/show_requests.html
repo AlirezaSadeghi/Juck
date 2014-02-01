@@ -100,7 +100,7 @@
 
                     <div class="search_buttons">
                         <input class="inline ui button" type="reset" value="پاک کردن">
-                        <input class="inline ui button" type="submit" id="submit_button"  value="جستجو">
+                        <input class="inline ui button" type="submit" id="submit_button" value="جستجو">
                     </div>
                 </div>
                 <div class="ui vertical divider"></div>
@@ -110,124 +110,130 @@
         </div>
     </form>
     <div class="news_list">
-        {% for item in requests %}
-            <div class="news_item ui raised segment">
-                <h2>{{ item.title }}</h2>
+        {% if requests %}
+            {% for item in requests %}
+                <div class="news_item ui raised segment">
+                    <h2>{{ item.title }}</h2>
 
-                <div class="ui section divider light_margined"></div>
-                {% if request_type == 'offer' %}
+                    <div class="ui section divider light_margined"></div>
+                    {% if request_type == 'offer' %}
 
-                    <div class="news_content">
-                        از:
-                        {{ item.sender.get_full_name }}
-                    </div>
-                    <div class="news_content">
-                        <p>
-                            به:
-                            {{ item.employer.get_full_name }}
-                        </p>
-                    </div>
-                {% else %}
-                    <div class="ui segment">
-                        <div class="ui inverted relaxed divided list">
-
-                            <div class="item Sina_height">
-                                <div class="content">
-                                    <div class="Sina_label">فرستاده شده از طرف:</div>
-                                    <div class="ui message green inline_block" style="line-height: 10px">
-                                        {{ item.employer.get_full_name }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item Sina_height">
-                                <div class="content">
-                                    <div class="Sina_label">رشته های تحصیلی مرتبط:</div>
-                                    <div class="ui message green inline_block" style="line-height: 10px">
-                                        {{ item.first_major }}
-                                        {#                                            <br>#}
-                                        {% if item.second_major %}
-                                            و
-                                            {{ item.second_major }}
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {% if item.certificate %}
-                                <div class="item Sina_height">
-                                    <div class="content">
-                                        <div class="Sina_label">مدرک تحصیلی مورد نیاز:</div>
-                                        <div class="ui message green inline_block" style="line-height: 10px">
-                                            {{ item.certificate }}
-                                        </div>
-                                    </div>
-                                </div>
-
-                            {% endif %}
-
-                            {% if item.sex %}
-                                <div class="item">
-                                    <div class="content Sina_height">
-                                        <div class=" Sina_label">جنسیت مورد نظر:</div>
-                                        <div class="ui message green inline_block" style="line-height: 10px">
-                                            {% get_sex_rep item.sex %}
-{#                                            {{ item.sex }}#}
-                                        </div>
-                                    </div>
-                                </div>
-
-                            {% endif %}
-
-                            {% if item.content %}
-                                <div class="item ">
-                                    <div class="content ">
-                                        <div class="Sina_label">توضیحات آگهی</div>
-                                        <div class="ui message blue  dis">
-
-                                            {{ item.content }}
-                                        </div>
-                                    </div>
-                                </div>
-
-                            {% endif %}
-
-                            <div class="item">
-                                <div class="content" style="position: absolute;right: 670px;top: 17px;">
-                                    <div class="Sina_label">زمان ارسال:</div>
-                                    <div class="ui message green">
-                                        {% get_persian_date item.timestamp.date %} ساعت {{ item.timestamp.time }}
-                                    </div>
-                                </div>
-                            </div>
-
+                        <div class="news_content">
+                            از:
+                            {{ item.sender.get_full_name }}
                         </div>
-                    </div>
-                {% endif %}
-
-                <div class="news_other">
-                    {% if u_type != 'manager' %}
-                        <div class="more_buttons">
-                            <div class="ui animated button green small"
-                                 onclick="window.location='{% url 'apply_for_job_opportunity' item.pk %}'">
-                                <div class="visible content green">اعلام تمایل به همکاری</div>
-                                <div class="hidden content"><i class="left arrow icon"> ایجاد درخواست</i></div>
-                            </div>
+                        <div class="news_content">
+                            <p>
+                                به:
+                                {{ item.employer.get_full_name }}
+                            </p>
                         </div>
                     {% else %}
-                        <div class="more_buttons">
-                            <div class="ui animated button green small"
-                                 onclick="window.location='{% url 'add_request' req_param  item.pk %}'">
-                                <div class="visible content green">وضعیت درخواست</div>
-                                <div class="hidden content"><i class="left arrow icon">مشاهده متقاضیان </i>
+                        <div class="ui segment">
+                            <div class="ui inverted relaxed divided list">
+
+                                <div class="item Sina_height">
+                                    <div class="content">
+                                        <div class="Sina_label">فرستاده شده از طرف:</div>
+                                        <div class="ui message green inline_block" style="line-height: 10px">
+                                            {{ item.employer.get_full_name }}
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="item Sina_height">
+                                    <div class="content">
+                                        <div class="Sina_label">رشته های تحصیلی مرتبط:</div>
+                                        <div class="ui message green inline_block" style="line-height: 10px">
+                                            {{ item.first_major }}
+                                            {#                                            <br>#}
+                                            {% if item.second_major %}
+                                                و
+                                                {{ item.second_major }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% if item.certificate %}
+                                    <div class="item Sina_height">
+                                        <div class="content">
+                                            <div class="Sina_label">مدرک تحصیلی مورد نیاز:</div>
+                                            <div class="ui message green inline_block" style="line-height: 10px">
+                                                {{ item.certificate }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+
+                                {% if item.sex %}
+                                    <div class="item">
+                                        <div class="content Sina_height">
+                                            <div class=" Sina_label">جنسیت مورد نظر:</div>
+                                            <div class="ui message green inline_block" style="line-height: 10px">
+                                                {% get_sex_rep item.sex %}
+                                                {#                                            {{ item.sex }}#}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+
+                                {% if item.content %}
+                                    <div class="item ">
+                                        <div class="content ">
+                                            <div class="Sina_label">توضیحات آگهی</div>
+                                            <div class="ui message blue  dis">
+
+                                                {{ item.content }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+
+                                <div class="item">
+                                    <div class="content" style="position: absolute;right: 670px;top: 17px;">
+                                        <div class="Sina_label">زمان ارسال:</div>
+                                        <div class="ui message green">
+                                            {% get_persian_date item.timestamp.date %} ساعت {{ item.timestamp.time }}
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     {% endif %}
+
+                    <div class="news_other">
+                        {% if u_type != 'manager' %}
+                            <div class="more_buttons">
+                                <div class="ui animated button green small"
+                                     onclick="window.location='{% url 'apply_for_job_opportunity' item.pk %}'">
+                                    <div class="visible content green">اعلام تمایل به همکاری</div>
+                                    <div class="hidden content"><i class="left arrow icon"> ایجاد درخواست</i></div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="more_buttons">
+                                <div class="ui animated button green small"
+                                     onclick="window.location='{% url 'add_request' req_param  item.pk %}'">
+                                    <div class="visible content green">وضعیت درخواست</div>
+                                    <div class="hidden content"><i class="left arrow icon">مشاهده متقاضیان </i>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
+                <div class="ui section divider"
+                     style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
+            {% endfor %}
+        {% else %}
+            <div class="ui message error">
+                نتیجه‌ای یافت نشد.
             </div>
-            <div class="ui section divider"
-                 style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
-        {% endfor %}
+        {% endif %}
     </div>
     {% if requests.paginator.num_pages > 1 %}
         <div style="text-align: center;">

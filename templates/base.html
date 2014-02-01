@@ -148,30 +148,36 @@
                             </div>
                         </div>
 
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
-                            <i class="user icon"></i> پروفایل
-                        </a>
                     {% elif u_type == "jobseeker" %}
                         <div class="ui dropdown item" id="request-page">
                             بازار کار<i class="dropdown icon"></i>
-
                             <div class="menu">
                                 <a class="item" href="{% url 'dashboard' %}">کارتابل</a>
-                                <a class="item" href="{% url 'advertisements' %}"> مشاهده
-                                    آگهی‌های
-                                    نیاز به نیرو</a>
+                                <a class="item" href="{% url 'employer_list' 'approved' %}">لیست کارفرمایان</a>
+                                <a class="item" href="{% url 'related_ads' %}">فرصت‌های شغلی مرتبط </a>
+                                <a class="item" href="{% url 'advertisements' %}"> فرصت‌های شغلی</a>
                             </div>
                         </div>
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
-                            <i class="user icon"></i> پروفایل
-                        </a>
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
-                            <i class="user icon"></i> پروفایل
-                        </a>
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
-                            <i class="user icon"></i> پروفایل
-                        </a>
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
+
+                        <div class="ui dropdown item" id="questions-page">
+                            سوالات<i class="dropdown icon"></i>
+
+                            <div class="menu">
+                                <a class="item" href="{% url 'asked_questions' %}">سوالات کاربران</a>
+                                <a class="item" href="{% url 'common_questions' %}">سوالات متداول</a>
+                            </div>
+                        </div>
+
+                        <div class="ui dropdown item" id="news-page">
+                            اخبار <i class="dropdown icon"></i>
+
+                            <div class="menu">
+                                <a class="item" href="{% url 'add_news' %}">افزودن خبر</a>
+                                <a class="item" href="{% url 'news_list' %}">مشاهده اخبار</a>
+                            </div>
+                        </div>
+
+                        <a class="item" href="{% url 'show_profile' %}?pk={{ user.pk }}" id="profile-page">
                             <i class="user icon"></i> پروفایل
                         </a>
                     {% else %}
@@ -191,8 +197,8 @@
                             لیست ها <i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'job_seeker_list' 'approved' %}">لیست کارجویان</a>
-                                <a class="item" href="{% url 'employer_list' 'approved' %}">لیست کارفرمایان</a>
+                                <a class="item" href="">لیست کارجویان</a>
+                                <a class="item" href="{% url 'articles_list' %}">لیست کارفرمایان</a>
                             </div>
                         </div>
 

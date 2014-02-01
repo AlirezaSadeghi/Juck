@@ -20,8 +20,8 @@ def get_request_sender(item, req_type, response):
     elif req_type == 'jso':
         return item.sender.get_full_name()
     elif req_type == 'jo':
-        return response.thread.responder.get_full_name()
-
+        if response:
+            return response.thread.responder.get_full_name()
     return u'نا مشخص'
 
 @register.simple_tag
@@ -62,7 +62,7 @@ def get_alert_info(item):
 @register.simple_tag
 def get_request_status(item):
     if item.status is False:
-        return u'در شده'
+        return u'رد شده'
     if item.status is True:
         return u'تایید شده'
     return u'در حال بررسی'
