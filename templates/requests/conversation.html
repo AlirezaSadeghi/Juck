@@ -16,10 +16,33 @@
 
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="../../static/css/FJ.css"/>
     <style>
         .my-right {
             text-align: right !important;
+        }
+
+        .author {
+            float: right;
+            margin-top: 10px;
+        }
+
+        .float_right {
+            float: right !important;
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        .text {
+            clear: both;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid lightgray;
+            padding: 10px 20px 0px 10px;
+        }
+
+        .metadata {
+            float: left;
+            margin-top: 10px;
         }
 
         .tmp {
@@ -41,20 +64,28 @@
         }
 
         .my-date-corrector {
-            width: 120px;
-            text-align: center;
+            width: 200px;
+            text-align: left;
         }
 
         .my-min-height {
             min-height: 700px;
         }
 
+        .blue {
+            background-color: #F2FFFF;
+        }
+
+        .brown {
+            background-color: #FFFFF2;
+        }
 
     </style>
 {% endblock %}
 
 {% block content %}
     {% csrf_token %}
+
     <input type="hidden" value="{{ dt_id }}" id="dt_id">
     <div class="center">
         <div class="ctn-box my-font my-min-height">
@@ -66,29 +97,30 @@
                 </div>
             </div>
 
-            <div class="ui info message">
+            <div class="ui info message" style="background-color: white;">
 
-                <div class="header">
+                <div class="header" style="border-bottom: 1px solid lightgray; padding-bottom: 10px;">
                     درخواست اولیه
                 </div>
-                <ul class="list my-right">
+                <ul class="ui segment" style="margin-top: 10px;border-radius: 1px;">
                     {{ req.content }}
                 </ul>
             </div>
+
+            <div class="ui fitted divider" style="margin-bottom: 15px;"></div>
 
             <div class="ui comments ">
                 <div class="ui fitted divider"></div>
                 <div class="my-container">
                     {% for resp in responses %}
 
-                        <div class="comment"
-                             style="background-color: {% if resp.user == user %} #FF96FF {% else %} #96FF96 {% endif %}">
+                        <div class="comment {% if resp.user == user %} blue {% else %} brown {% endif %}">
                             <a class="avatar float_right">
-                                <img src="../../static/images/employer.png">
+                                <img src="{{ user.profile.image.thumbnail.url|default:'/static/images/user.png' }}">
                             </a>
 
-                            <div class="content">
-                                <a class="author">
+                            <div class="content" style="margin-left: 0px;">
+                                <a href="{% url 'show_profile' %}?pk={{ user.pk }}" class="author">
                                     {% get_user_rep resp.user %}
                                 </a>
 
@@ -115,16 +147,20 @@
                     </div>
 
 
-                    <div class="my-font" id="send-response" style="margin-top: 5px">
-                        <div class="ui button teal submit labeled icon">
+                    <div class="my-font" style="margin-top: 5px">
+                        <div class="ui button teal submit labeled icon" id="send-response">
                             <i class="icon edit"></i> ارسال پاسخ
                         </div>
-
-                        <div class="positive ui button teal  labeled icon">
-                            <i class="icon checkmark"></i>قبول درخواست
-                        </div>
-
-                        <div id="reject" class="negative ui button labeled icon">
+                        {% if req_type == jo and req.employer.pk == user.pk %}
+                            <div class="positive ui button teal labeled icon approve-req" data-id="{{ req.pk }}">
+                                <i class="icon checkmark"></i>قبول درخواست
+                            </div>
+                        {% elif user == responder %}
+                            <div class="positive ui button teal labeled icon approve-req" data-id="{{ req.pk }}">
+                                <i class="icon checkmark"></i>قبول درخواست
+                            </div>
+                        {% endif %}
+                        <div id="reject" class="negative ui button labeled icon reject-req" data-id="{{ req.pk }}">
                             <i class="icon ban circle"></i> رد درخواست
                         </div>
                     </div>
@@ -135,25 +171,26 @@
         </div>
     </div>
 
-
-    <div class="comment tmp">
-        <a class="avatar float_right">
-            <img src="">
-        </a>
-
-        <div class="content">
-            <a class="author">
+    <div class="tmp">
+        <div class="comment {% if resp.user == user %} brown {% else %} blue {% endif %}">
+            <a class="avatar float_right">
+                <img src="{{ user.profile.image.thumbnail.url|default:'/static/images/user.png' }}">
             </a>
 
-            <div class="metadata">
-                <div class="date my-date-corrector">
-                    {% get_current_pdate %}
+            <div class="content">
+                <a class="author">
+                </a>
+
+                <div class="metadata">
+                    <div class="date my-date-corrector">
+                        {% get_current_pdate %}
+                    </div>
                 </div>
-            </div>
-            <div class="text">
+                <div class="text">
+
+                </div>
 
             </div>
-
         </div>
     </div>
 

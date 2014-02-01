@@ -39,8 +39,10 @@ def dashboard(request):
 @login_required
 def offer_conversation(request, req_id):
     req = Request.objects.get(pk=req_id)
-    responses = req.responses.all().order_by('-timestamp')
-
+    if req.responses.exists():
+        responses = req.responses.all().order_by('-timestamp')
+    else:
+        responses = ''
     return render_to_response('requests/conversation.html', {'req': req, 'responses': responses},
                               context_instance=RequestContext(request, ))
 
@@ -58,9 +60,10 @@ def request_conversation(request, req_id, user_id):
     elif isinstance(req, EmployerJobOffer):
         req_type = 'ejo'
 
-    responses = dt.responses.all().order_by('-timestamp')
+    responses = dt.responses.all().order_by('timestamp')
     return render_to_response('requests/conversation.html',
-                              {'req': req, 'req_type': req_type, 'dt_id': dt.pk, 'responses': responses},
+                              {'req': req, 'req_type': req_type, 'dt_id': dt.pk, 'responses': responses,
+                               'responder': dt.responder},
                               context_instance=RequestContext(request, ))
 
 
@@ -218,9 +221,12 @@ def add_request(request, request_type):
                     ereq.employer = Employer.objects.get(pk=request.user.pk)
                     if dest_user == 2:
                         ereq.em_receiver = Employer.objects.get(pk=pp_pk)
+                        ereq.save()
+                        DiscussionThread.objects.create(request=ereq, responder=ereq.em_receiver)
                     else:
                         ereq.js_receiver = JobSeeker.objects.get(pk=pp_pk)
-                    ereq.save()
+                        ereq.save()
+                        DiscussionThread.objects.create(request=ereq, responder=ereq.js_receiver)
 
                 if request_type == 'jReq':
                     jreq = JobseekerJobOffer(content=content, title=title)
@@ -292,6 +298,53 @@ def view_request_status(request, request_type, item_pk):
         responses = req.responses.all().order_by('-timestamp')
         return render_to_response('messages.html', {'message': 'Implement Later ! :D'},
                                   context_instance=RequestContext(request, ))
+
+
+@login_required
+def approve_request(request):
+    if request.is_ajax() and request.POST.get('pk', ''):
+        pk = request.POST.get('pk', '')
+        request = Request.objects.get(pk=pk)
+        request.status = True
+        request.save()
+        return json_response({'op_status': 'success'})
+    return json_response({'op_status': 'fail'})
+
+
+@login_required
+def reject_request(request):
+    if request.is_ajax() and request.POST.get('pk', ''):
+        pk = request.POST.get('pk', '')
+        request = Request.objects.get(pk=pk)
+        request.status = False
+        request.save()
+        return json_response({'op_status': 'success'})
+    return json_response({'op_status': 'fail'})
+
+
+@user_passes_test(lambda user: check_user_type(user.pk, 'jobseeker'))
+def related_ads(request):
+    if request.method == "GET":
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
+
+        user = JobSeeker.objects.get(pk=request.user.pk)
+        kwargs = {'related': True, 'resume': user.resume}
+
+        search_filter = RequestListFilter()
+        requests, count = search_filter.init_filter(request.GET, request_type='jo', **kwargs)
+        search_form = search_filter.get_form()
+
+        page_range = create_pagination_range(requests.number, requests.paginator.num_pages)
+
+        return render_to_response('requests/show_requests.html',
+                                  {'requests': requests, 'request_type': 'ads', 'req_param': 'jOpp', 'count': count,
+                                   'search_form': search_form,
+                                   'page_range': page_range, 'get_params': get_params},
+                                  context_instance=RequestContext(request, ))
+
+    return render_to_response('messages.html', {'message': u'صفحه ی مورد نظر موجود نمی باشد'})
 
 
 def sort_by_timestamp(item):

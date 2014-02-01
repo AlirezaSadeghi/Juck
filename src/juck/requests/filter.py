@@ -30,7 +30,7 @@ class RequestListFilter:
         content = forms.CharField(label=u'متن', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': '', 'placeholder': u'متن درخواست'}))
 
-        major = forms.CharField(required=False, label=u'رشته تحصیلی' , widget=forms.TextInput(
+        major = forms.CharField(required=False, label=u'رشته تحصیلی', widget=forms.TextInput(
             attrs={'class': ''}))
 
         cooperation_type = forms.ChoiceField(label=u'نوع همکاری', required=False, choices=(
@@ -39,12 +39,11 @@ class RequestListFilter:
         ))
 
         sex = forms.ChoiceField(label=u'جنسیت', required=False, choices=(
-            ('', u'جنسیت نیروها'), (True, u'مرد'), (False, u'زن'),(None, u'دیگر')
+            ('', u'جنسیت نیروها'), (True, u'مرد'), (False, u'زن'), (None, u'دیگر')
         ))
 
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
-
+            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'), (None, u'در دست بررسی') ))
 
 
         def __init__(self, *args, **kwargs):
@@ -57,6 +56,12 @@ class RequestListFilter:
 
     def init_filter(self, GET_dict, request_type='request', **kwargs):
         self.form = self.Form(GET_dict)
+
+        related = False
+        resume = ''
+        if 'related' in kwargs:
+            related = kwargs.pop('related')
+            resume = kwargs.pop('resume')
 
         if request_type == 'ejo' and 'employer' in kwargs:
             filter_kwargs = {}
@@ -97,6 +102,16 @@ class RequestListFilter:
             requests = EmployerJobOffer.objects.filter(**filter_kwargs)
         elif request_type == 'jo':
             requests = JobOpportunity.objects.filter(**filter_kwargs)
+            if related:
+                educations = resume.education.all()
+
+                major_list = []
+                for item in educations:
+                    major_list.append(item.major)
+
+                requests = requests.filter(Q(first_major__in=major_list) |
+                                           Q(second_major__in=major_list))
+
         else:
             requests = Request.objects.none()
 
@@ -160,7 +175,7 @@ class ResponseListFilter:
             attrs={'class': '', 'placeholder': u''}))
 
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
+            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'), (None, u'در دست بررسی') ))
 
 
         def __init__(self, *args, **kwargs):
@@ -254,7 +269,6 @@ class ResponseListFilter:
         return self.form
 
 
-
 class DashboardListFilter:
     class DashboardFilterForm(forms.Form):
 
@@ -266,29 +280,16 @@ class DashboardListFilter:
         employer = forms.CharField(label=u'نام سازمان', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': '', 'placeholder': u''}))
 
-        # getter = forms.CharField(label=u'گیرنده', max_length=150, required=False, widget=forms.TextInput(
-        #     attrs={'class': '', 'placeholder': u''}))
-
         title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': '', 'placeholder': u''}))
 
-        # cooperation_type = forms.CharField(label=u'نوع درخواست', max_length=150, required=False, widget=forms.TextInput(
-        #     attrs={'class': '', 'placeholder': u''}))
-
-
-        # major = forms.CharField(required=False)
-        #
         cooperation_type = forms.ChoiceField(label=u'نوع همکاری', required=False, choices=(
             ('', u''), (Request.COOPERATION_TYPES['full_time'], u'تمام وقت'),
             (Request.COOPERATION_TYPES['half_time'], u'پاره وقت'), (Request.COOPERATION_TYPES['tele_work'], u'دور کاری')
         ))
-        #
-        # sex = forms.ChoiceField(label=u'جنسیت', required=False, choices=(
-        #     ('', u'جنسیت نیروها'), ('', u'مرد'), ('', u'زن'),
-        # ))
 
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
+            ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'), (None, u'در دست بررسی') ))
 
         def __init__(self, *args, **kwargs):
             super(DashboardListFilter.DashboardFilterForm, self).__init__(*args, **kwargs)
@@ -306,7 +307,7 @@ class DashboardListFilter:
 
         if self.form.is_valid():
             total_search = self.form.cleaned_data.get('total_search', '')
-            employer = self.form.cleaned_data.get('employer','')
+            employer = self.form.cleaned_data.get('employer', '')
             title = self.form.cleaned_data.get('title', '')
             # sender = self.form.cleaned_data.get('sender', '')
             # getter = self.form.cleaned_data.get('getter', '')
@@ -323,15 +324,14 @@ class DashboardListFilter:
                 filter_kwargs.update({'request__title__icontains': title})
             if employer:
                 filter_kwargs.update({'request__employer__profile__company_name__icontains': employer})
-            # if getter:
+                # if getter:
             #     filter_kwargs.update({'content__icontains': content})
             if cooperation_type:
                 filter_kwargs.update({'request__cooperation_type': cooperation_type})
-            # if sex:
+                # if sex:
             #     filter_kwargs.update({'sex': sex})
-            if status!='':
+            if status != '':
                 filter_kwargs.update({'request__status': status})
-
 
         threads = []
 
@@ -342,7 +342,7 @@ class DashboardListFilter:
 
         elif user_type == 'jobseeker':
             jobseeker = JobSeeker.objects.get(pk=user_pk)
-            threads = DiscussionThread.objects.filter(Q(responder=jobseeker)|
+            threads = DiscussionThread.objects.filter(Q(responder=jobseeker) |
                                                       Q(request__jobseekerjoboffer__sender=jobseeker))
 
         threads = threads.filter(**filter_kwargs)
@@ -357,13 +357,12 @@ class DashboardListFilter:
                 req_type = 'jso'
             elif isinstance(request_child, EmployerJobOffer):
                 req_type = 'ejo'
+
+            resp = item.responses.all()[0] if item.responses.exists() else ''
+
             dashboard_items.append(
-                {'request': item.request.cast(), 'response': item.responses.all()[0], 'type': req_type})
+                {'request': item.request.cast(), 'response': resp, 'type': req_type, 'responder_pk': item.responder.pk})
 
-
-        print('ben')
-
-        print(cooperation_type)
         paginator = Paginator(dashboard_items, settings.RESULTS_PER_PAGE)
         page = GET_dict.get('page')
 
