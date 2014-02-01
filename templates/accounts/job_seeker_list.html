@@ -13,28 +13,13 @@
 
 {% block js %}
     <script src="{% static 'js/rf.js' %}"></script>
+    <script src="{% static 'js/help.js' %}"></script>
     <script>
-        $(document).ready(function () {
-            $(".Sina_help").each(function () {
-                $(this).hide();
-            })
 
-            icons = $(".help.icon")
-            icons.each(function () {
-                        x = this;
-                        num = this.getAttribute('help-id');
-                        id = "#msg_div" + num;
-                        var help = $(id)
-                        $(this).hover(function () {
-                            help.show();
-                            var h = help[0];
-                            h.style.display = 'inline-table';
-                        }, function () {
-                            help.hide()
-                        })
-                    }
-            );
-        });
+        function mySina() {
+            x = $("#submit_button")[0];
+            x.click();
+        }
     </script>
 
 
@@ -46,7 +31,7 @@
     <form id="job_seeker_list_form">
         <div class="ui icon input left small" onkeypress="submit_jobseeker_list(event)">
             {{ search_form.search_input }}
-            <i class="inverted search icon"></i>
+            <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
         </div>
 
         <small class="advanced_search">جستجوی پیشرفته</small>
@@ -179,7 +164,7 @@
 
                             </div>
 
-                            <h3 class="inline_block" >مهارت‌ها</h3>
+                            <h3 class="inline_block">مهارت‌ها</h3>
 
                             <label style="display: inline-block">
 
@@ -209,7 +194,7 @@
 
                         <div class="search_buttons">
                             <input class="inline ui button" type="reset" value="پاک کردن">
-                            <input class="inline ui button" type="submit" value="جستجو">
+                            <input class="inline ui button" type="submit" id="submit_button" value="جستجو">
                         </div>
                     </div>
                 </div>
@@ -224,8 +209,8 @@
                         {{ forloop.counter }}
                     </div>
                     <a href="{% url 'show_profile' %}?pk={{ job_seeker.pk }}">
-                    <img class="inlinemiddle"
-                         src="{{ job_seeker.image.thumbnail.url|default:'/static/images/user.png' }}"></a>
+                        <img class="inlinemiddle"
+                             src="{{ job_seeker.image.thumbnail.url|default:'/static/images/user.png' }}"></a>
 
                     <div class="inlinemiddle inlineblock user_data">
                         <div class="rf-vertical-divider"></div>
@@ -245,7 +230,8 @@
                     <div class="user-buttons">
                         {% if user_type == 'manager' %}
                             {% if approved %}
-                                <div class="ui icon tiny linkedin button rf-button" onclick='window.location="{% url 'show_profile' %}?pk={{ job_seeker.pk }}"'>
+                                <div class="ui icon tiny linkedin button rf-button"
+                                     onclick='window.location="{% url 'show_profile' %}?pk={{ job_seeker.pk }}"'>
                                     <i class=" user icon"></i><br/>
                                     پروفایل
                                 </div>
@@ -275,24 +261,27 @@
                             {% endif %}
                         {% elif user_type == 'jobseeker' %}
 
-                                <div class="ui icon tiny linkedin button rf-button" onclick='window.location="{% url 'show_profile' %}?pk={{ job_seeker.pk }}"'>
-                                    <i class=" user icon"></i><br/>
-                                    پروفایل
-                                </div>
+                            <div class="ui icon tiny linkedin button rf-button"
+                                 onclick='window.location="{% url 'show_profile' %}?pk={{ job_seeker.pk }}"'>
+                                <i class=" user icon"></i><br/>
+                                پروفایل
+                            </div>
 
                         {% elif user_type == 'employer' %}
 
-                                <div class="ui icon tiny linkedin button rf-button" onclick='window.location="{% url 'show_profile' %}?pk={{ job_seeker.pk }}"'>
-                                    <i class=" user icon"></i><br/>
-                                    پروفایل
-                                </div>
-                                <div class="ui icon tiny green button rf-button" onclick='window.location="{% url 'add_request' 'eReq' %}?pk={{ job_seeker.pk }}"'>
-                                    <i class=" add icon"></i>
+                            <div class="ui icon tiny linkedin button rf-button"
+                                 onclick='window.location="{% url 'show_profile' %}?pk={{ job_seeker.pk }}"'>
+                                <i class=" user icon"></i><br/>
+                                پروفایل
+                            </div>
+                            <div class="ui icon tiny green button rf-button"
+                                 onclick='window.location="{% url 'add_request' 'eReq' %}?pk={{ job_seeker.pk }}"'>
+                                <i class=" add icon"></i>
 
-                                    <div>
-درخواست
-                                    </div>
+                                <div>
+                                    درخواست
                                 </div>
+                            </div>
                         {% else %}
                         {% endif %}
                     </div>
