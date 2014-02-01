@@ -85,7 +85,8 @@ class NewsListFilter:
         # filter_kwargs.update( Q(title__icontains=content) | (Q(content__icontains=content)))
         # filter_kwargs.update({'title__icontains': content})
         news = News.objects.filter(**filter_kwargs)
-        news = news.filter((Q(title__icontains=content) | Q(content__icontains=content)))
+        if content:
+            news = news.filter((Q(title__icontains=content) | Q(content__icontains=content)))
         count = news.count()
 
         news = news.order_by('-publish_date')

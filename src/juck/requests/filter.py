@@ -92,10 +92,10 @@ class RequestListFilter:
                 filter_kwargs.update({'content__icontains': content})
             if cooperation_type:
                 filter_kwargs.update({'cooperation__type': cooperation_type})
-            if sex:
-                filter_kwargs.update({'sex': sex})
-            if status:
-                filter_kwargs.update({'status': status})
+            if sex != '':
+                filter_kwargs.update({'sex': eval(sex)})
+            if status != '':
+                filter_kwargs.update({'status': eval(status)})
 
         if request_type == "jsjo":
             requests = JobseekerJobOffer.objects.filter(**filter_kwargs)
@@ -222,8 +222,8 @@ class ResponseListFilter:
                 filter_kwargs.update({'cooperation_type': cooperation_type})
             if sex:
                 filter_kwargs.update({'sex': sex})
-            if status:
-                filter_kwargs.update({'status': status})
+            if status != '':
+                filter_kwargs.update({'status': eval(status)})
 
         if request_type == "jsjo":
             requests = JobseekerJobOffer.objects.filter(**filter_kwargs)
@@ -325,17 +325,20 @@ class DashboardListFilter:
             # print(cooperation_type)
             # print(status)
             if title:
+                print(1)
                 filter_kwargs.update({'request__title__icontains': title})
             if employer:
+                print(2)
                 filter_kwargs.update({'request__employer__profile__company_name__icontains': employer})
                 # if getter:
             #     filter_kwargs.update({'content__icontains': content})
             if cooperation_type:
+                print(3)
                 filter_kwargs.update({'request__cooperation_type': cooperation_type})
                 # if sex:
             #     filter_kwargs.update({'sex': sex})
             if status != '':
-                filter_kwargs.update({'request__status': status})
+                filter_kwargs.update({'request__status': eval(status)})
 
         threads = []
 
@@ -351,7 +354,8 @@ class DashboardListFilter:
 
         threads = threads.filter(**filter_kwargs)
 
-        threads = threads.filter((Q(request__title__icontains=total_search) | Q( request__employer__profile__company_name__icontains=total_search)  ))
+        if total_search:
+            threads = threads.filter((Q(request__title__icontains=total_search) | Q( request__employer__profile__company_name__icontains=total_search)  ))
 
         dashboard_items = []
         for item in threads:
