@@ -218,7 +218,7 @@
                                 <a class="item" href="{% url 'news_list' %}">مشاهده اخبار</a>
                             </div>
                         </div>
-                        <a class="item" href="{% url 'show_profile' %}" id="profile-page">
+                        <a class="item" href="{% url 'show_profile'  %}?pk={{ user.pk }}" id="profile-page">
                             <i class="user icon"></i> پروفایل
                         </a>
                     {% endif %}

@@ -28,10 +28,10 @@ class NewsListFilter:
         #from_date = forms.DateField(label=u'از تاریخ', required=False,widget=forms.DateField )
         #to_date = forms.DateField(label=u'تا تاریخ', required=False,widget=forms.DateField )
 
-        min_score = forms.CharField(label=u'حداقل امتیاز', required=False,
-                                    help_text=u'حداقل امتیازی که برای یک خبر در نظر دارید را در این محل وارد کنید. دقت کنید که جواب های به دست آمده از این قسمت با قسمت های دیگر اشتراک گرفته می شود.', )
-        max_score = forms.CharField(label=u'حداکثر امتیاز', required=False,
-                                    help_text=u'حداکثر امتیازی که برای یک خبر در نظر دارید را در این محل وارد کنید. دقت کنید که جواب های به دست آمده از این قسمت با قسمت های دیگر اشتراک گرفته می شود.')
+        # min_score = forms.CharField(label=u'حداقل امتیاز', required=False,
+        #                             help_text=u'حداقل امتیازی که برای یک خبر در نظر دارید را در این محل وارد کنید. دقت کنید که جواب های به دست آمده از این قسمت با قسمت های دیگر اشتراک گرفته می شود.', )
+        # max_score = forms.CharField(label=u'حداکثر امتیاز', required=False,
+        #                             help_text=u'حداکثر امتیازی که برای یک خبر در نظر دارید را در این محل وارد کنید. دقت کنید که جواب های به دست آمده از این قسمت با قسمت های دیگر اشتراک گرفته می شود.')
 
 
         #answer = forms.CharField(label=u'پاسخ', max_length=150, required=False, widget=forms.TextInput(
@@ -53,8 +53,8 @@ class NewsListFilter:
             #from_date = self.form.cleaned_data.get('from_date', '')
             #to_date = self.form.cleaned_data.get('to_date', '')
 
-            min_score = self.form.cleaned_data.get('min_score', '')
-            max_score = self.form.cleaned_data.get('max_score', '')
+            # min_score = self.form.cleaned_data.get('min_score', '')
+            # max_score = self.form.cleaned_data.get('max_score', '')
 
             res = News.objects.all()
             #if content:
@@ -74,10 +74,13 @@ class NewsListFilter:
             #    filter_kwargs.update({'publish_date__gte': from_date})
             #if to_date:
             #    filter_kwargs.update({'answer__content__icontains': to_date})
-            if min_score:
-                filter_kwargs.update({'score__gte': min_score})
-            if max_score:
-                filter_kwargs.update({'score__lte': max_score})
+            # News.objects.annotate()
+            news_score = News.objects.extra(select={'aggregate': 'likes - dislikes'})
+            # recommended_products = recommended_products.extra(order_by=['-aggregate'])[0:6]
+            # if min_score:
+            #     filter_kwargs.update({'score__gte': min_score})
+            # if max_score:
+            #     filter_kwargs.update({'score__lte': max_score})
 
         # filter_kwargs.update( Q(title__icontains=content) | (Q(content__icontains=content)))
         # filter_kwargs.update({'title__icontains': content})
