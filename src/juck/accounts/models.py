@@ -172,6 +172,18 @@ class JuckUser(AbstractBaseUser, PermissionsMixin):
         return self.is_admin
 
 
+    def cast(self):
+        for name in dir(self):
+            try:
+                attr = getattr(self, name)
+                if isinstance(attr, self.__class__):
+                    return attr
+            except:
+                pass
+        return self
+
+
+
 class Manager(JuckUser):
     class Meta:
         verbose_name = u'مدیر'
