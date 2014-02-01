@@ -24,6 +24,7 @@ $(document).ready(function () {
     $('.del_common_q').click(function(){
         var id = $(this).parents('.ui.single_question').attr('qid');
         send_ajax({csrfmiddlewaretoken: csrfToken, pk: id, del: 'True'}, '/question/remove_common_question/');
+        location.reload();
     });
 
     $('.edit_q').click(function () {

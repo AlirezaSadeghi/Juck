@@ -64,12 +64,6 @@
                                 </div>
                             </div>
 
-
-                            <div class="inline field">
-                                <label class="input_labels">وضعیت پاسخ: </label>{{ search_form.answered }}
-                            </div>
-
-
                             <div class="search_buttons">
                                 <input class="inline ui button" type="reset" value="پاک کردن">
                                 <input class="inline ui button" type="submit" value="جستجو">
@@ -121,7 +115,7 @@
                         <div class="ui segment javab_box">
 
                             <div class="user_info2">
-                                <span class="mngr_question_date">اضافه شده در: <span>{{ question.timestamp }}</span></span>
+                                <span class="mngr_question_date">اضافه شده در: <span>{{ question.get_persian_date }}</span></span>
 
                                 <div class="ui icon small blue button edit_common_q">
                                     <i class=" edit icon"></i>

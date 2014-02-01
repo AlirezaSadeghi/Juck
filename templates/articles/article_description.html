@@ -86,7 +86,7 @@
                                 <div class="authors">
                                     <span class="authors-label">نویسندگان:</span>
                                     {% for author in article.authors.all %}
-                                        <a class="ui black small label authors-name">{{ author.full_name }}</a>
+                                        <label class="ui black small label authors-name">{{ author.full_name }}</label>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -94,9 +94,9 @@
                                 <div class="tags">
                                     <label>برچسب ها:</label>
                                     {% for tag in article.tags.all %}
-                                        <a class="ui black small label">
+                                        <label class="ui black small label">
                                             {{ tag.name }}
-                                        </a>
+                                        </label>
                                     {% endfor %}
                                 </div>
                             </div>

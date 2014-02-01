@@ -62,15 +62,6 @@
 
 
                     {% csrf_token %}
-                    <div class="two fields">
-                                <span class="inline field">
-                                <label class="input_labels">تا تاریخ: </label><input type="date" name="secon_date">
-                                </span>
-                                <span class="inline field">
-                                <label class="input_labels">از تاریخ: </label><input type="date" name="first_date">
-								</span>
-
-                    </div>
 
                     <div class="inline field">
                         <label class="input_labels">عنوان: </label>{{ search_form.title }}
@@ -167,8 +158,8 @@
                         </div>
 
                         <div class="user_info2">
-                            <span class="question_asker">پرسش گر: <span>علیرضا فراهانی</span></span>
-                            <span class="question_date">پرسیده شده در:<span>{{ question.timestamp }}</span></span>
+                            <span class="question_asker">پرسش گر: <span>{{ question.sender }}</span></span>
+                            <span class="question_date">پرسیده شده در:<span>{{ question.get_persian_date }}</span></span>
                         </div>
 
 
@@ -210,7 +201,7 @@
 
                             <div class="user_info2">
                                 <span class="question_asker">پرسش گر: <span>{{ question.sender }}</span></span>
-                                <span class="question_date">پرسیده شده در:<span>{{ question.timestamp }}</span></span>
+                                <span class="question_date">پرسیده شده در:<span>{{ question.get_persian_date }}</span></span>
                                 <span class="question_replier">پاسخ از:<span>{{ question.answer.responder }}</span></span>
                             </div>
 
