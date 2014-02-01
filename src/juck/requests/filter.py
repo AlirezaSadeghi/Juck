@@ -301,19 +301,21 @@ class DashboardListFilter:
             # print(cooperation_type)
             # print(status)
             if title:
-                filter_kwargs.update({'title__icontains': title})
+                filter_kwargs.update({'request__title__icontains': title})
             if employer:
-                filter_kwargs.update({'employer__profile__company_name__icontains': employer})
+                filter_kwargs.update({'request__employer__profile__company_name__icontains': employer})
             # if getter:
             #     filter_kwargs.update({'content__icontains': content})
             if cooperation_type:
-                filter_kwargs.update({'cooperation_type': cooperation_type})
+                filter_kwargs.update({'request__cooperation_type': cooperation_type})
             # if sex:
             #     filter_kwargs.update({'sex': sex})
             if status:
-                filter_kwargs.update({'status': status})
+                filter_kwargs.update({'request__status': status})
 
         # print(self.form.NON_FIELD_ERRORS)
+
+
         threads = []
 
         if user_type == 'employer':
@@ -326,16 +328,16 @@ class DashboardListFilter:
             threads = DiscussionThread.objects.filter(Q(responder=jobseeker)|
                                                       Q(request__jobseekerjoboffer__sender=jobseeker))
 
-
-
-        if request_type == "jsjo":
-            requests = JobseekerJobOffer.objects.filter(**filter_kwargs)
-        elif request_type == "ejo":
-            requests = EmployerJobOffer.objects.filter(**filter_kwargs)
-        elif request_type == 'jo':
-            requests = JobOpportunity.objects.filter(**filter_kwargs)
-        else:
-            requests = Request.objects.none()
+        threads = threads.filter(**filter_kwargs)
+# why ?????????????????????????????????????????????????????????????????????????
+        # if request_type == "jsjo":
+        #     requests = JobseekerJobOffer.objects.filter(**filter_kwargs)
+        # elif request_type == "ejo":
+        #     requests = EmployerJobOffer.objects.filter(**filter_kwargs)
+        # elif request_type == 'jo':
+        #     requests = JobOpportunity.objects.filter(**filter_kwargs)
+        # else:
+        #     requests = Request.objects.none()
 
         dashboard_items = []
         for item in threads:
