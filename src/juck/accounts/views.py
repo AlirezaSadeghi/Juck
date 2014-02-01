@@ -110,13 +110,25 @@ def ajax_login(request):
         if JuckUser.objects.filter(email=username).count():
             user = auth.authenticate(username=username, password=password)
             if user is not None:
+                role = user.role
+                if role == 2:
+                    user = Employer.objects.get(pk=user.pk)
+                    if not user.profile.approved:
+                        return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
+                elif role == 3:
+                    #TODO here
+                    user = JobSeeker.objects.get(pk=user.pk)
+                    if not user.profile.approved:
+                        return json_response({'op_status': 'failed', 'message': u'حساب کاربری توسط مدیر تایید نشده است.'})
+
                 if user.is_active:
+                    #TODO
                     auth.login(request, user)
                     if user.is_staff:
                         redirect_to_url = '/admin/'
                     return json_response({'op_status': 'success', 'redirect_url': redirect_to_url})
                 else:
-                    return json_response({'op_status': 'not_active', 'message': u'حساب کاربری  مسدود می باشد.'})
+                    return json_response({'op_status': 'not_active', 'message': u'حساب کاربری  فعال نمی باشد.'})
             else:
                 return json_response({'op_status': 'failed', 'message': u'نام کاربری یا رمز عبور صحیح نیست.'})
 
@@ -424,6 +436,7 @@ def jobseeker_addedu(request):
                 request.session["added_edu"] = {}
             item_id = int(round(time.time() * 1000))
             request.session["added_edu"][item_id] = form.cleaned_data
+            request.session.modified = True
 
             return HttpResponse("{}".format(item_id))
 
@@ -444,6 +457,8 @@ def jobseeker_addskill(request):
 
             item_id = int(round(time.time() * 1000))
             request.session["added_skills"][item_id] = form.cleaned_data
+            request.session.modified = True
+
             return HttpResponse("{}".format(item_id))
 
         return HttpResponse(message)
@@ -463,6 +478,8 @@ def jobseeker_addexp(request):
 
             item_id = int(round(time.time() * 1000))
             request.session["added_work"][item_id] = form.cleaned_data
+            request.session.modified = True
+
             return HttpResponse("{}".format(item_id))
 
         return HttpResponse(message)
@@ -618,8 +635,7 @@ def ajax_remove_or_approve_user(request):
                 profile.save()
                 user.save()
 
-                #TODO
-                html_content = create_manager_confirm_html()
+                html_content = create_manager_confirm_html(function)
                 try:
                     send_html_mail(user.email, u'سامانه جاک | تایید حساب‌کاربری', html=html_content)
                 except:
@@ -627,13 +643,22 @@ def ajax_remove_or_approve_user(request):
 
                 return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت تایید شد.'})
             elif function == 'remove':
+
+                html_content = create_manager_confirm_html(function)
+                try:
+                    send_html_mail(user.email, u'سامانه جاک | حذف حساب‌کاربری', html=html_content)
+                except:
+                    pass
+
                 user.delete()
+
                 return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت حذف گردید.'})
             elif function == 'disapprove':
                 profile = user.profile
                 profile.approved = False
                 profile.save()
                 user.save()
+
                 return json_response({'op_status': 'success', 'message': u'کاربر موردنظر با موفقیت غیرفعال شد.'})
             else:
                 return json_response({'op_status': 'failed', 'message': u'چنین کارکردی وجود ندارد.'})
@@ -711,8 +736,14 @@ def confirm_registration(request, user_type, key):
                                   context_instance=RequestContext(request))
 
 
-def create_manager_confirm_html():
-    mail_content = u'اطلاعات ثبت‌نام شما توسط مدیر تایید شد و می‌توانید وارد سایت شوید.'
+def create_manager_confirm_html(function):
+    mail_content = ''
+    if function == 'approve':
+        mail_content = u'اطلاعات ثبت‌نام شما توسط مدیر تایید شد و می‌توانید وارد سایت شوید.'
+    elif function == 'remove':
+        mail_content = u'اکانت شما توسط مدیر حذف گردید.'
+    else:
+        return mail_content
 
     builder = HtmlBuilder()
 
@@ -720,7 +751,7 @@ def create_manager_confirm_html():
     text += builder.br()
     text += builder.append_tag('p', mail_content)
     text += builder.br()
-    text += builder.append_tag('a', u'برای ورود به سایت کلیک کنید.',
+    text += builder.append_tag('a', u'سامانه جاک',
                                **{'href': (
                                    settings.SITE_URL )})
     return text

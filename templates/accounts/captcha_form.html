@@ -14,7 +14,7 @@
                 {% csrf_token %}
                 <div class="captcha-is-here ui form">
                     {{ form.captcha }}
-                    <input type="hidden" name="reg_type" id="reg_type">
+                    <input dir='ltr' type="hidden" name="reg_type" id="reg_type">
                     <div class="ui icon button" onclick="refreshCaptchaCrap();">
                         <i class="refresh icon">
 

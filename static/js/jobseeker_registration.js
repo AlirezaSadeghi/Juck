@@ -8,7 +8,7 @@ $(document).ready(function () {
     $('#add-edu').click(function(){
        $('.reg_form .edu-info-form'+number_of_edu_forms).after(divider);
        var a =$('.reg_form .edu-info-form'+number_of_edu_forms).clone();
-       a.find('input[type=text]').attr('value', '')
+       a.find('input[type=text]').attr('value', '');
        a.attr('class', 'edu-info-form'+(number_of_edu_forms+1));
        $('.edu-info-form'+number_of_edu_forms).next().after(a);
        number_of_edu_forms++;

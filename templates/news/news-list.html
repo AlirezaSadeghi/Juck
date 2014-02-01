@@ -173,47 +173,20 @@
                                     <a href="javascript:void(0);"
                                        class="author-link">{{ item.author.get_full_name }}</a>
                                 </small>
-                                <div class="field">
+                            </div>
 
-                                    <div class="ui positive button icon small" id="like">
-                                        <i class="thumbs up icon "></i>
-
-                                        <i >
-                                            {{ news.likes }}&nbsp
-                                        </i>
-                                    </div>
-
-
-                                    <div class="ui negative button icon small" id="dislike">
-                                        <i class="thumbs down icon"></i>
-
-                                        <i>
-                                            {{ news.dislikes }}&nbsp
-                                        </i>
-                                    </div>
-
-
-                                </div>
                         </div>
 
+                        <div class="more_buttons">
+                            <div class="ui animated button  small"
+                                 onclick="window.location='{% url "show_news_description" %}?pk={{ item.pk }}'" style="margin-bottom: 10px;">
+                                <div class="visible content">مشروح خبر</div>
+                                <div class="hidden content"><i class="left arrow icon"></i></div>
+                            </div>
 
-                        <div class="ui red label icon tiny" id="dislike">
-                            <i class="thumbs down icon"></i>
-
-                            <i>
-                                24&nbsp
-                            </i>
                         </div>
                     </div>
-                    </div>
-                    <div class="more_buttons">
-                        <div class="ui animated button  small"
-                             onclick="window.location='{% url "show_news_description" %}?pk={{ item.pk }}'">
-                            <div class="visible content">مشروح خبر</div>
-                            <div class="hidden content"><i class="left arrow icon"></i></div>
-                        </div>
 
-                    </div>
                     </div>
                     </div>
                     <div class="ui section divider"

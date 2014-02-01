@@ -49,9 +49,14 @@
                             var major = $("#id_major").val();
                             var orientation = $("#id_orientation").val();
                             var university = $("#id_university_name").val();
+                            $.each($("#add-edu-form").find('input'), function(key, value){
+                                if($(value).attr('type') != 'hidden')
+                                    $(value).val('');
+                            });
                             $("#added-edu").append('<li>&bull;&nbsp;&nbsp;' + major + '، ' + orientation + ' - ' + university +
                                     ' (<a href="#" class="delete-edu" edu-id="' + responseText + '">حذف</a>)' +
                                     '</li>');
+
                         }
                         else {
                             message('لطفا همه فیلدها را به درستی وارد کنید.', 'Error');
@@ -76,6 +81,10 @@
                     success: function (responseText, statusText, xhr, $form) {
                         if (responseText !== "ERROR") {
                             var skill = $("#id_skill_title").val();
+                            $.each($("#add-skill-form").find('input'), function(key, value){
+                                if($(value).attr('type') != 'hidden')
+                                    $(value).val('');
+                            });
                             $("#added-skills").append('<li>&bull;&nbsp;&nbsp;' + skill +
                                     ' (<a href="#" class="delete-skill" skill-id="' + responseText + '">حذف</a>)' +
                                     '</li>');
@@ -103,6 +112,10 @@
                         if (responseText !== "ERROR") {
                             var title = $("#id_title").val();
                             var place = $("#id_place").val();
+                            $.each($("#add-work-form").find('input'), function(key, value){
+                                if($(value).attr('type') != 'hidden')
+                                    $(value).val('');
+                            });
                             $("#added-work").append('<li>&bull;&nbsp;&nbsp;' + title + ' - ' + place +
                                     ' (<a href="#" class="delete-work" work-id="' + responseText + '">حذف</a>)' +
                                     '</li>');
@@ -257,7 +270,7 @@
                 {% endif %}
             <div class='field'>
                 <div class="input-details">
-                    <label class="input_labels help_inline" > {{ field.label_tag }}
+                    <label class="input_labels" style="display: inline-block"> {{ field.label_tag }}
                         {% if field.field.required %}
                             <span class="required-field">*</span>
                         {% endif %}
@@ -317,7 +330,7 @@
                     {% endif %}
                 <div class='field'>
                     <div class="input-details">
-                        <label class="input_labels help_inline" > {{ field.label_tag }}
+                        <label class="input_labels" style="display: inline-block"> {{ field.label_tag }}
                             {% if field.field.required %}
                                 <span class="required-field">*</span>
                             {% endif %}
@@ -365,7 +378,7 @@
                 {% endif %}
             <div class='field'>
                 <div class="input-details">
-                    <label class="input_labels help_inline" > {{ field.label_tag }}
+                    <label class="input_labels" style="display: inline-block"> {{ field.label_tag }}
                         {% if field.field.required %}
                             <span class="required-field">*</span>
                         {% endif %}
