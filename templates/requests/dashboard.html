@@ -9,11 +9,6 @@
 {% endblock %}
 
 
-
-{% block page_title %}
-    کارتابل
-{% endblock %}
-
 {% block js %}
     <script type="text/javascript" src="{% static 'js/requests.js' %}"></script>
 {% endblock %}
@@ -37,15 +32,10 @@
             min-height: 700px;
         }
 
-        .ui.inverted.table {
-
-        {#            background-color: #ffffff !important;#} {#            color: rgba(200, 0, 255, 0.7);#}
-        }
     </style>
 {% endblock %}
 
 {% block content %}
-
     {% csrf_token %}
     <div class="center">
         <div class="ctn-box my-min-height">
@@ -65,22 +55,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for item in requests %}
-                        {% for response in item.responses %}
+                    {% for item in threads %}
                         <tr>
                             <td class="one wide">{{ forloop.counter }}</td>
-                            <td>{% get_request_sender item.request item.type response %}</td>
-                            <td>{% get_request_receiver item.request item.type response %}</td>
+                            <td>{% get_request_sender item.request item.type item.response %}</td>
+                            <td>{% get_request_receiver item.request item.type item.response %}</td>
                             <td>{% get_request_type item.type %}</td>
                             <td class="five wide">{{ item.request.title }}</td>
                             <td class="{% get_alert_info item.request %}">{% get_request_status item.request %}</td>
 
                             <td>{% get_persian_date item.request.timestamp.date %}</td>
                             <td>
-                                <div class="ui button small teal view-details" data-req="{{ item.pk }}" data-user="{{ response.pk }}">مشاهده</div>
+                                <div class="ui button small teal view-details" data-req="{{ item.request.pk }}"
+                                     data-user="{{ item.response.thread.responder.pk }}">مشاهده
+                                </div>
                             </td>
                         </tr>
-                            {% endfor %}
                     {% endfor %}
                     </tbody>
                 </table>

@@ -6,6 +6,7 @@ from juck.accounts.models import Employer, JuckUser, JobSeeker
 from juck.articles.models import Article
 from juck.news.models import News
 
+#TODO kasi ke rate mide bayad unique bashe,but who has the hes?
 
 class EmployerRating(models.Model):
     class Meta:
@@ -19,6 +20,7 @@ class EmployerRating(models.Model):
 
 class JobseekerRating(models.Model):
     class Meta:
+        #TODO change theses shits
         verbose_name = u'اعتبار کارفرما'
         verbose_name_plural = u'اعتبار کارفرمایان'
 
@@ -29,6 +31,7 @@ class JobseekerRating(models.Model):
 
 class ArticleRating(models.Model):
     class Meta:
+        #TODO change theses shits
         verbose_name = u'اعتبار کارفرما'
         verbose_name_plural = u'اعتبار کارفرمایان'
 

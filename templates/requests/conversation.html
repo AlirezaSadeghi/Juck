@@ -9,14 +9,8 @@
 {% endblock %}
 
 
-
-{% block page_title %}
-    درخواست
-{% endblock %}
-
-
 {% block js %}
-    <script type="text/javascript" src="../../static/js/rf.js"></script>
+    <script type="text/javascript" src="{% static 'js/requests.js' %}"></script>
 {% endblock %}
 
 
@@ -26,6 +20,10 @@
     <style>
         .my-right {
             text-align: right !important;
+        }
+
+        .tmp {
+            display: none !important;
         }
 
         .date {
@@ -57,43 +55,14 @@
 
 {% block content %}
     {% csrf_token %}
+    <input type="hidden" value="{{ dt_id }}" id="dt_id">
     <div class="center">
         <div class="ctn-box my-font my-min-height">
 
-            <div class="ui icon input left small">
-                <input type="text" placeholder="جستجو...">
-                <i class="inverted search icon"></i>
-            </div>
-            <small class="advanced_search">جستجوی پیشرفته</small>
-
-            <div class="advanced_search_panel ui segment form">
-                <div class="container">
-                    <div class="advanced_search_form">
-                        <form>
-                            <div class="two fields">
-                                <span class="inline field">
-                                <label class="input_labels">از تاریخ: </label><input type="date"
-                                                                                     name="first_date"></span>
-                                <span class="inline field">
-                                <label class="input_labels">تا تاریخ: </label><input type="date" name="secon_date">
-                                </span>
-                            </div>
-                            <div class="search_buttons">
-                                <input class="inline ui button" type="reset" value="پاک کردن">
-                                <input class="inline ui button" type="submit" value="جستجو">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="ui vertical divider"></div>
-                    <div class="advanced_search_info">
-
-                    </div>
-                </div>
-            </div>
-
             <div class="ui {% get_alert_info req %} message">
                 <div class="header">
-                    وضعیت درخواست : {% get_request)status req %}
+                    وضعیت درخواست :
+                    {% get_request_status req %}
                 </div>
             </div>
 
@@ -107,76 +76,56 @@
                 </ul>
             </div>
 
-            <div class="ui comments  ">
+            <div class="ui comments ">
                 <div class="ui fitted divider"></div>
-                <div class="comment">
-                    <a class="avatar float_right">
-                        <img src="../../static/images/employer.png">
-                    </a>
+                <div class="my-container">
+                    {% for resp in responses %}
 
-                    <div class="content">
-                        <a class="author">
-                            {% get_request_sender req 'jo' response %}
-                        </a>
+                        <div class="comment"
+                             style="background-color: {% if resp.user == user %} #FF96FF {% else %} #96FF96 {% endif %}">
+                            <a class="avatar float_right">
+                                <img src="../../static/images/employer.png">
+                            </a>
 
-                        <div class="metadata">
-                            <div class="date my-date-corrector">
-                                12 دی 1392
-                                {#                                                    {{ item.get_persian_date }}#}
+                            <div class="content">
+                                <a class="author">
+                                    {% get_user_rep resp.user %}
+                                </a>
+
+                                <div class="metadata">
+                                    <div class="date my-date-corrector">
+                                        {% get_persian_date resp.timestamp %} ساعت {{ resp.timestamp.time }}
+                                    </div>
+                                </div>
+                                <div class="text">
+                                    {{ resp.content|linebreaks }}
+                                </div>
+
                             </div>
                         </div>
-                        <div class="text">
-                            من در خواست را رد می کنم اگر پول بیشتری پرداخت نشود
-                            {#                                                {{ item.content }}#}
-                        </div>
-
-                    </div>
+                        <div class="ui fitted divider"></div>
+                    {% endfor %}
                 </div>
 
                 <div class="ui fitted divider"></div>
 
-                <div class="comment">
-                    <a class="avatar float_right">
-                        <img src="../../static/images/jobseeker.png">
-                    </a>
-
-                    <div class="content">
-                        <a class="author">
-                            آقای رضای اف جی
-                            {#                                                {{ item.user.get_full_name }}#}
-                        </a>
-
-                        <div class="metadata">
-                            <div class="date my-date-corrector">
-                                12 دی 1392
-                                {#                                                    {{ item.get_persian_date }}#}
-                            </div>
-                        </div>
-                        <div class="text">
-                            بنده فقط یک ساعت در هفته وقت دارم و وقت دیگری برای پروژه نمی گذارم.
-                            {#                                                {{ item.content }}#}
-                        </div>
-
-                    </div>
-                </div>
-                <div class="ui fitted divider"></div>
                 <form class="ui reply form">
                     <div class="field">
-                        <textarea></textarea>
+                        <textarea id="response-content"></textarea>
                     </div>
 
 
-                    <div class="my-font" style="margin-top: 5px">
+                    <div class="my-font" id="send-response" style="margin-top: 5px">
                         <div class="ui button teal submit labeled icon">
-                            <i class="icon edit"></i> ارسال اصلاحیه
+                            <i class="icon edit"></i> ارسال پاسخ
                         </div>
 
                         <div class="positive ui button teal  labeled icon">
-                            <i class="icon checkmark"></i> قبول کردن توافق نامه
+                            <i class="icon checkmark"></i>قبول درخواست
                         </div>
 
                         <div id="reject" class="negative ui button labeled icon">
-                            <i class="icon ban circle"></i> رد کردن پیشنهاد
+                            <i class="icon ban circle"></i> رد درخواست
                         </div>
                     </div>
                 </form>
@@ -186,5 +135,26 @@
         </div>
     </div>
 
+
+    <div class="comment tmp">
+        <a class="avatar float_right">
+            <img src="">
+        </a>
+
+        <div class="content">
+            <a class="author">
+            </a>
+
+            <div class="metadata">
+                <div class="date my-date-corrector">
+                    {% get_current_pdate %}
+                </div>
+            </div>
+            <div class="text">
+
+            </div>
+
+        </div>
+    </div>
 
 {% endblock %}

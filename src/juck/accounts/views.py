@@ -27,6 +27,7 @@ from juck.accounts.forms import *
 from juck.news.models import News
 from juck.articles.models import Article, ArticleSubmission
 import uuid
+from functools import wraps
 
 
 def user_panel(request):
@@ -327,6 +328,18 @@ class JobSeekerWizard(SessionWizardView):
         })
 
 
+
+def passed_captcha(view):
+    @wraps(view)
+    def wrapper(request, *args, **kwargs):
+        if 'captcha_solved' in request.session and request.session['captcha_solved']:
+            return view(request, request.user.username, *args, **kwargs)
+        else:
+            return HttpResponseRedirect('/')
+    return wrapper
+
+
+
 class EmployerWizard(SessionWizardView):
     template_name = 'accounts/employer_registration.html'
 
@@ -469,6 +482,11 @@ def job_seeker_list(request, approved_status):
         else:
             return render_to_response('messages.html', {'message': u'صفحه موردنظر وجود ندارد.'},
                                       context_instance=RequestContext(request))
+        user_type = get_user_type(request.user.pk)
+
+        if user_type != 'manager' and not approved:
+            return render_to_response('messages.html', {'message': u'دسترسی غیرمجاز'},
+                                      context_instance=RequestContext(request))
 
         get_params = request.GET.copy()
         if 'page' in get_params:
@@ -480,9 +498,10 @@ def job_seeker_list(request, approved_status):
 
         page_range = create_pagination_range(job_seekers.number, job_seekers.paginator.num_pages)
 
+
         return render_to_response('accounts/job_seeker_list.html',
                                   {'job_seekers': job_seekers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range, 'approved': approved,
+                                   'page_range': page_range, 'approved': approved, 'user_type': user_type,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -499,6 +518,11 @@ def employer_list(request, approved_status):
         else:
             return render_to_response('messages.html', {'message': u'صفحه موردنظر وجود ندارد.'},
                                       context_instance=RequestContext(request))
+        user_type = get_user_type(request.user.pk)
+
+        if user_type != 'manager' and not approved:
+            return render_to_response('messages.html', {'message': u'دسترسی غیرمجاز'},
+                                      context_instance=RequestContext(request))
 
         get_params = request.GET.copy()
         if 'page' in get_params:
@@ -512,7 +536,7 @@ def employer_list(request, approved_status):
 
         return render_to_response('accounts/employer_list.html',
                                   {'employers': employers, 'count': count, 'search_form': search_form,
-                                   'page_range': page_range, 'approved': approved,
+                                   'page_range': page_range, 'approved': approved, 'user_type':user_type,
                                    'get_params': get_params}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
@@ -536,8 +560,8 @@ def show_profile(request):
                 kwargs['profile'] = user.profile
                 kwargs['resume'] = user.resume
                 kwargs['educations'] = user.resume.education.all()
-                kwargs['skills'] = user.resume.skills.objects.all()
-                kwargs['experiences'] = user.resume.experience.objects.all()
+                kwargs['skills'] = user.resume.skill.all()
+                kwargs['experiences'] = user.resume.experience.all()
 
                 return render_to_response('accounts/jobseeker_profile_self.html', kwargs,
                                           context_instance=RequestContext(request, ))
@@ -639,6 +663,8 @@ def check_catpcha(request):
     if request.is_ajax():
         form = CaptchaForm(request.POST)
         if form.is_valid():
+            request.session['captcha_solved'] = True
+            request.session.modified = True
             if request.POST.get('reg_type', '') == 'jobseeker':
                 url = '/accounts/jobseeker_registration/'
             if request.POST.get('reg_type', '') == 'employer':
@@ -647,19 +673,6 @@ def check_catpcha(request):
 
     return json_response({'op_status': 'fail'})
 
-
-def refresh_captcha(request):
-    kwargs = {'op_status': 'fail'}
-
-    if request.is_ajax():
-        new_key = CaptchaStore.generate_key()
-        kwargs['op_status'] = 'success'
-        kwargs['key'] = new_key
-        kwargs['url'] = captcha_image_url(new_key)
-
-        return json_response(kwargs)
-
-    return json_response(kwargs)
 
 
 def confirm_registration(request, user_type, key):

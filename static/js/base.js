@@ -175,11 +175,19 @@ function startLoginProc() {
             message('کد امنیتی صحیح وارد نشده است. لطفا دوباره سعی کنید.', 'Error');
         }
     });
+    return false;
 }
 
 function message(msg, type) {
     var stuff = 'show' + type + 'Toast'
     $().toastmessage(stuff, msg);
+}
+
+function handleKeyPress(event) {
+    if (event.keyCode == 13) {
+        startLoginProc();
+        return false;
+    }
 }
 
 function fetchComments(obj_type, obj_id, page, div) {
@@ -204,6 +212,25 @@ function addComment(obj_type, obj_id, div, comment) {
     $.post('/comments/add/', dict, function (data) {
         if (data.op_status == 'success') {
             fetchComments(obj_type, obj_id, 1, div);
+        }
+        else {
+            message(data.message, 'Error');
+        }
+    });
+}
+
+
+function addRate(obj_type, obj_id, rate){
+        var dict = {
+        csrfmiddlewaretoken: csrfToken,
+        'rate': rate,
+        'obj_type': obj_type,
+        'obj_id': obj_id
+    }
+
+    $.post('/rating/add/', dict, function (data) {
+        if (data.op_status == 'success') {
+            location.reload();
         }
         else {
             message(data.message, 'Error');

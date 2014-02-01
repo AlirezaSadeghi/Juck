@@ -4,6 +4,18 @@
     جاک | پیام
 {% endblock %}
 
+{% block js %}
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            setTimeout(function(){
+                window.location = '/';
+            }, 5000);
+        });
+    </script>
+
+{% endblock %}
+
 {% block content %}
     <div class="center">
         <div class="ctn-box">

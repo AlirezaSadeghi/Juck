@@ -2,7 +2,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import logout
 #from django.contrib.auth.views import  password_change, password_change_done
-from juck.accounts.views import JobSeekerWizard, EMPLOYER_FORMS, JOB_SEEKER_FORMS, EmployerWizard
+from juck.accounts.views import JobSeekerWizard, EMPLOYER_FORMS, JOB_SEEKER_FORMS, EmployerWizard, passed_captcha
 from django.contrib.auth.views import password_reset_done, password_reset, password_reset_confirm, password_reset_complete
 
 urlpatterns = patterns('juck.accounts.views',
@@ -18,10 +18,10 @@ urlpatterns = patterns('juck.accounts.views',
                        url(r'register/(?P<u_type>\w+)/$', 'captcha_view', name='captcha_view'),
 
                        url(r'jobseeker_registration/$',
-                           JobSeekerWizard.as_view(JOB_SEEKER_FORMS, ), {},
+                           passed_captcha(JobSeekerWizard.as_view(JOB_SEEKER_FORMS, )), {},
                            name='jobseeker_registration'),
 
-                       url(r'employer_registration/$', EmployerWizard.as_view(EMPLOYER_FORMS, ), {},
+                       url(r'employer_registration/$', passed_captcha(EmployerWizard.as_view(EMPLOYER_FORMS, )), {},
                            name='employer_registration'),
 
                        url(r'confirm/(?P<user_type>\w+)/(?P<key>[\w\-]+)/$', 'confirm_registration', {},

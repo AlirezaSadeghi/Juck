@@ -117,20 +117,20 @@
                                     {#  gazgej to gofti like o dislike. in rating ha chie pas??                                  #}
                                     <div class="field" style="margin-top: 5px">
 
-                                        <div class="ui green label icon tiny" id="like">
+                                        <div class="ui green label icon tiny" style="cursor:pointer" id="like" onclick="addRate('article',{{ article.id }},1)">
                                             <i class="thumbs up icon "></i>
 
                                             <i>
-                                                {{ item.likes }}&nbsp
+                                                {{ article.get_likes }}&nbsp
                                             </i>
                                         </div>
 
 
-                                        <div class="ui red label icon tiny" id="dislike">
+                                        <div class="ui red label icon tiny" style="cursor:pointer" id="dislike" onclick="addRate('article',{{ article.id }},-1)">
                                             <i class="thumbs down icon"></i>
 
                                             <i>
-                                                {{ item.dislikes }}&nbsp
+                                                {{ article.get_dislikes }}&nbsp
                                             </i>
                                         </div>
                                     </div>

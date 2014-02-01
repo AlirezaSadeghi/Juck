@@ -11,8 +11,8 @@
         }
 
         .news_item .more_buttons {
-            left: 4px;
-            bottom: 16px;
+            left: 5px;
+            bottom: 17px;
         }
 
         .ui.label {
@@ -179,7 +179,7 @@
                             {% if u_type != 'manager' %}
                                 <div class="more_buttons">
                                     <div class="ui animated button green small"
-                                         onclick="window.location='{% url 'add_request' req_param  item.pk %}'">
+                                         onclick="window.location='{% url 'apply_for_job_opportunity' item.pk %}'">
                                         <div class="visible content green">اعلام تمایل به همکاری</div>
                                         <div class="hidden content"><i class="left arrow icon"> ایجاد درخواست</i></div>
                                     </div>
