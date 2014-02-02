@@ -836,14 +836,14 @@ def edit_js_profile(request):
                 new_profile.image = picture
 
             new_profile.save()
-            js = JobSeeker.objects.get(pk=request.user.pk)
-            old_profile = js.profile
-            js.profile = None
+            emp = JobSeeker.objects.get(pk=request.user.pk)
+            old_profile = emp.profile
+            emp.profile = new_profile
+            emp.save()
             old_profile.delete()
-            js.profile = new_profile
-            js.save()
+
             # print('doooooneeeeee')
-            return HttpResponseRedirect('accounts/show_profile/?pk=%s' % request.user.pk)
+            return HttpResponseRedirect('/accounts/show_profile/?pk=%s' % request.user.pk)
 
     return render_to_response('accounts/js_profile_edit.html', {'form': form},
                               context_instance=RequestContext(request, ))
@@ -851,6 +851,7 @@ def edit_js_profile(request):
 
 def change_user_pass(request):
     if request.method == "post":
+        pass
 
 
 

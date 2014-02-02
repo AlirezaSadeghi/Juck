@@ -50,7 +50,7 @@ class JobSeekerProfile(models.Model):
 
     city = models.ForeignKey(City, verbose_name=u'شهر', related_name='jobseekerprofiles')
     state = models.ForeignKey(State, verbose_name=u'استان', related_name='jobseekerprofiles')
-    national_id = models.CharField(max_length=20, verbose_name=u'کد ملی', unique=True)
+    national_id = models.CharField(max_length=20, verbose_name=u'کد ملی')
     date_of_birth = models.IntegerField(verbose_name=u'سال تولد', blank=True, null=True)
     sex = models.PositiveSmallIntegerField(verbose_name=u'جنسیت', blank=True, null=True)
     married = models.NullBooleanField(verbose_name=u'وضعیت تاهل', blank=True, default=None,null=True)
