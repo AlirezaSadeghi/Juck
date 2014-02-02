@@ -36,9 +36,7 @@ def get_comments(request):
 
         comment_list = comments[first_index:last_index]
 
-        # print('pagination done')
-        pages = [i + 1 for i in range(int(math.ceil(len(comments) / page_size)))]
-
+        pages = [i + 1 for i in range(int(math.ceil(float(len(comments)) / page_size)))]
         out = {'page': page, 'page_size': page_size, 'obj_id': obj_id, 'obj_type': obj_type,
                             'pages': pages, 'total_results': len(comments), 'comments': comment_list, 'obj_div': obj_div}
 

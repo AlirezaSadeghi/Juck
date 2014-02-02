@@ -22,320 +22,327 @@
 {% block content %}
 
     <div class="center">
-        <div class="ctn-box">
-            {% if user_type == 'job_seeker' %}
-                <div class="panel-items">
-                    <div class="panel-item" onclick="window.location='{% url 'dashboard' %}'">
-                        <div class="label">کارتابل</div>
-                        <i class="icon briefcase"></i>
-                    </div>
+    <div class="ctn-box">
+    {% if user_type == 'job_seeker' %}
+        <div class="panel-items">
+            <div class="panel-item" onclick="window.location='{% url 'dashboard' %}'">
+                <div class="label">کارتابل</div>
+                <i class="icon briefcase"></i>
+            </div>
 
-                    <div class="panel-item" onclick="window.location='{% url 'employer_list' 'approved' %}'">
-                        <div class="label">لیست کارفرمایان</div>
-                        <i class="icon list"></i>
-                    </div>
-                    <div class="panel-item" onclick='window.location="{% url 'show_profile' %}?pk={{ user.pk }}"'>
-                        <div class="label">اطلاعات کاربری</div>
-                        <i class="icon user"></i>
-                    </div>
-                </div>
-                <div class="panel-items">
-                    <div class="panel-item" onclick='window.location="{% url 'advertisements' %}"'>
-                        <div class="label">فرصت‌های شغلی</div>
-                        <i class="icon bullhorn"></i>
-                    </div>
-                    <div class="panel-item" onclick='window.location="{% url 'article_submission' %}"'>
-                        <div class="label">پیشنهاد مقاله</div>
-                        <i class="icon unordered list"></i>
-                    </div>
-                    <div class="panel-item"  onclick='window.location="{% url 'your_questions' %}"'>
-                        <div class="label">سوالات من</div>
-                        <i class="icon tasks"></i>
-                    </div>
-                </div>
-            {% elif user_type == 'employer' %}
-                <div class="panel-items">
-                    <div class="panel-item" onclick="window.location='{% url 'dashboard' %}'">
-                        <div class="label">کارتابل</div>
-                        <i class="icon briefcase"></i>
-                    </div>
+            <div class="panel-item" onclick="window.location='{% url 'employer_list' 'approved' %}'">
+                <div class="label">لیست کارفرمایان</div>
+                <i class="icon list"></i>
+            </div>
+            <div class="panel-item" onclick='window.location="{% url 'show_profile' %}?pk={{ user.pk }}"'>
+                <div class="label">اطلاعات کاربری</div>
+                <i class="icon user"></i>
+            </div>
+        </div>
+        <div class="panel-items">
+            <div class="panel-item" onclick='window.location="{% url 'advertisements' %}"'>
+                <div class="label">فرصت‌های شغلی</div>
+                <i class="icon bullhorn"></i>
+            </div>
+            <div class="panel-item" onclick='window.location="{% url 'article_submission' %}"'>
+                <div class="label">پیشنهاد مقاله</div>
+                <i class="icon unordered list"></i>
+            </div>
+            <div class="panel-item" onclick='window.location="{% url 'your_questions' %}"'>
+                <div class="label">سوالات من</div>
+                <i class="icon tasks"></i>
+            </div>
+        </div>
+    {% elif user_type == 'employer' %}
+        <div class="panel-items">
+            <div class="panel-item" onclick="window.location='{% url 'dashboard' %}'">
+                <div class="label">کارتابل</div>
+                <i class="icon briefcase"></i>
+            </div>
 
-                    <div class="panel-item" onclick="window.location='{% url 'employer_list' 'approved' %}'">
-                        <div class="label">لیست کارفرمایان</div>
-                        <i class="icon list"></i>
-                    </div>
-                    <div class="panel-item" onclick='window.location="{% url 'show_profile' %}?pk={{ user.pk }}"'>
-                        <div class="label">اطلاعات کاربری</div>
-                        <i class="icon user"></i>
-                    </div>
-                </div>
-                <div class="panel-items">
-                    <div class="panel-item" onclick='window.location="{% url 'add_request' 'jOpp' %}"'>
-                        <div class="label">نیاز به نیرو</div>
-                        <i class="icon bullhorn"></i>
-                    </div>
-                    <div class="panel-item" onclick="window.location='{% url 'job_seeker_list' 'approved' %}'">
-                        <div class="label">لیست کارجویان</div>
-                        <i class="icon unordered list"></i>
-                    </div>
-                    <div class="panel-item" onclick="window.location='{% url 'advertisements' %}'">
-                        <div class="label">آگهی‌ها</div>
-                        <i class="icon tasks"></i>
-                    </div>
-                </div>
-            {% elif user_type == 'manager' %}
-                <div class="manager-states">
-                    <div class="manager-state blue">
-                        <div class="manager-onhover"></div>
-                        <i class="icon rss"></i>
-
-                        <div class="num">52</div>
-                        <h3>تعداد مشترک‌ها</h3>
-
-                        <p>هم اکنون در سایت</p>
-                    </div>
-                    <div class="manager-state aqua">
-                        <div class="manager-onhover"></div>
-                        <i class="icon hand up"></i>
-
-                        <div class="num">40</div>
-                        <h3>تعداد درخواست‌ها</h3>
-
-                        <p>ردوبدل شده در هفته گذشته</p>
-                    </div>
-                    <div class="manager-state green">
-                        <div class="manager-onhover"></div>
-                        <i class="icon unhide"></i>
-
-                        <div class="num">1000</div>
-                        <h3>تعداد بازدیدها</h3>
-
-                        <p>انجام گرفته امروز</p>
-                    </div>
-                    <div class="manager-state red">
-                        <div class="manager-onhover"></div>
-                        <i class="icon users"></i>
-
-                        <div class="num">120</div>
-                        <h3>تعداد ثبت‌نام‌ها</h3>
-
-                        <p>انجام گرفته در دوروز گذشته</p>
-                    </div>
-                </div>
-                <div class="ui grid">
-                    <div class="manager-log column">
-                        <div class="ui raised segment">
-                            <h2>رخدادها</h2>
-                            <ul class="manager-log-list">
-                                <li><i class="user icon"></i>علیرضا صادقی وارد سایت شد.</li>
-                                <li><i class="user icon"></i>مقاله شماره ۳، توسط مدیر ویرایش شد</li>
-                                <li><i class="briefcase icon"></i>شرکت سامانه پرور به شرکت خفن درخواست داد.</li>
-                                <li><i class="user icon"></i>اصغر محمدزاده اکانت خود را حذف کرد.</li>
-                                <li><i class="info icon"></i>علیرضا شفاعی وارد سایت شد.</li>
-                                <li><i class="user icon"></i>مقاله شماره ۳، توسط مدیر ویرایش شد</li>
-                                <li><i class="file icon"></i>شرکت سامانه پرور به شرکت خفن درخواست داد.</li>
-                                <li><i class="user icon"></i>اصغر محمدزاده اکانت خود را حذف کرد.</li>
-                                <li><i class="user icon"></i>علیرضا فراهانی وارد سایت شد.</li>
-                                <li><i class="briefcase icon"></i>مقاله شماره ۳، توسط مدیر ویرایش شد</li>
-                                <li><i class="user icon"></i>سینا رشیدیان اکانت خود را حذف کرد.</li>
-                            </ul>
-
-                            <div class="manager-list-buttons">
-                                <div class="manager-list-all-btn single ui small button right aligned">
-                                    مشاهده همه رخدادها
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="manager-list-space column"></div>
-                    <div class="manager-graph column">
-                        <div class="ui raised segment">
-                            <img src='{% static 'images/chart.png' %}' width="100%" height="370px"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui grid">
-                    <div class="manager-list news column">
-                        <div class="ui raised segment">
-                            <h1>اخبار</h1>
-                            {% if news %}
-                                {% for item in news %}
-                                    <div class="manager-list-item">
-                                        <div class="list-details">
-                                            <h3>{{ item.title }} </h3>
-
-                                            <p>{{ item.content|truncatewords:8 }}</p>
-                                        </div>
-                                        <div class="list-buttons">
-                                            <div class="ui tiny button"
-                                                 onclick="window.location='{% url "show_news_description"%}?pk={{ item.pk }}'">
-                                            <i class="icon unhide"></i>
-                                            مشاهده
-                                        </div>
-                                        <div class="ui tiny button" onclick="deletItem('news', {{ item.id }})">
-                                            <i class="icon edit"></i>
-                                            حذف
-                                        </div>
-                                    </div>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                <div class="ui error message">
-                                    <div class="header">
-                                        خبری وجود ندارد
-                                    </div>
-                                    <p>
-                                        برای اضافه کردن خبر برروی دکمه زیر کلیک کنید.
-                                    </p>
-                                </div>
-
-                            {% endif %}
-
-                        <div class="manager-list-buttons">
-
-                            {% if news|length > 1 %}
-                                <div class="manager-list-all-btn ui small button right aligned"
-                                     onclick="window.location='{% url "news_list" %}'">
-                                مشاهده همه خبرها
-                                </div>
-                            {% endif %}
-                        <div class="manager-list-add-btn ui small button left aligned"
-                             onclick="window.location='{% url "add_news"%}'">
-                        اضافه کردن خبر
-                    </div>
-                </div>
-                </div>
-                </div>
-                <div class="manager-list-space column"></div>
-                <div class="manager-list articles column">
-                    <div class="ui raised segment">
-                        <h1>مقالات</h1>
-                        {% if article %}
-                            {% for item in article %}
-                                <div class="manager-list-item">
-                                    <div class="list-details">
-                                        <h3>{{ item.title }}</h3>
-
-                                        <p>{{ item.summary|truncatewords:7 }}</p>
-                                    </div>
-                                    <div class="list-buttons">
-                                        <div class="ui tiny button"
-                                             onclick="window.location='{% url 'show_article_description' %}?pk={{ item.pk }}'">
-                                            <i class="icon unhide"></i>
-                                            مشاهده
-                                        </div>
-                                        <div class="ui tiny button" onclick="deletItem('article', {{ item.id }})">
-                                            <i class="icon remove"></i><br/>
-                                            حذف
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <div class="ui error message">
-                                <div class="header">
-                                    مقاله‌ای وجود ندارد.
-                                </div>
-                                <p>
-                                    برای اضافه کردن مقاله، برروی دکمه زیر کلیک کنید.
-                                </p>
-                            </div>
-
-
-                        {% endif %}
-                        <div class="manager-list-buttons">
-                            {% if article|length > 1 %}
-                                <div class="manager-list-all-btn ui small button right aligned"
-                                     onclick="window.location ='{% url 'articles_list' %}'">
-                                    مشاهده همه مقالات
-                                </div>
-                            {% endif %}
-                            <div class="manager-list-add-btn ui small button left aligned"
-                                 onclick="window.location ='{% url 'add_article' %}'">
-                                اضافه کردن مقاله
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <div class="ui grid">
-                    <div class="manager-list user-articles column">
-                        <div class="ui raised segment">
-                            <h1>مقالات دریافتی</h1>
-
-                            {% if art_sub %}
-                                {% for item in art_sub %}
-                                    <div class="manager-list-item">
-                                        <div class="list-details">
-                                            <h3>{{ item.article.title }}</h3>
-
-                                            <p>{{ item.article.summary|truncatewords:7 }}</p>
-                                        </div>
-                                        <div class="list-buttons">
-                                            <div class="ui tiny button"
-                                                 onclick="window.location='{% url 'sub_article_description' %}?pk={{ item.pk }}'">
-                                                <i class="icon unhide"></i>
-                                                مشاهده
-                                            </div>
-                                            <div class="ui tiny button" onclick="reveiew_sub_article('accept', {{ item.pk }})">
-                                                <i class="icon add"></i><br/>
-                                                افزودن
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                <div class="ui error message">
-                                    <div class="header">
-                                        مقاله‌ای وجود ندارد.
-                                    </div>
-                                    <p>
-                                        مقاله‌ای از کاربران دریافت نشده است.
-                                    </p>
-                                </div>
-                            {% endif %}
-                            {% if art_sub|length > 1 %}
-                                <div class="manager-list-buttons">
-                                    <div class="manager-list-all-btn single ui small button right aligned"
-                                                 onclick="window.location='{% url 'show_article_recommendations_list' %}'"> 
-                                        مشاهده همه مقالات دریافتی
-                                    </div>
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="manager-list-space column"></div>
-                    <div class="manager-list comments column">
-                        <div class="ui raised segment">
-                            <h1>آخرین آگهی‌های نیاز به نیرو</h1>
-
-
+            <div class="panel-item" onclick="window.location='{% url 'employer_list' 'approved' %}'">
+                <div class="label">لیست کارفرمایان</div>
+                <i class="icon list"></i>
+            </div>
+            <div class="panel-item" onclick='window.location="{% url 'show_profile' %}?pk={{ user.pk }}"'>
+                <div class="label">اطلاعات کاربری</div>
+                <i class="icon user"></i>
+            </div>
+        </div>
+        <div class="panel-items">
+            <div class="panel-item" onclick='window.location="{% url 'add_request' 'jOpp' %}"'>
+                <div class="label">نیاز به نیرو</div>
+                <i class="icon bullhorn"></i>
+            </div>
+            <div class="panel-item" onclick="window.location='{% url 'job_seeker_list' 'approved' %}'">
+                <div class="label">لیست کارجویان</div>
+                <i class="icon unordered list"></i>
+            </div>
+            <div class="panel-item" onclick="window.location='{% url 'advertisements' %}'">
+                <div class="label">آگهی‌ها</div>
+                <i class="icon tasks"></i>
+            </div>
+        </div>
+    {% elif user_type == 'manager' %}
+{#        <div class="manager-states">#}
+{#            <div class="manager-state blue">#}
+{#                <div class="manager-onhover"></div>#}
+{#                <i class="icon rss"></i>#}
+{##}
+{#                <div class="num">52</div>#}
+{#                <h3>تعداد مشترک‌ها</h3>#}
+{##}
+{#                <p>هم اکنون در سایت</p>#}
+{#            </div>#}
+{#            <div class="manager-state aqua">#}
+{#                <div class="manager-onhover"></div>#}
+{#                <i class="icon hand up"></i>#}
+{#                {{ dis_count|length }}#}
+{#                <div class="num"></div>#}
+{#                <h3>پیشنهادها</h3>#}
+{##}
+{#                <p>کارفرمایان به کارجویان</p>#}
+{#            </div>#}
+{#            <div class="manager-state green">#}
+{#                <div class="manager-onhover"></div>#}
+{#                <i class="icon unhide"></i>#}
+{##}
+{#                <div class="num"></div>#}
+{#                <h3>پیشنهاد‌ها</h3>#}
+{##}
+{#                <p>کارجویان به کارفرمایان</p>#}
+{#            </div>#}
+{#            <div class="manager-state red">#}
+{#                <div class="manager-onhover"></div>#}
+{#                <i class="icon users"></i>#}
+{##}
+{#                <div class="num">{{ sign_up.count }}</div>#}
+{#                <h3>تعداد ثبت‌نام‌ها</h3>#}
+{##}
+{#                <p>انجام گرفته در روز گذشته</p>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="ui grid">#}
+{#            <div class="manager-log column">#}
+{#                <div class="ui raised segment">#}
+{#                    <h2>رخدادها</h2>#}
+{#                    <ul class="manager-log-list">#}
+{#                        <li><i class="user icon"></i>علیرضا صادقی وارد سایت شد.</li>#}
+{#                        <li><i class="user icon"></i>مقاله شماره ۳، توسط مدیر ویرایش شد</li>#}
+{#                        <li><i class="briefcase icon"></i>شرکت سامانه پرور به شرکت خفن درخواست داد.</li>#}
+{#                        <li><i class="user icon"></i>اصغر محمدزاده اکانت خود را حذف کرد.</li>#}
+{#                        <li><i class="info icon"></i>علیرضا شفاعی وارد سایت شد.</li>#}
+{#                        <li><i class="user icon"></i>مقاله شماره ۳، توسط مدیر ویرایش شد</li>#}
+{#                        <li><i class="file icon"></i>شرکت سامانه پرور به شرکت خفن درخواست داد.</li>#}
+{#                        <li><i class="user icon"></i>اصغر محمدزاده اکانت خود را حذف کرد.</li>#}
+{#                        <li><i class="user icon"></i>علیرضا فراهانی وارد سایت شد.</li>#}
+{#                        <li><i class="briefcase icon"></i>مقاله شماره ۳، توسط مدیر ویرایش شد</li>#}
+{#                        <li><i class="user icon"></i>سینا رشیدیان اکانت خود را حذف کرد.</li>#}
+{#                    </ul>#}
+{##}
+{#                    <div class="manager-list-buttons">#}
+{#                        <div class="manager-list-all-btn single ui small button right aligned">#}
+{#                            مشاهده همه رخدادها#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="manager-list-space column"></div>#}
+{#            <div class="manager-graph column">#}
+{#                <div class="ui raised segment">#}
+{#                    <img src='{% static 'images/chart.png' %}' width="100%" height="370px"/>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+        <div class="ui grid" style="padding-top: 30px">
+            <div class="manager-list news column">
+                <div class="ui raised segment">
+                    <h1>اخبار</h1>
+                    {% if news %}
+                        {% for item in news %}
                             <div class="manager-list-item">
                                 <div class="list-details">
-                                    <h3>خبر شماره یک</h3>
+                                    <h3>{{ item.title }} </h3>
 
-                                    <p>این یک خبر خوب است...</p>
+                                    <p>{{ item.content|truncatewords:8 }}</p>
                                 </div>
                                 <div class="list-buttons">
-                                    <div class="ui tiny button">
+                                    <div class="ui tiny button"
+                                         onclick="window.location='{% url "show_news_description" %}?pk={{ item.pk }}'">
                                         <i class="icon unhide"></i>
                                         مشاهده
                                     </div>
+                                    <div class="ui tiny button" onclick="deletItem('news', {{ item.id }})">
+                                        <i class="icon edit"></i>
+                                        حذف
+                                    </div>
                                 </div>
                             </div>
-                            <div class="manager-list-buttons">
-                                <div class="manager-list-all-btn single ui small button right aligned">
-                                    مشاهده همه نظرات تایید نشده
+                        {% endfor %}
+                    {% else %}
+                        <div class="ui error message">
+                            <div class="header">
+                                خبری وجود ندارد
+                            </div>
+                            <p>
+                                برای اضافه کردن خبر برروی دکمه زیر کلیک کنید.
+                            </p>
+                        </div>
+
+                    {% endif %}
+
+                    <div class="manager-list-buttons">
+
+                        {% if news|length > 1 %}
+                            <div class="manager-list-all-btn ui small button right aligned"
+                                 onclick="window.location='{% url "news_list" %}'">
+                                مشاهده همه خبرها
+                            </div>
+                        {% endif %}
+                        <div class="manager-list-add-btn ui small button left aligned"
+                             onclick="window.location='{% url "add_news" %}'">
+                            اضافه کردن خبر
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="manager-list-space column"></div>
+            <div class="manager-list articles column">
+                <div class="ui raised segment">
+                    <h1>مقالات</h1>
+                    {% if article %}
+                        {% for item in article %}
+                            <div class="manager-list-item">
+                                <div class="list-details">
+                                    <h3>{{ item.title }}</h3>
+
+                                    <p>{{ item.summary|truncatewords:7 }}</p>
+                                </div>
+                                <div class="list-buttons">
+                                    <div class="ui tiny button"
+                                         onclick="window.location='{% url 'show_article_description' %}?pk={{ item.pk }}'">
+                                        <i class="icon unhide"></i>
+                                        مشاهده
+                                    </div>
+                                    <div class="ui tiny button" onclick="deletItem('article', {{ item.id }})">
+                                        <i class="icon remove"></i><br/>
+                                        حذف
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="ui error message">
+                            <div class="header">
+                                مقاله‌ای وجود ندارد.
+                            </div>
+                            <p>
+                                برای اضافه کردن مقاله، برروی دکمه زیر کلیک کنید.
+                            </p>
+                        </div>
+
+
+                    {% endif %}
+                    <div class="manager-list-buttons">
+                        {% if article|length > 1 %}
+                            <div class="manager-list-all-btn ui small button right aligned"
+                                 onclick="window.location ='{% url 'articles_list' %}'">
+                                مشاهده همه مقالات
+                            </div>
+                        {% endif %}
+                        <div class="manager-list-add-btn ui small button left aligned"
+                             onclick="window.location ='{% url 'add_article' %}'">
+                            اضافه کردن مقاله
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui grid">
+            <div class="manager-list user-articles column">
+                <div class="ui raised segment">
+                    <h1>مقالات دریافتی</h1>
+
+                    {% if art_sub %}
+                        {% for item in art_sub %}
+                            <div class="manager-list-item">
+                                <div class="list-details">
+                                    <h3>{{ item.article.title }}</h3>
+
+                                    <p>{{ item.article.summary|truncatewords:7 }}</p>
+                                </div>
+                                <div class="list-buttons">
+                                    <div class="ui tiny button"
+                                         onclick="window.location='{% url 'sub_article_description' %}?pk={{ item.pk }}'">
+                                        <i class="icon unhide"></i>
+                                        مشاهده
+                                    </div>
+                                    <div class="ui tiny button" onclick="reveiew_sub_article('accept', {{ item.pk }})">
+                                        <i class="icon add"></i><br/>
+                                        افزودن
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="ui error message">
+                            <div class="header">
+                                مقاله‌ای وجود ندارد.
+                            </div>
+                            <p>
+                                مقاله‌ای از کاربران دریافت نشده است.
+                            </p>
+                        </div>
+                    {% endif %}
+                    {% if art_sub|length > 1 %}
+                        <div class="manager-list-buttons">
+                            <div class="manager-list-all-btn single ui small button right aligned"
+                                 onclick="window.location='{% url 'show_article_recommendations_list' %}'">
+                                مشاهده همه مقالات دریافتی
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="manager-list-space column"></div>
+            <div class="manager-list comments column">
+                <div class="ui raised segment">
+                    <h1>ثبت‌نام های انجام شده در روز گذشته</h1>
+                    {% for user in sign_up %}
+
+                        <div class="manager-list-item">
+                            <div class="list-details">
+                                <h3>کاربر
+                                    {{ user.id }} </h3>
+
+                                <p>{{ user.email }}</p>
+                            </div>
+                            <div class="list-buttons">
+                                <div class="ui tiny button"  onclick='window.location="{% url 'show_profile' %}?pk={{ user.pk }}"'>
+                                    <i class="icon unhide"></i>
+                                    مشاهده
                                 </div>
                             </div>
                         </div>
-
+                    {% endfor %}
+                    <div class="manager-list-buttons">
+                            <div class="manager-list-all-btn ui small button right aligned"
+                                 onclick="window.location ='{% url 'employer_list' 'not-approved' %}'">
+لیست کارفرمایان تایید نشده
+                            </div>
+                        <div class="manager-list-add-btn ui small button left aligned"
+                             onclick="window.location ='{% url 'job_seeker_list' 'not-approved' %}'">
+لیست کارجویان تایید نشده
+                        </div>
                     </div>
                 </div>
-            {% else %}
-                دسترسی غیر مجاز
 
-            {% endif %}
+            </div>
+        </div>
+    {% else %}
+        دسترسی غیر مجاز
+
+    {% endif %}
 
     </div>
     </div>

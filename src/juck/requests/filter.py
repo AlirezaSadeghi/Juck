@@ -103,11 +103,13 @@ class RequestListFilter:
                 cert_list = []
                 for item in educations:
                     cert_list.append(item.certificate)
-                final_requests = JobOpportunity.objects.none()
+
+                f_r = JobOpportunity.objects.none();
                 for i in range(len(educations)):
-                    final_requests = final_requests | requests.filter(
-                        (Q(first_major__icontains=major_list[i]) | Q(second_major__icontains=major_list[i])),
-                        certificate__icontains=cert_list[0])
+                    f_r = f_r |  requests.filter(
+                        (Q(first_major=major_list[i]) | Q(second_major=major_list[i])),
+                        certificate=cert_list[i])
+                requests = f_r
 
         else:
             print("why ???")
