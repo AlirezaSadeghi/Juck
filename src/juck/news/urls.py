@@ -8,5 +8,6 @@ urlpatterns = patterns('juck.news.views',
     url(r'^add_news/$', 'add_news', {}, name='add_news'),
     url(r'^upload_image/$', 'upload_news_pic', {}, name='upload_news_pic'),
     url(r'^unreachable/$', 'unreachable', {}, name='unreachable'),
+    url(r'^remove/$','remove_news',{},name='remove_news'),
 
 )

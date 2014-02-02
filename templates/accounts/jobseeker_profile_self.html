@@ -16,18 +16,18 @@
             background-color: white;
             height: 28px;
             width: 143px;
+            font-family: BYekan;
         }
 
         .ui.field {
-            margin: 10px 0px !important;
-            display: block;
+        {#            margin: 10px 0 !important;#} display: block;
         }
 
         input[type='text'] {
-            width: 100px;
-            height: 25px;
+            width: 50%;
+        / / fj height : 25 px;
             margin-top: -15px;
-            padding: 0px 5px;
+            padding: 0 5px;
             color: #555;
         }
 
@@ -36,7 +36,7 @@
         }
 
         textarea {
-            width: 300px !important;
+            width: 50% !important;
             height: 80px;
         }
 
@@ -49,11 +49,15 @@
         }
 
         .content input[type='text'] {
-            width: 550px !important;
+            width: 50% !important;
             height: 25px;
             margin-top: -15px;
             padding: 0px 5px;
             color: #555;
+        }
+
+        .fj_select_absolute {
+            display: inline-block !important;
         }
 
     </style>
@@ -99,7 +103,19 @@
                 });
 
             {% endif %}
-        })
+
+            $('#edu_submit').click(function(){
+               alert('edu');
+            });
+            $('#skill_submit').click(function(){
+               alert('skill');
+            });
+            $('#exp_submit').click(function(){
+                alert('exp')
+            })
+        });
+
+
     </script>
 {% endblock %}
 
@@ -452,19 +468,30 @@
         <div class="content">
             <div class="right">
                 <div class="ui form">
-                    رشته : <input type="text" id="edu_major">
-                    گرایش :‌<input type="text" id="edu_field">
-
                     <div class="ui field">
-                        <select>
-                            <option value="diploma">دیپلم</option>
-                            <option value="under_grad">کارشناسی</option>
-                            <option value="grad">کارشناسی ارشد</option>
-                            <option value="phd">دکتری</option>
-                            <option value="post_doc">پست دکتری</option>
-                        </select>
+                        <label>رشته: </label>
+                        <input type="text" id="edu_major"/>
                     </div>
                     <div class="ui field">
+                        <label>گرایش: </label>
+                        ‌<input type="text" id="edu_field"/>
+                    </div>
+
+                    <div class="ui field fj_select_absolute">
+                        <label>مدرک: </label>
+
+                        <div class="ui field ">
+                            <select>
+                                <option value="diploma">دیپلم</option>
+                                <option value="under_grad">کارشناسی</option>
+                                <option value="grad">کارشناسی ارشد</option>
+                                <option value="phd">دکتری</option>
+                                <option value="post_doc">پست دکتری</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="ui field fj_select_absolute">
+                        <label>نوع دانشگاه: </label>
                         <select>
                             <option value="dolati">دولتی</option>
                             <option value="azad">آزاد</option>
@@ -473,21 +500,28 @@
                             <option value="entefaei">غیر انتفاعی</option>
                         </select>
                     </div>
-                    <div class="ui field">
+                    <div class="ui field fj_select_absolute">
+                        <label>وضعیت تحصیل: </label>
                         <select>
                             <option value="student">دانشجو</option>
                             <option value="gratuated">فارق‌التحصیل</option>
                         </select>
+                    </div>
 
-                        <div class="ui field">
-
-                            دانشگاه : <input type="text" id="university">
-                        </div>
+                    <div class="ui field">
+                        <label>دانشگاه: </label>
+                        <input type="text" id="university">
                     </div>
                 </div>
-                <div class="actions">
-                    <div class="ui button">بستن</div>
-                    <div class="ui button">افزودن</div>
+                <div class="actions two buttons">
+                    <div class="ui small red icon button">
+                        انصراف
+                        <i class="remove icon"></i>
+                    </div>
+                    <div class="ui small green icon button" id="edu_submit">
+                        افزودن
+                        <i class="checkmark icon"></i>
+                    </div>
                 </div>
             </div>
 
@@ -501,19 +535,34 @@
                 <div class="content">
                     <div class="right">
                         <div class="ui form">
-                            عنوان<input type="text" id="skill_title">
-                            <select id="skill_level">
-                                <option value="low">آشنا</option>
-                                <option value="high">مسلط</option>
-                                <option value="certificate">دارای مدرک معتبر</option>
-                            </select>
-                            <textarea id="skill_desc"></textarea>
+                            <div class="ui field">
+                                <label>عنوان: </label>
+                                <input type="text" id="skill_title">
+                            </div>
+                            <div class="ui field">
+                                <label>سطح آشنایی: </label>
+                                <select id="skill_level">
+                                    <option value="low">آشنا</option>
+                                    <option value="high">مسلط</option>
+                                    <option value="certificate">دارای مدرک معتبر</option>
+                                </select>
+                            </div>
+                            <div class="ui field">
+                                <label>توضیحات: </label>
+                                <textarea id="skill_desc"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="actions">
-                    <div class="ui button">بستن</div>
-                    <div class="ui button">افزودن</div>
+                <div class="actions two buttons">
+                    <div class="ui small red icon button">
+                        انصراف
+                        <i class="remove icon"></i>
+                    </div>
+                    <div class="ui small green icon button" id="skill_submit">
+                        افزودن
+                        <i class="checkmark icon"></i>
+                    </div>
                 </div>
             </div>
 
@@ -526,22 +575,44 @@
                 </div>
                 <div class="content">
                     <div class="right">
-                        عنوان <input type="text" id="exp_title">
-                        در<input type="text" id="exp_place">
-                        <select>
-                            <option value="">نوع همکاری</option>
-                            <option value="full_time">تمام وقت</option>
-                            <option value="halft_time">پاره وقت</option>
-                            <option value="tele_work">دور کاری</option>
-                        </select>
-                        از سال<input type="text" id="exp_from">
-                        تا سال<input type="text" id="exp_to">
+                        <div class="ui form">
+                            <div class="ui field">
+                                <label>عنوان: </label>
+                                <input type="text" id="exp_title">
+                            </div>
+                            <div class="ui field">
+                                <label>مکان: </label>
+                                <input type="text" id="exp_place">
+                            </div>
+                            <div class="ui field">
+                                <label>نوع همکاری</label>
+                                <select>
+                                    <option value="">----</option>
+                                    <option value="full_time">تمام وقت</option>
+                                    <option value="halft_time">پاره وقت</option>
+                                    <option value="tele_work">دور کاری</option>
+                                </select>
+                            </div>
+                            <div class="ui field">
+                                <label>از سال: </label>
+                                <input type="text" id="exp_from">
+                            </div>
+                            <div class="ui field">
+                                <label>تا سال: </label>
+                                <input type="text" id="exp_to">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="actions">
-                    <div class="ui button">Cancel</div>
-                    <div class="ui button">OK</div>
+                <div class="actions two buttons">
+                    <div class="ui small red icon button">
+                        انصراف
+                        <i class="remove icon"></i>
+                    </div>
+                    <div class="ui small green icon button" id="exp_submit">
+                        افزودن
+                        <i class="checkmark icon"></i>
+                    </div>
                 </div>
             </div>
-
 {% endblock %}

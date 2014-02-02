@@ -172,7 +172,7 @@
                                             <i class="icon unhide"></i>
                                             مشاهده
                                         </div>
-                                        <div class="ui tiny button">
+                                        <div class="ui tiny button" onclick="deletItem('news', {{ item.id }})">
                                             <i class="icon edit"></i>
                                             حذف
                                         </div>
@@ -224,7 +224,7 @@
                                             <i class="icon unhide"></i>
                                             مشاهده
                                         </div>
-                                        <div class="ui tiny button">
+                                        <div class="ui tiny button" onclick="deletItem('article', {{ item.id }})">
                                             <i class="icon remove"></i><br/>
                                             حذف
                                         </div>
@@ -277,7 +277,7 @@
                                                 <i class="icon unhide"></i>
                                                 مشاهده
                                             </div>
-                                            <div class="ui tiny button">
+                                            <div class="ui tiny button" onclick="reveiew_sub_article('accept', {{ item.pk }})">
                                                 <i class="icon add"></i><br/>
                                                 افزودن
                                             </div>

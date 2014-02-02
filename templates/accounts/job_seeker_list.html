@@ -30,42 +30,44 @@
     <div class="ctn-box">
     {% if opt %}
         <form id="job_seeker_list_form">
-        <div class="ui icon input left small" onkeypress="submit_jobseeker_list(event)">
-            {{ search_form.search_input }}
-            <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
-        </div>
-
-        <small class="advanced_search">جستجوی پیشرفته</small>
-
-        <label style="display: inline-block">
-
-            <i class="tiny help icon" id="help_icon" help-id="0" style="cursor: pointer"></i>
-
-            <div id="msg_div0" class="Sina_help Sina_help_news " help-id="0" style="margin-top: -16px;">
-                {{ search_form.search_input.help_text }}
+            <div class="ui icon input left small" onkeypress="submit_jobseeker_list(event)">
+                {{ search_form.responder }}
+                <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
             </div>
-        </label>
-        <div class="advanced_search_panel ui segment form">
-            <div class="container">
-                <div class="advanced_search_form rf">
-                    <div class="ui form">
-                        <div class="section">
-                            <div class="two fields">
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.responder.label_tag }}: </label>
-                                    {{ search_form.responder }}
-                                </div>
 
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.status.label_tag }}: </label>
-                                    {{ search_form.status }}
+            <small class="advanced_search">جستجوی پیشرفته</small>
+
+            <label style="display: inline-block">
+
+                <i class="tiny help icon" id="help_icon" help-id="0" style="cursor: pointer"></i>
+
+                <div id="msg_div0" class="Sina_help Sina_help_news " help-id="0" style="margin-top: -16px;">
+                    {{ search_form.search_input.help_text }}
+                </div>
+            </label>
+
+            <div class="advanced_search_panel ui segment form">
+                <div class="container">
+                    <div class="advanced_search_form rf">
+                        <div class="ui form">
+                            <div class="section">
+                                <div class="one fields">
+                                    <div class="inline field" style="float: right;">
+                                        <label class="input-details">{{ search_form.status.label_tag }}: </label>
+                                        {{ search_form.status }}
+                                        <div class="search_buttons" style="float: right;margin-top: 20px;">
+                                            <input class="inline ui button" type="reset" value="پاک کردن">
+                                            <input class="inline ui button" type="submit" id="submit_button"
+                                                   value="جستجو">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     {% else %}
         <form id="job_seeker_list_form">
             <div class="ui icon input left small" onkeypress="submit_jobseeker_list(event)">

@@ -9,5 +9,7 @@ urlpatterns = patterns('juck.articles.views',
     url(r'^recommendations/$', 'show_article_recommendations_list', {}, name='show_article_recommendations_list'),
     url(r'^submit_article/$', 'submit_article', {}, name='article_submission'),
     url(r'^submitted_article/$', 'submitted_article_description', {}, name='sub_article_description'),
-    url(r'^submitted_article/review$','review_submitted_article',{},name='review_submitted_article'),
+    url(r'^submitted_article/review/$','review_submitted_article',{},name='review_submitted_article'),
+    url(r'^remove/$','remove_article',{},name='remove_article'),
+
 )

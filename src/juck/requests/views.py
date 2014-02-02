@@ -148,7 +148,7 @@ def show_js_requests(request):
 
         if request.user.role == 'manager':
             return render_to_response('requests/show_requests.html',
-                                      {'requests': request, 'request_type': 'offer', 'count': count,
+                                      {'requests': request, 'request_type': 'offer', 'req_param': 'jReq', 'count': count,
                                        'search_form': search_form,
                                        'page_range': page_range, 'get_params': get_params},
                                       context_instance=RequestContext(request, ))
@@ -186,7 +186,7 @@ def show_em_requests(request):
 
         if request.user.role == 'manager':
             return render_to_response('requests/show_requests.html',
-                                      {'requests': request, 'request_type': 'offer', 'count': count,
+                                      {'requests': request, 'request_type': 'offer', 'req_param': 'eReq','count': count,
                                        'search_form': search_form,
                                        'page_range': page_range, 'get_params': get_params},
                                       context_instance=RequestContext(request, ))

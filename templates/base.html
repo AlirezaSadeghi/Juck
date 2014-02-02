@@ -241,8 +241,8 @@
                             لیست ها <i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="">لیست کارجویان</a>
-                                <a class="item" href="{% url 'articles_list' %}">لیست کارفرمایان</a>
+                                <a class="item" href="{% url 'job_seeker_list' 'approved' %}">لیست کارجویان</a>
+                                <a class="item" href="{% url 'employer_list' 'approved' %}">لیست کارفرمایان</a>
                             </div>
                         </div>
 
@@ -250,7 +250,7 @@
                             مقالات <i class="dropdown icon"></i>
 
                             <div class="menu">
-                                <a class="item" href="{% url 'add_article' %}">پیشنهاد مقاله</a>
+                                <a class="item" href="{% url 'article_submission' %}">پیشنهاد مقاله</a>
                                 <a class="item" href="{% url 'articles_list' %}">مشاهده مقالات</a>
                             </div>
                         </div>
@@ -264,7 +264,7 @@
                         </div>
 
                         <div class="ui dropdown item" id="questions-page">
-                            سوالات<I CLASS="DROPDOWN ICON"></I>
+                            سوالات<i class="dropdown icon"></i>
 
                             <div class="menu">
                                 <a class="item" href="{% url 'your_questions' %}">سوالات من</a>
