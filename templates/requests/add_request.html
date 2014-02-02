@@ -66,8 +66,15 @@
         <span class="add-request-label sender">
         فرستنده:
         </span>
+
+            {% get_user_type as u_type %}
+
        <span class="ui label black sender">
-           {{ user.get_full_name }}
+           {% if u_type == 'employer' %}
+               {{ user.cast.profile.company_name }}
+           {% else %}
+               {{ user.get_full_name }}
+           {% endif %}
        </span>
 
        <span class="add-request-label time-stamp ui label">
