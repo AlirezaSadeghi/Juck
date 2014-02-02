@@ -210,7 +210,7 @@
                     </div>
                     <a href="{% url 'show_profile' %}?pk={{ job_seeker.pk }}">
                         <img class="inlinemiddle"
-                             src="{{ job_seeker.image.thumbnail.url|default:'/static/images/user.png' }}"></a>
+                             src="{{ job_seeker.profile.image.thumbnail.url|default:'/static/images/user.png' }}"></a>
 
                     <div class="inlinemiddle inlineblock user_data">
                         <div class="rf-vertical-divider"></div>
