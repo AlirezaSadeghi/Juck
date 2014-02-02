@@ -118,7 +118,7 @@
                 $("#change_pass_modal").modal('show');
             });
             $('#pass_submit').click(function () {
-                $()
+                $(this).parents('form').submit();
             });
         });
 
@@ -630,7 +630,7 @@
         </div>
     </div>
 
-    <form action="/accounts/change_fj_pass/" method="POST">
+    <form action="/accounts/change_user_pass/" method="POST">
         <div class="ui modal" id="change_pass_modal">
             <i class="close icon"></i>
 
