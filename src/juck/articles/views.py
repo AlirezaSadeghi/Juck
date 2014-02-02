@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from juck.accounts.views import check_user_type
 from juck.articles.filter import ArticleListFilter
 from juck.articles.models import Article, Author, Tag, ArticleSubmission
 from forms import ArticleForm
@@ -100,11 +101,13 @@ def add_article(request):
     return render_to_response('articles/add_article.html', {'form': form}, context_instance=RequestContext(request, ))
 
 
+@login_required
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def show_article_recommendations_list(request):
     if request.method == "GET":
-        ids = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
-        articles = Article.objects.filter(pk__in=set(ids)).order_by('-publish_date')
-        return render_to_response('articles/article_recommendations_list.html', {'articles': articles}, context_instance=RequestContext(request))
+        ids = ArticleSubmission.objects.filter(is_accepted=False)#.values_list('article', flat=True)
+        # articles = Article.objects.filter(pk__in=set(ids)).order_by('-publish_date')
+        return render_to_response('articles/article_recommendations_list.html', {'articles': ids}, context_instance=RequestContext(request))
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
 
@@ -124,12 +127,15 @@ def submitted_article_description(request):
                               context_instance=RequestContext(request))
 
 
+@login_required
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def review_submitted_article(request):
     if request.method == "POST" and request.is_ajax():
         if request.POST['id'] and request.POST['review']:
             try:
                 article = ArticleSubmission.objects.get(id=int(request.POST['id']))
                 if request.POST['review'] == 'delete':
+                    article.article.delete()
                     article.delete()
                     return json_response({'op_status': 'success', 'message': u'مقاله موردنظر با موفقیت حذف گردید.'})
                 elif request.POST['review'] == 'accept':
@@ -145,19 +151,21 @@ def review_submitted_article(request):
                               context_instance=RequestContext(request))
 
 
+@login_required
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def remove_article(request):
+    print('here')
     if request.method == "POST" and request.is_ajax():
         if request.POST['id']:
             try:
                 article = Article.objects.get(id=int(request.POST['id']))
                 article.delete()
-                return json_response({'op_status': 'success', 'message': u'خبر موردنظر باموفقیت حذف شد.'})
+                return json_response({'op_status': 'success', 'message': u'مقاله موردنظر باموفقیت حذف شد.'})
             except ObjectDoesNotExist:
-                return json_response({'op_status': 'failed', 'message': u'چنین خبری وجود ندارد.'})
+                return json_response({'op_status': 'failed', 'message': u'چنین مقاله‌ای وجود ندارد.'})
 
     return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
                               context_instance=RequestContext(request))
-
 
 
 @login_required

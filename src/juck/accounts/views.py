@@ -30,15 +30,6 @@ import uuid
 from functools import wraps
 
 
-def user_panel(request):
-    news = News.objects.all()
-    articles = Article.objects.all()
-    art_sub = ArticleSubmission.objects.all()
-    return render_to_response('accounts/user_panel.html',
-                              {'user_type': 'manager', 'news': news, 'articles': articles, 'art_sub': art_sub},
-                              context_instance=RequestContext(request, ))
-
-
 def about_us(request):
     return render_to_response('about.html', {}, context_instance=RequestContext(request, ))
 
@@ -53,8 +44,11 @@ def homepage(request):
             return HttpResponseRedirect('/admin/')
 
         news = News.objects.all()[0:5]
-        articles = Article.objects.all()[0:5]
-        art_sub = ArticleSubmission.objects.all()[0:5]
+
+        not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
+        articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))[0:5]
+
+        art_sub = ArticleSubmission.objects.filter(is_accepted=False)[0:5]
 
         if check_user_type(request.user.pk, 'manager'):
             user_type = 'manager'
@@ -774,14 +768,17 @@ def employer_edit_profile(request):
 
             image = request.FILES.get('image', '')
             if image:
-                picture = JuckImage(upload_root="news")
+                picture = JuckImage(upload_root="users")
                 picture.create_picture(image)
                 picture.save()
                 new_profile.image = picture
 
             new_profile.save()
             emp = Employer.objects.get(pk=request.user.pk)
+            old_profile = emp.profile
+            emp.profile = None
             emp.profile = new_profile
+            old_profile.delete()
             emp.save()
             # print('doooooneeeeee')
             return HttpResponseRedirect('accounts/show_profile/?pk=%s' % request.user.pk)
@@ -805,13 +802,49 @@ def edit_js_profile(request):
     initial = {}
     try:
         image = request.user.cast().profile.image
-        initial = {'image': image}
+        initial = {'image': image, 'state': request.user.cast().profile.state, 'city': request.user.cast().profile.city}
     except:
         initial = {}
 
     form = JobSeekerEditProfileForm(instance=request.user.cast().profile, initial=initial)
     if request.method == 'POST':
-        form = JobSeekerEditProfileForm(request.POST)
+        form = JobSeekerEditProfileForm(request.POST, request.FILES, instance=request.user.cast().profile)
+        if form.is_valid():
+            data = form.cleaned_data
+            try:
+                state_object = State.objects.get(name=data['state'])
+            except State.DoesNotExist:
+                state_object = State(name=data['state'])
+                state_object.save()
+            try:
+                city_object = City.objects.get(name=data['city'])
+            except City.DoesNotExist:
+                city_object = City(name=data['city'], state=state_object)
+                city_object.save()
+
+            new_profile = JobSeekerProfile(city=city_object, state=state_object,
+                                           national_id=data['national_id'], date_of_birth=data['date_of_birth'],
+                                           sex=data['sex'], married=data['married'],
+                                           mobile_number=data['mobile_number'], phone_number=data['phone_number'],
+                                           approved=True, military_service_status=data['military_service_status'],
+                                           exemption_type=data['exemption_type'])
+
+            image = request.FILES.get('image', '')
+            if image:
+                picture = JuckImage(upload_root="users")
+                picture.create_picture(image)
+                picture.save()
+                new_profile.image = picture
+
+            new_profile.save()
+            js = JobSeeker.objects.get(pk=request.user.pk)
+            old_profile = js.profile
+            js.profile = None
+            old_profile.delete()
+            js.profile = new_profile
+            js.save()
+            # print('doooooneeeeee')
+            return HttpResponseRedirect('accounts/show_profile/?pk=%s' % request.user.pk)
 
     return render_to_response('accounts/js_profile_edit.html', {'form': form},
                               context_instance=RequestContext(request, ))
