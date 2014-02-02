@@ -112,6 +112,8 @@ def show_article_recommendations_list(request):
                               context_instance=RequestContext(request))
 
 
+@login_required
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def submitted_article_description(request):
     if request.method == "GET":
         pk = request.GET.get('pk', 1)

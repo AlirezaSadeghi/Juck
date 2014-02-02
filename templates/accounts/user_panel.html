@@ -25,61 +25,61 @@
         <div class="ctn-box">
             {% if user_type == 'job_seeker' %}
                 <div class="panel-items">
-                    <div class="panel-item">
+                    <div class="panel-item" onclick="window.location='{% url 'dashboard' %}'">
                         <div class="label">کارتابل</div>
                         <i class="icon briefcase"></i>
                     </div>
 
-                    <div class="panel-item">
+                    <div class="panel-item" onclick="window.location='{% url 'employer_list' 'approved' %}'">
                         <div class="label">لیست کارفرمایان</div>
                         <i class="icon list"></i>
                     </div>
-                    <div class="panel-item">
+                    <div class="panel-item" onclick='window.location="{% url 'show_profile' %}?pk={{ user.pk }}"'>
                         <div class="label">اطلاعات کاربری</div>
                         <i class="icon user"></i>
                     </div>
                 </div>
                 <div class="panel-items">
-                    <div class="panel-item">
-                        <div class="label">نیاز به نیرو</div>
+                    <div class="panel-item" onclick='window.location="{% url 'advertisements' %}"'>
+                        <div class="label">فرصت‌های شغلی</div>
                         <i class="icon bullhorn"></i>
                     </div>
-                    <div class="panel-item">
-                        <div class="label">لیست کارجویان</div>
+                    <div class="panel-item" onclick='window.location="{% url 'article_submission' %}"'>
+                        <div class="label">پیشنهاد مقاله</div>
                         <i class="icon unordered list"></i>
                     </div>
-                    <div class="panel-item">
-                        <div class="label">افزوردن رزومه</div>
+                    <div class="panel-item"  onclick='window.location="{% url 'your_questions' %}"'>
+                        <div class="label">سوالات من</div>
                         <i class="icon tasks"></i>
                     </div>
                 </div>
             {% elif user_type == 'employer' %}
                 <div class="panel-items">
-                    <div class="panel-item">
+                    <div class="panel-item" onclick="window.location='{% url 'dashboard' %}'">
                         <div class="label">کارتابل</div>
                         <i class="icon briefcase"></i>
                     </div>
 
-                    <div class="panel-item">
+                    <div class="panel-item" onclick="window.location='{% url 'employer_list' 'approved' %}'">
                         <div class="label">لیست کارفرمایان</div>
                         <i class="icon list"></i>
                     </div>
-                    <div class="panel-item">
+                    <div class="panel-item" onclick='window.location="{% url 'show_profile' %}?pk={{ user.pk }}"'>
                         <div class="label">اطلاعات کاربری</div>
                         <i class="icon user"></i>
                     </div>
                 </div>
                 <div class="panel-items">
-                    <div class="panel-item">
+                    <div class="panel-item" onclick='window.location="{% url 'add_request' 'jOpp' %}"'>
                         <div class="label">نیاز به نیرو</div>
                         <i class="icon bullhorn"></i>
                     </div>
-                    <div class="panel-item">
+                    <div class="panel-item" onclick="window.location='{% url 'job_seeker_list' 'approved' %}'">
                         <div class="label">لیست کارجویان</div>
                         <i class="icon unordered list"></i>
                     </div>
-                    <div class="panel-item">
-                        <div class="label">رزومه کارجویان</div>
+                    <div class="panel-item" onclick="window.location='{% url 'advertisements' %}'">
+                        <div class="label">آگهی‌ها</div>
                         <i class="icon tasks"></i>
                     </div>
                 </div>

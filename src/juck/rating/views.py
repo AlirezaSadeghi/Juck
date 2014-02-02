@@ -28,7 +28,7 @@ def add_rate(request):
             except ObjectDoesNotExist:
                 return json_response({'op_status': 'failed', 'message': u'چنین کارجویی وجود ندارد.'})
 
-        elif obj_type == 'employer' and user_type in ['employer', 'job_seeker']:
+        elif obj_type == 'employer' and user_type in ['employer', 'jobseeker']:
             try:
                 user = JuckUser.objects.get(id=request.user.id)
                 em = Employer.objects.get(id=obj_id)
@@ -40,7 +40,7 @@ def add_rate(request):
             except ObjectDoesNotExist:
                 return json_response({'op_status': 'failed', 'message': u'چنین کارفرمایی وجود ندارد.'})
 
-        elif obj_type == 'article' and user_type in ['employer', 'job_seeker']:
+        elif obj_type == 'article' and user_type in ['employer', 'jobseeker']:
             try:
                 user = JuckUser.objects.get(id=request.user.id)
                 ar = Article.objects.get(id=obj_id)
@@ -52,7 +52,7 @@ def add_rate(request):
             except ObjectDoesNotExist:
                 return json_response({'op_status': 'failed', 'message': u'چنین مقاله‌ای وجود ندارد.'})
 
-        elif obj_type == 'news' and user_type in ['employer', 'job_seeker']:
+        elif obj_type == 'news' and user_type in ['employer', 'jobseeker']:
             try:
                 user = JuckUser.objects.get(id=request.user.id)
                 n = News.objects.get(id=obj_id)
