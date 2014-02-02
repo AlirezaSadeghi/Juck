@@ -30,10 +30,11 @@ class JobOpportunityForm(forms.ModelForm):
             )),
             'certificate': forms.Select(choices=(
                 (u'', u'انتخاب مدرک'),
-                (u'دیپلم', u'دیپلم'),
-                (u'کارشناسی', u'کارشناسی'),
-                (u'کارشناسی ارشد', u'کارشناسی ارشد'),
-                (u'دکتری', u'دکتری'),
+                (u'diploma', u'دیپلم'),
+                (u'under_grad', u'کارشناسی'),
+                (u'grad', u'کارشناسی ارشد'),
+                (u'phd', u'دکتری'),
+                (u'post_doc', u'پست دکتری'),
             )),
             'sex': forms.Select(choices=(
                 (u'', u'انتخاب جنسیت'),
