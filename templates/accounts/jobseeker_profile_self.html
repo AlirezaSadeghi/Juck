@@ -104,15 +104,22 @@
 
             {% endif %}
 
-            $('#edu_submit').click(function(){
-               alert('edu');
+            $('#edu_submit').click(function () {
+                alert('edu');
             });
-            $('#skill_submit').click(function(){
-               alert('skill');
+            $('#skill_submit').click(function () {
+                alert('skill');
             });
-            $('#exp_submit').click(function(){
-                alert('exp')
-            })
+            $('#exp_submit').click(function () {
+                alert('exp');
+            });
+
+            $('.change_password').click(function () {
+                $("#change_pass_modal").modal('show');
+            });
+            $('#pass_submit').click(function () {
+                $()
+            });
         });
 
 
@@ -122,7 +129,12 @@
 {% block content %}
     <div class="center">
     <div class="ctn-box">
-    <div class="fj_profile">
+    <div class="fj_profile" style="position: relative;">
+        {#        {% if self_profile %}#}
+        <a class="change_password">
+            تغییر رمز عبور
+        </a>
+        {#        {% endif %}#}
         <div class=" ui small rounded image ">
             <img src="{{ jobseeker.profile.image.thumbnail.url|default:'/static/images/user.png' }}"/>
         </div>
@@ -524,95 +536,135 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
 
-            <div class="ui modal" id="skills_modal">
-                <i class="close icon"></i>
+    <div class="ui modal" id="skills_modal">
+        <i class="close icon"></i>
 
-                <div class="header">
-                    مهارت‌ها
-                </div>
-                <div class="content">
-                    <div class="right">
-                        <div class="ui form">
-                            <div class="ui field">
-                                <label>عنوان: </label>
-                                <input type="text" id="skill_title">
-                            </div>
-                            <div class="ui field">
-                                <label>سطح آشنایی: </label>
-                                <select id="skill_level">
-                                    <option value="low">آشنا</option>
-                                    <option value="high">مسلط</option>
-                                    <option value="certificate">دارای مدرک معتبر</option>
-                                </select>
-                            </div>
-                            <div class="ui field">
-                                <label>توضیحات: </label>
-                                <textarea id="skill_desc"></textarea>
-                            </div>
-                        </div>
+        <div class="header">
+            مهارت‌ها
+        </div>
+        <div class="content">
+            <div class="right">
+                <div class="ui form">
+                    <div class="ui field">
+                        <label>عنوان: </label>
+                        <input type="text" id="skill_title">
                     </div>
-                </div>
-                <div class="actions two buttons">
-                    <div class="ui small red icon button">
-                        انصراف
-                        <i class="remove icon"></i>
+                    <div class="ui field">
+                        <label>سطح آشنایی: </label>
+                        <select id="skill_level">
+                            <option value="low">آشنا</option>
+                            <option value="high">مسلط</option>
+                            <option value="certificate">دارای مدرک معتبر</option>
+                        </select>
                     </div>
-                    <div class="ui small green icon button" id="skill_submit">
-                        افزودن
-                        <i class="checkmark icon"></i>
+                    <div class="ui field">
+                        <label>توضیحات: </label>
+                        <textarea id="skill_desc"></textarea>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="actions two buttons">
+            <div class="ui small red icon button">
+                انصراف
+                <i class="remove icon"></i>
+            </div>
+            <div class="ui small green icon button" id="skill_submit">
+                افزودن
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
 
 
-            <div class="ui modal" id="history_modal">
-                <i class="close icon"></i>
+    <div class="ui modal" id="history_modal">
+        <i class="close icon"></i>
 
-                <div class="header">
-                    سوابق کاری
-                </div>
-                <div class="content">
-                    <div class="right">
-                        <div class="ui form">
-                            <div class="ui field">
-                                <label>عنوان: </label>
-                                <input type="text" id="exp_title">
-                            </div>
-                            <div class="ui field">
-                                <label>مکان: </label>
-                                <input type="text" id="exp_place">
-                            </div>
-                            <div class="ui field">
-                                <label>نوع همکاری</label>
-                                <select>
-                                    <option value="">----</option>
-                                    <option value="full_time">تمام وقت</option>
-                                    <option value="halft_time">پاره وقت</option>
-                                    <option value="tele_work">دور کاری</option>
-                                </select>
-                            </div>
-                            <div class="ui field">
-                                <label>از سال: </label>
-                                <input type="text" id="exp_from">
-                            </div>
-                            <div class="ui field">
-                                <label>تا سال: </label>
-                                <input type="text" id="exp_to">
-                            </div>
-                        </div>
+        <div class="header">
+            سوابق کاری
+        </div>
+        <div class="content">
+            <div class="right">
+                <div class="ui form">
+                    <div class="ui field">
+                        <label>عنوان: </label>
+                        <input type="text" id="exp_title">
                     </div>
-                </div>
-                <div class="actions two buttons">
-                    <div class="ui small red icon button">
-                        انصراف
-                        <i class="remove icon"></i>
+                    <div class="ui field">
+                        <label>مکان: </label>
+                        <input type="text" id="exp_place">
                     </div>
-                    <div class="ui small green icon button" id="exp_submit">
-                        افزودن
-                        <i class="checkmark icon"></i>
+                    <div class="ui field">
+                        <label>نوع همکاری</label>
+                        <select>
+                            <option value="">----</option>
+                            <option value="full_time">تمام وقت</option>
+                            <option value="halft_time">پاره وقت</option>
+                            <option value="tele_work">دور کاری</option>
+                        </select>
+                    </div>
+                    <div class="ui field">
+                        <label>از سال: </label>
+                        <input type="text" id="exp_from">
+                    </div>
+                    <div class="ui field">
+                        <label>تا سال: </label>
+                        <input type="text" id="exp_to">
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="actions two buttons">
+            <div class="ui small red icon button">
+                انصراف
+                <i class="remove icon"></i>
+            </div>
+            <div class="ui small green icon button" id="exp_submit">
+                افزودن
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+
+    <form action="/accounts/change_fj_pass/" method="POST">
+        <div class="ui modal" id="change_pass_modal">
+            <i class="close icon"></i>
+
+            <div class="header">
+                تغییر رمز عبور
+            </div>
+            <div class="content">
+                <div class="right">
+                    <div class="ui form">
+                        <div class="ui field">
+                            <label>رمز قدیمی: </label>
+                            <input type="text" id="old_pass">
+                        </div>
+                        <div class="ui field">
+                            <label>رمز جدید: </label>
+                            <input type="text" id="new_pass">
+                        </div>
+                        <div class="ui field">
+                            <label>تکرار رمز جدید: </label>
+                            <input type="text" id="repeat_new_pass">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="actions two buttons">
+                <div class="ui small red icon button">
+                    انصراف
+                    <i class="remove icon"></i>
+                </div>
+                <div class="ui small green icon button" id="pass_submit">
+                    افزودن
+                    <i class="checkmark icon"></i>
+                </div>
+            </div>
+        </div>
+    </form>
 {% endblock %}

@@ -28,8 +28,6 @@ def show_articles_list(request):
             if 'page' in get_params:
                 del get_params['page']
 
-            not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
-
             search_filter = ArticleListFilter()
             articles, count = search_filter.init_filter(request.GET)
             search_form = search_filter.get_form()
@@ -37,7 +35,9 @@ def show_articles_list(request):
             page_range = create_pagination_range(articles.number, articles.paginator.num_pages)
 
 
-            articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))
+
+
+
 
             return render_to_response('articles/articles_list.html', {'articles': articles, 'count': count,
                                                                       'search_form': search_form,
