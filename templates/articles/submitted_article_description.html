@@ -1,11 +1,11 @@
 {% extends 'articles/article_description.html' %}
 
 {% block others %}
-    <div class="ui icon small red button article">
+    <div class="ui icon small red button article" onclick="reveiew_sub_article('delete', {{ sub_article.pk }})">
         <i class="remove icon"></i>
         حذف
     </div>
-    <div class="ui icon small green button article">
+    <div class="ui icon small green button article"  onclick="reveiew_sub_article('accept', {{ sub_article.pk }})">
         <i class="checkmark icon"></i>
         تایید
     </div>

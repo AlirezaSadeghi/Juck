@@ -16,7 +16,7 @@ class ManagerQuestionListFilter:
                                 ,widget=forms.TextInput(
             attrs={'class': 'search-tab-content-input input-12', 'placeholder': u'عنوان سوال:'}))
 
-        content = forms.CharField(label=u'شرح', max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': u'عنوان سوال:'}),
+        content = forms.CharField(label=u'شرح', max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': u'متن سوال:'}),
                                   help_text=u'جستجو در متن سوالات. دقت کنید اشتراک این فیلد با سایر فیلد ها به عنوان نتیجه برگردانده می شود.')
 
         answer = forms.CharField(help_text=u'جستجو در پاسخ سوالات. دقت کنید که اشتراک این فیلد با سایر فیلدها به عنوان نتیجه بازگردانده می شود.', label=u'پاسخ', max_length=150, required=False, widget=forms.TextInput(
@@ -40,6 +40,7 @@ class ManagerQuestionListFilter:
             answered = self.form.cleaned_data.get('answered', '')
             both = self.form.cleaned_data.get('both', '')
 
+
             if title:
                 filter_kwargs.update({'title__icontains': title})
             if answered:
@@ -48,7 +49,8 @@ class ManagerQuestionListFilter:
                 filter_kwargs.update({'answer__content__icontains': answer})
 
         questions = Question.objects.filter(**filter_kwargs)
-        questions = questions.filter((Q(title__icontains=both) | Q(answer__content__icontains=both)))
+        if both:
+            questions = questions.filter((Q(title__icontains=both) | Q(answer__content__icontains=both)))
         count = questions.count()
 
         questions = questions.order_by('-timestamp')

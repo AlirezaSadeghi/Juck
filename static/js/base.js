@@ -223,9 +223,9 @@ function addComment(obj_type, obj_id, div, comment) {
 }
 
 
-function addRate(obj_type, obj_id, rate){
+function addRate(obj_type, obj_id, rate) {
     console.log('adding rate...');
-        var dict = {
+    var dict = {
         csrfmiddlewaretoken: csrfToken,
         'rate': rate,
         'obj_type': obj_type,
@@ -240,7 +240,7 @@ function addRate(obj_type, obj_id, rate){
         }
         else {
             message(data.message, 'Error');
-            if(obj_type == 'job_seeker' || obj_type == 'employer'){
+            if (obj_type == 'job_seeker' || obj_type == 'employer') {
 //                console.log('errorrr...');
                 location.reload();
             }
@@ -250,12 +250,44 @@ function addRate(obj_type, obj_id, rate){
 
 }
 
-function deletItem(item_type, item_id){
-    if(item_type == 'news'){
+function deletItem(item_type, item_id) {
+//    console.log('deleteing ');
+    if (item_type == 'article') {
 
-    }else if(item_typ == 'article'){
+        $.post('/article/remove/', {'id': item_id, csrfmiddlewaretoken: csrfToken}, function (data) {
+            if (data.op_status == 'success') {
+                console.log('here');
+                window.location = '/article/articles_list/';
+            }
+            else {
+                message(data.message, 'Error');
+            }
+        });
 
-    }else{
+    } else if (item_type == 'news') {
+        $.post('/news/remove/', {'id': item_id, csrfmiddlewaretoken: csrfToken }, function (data) {
+            if (data.op_status == 'success') {
+                console.log('here');
+                window.location = '/news/news_list/';
+            }
+            else {
+                message(data.message, 'Error');
+            }
+        });
 
+    } else {
+       message('چنین نوعی وجود ندارد.', 'Error');
     }
+}
+
+function reveiew_sub_article(funct, item_id){
+    $.post('/article/submitted_article/review/', {'review': funct, 'id': item_id, csrfmiddlewaretoken: csrfToken }, function (data) {
+        if (data.op_status == 'success') {
+//            console.log('here');
+            window.location = '/article/articles_list/';
+        }
+        else {
+            message(data.message, 'Error');
+        }
+    });
 }

@@ -53,7 +53,7 @@ class JobSeekerProfile(models.Model):
     national_id = models.CharField(max_length=20, verbose_name=u'کد ملی', unique=True)
     date_of_birth = models.IntegerField(verbose_name=u'سال تولد', blank=True, null=True)
     sex = models.PositiveSmallIntegerField(verbose_name=u'جنسیت', blank=True, null=True)
-    married = models.NullBooleanField(verbose_name=u'وضعیت تاهل', blank=True, default=None)
+    married = models.NullBooleanField(verbose_name=u'وضعیت تاهل', blank=True, default=None,null=True)
     image = models.ForeignKey(JuckImage, verbose_name=u'عکس پروفایل', null=True, blank=True)
     phone_number = models.CharField(verbose_name=u'شماره تلفن', max_length=20)
     mobile_number = models.CharField(verbose_name=u'شماره همراه', max_length=25, null=True, blank=True)

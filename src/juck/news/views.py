@@ -16,7 +16,7 @@ from juck.news.models import News
 from juck.image.models import JuckImage
 
 from juck.news.forms import NewsForm
-from utils import create_pagination_range
+from utils import create_pagination_range, json_response
 
 
 def show_news_list(request):
@@ -131,3 +131,19 @@ def unreachable(request):
 class ImageUploadForm(forms.Form):
     """Image upload form."""
     image = forms.ImageField()
+
+@login_required
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
+def remove_news(request):
+    if request.method == "POST" and request.is_ajax():
+        if request.POST['id']:
+            try:
+                article = News.objects.get(id=int(request.POST['id']))
+                article.delete()
+                return json_response({'op_status': 'success', 'message': u'خبر موردنظر باموفقیت حذف شد.'})
+            except ObjectDoesNotExist:
+                return json_response({'op_status': 'failed', 'message': u'چنین خبری وجود ندارد.'})
+
+    return render_to_response('messages.html', {'message': u'دسترسی غیر مجاز'},
+                              context_instance=RequestContext(request))
+

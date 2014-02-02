@@ -21,8 +21,8 @@ urlpatterns = patterns('juck.requests.views',
 
 
                         url(r'^related_ads/$', 'related_ads', {}, name='related_ads'),
-                       url(r'approve/$', 'approve_request', {}, name='approve_request'),
-                       url(r'reject/$', 'reject_request', {}, name='reject_request'),
+                       url(r'^approve/$', 'approve_request', {}, name='approve_request'),
+                       url(r'^reject/$', 'reject_request', {}, name='reject_request'),
 )
 
 

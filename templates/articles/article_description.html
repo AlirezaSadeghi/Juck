@@ -76,7 +76,7 @@
                                 </div>
                                 {%  get_user_type as u_type %}
                                 {% if u_type == 'manager' %}
-                                <div class="ui icon small red button article">
+                                <div class="ui icon small red button" onclick="deletItem('article', {{ article.id }})">
                                     <i class="remove icon"></i>
                                     حذف
                                 </div>
