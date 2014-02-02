@@ -291,10 +291,16 @@
 </div>
 
 
-<div class="center">
-    {% block page_title %}
+{% block page_title %}
 
+{% endblock %}
+
+<div id="breadcrumbs">
+    {% block breadcrumb %}
+        {% load breadcrumb_tags %}
+        {% add_crumb 'hom' 'homepage' %}
     {% endblock %}
+    {% render_breadcrumbs %}
 </div>
 
 <div class="ctn">

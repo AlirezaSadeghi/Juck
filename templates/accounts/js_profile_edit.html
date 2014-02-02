@@ -43,6 +43,12 @@
 
 {% endblock %}
 
+{% block breadcrumb %}
+    {% load breadcrumb_tags %}
+    {% add_crumb 'ویرایش اطلاعات کاربری' 'js_edit_profile' %}
+{% endblock %}
+
+
 {% block content %}
     <div class="center">
         <div class="ctn-box">

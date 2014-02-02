@@ -796,18 +796,6 @@ def employer_edit_profile(request):
 def jobseeker_edit_profile(request):
     pass
 
-@login_required
-def add_education(request):
-    pass
-
-@login_required
-def add_skill(request):
-    pass
-
-@login_required
-def add_exp(request):
-    pass
-
 
 @user_passes_test(lambda user: check_user_type(user.pk, 'jobseeker'))
 def edit_js_profile(request):

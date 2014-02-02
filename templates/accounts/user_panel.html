@@ -15,7 +15,17 @@
 {% endblock %}
 
 {% block page_title %}
+    <div class="page-title">
+        <div class="center">
+            <span class="main">پنل کاربری</span>
+        </div>
+    </div>
+{% endblock %}
 
+
+{% block breadcrumb %}
+    {% load breadcrumb_tags %}
+    {% add_crumb 'خانه' 'homepage' %}
 {% endblock %}
 
 

@@ -7,13 +7,12 @@
 
 {% endblock %}
 
-{% block page_title %}
-    <div class="page-title">
-        <div class="center">
-            <span class="main">ورود به سامانه جاک</span>
-        </div>
-    </div>
+{% block breadcrumb %}
+    {{ block.super }}
+    {% load breadcrumb_tags %}
+    {% add_crumb 'login' 'login' %}
 {% endblock %}
+
 
 {% block content %}
     <div class="center">
@@ -22,7 +21,6 @@
                 <div class="ui segment raised" style="width: 60%;margin:0 auto;">
                     <form method="post" action="{% url 'login' %}" class="ui form">
                         {% csrf_token %}
-
 
                         <input type="hidden" value="{{ next }}" name="next">
 
@@ -45,7 +43,8 @@
                             {% endif %}
                         </div>
                         <div class="right">
-                            <input type="submit" id='enter' style="float:right;" class=" ui button submit tiny green submit-active"
+                            <input type="submit" id='enter' style="float:right;"
+                                   class=" ui button submit tiny green submit-active"
                                    value="ورود"/>
                             <input type="hidden" name="next" value="{{ next }}"/>
                         </div>

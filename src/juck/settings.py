@@ -186,7 +186,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'captcha',
     'crumbs',
-    # 'debug_toolbar',
+
     'accounts',
     'image',
     'log',

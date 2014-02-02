@@ -46,6 +46,13 @@
 {% endblock %}
 
 
+
+{% block breadcrumb %}
+    {% load breadcrumb_tags %}
+    {% add_crumb 'خروج' 'logout' %}
+{% endblock %}
+
+
 {% block content %}
 
     <div class="center">

@@ -20,7 +20,7 @@
         }
 
         .ui.field {
-        {#            margin: 10px 0 !important;#} display: block;
+            display: block;
         }
 
         input[type='text'] {
@@ -113,10 +113,10 @@
                 var edu_major = $('#edu_major').val();
 
                 $.post('/accounts/add_education/', {csrfmiddlewaretoken: csrfToken, univ: univ, edu: edu, uni_type: univ_type, cert: cert, edu_field: edu_field, edu_major: edu_major}, function (data) {
-                    if(data.op_status == 'success'){
+                    if (data.op_status == 'success') {
                         message('سابقه تحصیلی مورد نظر با موفقیت اضافه گردید. برای مشاهده،‌لطفا صفحه را ریفرش کنید.', 'Success');
                     }
-                    else{
+                    else {
                         message(data.message, 'Warning');
                     }
                 })
