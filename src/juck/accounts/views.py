@@ -798,6 +798,71 @@ def employer_edit_profile(request):
 def jobseeker_edit_profile(request):
     pass
 
+@login_required
+def add_edu(request):
+    if request.method == 'POST':
+        try:
+            print('hi')
+            certificate = request.POST.get('certificate','')
+            status = request.POST.get('status','')
+            major = request.POST.get('major','')
+            orientation = request.POST.get('orientation','')
+            university_name = request.POST.get('university_name','')
+            university_type = request.POST.get('university_type','')
+            print('why')
+            edu = Education(certificate=certificate,status=status,major=major,orientation=orientation,
+                            university_name=university_name,university_type=university_type)
+            edu.save()
+            u = JobSeeker.objects.get(pk=request.user.pk)
+            u.resume.education.add(edu)
+            return json_response({'op_status':'success', 'message':u'با موفقیت انجام شد. لطفا صفحه را دوباره بارگذاری کنید.'})
+        except:
+            return json_response({'op_status':'failed', 'message':u'مشکلی پیش آمده است.'})
+    return render_to_response('messages.html', {
+        'message': u'صفحه موردنظر وجود ندارد.'},
+                              context_instance=RequestContext(request))
+
+@login_required
+def add_exp(request):
+    if request.method == 'POST':
+        try:
+            title = request.POST.get('title','')
+            place = request.POST.get('place','')
+            from_date = request.POST.get('from_date','')
+            to_date = request.POST.get('to_date','')
+            cooperation_type = request.POST.get('cooperation_type','')
+            edu = Experience(title=title, place=place, from_date=from_date, to_date=to_date,
+                             cooperation_type=cooperation_type)
+            edu.save()
+            u = JobSeeker.objects.get(pk=request.user.pk)
+            u.resume.experience.add(edu)
+            return json_response({'op_status':'success', 'message':u'با موفقیت انجام شد. لطفا صفحه را دوباره بارگذاری کنید.'})
+        except:
+            return json_response({'op_status':'failed', 'message':u'مشکلی پیش آمده است.'})
+    return render_to_response('messages.html', {
+        'message': u'صفحه موردنظر وجود ندارد.'},
+                              context_instance=RequestContext(request))
+
+@login_required
+def add_skill(request):
+    if request.method == 'POST':
+        try:
+            # print('hi')
+            title = request.POST.get('title','')
+            level = request.POST.get('level','')
+            description = request.POST.get('description','')
+            edu = Skill(title=title, level=level, description=description)
+            edu.save()
+            u = JobSeeker.objects.get(pk=request.user.pk)
+            u.resume.skill.add(edu)
+            return json_response({'op_status':'success', 'message':u'با موفقیت انجام شد. لطفا صفحه را دوباره بارگذاری کنید.'})
+        except:
+            return json_response({'op_status':'failed', 'message':u'مشکلی پیش آمده است.'})
+    return render_to_response('messages.html', {
+        'message': u'صفحه موردنظر وجود ندارد.'},
+                              context_instance=RequestContext(request))
+
+
 
 @user_passes_test(lambda user: check_user_type(user.pk, 'jobseeker'))
 def edit_js_profile(request):
