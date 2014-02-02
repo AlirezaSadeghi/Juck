@@ -852,6 +852,7 @@ def edit_js_profile(request):
 
 def change_user_pass(request):
     if request.method == "post":
+        pass
 
 
 
