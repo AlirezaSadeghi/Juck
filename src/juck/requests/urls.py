@@ -16,7 +16,7 @@ urlpatterns = patterns('juck.requests.views',
 
                        url(r'^apply_for_job_opportunity/(?P<item_pk>\d+)/$', 'apply_for_job_opportunity', {},
                            name='apply_for_job_opportunity'),
-                       url(r'^req_status/(?P<request_type>\w+)/(?P<item_pk>\d+)/$', 'view_request_status', {},
+                       url(r'^req_status/(?P<item_pk>\d+)/$', 'view_request_status', {},
                            name='request_status'),
 
 

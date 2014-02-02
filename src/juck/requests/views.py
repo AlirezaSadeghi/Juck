@@ -7,7 +7,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from juck.accounts.models import Employer, JobSeeker, JuckUser
 from juck.accounts.views import get_user_type, check_user_type
-from juck.requests.filter import RequestListFilter, DashboardListFilter
+from juck.requests.filter import RequestListFilter, DashboardListFilter, ResponseListFilter
 from juck.requests.forms import RequestForm, ResponseForm, JobOpportunityForm
 from juck.requests.models import Response, Request, JobOpportunity, EmployerJobOffer, JobseekerJobOffer, DiscussionThread
 from utils import create_pagination_range, json_response
@@ -287,19 +287,22 @@ def apply_for_job_opportunity(request, item_pk):
 
 
 @user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
-def view_request_status(request, request_type, item_pk):
+def view_request_status(request, item_pk):
     if request.method == 'GET':
-        req = ''
-        if request_type == 'jOpp':
-            req = JobOpportunity.objects.get(pk=item_pk)
-        elif request_type == 'eReq':
-            req = EmployerJobOffer.objects.get(pk=item_pk)
-        elif request_type == 'jReq':
-            req = JobseekerJobOffer.objects.get(pk=item_pk)
+        get_params = request.GET.copy()
+        if 'page' in get_params:
+            del get_params['page']
 
-        responses = req.responses.all().order_by('-timestamp')
-        return render_to_response('messages.html', {'message': 'Implement Later ! :D'},
-                                  context_instance=RequestContext(request, ))
+        search_filter = ResponseListFilter()
+        responses, count = search_filter.init_filter(request.GET, item_pk=item_pk)
+        search_form = search_filter.get_form()
+
+        page_range = create_pagination_range(responses.number, responses.paginator.num_pages)
+
+        return render_to_response('accounts/job_seeker_list.html',
+                                  {'job_seekers': responses, 'count': count, 'search_form': search_form,
+                                   'page_range': page_range, 'approved': True, 'user_type': 'jobseeker', 'opt': True,
+                                   'get_params': get_params}, context_instance=RequestContext(request))
 
 
 @login_required
