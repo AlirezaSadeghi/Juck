@@ -135,6 +135,7 @@
         </div>
     </form>
     <div class="user_list">
+        {% if questions %}
         {% for question in questions %}
             {% if not question.common %}
                 {% if not question.answer %}
@@ -232,6 +233,11 @@
                  style="margin-top:0.5rem !important;margin-bottom:0.5rem !important"></div>
 
         {% endfor %}
+        {% else %}
+            <div class="ui error message">
+                سوالی یافت نشد.
+            </div>
+        {% endif %}
     </div>
 
     {#            FJ#}
