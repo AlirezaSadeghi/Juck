@@ -224,7 +224,7 @@ function addComment(obj_type, obj_id, div, comment) {
 
 
 function addRate(obj_type, obj_id, rate) {
-    console.log('adding rate...');
+//    alert('adding rate...'+obj_type+' '+obj_id+' '+rate);
     var dict = {
         csrfmiddlewaretoken: csrfToken,
         'rate': rate,
@@ -234,7 +234,7 @@ function addRate(obj_type, obj_id, rate) {
 
     $.post('/rating/add/', dict, function (data) {
         if (data.op_status == 'success') {
-            console.log('success...');
+//            console.log('success...');
             location.reload();
 
         }

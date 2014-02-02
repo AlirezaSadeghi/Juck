@@ -112,13 +112,15 @@ def show_article_recommendations_list(request):
                               context_instance=RequestContext(request))
 
 
+@login_required
+@user_passes_test(lambda user: check_user_type(user.pk, 'manager'))
 def submitted_article_description(request):
     if request.method == "GET":
         pk = request.GET.get('pk', 1)
         try:
             # article_sub = ArticleSubmission.objects.values_list('article', flat=True)
             # article = Article.objects.get(pk=pk)
-            article_sub = ArticleSubmission.objects.get(article__pk=pk)
+            article_sub = ArticleSubmission.objects.get(pk=pk)
             return render_to_response('articles/submitted_article_description.html', {'article': article_sub.article, 'sub_article':article_sub},
                                       context_instance=RequestContext(request))
         except ObjectDoesNotExist:

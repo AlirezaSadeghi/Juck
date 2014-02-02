@@ -776,10 +776,9 @@ def employer_edit_profile(request):
             new_profile.save()
             emp = Employer.objects.get(pk=request.user.pk)
             old_profile = emp.profile
-            emp.profile = None
             emp.profile = new_profile
-            old_profile.delete()
             emp.save()
+            old_profile.delete()
             # print('doooooneeeeee')
             return HttpResponseRedirect('accounts/show_profile/?pk=%s' % request.user.pk)
     else:
@@ -852,6 +851,7 @@ def edit_js_profile(request):
 
 def change_user_pass(request):
     if request.method == "post":
+        pass
 
 
 
