@@ -149,22 +149,32 @@ function remove_user(id, user_type) {
 }
 
 function update_usr_ask_q() {
+    globe = 0;
     $('.usr_ask_q').click(function () {
+        globe += 1;
         var title = $('.field input[name="title"]').val();
         var content = $('.field textarea[name="content"]').val();
+        if (!title || !content) {
+            message('هر دو فیلد باید پر شوند.', 'Error');
+        }
+        else if (globe <= 1){
         send_ajax({title: title, content: content, csrfmiddlewaretoken: csrfToken}, '/question/ask_question/', redirect);
+        }
     });
 }
 
 function update_mngr_ans_common_q() {
+    globe = 0;
     $('.usr_mngr_ans_q').click(function () {
+        globe += 1;
+        //alert(globe)
         var title = $('.faq_add #id_title').val();
         var content = $('.field textarea[name="content"]').val();
-        alert(title + 'sdfsd' + content);
+        //alert(title + 'sdfsd' + content);
         if (!title || !content) {
             message('هر دو فیلد باید پر شوند.', 'Error');
         }
-        else {
+        else if (globe <= 1){
             send_ajax({title: title, content: content, csrfmiddlewaretoken: csrfToken}, '/question/add_common_question/', redirect);
         }
     });
@@ -186,3 +196,5 @@ function send_ajax(data, url, callback) {
 function redirect(resposnse) {
     window.location.href = resposnse['redirect'];
 }
+
+globe = 0;

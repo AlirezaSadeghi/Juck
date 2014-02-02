@@ -130,11 +130,11 @@
     <div class="center">
     <div class="ctn-box">
     <div class="fj_profile" style="position: relative;">
-        {#        {% if self_profile %}#}
+        {% if self_profile %}
         <a class="change_password">
             تغییر رمز عبور
         </a>
-        {#        {% endif %}#}
+        {% endif %}
         <div class=" ui small rounded image ">
             <img src="{{ jobseeker.profile.image.thumbnail.url|default:'/static/images/user.png' }}"/>
         </div>
