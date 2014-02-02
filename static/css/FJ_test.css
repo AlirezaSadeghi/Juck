@@ -45,19 +45,9 @@
 }
 
 .fj_profile{
-    /*position: fixed;*/
-    /*right: 42%;*/
-    /*top: 130px;*/
-    /*min-height: 130px;*/
-
     text-align: center;
 }
 
-/*.jobseekerprofile{*/
-    /*position: absolute;*/
-    /*right: 100px;*/
-    /**/
-/*}*/
 
 .jobseekerprofile div.title i.icon{
     margin-left: 15px;
@@ -144,4 +134,15 @@
 
 .edit_profile_accordion:hover{
     color: #108edc;
+}
+
+.change_password{
+    text-decoration: none;
+    cursor: pointer;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+.change_password:hover{
+    color: blue;
 }
