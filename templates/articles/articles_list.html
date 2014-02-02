@@ -174,7 +174,7 @@
                                 <div class="more_buttons">
                                     {%  get_user_type as u_type %}
                                     {% if u_type == 'manager' %}
-                                        <div class="ui icon small red button article" dir="ltr">
+                                        <div class="ui icon small red button article" dir="ltr" onclick="deletItem('article', {{ item.id }})">
                                             <i class="remove icon"></i>
                                             حذف
                                         </div>

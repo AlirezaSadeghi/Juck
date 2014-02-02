@@ -75,7 +75,7 @@ class ArticleSubmission(models.Model):
         verbose_name_plural = u'مقاله‌های کاربران'
 
     article = models.ForeignKey(Article, verbose_name=u'مقاله')
-    user = models.ForeignKey(JuckUser, verbose_name=u'کاربر', editable=False)
+    user = models.ForeignKey(JuckUser, verbose_name=u'کاربر')
 
     is_accepted = models.BooleanField(verbose_name=u'تایید شده', default=False)
     accept_date = models.DateTimeField(verbose_name=u'زمان تایید', null=True, editable=False)

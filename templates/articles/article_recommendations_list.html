@@ -1,8 +1,122 @@
-{% extends 'articles/articles_list.html' %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load account_tags %}
 
-{% block other %}
-    <div class="ui icon small red button article">
-        <i class="remove icon"></i>
-        حذف
+{% block title %}
+    جاک | مقالات پیشنهادی
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/help.css' %}"/>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/rf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/help.js' %}"></script>
+    <script>
+        function mySina(){
+            x = $("#submit_button")[0];
+            x.click();
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <!-- rezaFJ-->
+    <div class="center">
+        <div class="ctn-box">
+            <div class="news_list">
+                {% if articles %}
+                    {% for item in articles %}
+                        <div class="news_item ui raised segment">
+                            <h2 class="article-header">{{ item.article.title }}</h2>
+
+                            <div class="ui section divider light_margined"></div>
+                            <div class="news_content" style="position: relative;">
+                                <p>
+                                {{ item.article.summary }}
+                                </p>
+                            </div>
+                            <div class="news_other">
+                                <div class="authors">
+                                    <span class="authors-label">نویسندگان:</span>
+                                    {% for author in item.article.authors.all %}
+                                        <a class="ui small black label authors-name">{{ author.full_name }}</a>
+                                    {% endfor %}
+                                </div>
+                                <div class="date_rate">
+                                    <small>{{ item.article.publish_date }}</small>
+                            <span class="ui rating">
+                            <i class="icon"></i>
+                            <i class="icon"></i>
+                            <i class="icon"></i>
+                            <i class="icon"></i>
+                            <i class="icon"></i>
+                            </span>
+                                </div>
+                                <div class="tags">
+                                    <label>برچسب ها:</label>
+                                    {% for tag in item.article.tags.all %}
+                                        <a class="ui black small label">
+                                            {{ tag.name }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                                <div class="more_buttons">
+                                    {%  get_user_type as u_type %}
+                                    {% if u_type == 'manager' %}
+                                        <div class="ui icon small red button article" dir="ltr" onclick="deletItem('article', {{ item.id }})">
+                                            <i class="remove icon"></i>
+                                            حذف
+                                        </div>
+                                    {% endif %}
+                                    <div class="ui icon small blue button dl_a" id="a{{ item.article.pk }}" dir="ltr">
+                                        <i class="download disk icon"></i>
+                                        بارگذاری
+                                    </div>
+                                    <a href="{% url 'sub_article_description' %}?pk={{ item.pk }}" dir="ltr">
+                                        <div class="ui animated button  small">
+                                            <div class="visible content">
+                                                بیشتر
+                                            </div>
+                                            <div class="hidden content"><i class="left arrow icon"></i></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui section divider"
+                             style="margin-top:1rem !important;margin-bottom:1rem !important"></div>
+                    {% endfor %}
+                {% else %}
+                    <div class="ui error message">مقاله‌ای وجود ندارد</div>
+                {% endif %}
+            </div>
+
+{#            {% if articles.paginator.num_pages > 1 %}#}
+{#                <div style="text-align: center;">#}
+{#                    <div class="ui small pagination menu">#}
+{#                        {% if articles.has_previous %}#}
+{#                            <a href="?{{ get_params.urlencode }}&page={{ articles.previous_page_number }}"#}
+{#                               class="icon item"><i class="icon right arrow"></i></a>#}
+{#                        {% endif %}#}
+{##}
+{#                        {% for p in page_range %}#}
+{#                            {% ifequal p articles.number %}#}
+{#                                <a href="javascript:void(0);" class="active item">{{ p }}</a>#}
+{#                            {% else %}#}
+{#                                <a class="item" href="?{{ get_params.urlencode }}&page={{ p }}"> {{ p }}</a>#}
+{#                            {% endifequal %}#}
+{#                        {% endfor %}#}
+{#                        {% if articles.has_next %}#}
+{#                            <a class="item" href="?{{ get_params.urlencode }}&page={{ articles.next_page_number }}"#}
+{#                               class="icon item"><i class="icon left arrow"></i></a>#}
+{#                        {% endif %}#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endif %}#}
+        </div>
     </div>
+    <!-- reza.fj & rf-->
 {% endblock %}

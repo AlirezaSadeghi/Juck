@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load account_tags %}
 
 {% block title %}
 
-    جاک | مشروح اخبار
+    جاک | مشروح خبر
 
 {% endblock %}
 
@@ -15,13 +16,13 @@
         });
 
 
-    function submitComment(){
-        cm = $('#news-comment-area').val();
-        if(cm)
-            addComment('news', {{ news.id }}, '#news-comment', cm);
-        else
-            message('ابتدا نظر خود را بنویسید.', 'Warning');
-    }
+        function submitComment() {
+            cm = $('#news-comment-area').val();
+            if (cm)
+                addComment('news', {{ news.id }}, '#news-comment', cm);
+            else
+                message('ابتدا نظر خود را بنویسید.', 'Warning');
+        }
     </script>
 
 {% endblock %}
@@ -54,14 +55,23 @@
 
                         </div>
                         <div class="ui attached fluid segment ">
-                            <img src="{{ news.image.thumbnail.url|default:'/static/images/news.gif' }}" class="news_image">
+                            <img src="{{ news.image.thumbnail.url|default:'/static/images/news.gif' }}"
+                                 class="news_image">
 
                             <p dir="rtl" class="news-content">
                                 {{ news.content }}
                             </p>
                         </div>
 
-                        <div class="ui bottom form attached info message">
+                        <div class="ui bottom form attached info message" style="position: relative;">
+
+                            {% get_user_type as u_type %}
+                            {% if u_type == 'manager' %}
+                                <div class="ui icon small red button" style="position:absolute;left:1px;bottom:1px" onclick="deletItem('news', {{ news.id }})">
+                                    <i class="remove icon"></i>
+                                    حذف
+                                </div>
+                            {% endif %}
                             <div class="two fields">
                                 <div class="field my_date date">
                                     {{ news.get_persian_date }}
@@ -69,16 +79,18 @@
 
                                 <div class="field">
 
-                                    <div class="ui positive button icon small" id="like" onclick="addRate('news',{{ news.id }},1)">
+                                    <div class="ui positive button icon small" id="like"
+                                         onclick="addRate('news',{{ news.id }},1)">
                                         <i class="thumbs up icon "></i>
 
-                                        <i >
+                                        <i>
                                             {{ news.get_likes }}&nbsp
                                         </i>
                                     </div>
 
 
-                                    <div class="ui negative button icon small" id="dislike" onclick="addRate('news',{{ news.id }},-1)">
+                                    <div class="ui negative button icon small" id="dislike"
+                                         onclick="addRate('news',{{ news.id }},-1)">
                                         <i class="thumbs down icon"></i>
 
                                         <i>

@@ -232,24 +232,24 @@ class JobSeekerRegisterForm4(forms.Form):
     mobile_num = forms.CharField(required=False, label=u'شماره تلفن همراه')
     state = forms.CharField(required=True, label=u'استان', max_length=100)
     city = forms.CharField(required=True, label=u'شهر', max_length=100)
-    address = forms.CharField(required=True, widget=forms.Textarea(attrs={'style': 'width:400px;margin-top:-15px'}),
-                              label=u'آدرس')
-    postal_code = forms.CharField(required=False, label=u'کد پستی')
+    # address = forms.CharField(required=True, widget=forms.Textarea(attrs={'style': 'width:400px;margin-top:-15px'}),
+    #                           label=u'آدرس')
+    # postal_code = forms.CharField(required=False, label=u'کد پستی')
 
-    def clean_postal_code(self):
-        data = self.cleaned_data['postal_code']
-        ok = True
-        if not data:
-            return data
-        for i in data.split('-'):
-            if not i.isdigit():
-                ok = False
-                break
-        if ok:
-            return data
-        else:
-            print('it\'s not')
-            raise forms.ValidationError((u" کدپستی واردشده نامعتبر است."), code='notNumber')
+    # def clean_postal_code(self):
+    #     data = self.cleaned_data['postal_code']
+    #     ok = True
+    #     if not data:
+    #         return data
+    #     for i in data.split('-'):
+    #         if not i.isdigit():
+    #             ok = False
+    #             break
+    #     if ok:
+    #         return data
+    #     else:
+    #         print('it\'s not')
+    #         raise forms.ValidationError((u" کدپستی واردشده نامعتبر است."), code='notNumber')
 
 
     def clean_phone_num(self):
@@ -282,12 +282,57 @@ class JobSeekerRegisterForm4(forms.Form):
 
 
 class JobSeekerEditProfileForm(forms.ModelForm):
+    state = forms.CharField(required=True, label=u'استان', max_length=100)
+    city = forms.CharField(required=True, label=u'شهر', max_length=100)
+    image = forms.ImageField(required=False, label=u'عکس')
 
-    image = forms.ImageField(label=u'عکس پروفایل')
+    def clean_postal_code(self):
+
+        data = self.cleaned_data['postal_code']
+        ok = True
+        if not data:
+            return data
+        for i in data.split('-'):
+            if not i.isdigit():
+                ok = False
+                break
+        if ok:
+            return data
+        else:
+            print('it\'s not')
+            raise forms.ValidationError((u" کدپستی واردشده نامعتبر است."), code='notNumber')
+
+    def clean_phone_number(self):
+        data = self.cleaned_data['phone_number']
+        ok = True
+
+        for i in data.split('-'):
+            if not i.isdigit():
+                ok = False
+                break
+        if ok:
+            return data
+        else:
+            print('it\'s not')
+            raise forms.ValidationError((u"شماره تلفن واردشده نامعتبر است."), code='notNumber')
+
+    def clean_mobile_number(self):
+        data = self.cleaned_data['mobile_number']
+        if not data:
+            return data
+        ok = True
+        for i in data.split('-'):
+            if not i.isdigit():
+                ok = False
+                break
+        if ok:
+            return data
+        else:
+            raise forms.ValidationError((u"شماره تلفن همراه واردشده نامعتبر است."), code='notNumber')
 
     class Meta:
         model = JobSeekerProfile
-        exclude = ('approved', 'image', )
+        exclude = ('approved', 'image', 'city', 'state')
         widgets = {
             'married': forms.Select(choices=(
                 ('', u'انتخاب وضعیت'),
