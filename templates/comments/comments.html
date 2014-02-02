@@ -28,7 +28,7 @@
     {% for com in comments %}
         <div class="comment segment ui raised" style="background-color:aliceblue; position: relative;">
             <a class="avatar float_right" href="{% url 'show_profile' %}?pk={{ com.user.pk }}" style="float: right;">
-                <img src="{{ user.image.thumbnail.url|default:'/static/images/user.png' }}">
+                <img src="{{ com.user.cast.profile.image.thumbnail.url|default:'/static/images/user.png' }}">
             </a>
 
             <div class="content" style="margin-left: 0">
