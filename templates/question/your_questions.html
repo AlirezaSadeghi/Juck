@@ -7,6 +7,14 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
+    <style type="text/css">
+        .fj_samane_esmi{
+            margin-left: -80px;
+            font-size: 12px;
+            margin-top: 13px;
+            display: inline-block;
+        }
+    </style>
 {% endblock %}
 
 {% block js %}
@@ -45,8 +53,8 @@
                         </div>
 
                         <div class="ui segment javab_box">
-                            <div class="user_info2">
-                                <span class="question_date">پرسیده شده در:<span>{{ question.get_persian_date }}</span></span>
+                            <div class="fj_samane_esmi">
+                                <span class="question_date" style="margin-left: 100px;">پرسیده شده در:<span>{{ question.get_persian_date }}</span></span>
                                 {% if question.answer %}
                                     <span class="question_replier">پاسخ از:<span>{{ question.answer.responder }}</span></span>
                                 {% else %}

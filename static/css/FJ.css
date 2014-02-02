@@ -342,7 +342,7 @@ body {
 }
 
 .user_list .user_info2 .question_date {
-    width: 150px !important;
+    width: 150px;
 }
 
 .user_list .user_info2 .question_replier {

@@ -13,6 +13,7 @@ $(document).ready(function () {
         var id = $(this).parents('.ui.single_question').attr('qid');
         var txt = $(this).siblings('.ui.form').find('textarea').val()
         send_ajax({csrfmiddlewaretoken: csrfToken, pk: id, answer: txt}, '/question/answer_question/');
+        location.reload();
     });
 
 
