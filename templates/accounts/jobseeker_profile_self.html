@@ -10,6 +10,19 @@
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/FJ_test.css' %}" type="text/css"/>
     <style type="text/css">
+        select {
+            border-radius: 3px;
+            border-color: lightgray;
+            background-color: white;
+            height: 28px;
+            width: 143px;
+        }
+
+        .ui.field {
+            margin: 10px 0px !important;
+            display: block;
+        }
+
         input[type='text'] {
             width: 100px;
             height: 25px;
@@ -27,6 +40,22 @@
             height: 80px;
         }
 
+        .header {
+            text-align: right;
+        }
+
+        .content {
+            text-align: right;
+        }
+
+        .content input[type='text'] {
+            width: 550px !important;
+            height: 25px;
+            margin-top: -15px;
+            padding: 0px 5px;
+            color: #555;
+        }
+
     </style>
 {% endblock %}
 
@@ -40,12 +69,24 @@
                 message('ابتدا نظر خود را بنویسید.', 'Warning');
         }
         $(document).ready(function () {
+
+            $('.add_edu').click(function () {
+                $("#educations_modal").modal('show');
+            });
+
+            $('.add_skill').click(function () {
+                $("#skills_modal").modal('show');
+            });
+
+            $('.add_exp').click(function () {
+                $("#history_modal").modal('show');
+            })
+
             $('.ui.accordion').accordion();
 
             $('#js_rating').rating('set rating', {{ jobseeker.get_rate }}).rating({interactive: true, onRate: function (value) {
                 addRate('job_seeker', {{ jobseeker.id }}, value);
             }});
-
 
             fetchComments('job_seeker', {{ jobseeker.id }}, 1, '#jobseeker-comment');
 
@@ -206,7 +247,8 @@
     <div class="title education">
         <i class="triangle left icon"></i>
         تحصیلات
-        <a class="fj_link edit_profile_accordion">ویرایش</a>
+        <a class="fj_link edit_profile_accordion edit_edu">ویرایش</a>
+        <a class="fj_link edit_profile_accordion add_edu">افزودن</a>
     </div>
     <div class="content education">
         {% for education in jobseeker.resume.education.all %}
@@ -262,6 +304,7 @@
         <i class="triangle left icon"></i>
         مهارت ها
         <a class="fj_link edit_profile_accordion">ویرایش</a>
+        <a class="fj_link edit_profile_accordion add_skill">افزودن</a>
     </div>
     <div class="content skills">
         {% for skill in jobseeker.resume.skill.all %}
@@ -301,6 +344,7 @@
         <i class="triangle left icon"></i>
         سوابق کاری
         <a class="fj_link edit_profile_accordion">ویرایش</a>
+        <a class="fj_link edit_profile_accordion add_exp">افزودن</a>
     </div>
     <div class="content experience skills">
         {% for xp in jobseeker.resume.experience.all %}
@@ -397,4 +441,107 @@
     </div>
     </div>
     </div>
+
+
+    <div class="ui modal" id="educations_modal">
+        <i class="close icon"></i>
+
+        <div class="header">
+            افزودن تحصیلات جدید
+        </div>
+        <div class="content">
+            <div class="right">
+                <div class="ui form">
+                    رشته : <input type="text" id="edu_major">
+                    گرایش :‌<input type="text" id="edu_field">
+
+                    <div class="ui field">
+                        <select>
+                            <option value="diploma">دیپلم</option>
+                            <option value="under_grad">کارشناسی</option>
+                            <option value="grad">کارشناسی ارشد</option>
+                            <option value="phd">دکتری</option>
+                            <option value="post_doc">پست دکتری</option>
+                        </select>
+                    </div>
+                    <div class="ui field">
+                        <select>
+                            <option value="dolati">دولتی</option>
+                            <option value="azad">آزاد</option>
+                            <option value="payam_nur">پیام نور</option>
+                            <option value="foregin">خارجی</option>
+                            <option value="entefaei">غیر انتفاعی</option>
+                        </select>
+                    </div>
+                    <div class="ui field">
+                        <select>
+                            <option value="student">دانشجو</option>
+                            <option value="gratuated">فارق‌التحصیل</option>
+                        </select>
+
+                        <div class="ui field">
+
+                            دانشگاه : <input type="text" id="university">
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui button">بستن</div>
+                    <div class="ui button">افزودن</div>
+                </div>
+            </div>
+
+
+            <div class="ui modal" id="skills_modal">
+                <i class="close icon"></i>
+
+                <div class="header">
+                    مهارت‌ها
+                </div>
+                <div class="content">
+                    <div class="right">
+                        <div class="ui form">
+                            عنوان<input type="text" id="skill_title">
+                            <select id="skill_level">
+                                <option value="low">آشنا</option>
+                                <option value="high">مسلط</option>
+                                <option value="certificate">دارای مدرک معتبر</option>
+                            </select>
+                            <textarea id="skill_desc"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui button">بستن</div>
+                    <div class="ui button">افزودن</div>
+                </div>
+            </div>
+
+
+            <div class="ui modal" id="history_modal">
+                <i class="close icon"></i>
+
+                <div class="header">
+                    سوابق کاری
+                </div>
+                <div class="content">
+                    <div class="right">
+                        عنوان <input type="text" id="exp_title">
+                        در<input type="text" id="exp_place">
+                        <select>
+                            <option value="">نوع همکاری</option>
+                            <option value="full_time">تمام وقت</option>
+                            <option value="halft_time">پاره وقت</option>
+                            <option value="tele_work">دور کاری</option>
+                        </select>
+                        از سال<input type="text" id="exp_from">
+                        تا سال<input type="text" id="exp_to">
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui button">Cancel</div>
+                    <div class="ui button">OK</div>
+                </div>
+            </div>
+
 {% endblock %}
