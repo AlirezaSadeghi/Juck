@@ -49,7 +49,6 @@
     <div class="ctn-box">
     {% get_user_type as u_type %}
     <form>
-
         <div class="ui icon input left small">
 
 
@@ -71,10 +70,13 @@
                         <label class="input_labels">{{ search_form.employer.label }}</label>
                             {{ search_form.employer }}
                         </span>
+<<<<<<< HEAD
+=======
                         {#                        <span class="inline field">#}
                         {#                        <label class="input_labels">{{ search_form.job_seeker.label }}</label>#}
                         {#                            {{ search_form.job_seeker }}#}
                         {#                        </span>#}
+>>>>>>> d710fe9a4c8db6635cfe487da5f7a4ac6d315328
                     </div>
 
                     <div class="inline field">
@@ -255,14 +257,14 @@
                                 </div>
                             </div>
                         {% else %}
-                            {#                            <div class="more_buttons">#}
-                            {#                                <div class="ui animated button green small"#}
-                            {#                                     onclick="window.location='{% url 'apply_for_job_opportunity' item.pk %}'">#}
-                            {#                                    <div class="visible content green">وضعیت درخواست</div>#}
-                            {#                                    <div class="hidden content"><i class="left arrow icon">مشاهده متقاضیان </i>#}
-                            {#                                    </div>#}
-                            {#                                </div>#}
-                            {#                            </div>#}
+                            <div class="more_buttons">
+                                <div class="ui animated button green small"
+                                     onclick="window.location='{% url 'request_status' item.pk %}'">
+                                    <div class="visible content green">وضعیت درخواست</div>
+                                    <div class="hidden content"><i class="left arrow icon">مشاهده متقاضیان </i>
+                                    </div>
+                                </div>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

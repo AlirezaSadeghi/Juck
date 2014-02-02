@@ -4,7 +4,7 @@ from django import forms
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.conf import settings
 from django.db.models.query_utils import Q
-from juck.articles.models import Article
+from juck.articles.models import Article, ArticleSubmission
 
 
 class ArticleListFilter:
@@ -52,6 +52,8 @@ class ArticleListFilter:
         articles = Article.objects.filter(**filter_kwargs)
 
         articles = articles.filter((Q(title__icontains=both) | Q(summary__icontains=both)))
+        not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
+        articles = articles.exclude(pk__in=set(not_acc))
         count = articles.count()
 
         articles = articles.order_by('-publish_date')
