@@ -107,7 +107,8 @@ class RequestListFilter:
                 for i in range(len(educations)):
                     final_requests = final_requests | requests.filter(
                         (Q(first_major__icontains=major_list[i]) | Q(second_major__icontains=major_list[i])),
-                        certificate__icontains=cert_list[0])
+                        certificate__icontains=cert_list[i])
+                # print(final_requests)
 
         else:
             print("why ???")
