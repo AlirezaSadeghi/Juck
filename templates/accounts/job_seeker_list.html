@@ -28,7 +28,8 @@
 {% block content %}
     <div class="center">
     <div class="ctn-box">
-    <form id="job_seeker_list_form">
+    {% if opt %}
+        <form id="job_seeker_list_form">
         <div class="ui icon input left small" onkeypress="submit_jobseeker_list(event)">
             {{ search_form.search_input }}
             <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
@@ -44,163 +45,202 @@
                 {{ search_form.search_input.help_text }}
             </div>
         </label>
-
         <div class="advanced_search_panel ui segment form">
             <div class="container">
                 <div class="advanced_search_form rf">
                     <div class="ui form">
                         <div class="section">
-                            <h3 class="inline_block">اطلاعات کاربری</h3>
-
-                            <label style="display: inline-block">
-
-                                <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
-
-                                <div id="msg_div1" class="Sina_help Sina_help_news "
-                                     style="margin-top: -16px;">
-                                    {{ search_form.first_name.help_text }}
-                                </div>
-                            </label>
-
-
-                            <div class="three fields">
+                            <div class="two fields">
                                 <div class="inline field">
-                                    <label class="input-details">{{ search_form.sex.label_tag }}: </label>
-                                    {{ search_form.sex }}
+                                    <label class="input-details">{{ search_form.responder.label_tag }}: </label>
+                                    {{ search_form.responder }}
                                 </div>
 
                                 <div class="inline field">
-                                    <label class="input-details">{{ search_form.last_name.label_tag }}: </label>
-                                    {{ search_form.last_name }}
-                                </div>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.first_name.label_tag }}: </label>
-                                    {{ search_form.first_name }}
+                                    <label class="input-details">{{ search_form.status.label_tag }}: </label>
+                                    {{ search_form.status }}
                                 </div>
                             </div>
-                            <div class="three fields">
-                                <div class="inline field">
-
-                                    <label class="input-details">{{ search_form.state.label_tag }}: </label>
-                                    {{ search_form.state }}
-                                </div>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.city.label_tag }}: </label>
-                                    {{ search_form.city }}
-                                </div>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.married.label_tag }}: </label>
-                                    {{ search_form.married }}
-                                </div>
-                            </div>
-                            <h3 class="inline_block">اطلاعات تحصیلی</h3>
-
-                            <label style="display: inline-block">
-
-                                <i class="tiny help icon" id="help_icon" help-id="2" style="cursor: pointer"></i>
-
-                                <div id="msg_div2" class="Sina_help Sina_help_news "
-                                     style="margin-top: -16px;">
-                                    {{ search_form.certificate.help_text }}
-                                </div>
-                            </label>
-
-                            <div class="three fields">
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.edu_orientation.label_tag }}: </label>
-                                    {{ search_form.edu_orientation }}
-                                </div>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.edu_major.label_tag }}: </label>
-                                    {{ search_form.edu_major }}
-                                </div>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.certificate.label_tag }}: </label>
-                                    {{ search_form.certificate }}
-                                </div>
-                            </div>
-
-                            <div class='ui three fields'>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.edu_uni_type.label_tag }}: </label>
-                                    {{ search_form.edu_uni_type }}
-                                </div>
-
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.edu_uni_name.label_tag }}: </label>
-                                    {{ search_form.edu_uni_name }}
-                                </div>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.edu_status.label_tag }}: </label>
-                                    {{ search_form.edu_status }}
-                                </div>
-                            </div>
-
-                            <h3 class="inline_block">اطلاعات کاری</h3>
-
-                            <label style="display: inline-block">
-
-                                <i class="tiny help icon" id="help_icon" help-id="3" style="cursor: pointer"></i>
-
-                                <div id="msg_div3" class="Sina_help Sina_help_news "
-                                     style="margin-top: -16px;">
-                                    {{ search_form.exp_title.help_text }}
-                                </div>
-                            </label>
-
-                            <div class="ui three fields">
-                                <div class="inline field">
-                                    {#                                        <label class="input-details">{{ search_form.skill_description.label_tag }}: </label>#}
-                                    {#                                        {{ search_form.skill_description }}#}
-                                </div>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.exp_place.label_tag }}: </label>
-                                    {{ search_form.exp_place }}
-                                </div>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.exp_title.label_tag }}: </label>
-                                    {{ search_form.exp_title }}
-                                </div>
-
-                            </div>
-
-                            <h3 class="inline_block">مهارت‌ها</h3>
-
-                            <label style="display: inline-block">
-
-                                <i class="tiny help icon" id="help_icon" help-id="4" style="cursor: pointer"></i>
-
-                                <div id="msg_div4" class="Sina_help Sina_help_news "
-                                     style="margin-top: -16px;">
-                                    {{ search_form.skill_title.help_text }}
-                                </div>
-                            </label>
-
-                            <div class="ui three fields">
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.skill_description.label_tag }}: </label>
-                                    {{ search_form.skill_description }}
-                                </div>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.skill_level.label_tag }}: </label>
-                                    {{ search_form.skill_level }}
-                                </div>
-                                <div class="inline field">
-                                    <label class="input-details">{{ search_form.skill_title.label_tag }}: </label>
-                                    {{ search_form.skill_title }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="search_buttons">
-                            <input class="inline ui button" type="reset" value="پاک کردن">
-                            <input class="inline ui button" type="submit" id="submit_button" value="جستجو">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    {% else %}
+        <form id="job_seeker_list_form">
+            <div class="ui icon input left small" onkeypress="submit_jobseeker_list(event)">
+                {{ search_form.search_input }}
+                <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
+            </div>
+
+            <small class="advanced_search">جستجوی پیشرفته</small>
+
+            <label style="display: inline-block">
+
+                <i class="tiny help icon" id="help_icon" help-id="0" style="cursor: pointer"></i>
+
+                <div id="msg_div0" class="Sina_help Sina_help_news " help-id="0" style="margin-top: -16px;">
+                    {{ search_form.search_input.help_text }}
+                </div>
+            </label>
+
+            <div class="advanced_search_panel ui segment form">
+                <div class="container">
+                    <div class="advanced_search_form rf">
+                        <div class="ui form">
+                            <div class="section">
+                                <h3 class="inline_block">اطلاعات کاربری</h3>
+
+                                <label style="display: inline-block">
+
+                                    <i class="tiny help icon" id="help_icon" help-id="1" style="cursor: pointer"></i>
+
+                                    <div id="msg_div1" class="Sina_help Sina_help_news "
+                                         style="margin-top: -16px;">
+                                        {{ search_form.first_name.help_text }}
+                                    </div>
+                                </label>
+
+
+                                <div class="three fields">
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.sex.label_tag }}: </label>
+                                        {{ search_form.sex }}
+                                    </div>
+
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.last_name.label_tag }}: </label>
+                                        {{ search_form.last_name }}
+                                    </div>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.first_name.label_tag }}: </label>
+                                        {{ search_form.first_name }}
+                                    </div>
+                                </div>
+                                <div class="three fields">
+                                    <div class="inline field">
+
+                                        <label class="input-details">{{ search_form.state.label_tag }}: </label>
+                                        {{ search_form.state }}
+                                    </div>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.city.label_tag }}: </label>
+                                        {{ search_form.city }}
+                                    </div>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.married.label_tag }}: </label>
+                                        {{ search_form.married }}
+                                    </div>
+                                </div>
+                                <h3 class="inline_block">اطلاعات تحصیلی</h3>
+
+                                <label style="display: inline-block">
+
+                                    <i class="tiny help icon" id="help_icon" help-id="2" style="cursor: pointer"></i>
+
+                                    <div id="msg_div2" class="Sina_help Sina_help_news "
+                                         style="margin-top: -16px;">
+                                        {{ search_form.certificate.help_text }}
+                                    </div>
+                                </label>
+
+                                <div class="three fields">
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.edu_orientation.label_tag }}: </label>
+                                        {{ search_form.edu_orientation }}
+                                    </div>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.edu_major.label_tag }}: </label>
+                                        {{ search_form.edu_major }}
+                                    </div>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.certificate.label_tag }}: </label>
+                                        {{ search_form.certificate }}
+                                    </div>
+                                </div>
+
+                                <div class='ui three fields'>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.edu_uni_type.label_tag }}: </label>
+                                        {{ search_form.edu_uni_type }}
+                                    </div>
+
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.edu_uni_name.label_tag }}: </label>
+                                        {{ search_form.edu_uni_name }}
+                                    </div>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.edu_status.label_tag }}: </label>
+                                        {{ search_form.edu_status }}
+                                    </div>
+                                </div>
+
+                                <h3 class="inline_block">اطلاعات کاری</h3>
+
+                                <label style="display: inline-block">
+
+                                    <i class="tiny help icon" id="help_icon" help-id="3" style="cursor: pointer"></i>
+
+                                    <div id="msg_div3" class="Sina_help Sina_help_news "
+                                         style="margin-top: -16px;">
+                                        {{ search_form.exp_title.help_text }}
+                                    </div>
+                                </label>
+
+                                <div class="ui three fields">
+                                    <div class="inline field">
+                                        {#                                        <label class="input-details">{{ search_form.skill_description.label_tag }}: </label>#}
+                                        {#                                        {{ search_form.skill_description }}#}
+                                    </div>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.exp_place.label_tag }}: </label>
+                                        {{ search_form.exp_place }}
+                                    </div>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.exp_title.label_tag }}: </label>
+                                        {{ search_form.exp_title }}
+                                    </div>
+
+                                </div>
+
+                                <h3 class="inline_block">مهارت‌ها</h3>
+
+                                <label style="display: inline-block">
+
+                                    <i class="tiny help icon" id="help_icon" help-id="4" style="cursor: pointer"></i>
+
+                                    <div id="msg_div4" class="Sina_help Sina_help_news "
+                                         style="margin-top: -16px;">
+                                        {{ search_form.skill_title.help_text }}
+                                    </div>
+                                </label>
+
+                                <div class="ui three fields">
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.skill_description.label_tag }}: </label>
+                                        {{ search_form.skill_description }}
+                                    </div>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.skill_level.label_tag }}: </label>
+                                        {{ search_form.skill_level }}
+                                    </div>
+                                    <div class="inline field">
+                                        <label class="input-details">{{ search_form.skill_title.label_tag }}: </label>
+                                        {{ search_form.skill_title }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="search_buttons">
+                                <input class="inline ui button" type="reset" value="پاک کردن">
+                                <input class="inline ui button" type="submit" id="submit_button" value="جستجو">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% endif %}
     <div class="user_list">
         {% if job_seekers %}
             {% for job_seeker in job_seekers %}
@@ -235,14 +275,18 @@
                                     <i class=" user icon"></i><br/>
                                     پروفایل
                                 </div>
-                                <div class="ui icon tiny red button rf-button"
-                                     onclick="disapprove_user({{ job_seeker.id }}, 'job_seeker')">
-                                    <i class=" remove icon"></i>
+                                {% if not opt %}
 
-                                    <div>
-                                        غیرفعال
+                                    <div class="ui icon tiny red button rf-button"
+                                         onclick="disapprove_user({{ job_seeker.id }}, 'job_seeker')">
+                                        <i class=" remove icon"></i>
+
+                                        <div>
+                                            غیرفعال
+                                        </div>
                                     </div>
-                                </div>
+
+                                {% endif %}
                             {% else %}
                                 <div class="ui icon tiny linkedin button rf-button"
                                      onclick="approve_user({{ job_seeker.id }}, 'job_seeker')">

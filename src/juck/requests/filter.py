@@ -21,9 +21,6 @@ class RequestListFilter:
         employer = forms.CharField(label=u'کارفرما', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': '', 'placeholder': u'کارفرما'}))
 
-        # job_seeker = forms.CharField(label=u'کارجو', max_length=150, required=False, widget=forms.TextInput(
-        #     attrs={'class': '', 'placeholder': u'کارجو'}))
-
         title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(
             attrs={'class': ''}))
 
@@ -41,12 +38,6 @@ class RequestListFilter:
         sex = forms.ChoiceField(label=u'جنسیت', required=False, choices=(
             ('', u'همه موارد'), (True, u'مرد'), (False, u'زن'), (None, u'دیگر')
         ))
-
-        #
-        # status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
-        #     ('', u'تمامی حالات'), (True, u'قبول شده'), (False, u'رد شده'),(None, u'در دست بررسی') ))
-
-
 
         def __init__(self, *args, **kwargs):
             super(RequestListFilter.RequestFilterForm, self).__init__(*args, **kwargs)
@@ -95,8 +86,6 @@ class RequestListFilter:
                 filter_kwargs.update({'cooperation_type': cooperation_type})
             if sex != '':
                 filter_kwargs.update({'sex': eval(sex)})
-            # if status != '':
-            #     filter_kwargs.update({'status': eval(status)})
 
         if request_type == "jsjo":
             requests = JobseekerJobOffer.objects.filter(**filter_kwargs)
@@ -141,9 +130,6 @@ class RequestListFilter:
         content = total_search
         requests = requests.filter((Q(title__icontains=content) | Q(content__icontains=content) | Q(
             employer__profile__company_name__icontains=content)   ))
-        #| Q(sex=content) | Q( cooperation_type=content)| Q(status=content)
-        # print(content)
-        # print('12322222222')
 
         count = requests.count()
 
@@ -168,23 +154,7 @@ class RequestListFilter:
 class ResponseListFilter:
     class ResponseFilterForm(forms.Form):
 
-        employer = forms.CharField(label=u'کارفرما', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u'کارفرما'}))
-
-        cooperation_type = forms.ChoiceField(label=u'نوع همکاری', required=False, choices=(
-            (1, u'aaa'),
-            (2, u'bbb'),
-            (3, u'ccc'),
-            (4, u'ddd'),
-            (5, u'eee'),
-        ))
-
-        title = forms.CharField(label=u'عنوان', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u''}))
-
-        response = forms.CharField(label=u'متن', max_length=150, required=False, widget=forms.TextInput(
-            attrs={'class': '', 'placeholder': u''}))
-
+        responder = forms.CharField(label=u'پاسخ دهنده', required=False)
         status = forms.ChoiceField(label=u'وضعیت پاسخ', required=False, choices=(
             ('', u'وضعیت پاسخ'), (True, u'قبول شده'), (False, u'رد شده'), (None, u'در دست بررسی') ))
 
@@ -196,75 +166,29 @@ class ResponseListFilter:
 
     Form = ResponseFilterForm
 
-    def init_filter(self, GET_dict, request_type='request', **kwargs):
+    def init_filter(self, GET_dict, item_pk=''):
         self.form = self.Form(GET_dict)
 
-        if request_type == 'ejo' and 'employer' in kwargs:
-            filter_kwargs = {}
-            employer_filter = kwargs.pop('employer')
-        else:
-            filter_kwargs = kwargs
-            employer_filter = ''
+        request = JobOpportunity.objects.get(pk=item_pk)
+        dts = DiscussionThread.objects.filter(request=request)
 
-        job_seeker = ''
-        major = ''
         if self.form.is_valid():
-            total_search = self.form.cleaned_data.get('total_search', '')
-            title = self.form.cleaned_data.get('title', '')
-            employer = self.form.cleaned_data.get('employer', '')
-            job_seeker = self.form.cleaned_data.get('job_seeker', '')
-            content = self.form.cleaned_data.get('content', '')
-            cooperation_type = self.form.cleaned_data.get('cooperation_type', '')
-            sex = self.form.cleaned_data.get('sex', '')
-            major = self.form.cleaned_data.get('major', '')
+            responder = self.form.cleaned_data.get('responder', '')
             status = self.form.cleaned_data.get('status', '')
 
-            if title:
-                filter_kwargs.update({'title__icontains': title})
-            if employer:
-                filter_kwargs.update({'employer__profile__company_name__icontains': employer})
-            if content:
-                filter_kwargs.update({'content__icontains': content})
-            if cooperation_type:
-                filter_kwargs.update({'cooperation_type': cooperation_type})
-            if sex:
-                filter_kwargs.update({'sex': sex})
-            if status != '':
-                filter_kwargs.update({'status': eval(status)})
+            if status:
+                dts = dts.filter(request__status=eval(status))
+            if responder:
+                dts = dts.filter(Q(responder__first_name__icontains=responder) |
+                                 Q(responder__last_name__icontains=responder))
 
-        if request_type == "jsjo":
-            requests = JobseekerJobOffer.objects.filter(**filter_kwargs)
-        elif request_type == "ejo":
-            requests = EmployerJobOffer.objects.filter(**filter_kwargs)
-        elif request_type == 'jo':
-            requests = JobOpportunity.objects.filter(**filter_kwargs)
-        else:
-            requests = Request.objects.none()
+        guys = []
+        for dt in dts:
+            guys.append(dt.responder.cast())
 
-        if request_type in ['jsjo', 'ejo']:
-            if job_seeker:
-                requests = requests.filter(
-                    Q(sender__last_name__icontains=job_seeker) |
-                    Q(sender__first_name__icontains=job_seeker))
-            if major:
-                requests = requests.filter(Q(first_major=major) |
-                                           Q(second_major=major))
+        count = dts.count()
 
-        if request_type == 'ejo' and employer_filter:
-            requests = requests.filter(Q(employer=employer_filter) | Q(em_receiver=employer_filter))
-
-        # requests
-        content = total_search
-        requests = requests.filter((Q(title__icontains=content) | Q(content__icontains=content) | Q(
-            employer__profile__company__name_icontains=content)  ))
-
-        #| Q(cooperation_type=content) | Q(status=content) | Q(sex=content) | Q(content__icontains=content)
-        print(content)
-        print('12322222222')
-        count = requests.count()
-
-        requests = requests.order_by('-timestamp')
-        paginator = Paginator(requests, settings.RESULTS_PER_PAGE)
+        paginator = Paginator(guys, settings.RESULTS_PER_PAGE)
         page = GET_dict.get('page')
 
         try:
@@ -320,30 +244,17 @@ class DashboardListFilter:
             total_search = self.form.cleaned_data.get('total_search', '')
             employer = self.form.cleaned_data.get('employer', '')
             title = self.form.cleaned_data.get('title', '')
-            # sender = self.form.cleaned_data.get('sender', '')
-            # getter = self.form.cleaned_data.get('getter', '')
             cooperation_type = self.form.cleaned_data.get('cooperation_type', '')
             status = self.form.cleaned_data.get('status', '')
-            # sex = self.form.cleaned_data.get('sex', '')
-            # major = self.form.cleaned_data.get('major', '')
-            # status = self.form.cleaned_data.get('status', '')
-            # print(title)
-            # print(employer)
-            # print(cooperation_type)
-            # print(status)
             if title:
                 print(1)
                 filter_kwargs.update({'request__title__icontains': title})
             if employer:
                 print(2)
                 filter_kwargs.update({'request__employer__profile__company_name__icontains': employer})
-                # if getter:
-            #     filter_kwargs.update({'content__icontains': content})
             if cooperation_type:
                 print(3)
                 filter_kwargs.update({'request__cooperation_type': cooperation_type})
-                # if sex:
-            #     filter_kwargs.update({'sex': sex})
             if status != '':
                 filter_kwargs.update({'request__status': eval(status)})
 
