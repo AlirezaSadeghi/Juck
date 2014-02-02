@@ -342,7 +342,7 @@ body {
 }
 
 .user_list .user_info2 .question_date {
-    width: 150px !important;
+    width: 150px;
 }
 
 .user_list .user_info2 .question_replier {
@@ -388,10 +388,11 @@ body {
 }
 
 .mngr_question_date {
-    width: 200px !important;
+    width: 250px !important;
     position: absolute;
     top: 20px;
-    left: 20px;
+    left: 54px;
+    float: none !important;
 }
 
 .tabular.menu {

@@ -136,7 +136,7 @@
                                     <div class="content">
                                         <div class="Sina_label">فرستاده شده از طرف:</div>
                                         <div class="ui message green inline_block" style="line-height: 10px">
-                                            {{ item.employer.get_full_name }}
+                                            {{ item.employer.profile.company_name }}
                                         </div>
                                     </div>
                                 </div>
@@ -215,14 +215,14 @@
                                 </div>
                             </div>
                         {% else %}
-                            <div class="more_buttons">
-                                <div class="ui animated button green small"
-                                     onclick="window.location='{% url 'add_request' req_param  item.pk %}'">
-                                    <div class="visible content green">وضعیت درخواست</div>
-                                    <div class="hidden content"><i class="left arrow icon">مشاهده متقاضیان </i>
-                                    </div>
-                                </div>
-                            </div>
+{#                            <div class="more_buttons">#}
+{#                                <div class="ui animated button green small"#}
+{#                                     onclick="window.location='{% url 'apply_for_job_opportunity' item.pk %}'">#}
+{#                                    <div class="visible content green">وضعیت درخواست</div>#}
+{#                                    <div class="hidden content"><i class="left arrow icon">مشاهده متقاضیان </i>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
                         {% endif %}
                     </div>
                 </div>

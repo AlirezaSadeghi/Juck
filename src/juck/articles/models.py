@@ -6,6 +6,9 @@ from django.conf import settings
 
 # Create your models here.
 
+MONTHS = (
+    u"فروردين", u"ارديبهشت", u"خرداد", u"تير"
+    , u"مرداد", u"شهريور", u"مهر", u"آبان", u"آذر", u"دي", u"بهمن", u"اسفند", )
 
 class Article(models.Model):
     class Meta:
@@ -26,8 +29,13 @@ class Article(models.Model):
         return u'مقاله: ' + self.title
 
     def get_persian_date(self):
-        tup = create_persian_date(self.publish_date.date())
-        return tup
+        year, month, day = create_persian_date(self.publish_date)
+        if (self.publish_date.time().minute > 9 ):
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (
+            str(self.publish_date.time().hour) + ":" + str(self.publish_date.time().minute)))
+        else:
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (
+            str(self.publish_date.time().hour) + ":" + "0" + str(self.publish_date.time().minute)))
 
     def calculate_score(self):
         pass
@@ -81,5 +89,10 @@ class ArticleSubmission(models.Model):
     accept_date = models.DateTimeField(verbose_name=u'زمان تایید', null=True, editable=False)
 
     def get_persian_date(self):
-        tup = create_persian_date(self.accept_date.date())
-        return tup
+        year, month, day = create_persian_date(self.publish_date)
+        if (self.publish_date.time().minute > 9 ):
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (
+            str(self.publish_date.time().hour) + ":" + str(self.publish_date.time().minute)))
+        else:
+            return u"%d %s %d در ساعت %s" % (day, MONTHS[month - 1], year, (
+            str(self.publish_date.time().hour) + ":" + "0" + str(self.publish_date.time().minute)))

@@ -241,19 +241,19 @@ class ManagerEmployerListFilter:
             if company_name:
                 employer_filter_kwargs.update({'profile__company_name__icontains': company_name})
             if company_type:
-                employer_filter_kwargs.update({'profile__company_type': company_type})
+                employer_filter_kwargs.update({'profile__company_type__icontains': company_type})
             if foundation_year_form:
                 employer_filter_kwargs.update({'profile__foundation_year__gte': foundation_year_form})
             if foundation_year_form:
                 employer_filter_kwargs.update({'profile__foundation_year__lte': foundation_year_to})
-            if city:
+            if manager:
                 employer_filter_kwargs.update({'profile__manager__icontains': manager})
-            if state:
+            if field:
                 employer_filter_kwargs.update({'profile__field': field})
             if city:
-                employer_filter_kwargs.update({'profile__city__name': city})
+                employer_filter_kwargs.update({'profile__city__name__icontains': city})
             if state:
-                employer_filter_kwargs.update({'profile__state__name': state})
+                employer_filter_kwargs.update({'profile__state__name__icontains': state})
 
         user = JuckUser.objects.filter(**filter_kwargs).order_by('-date_joined')
         # employer = Employer.objects.filter(pk__in=user.values('pk'))

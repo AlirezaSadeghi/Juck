@@ -238,6 +238,7 @@ def add_request(request, request_type):
         return render_to_response('messages.html', {'type': 'green', 'message': 'درخواست با موفقیت ثبت شد.'},
                                   context_instance=RequestContext(request, ))
     else:
+        pp_pk = 0
         if request_type == 'jOpp':
             form = JobOpportunityForm()
         elif request_type == 'eReq':
