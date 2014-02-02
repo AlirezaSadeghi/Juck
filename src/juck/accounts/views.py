@@ -14,6 +14,7 @@ from django.contrib import auth
 from django.conf import settings
 from juck.accounts.models import *
 from juck.log.models import ActionLog
+from juck.requests.models import DiscussionThread
 from utils import json_response, send_html_mail
 import hashlib
 import time
@@ -47,7 +48,8 @@ def homepage(request):
 
         not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
         articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))[0:5]
-
+        dis_count = DiscussionThread.objects.all()
+        sign_up = JuckUser.objects.filter(date_joined__gte=datetime.now()-timedelta(days=1))[0:5]
         art_sub = ArticleSubmission.objects.filter(is_accepted=False)[0:5]
 
         if check_user_type(request.user.pk, 'manager'):
@@ -58,7 +60,8 @@ def homepage(request):
             user_type = 'job_seeker'
 
         return render_to_response("accounts/user_panel.html",
-                                  {'user_type': user_type, 'news': news, 'article': articles, 'art_sub': art_sub},
+                                  {'user_type': user_type, 'news': news, 'article': articles, 'art_sub': art_sub,
+                                  'dis_count': dis_count, 'sign_up': sign_up},
                                   context_instance=RequestContext(request, ))
         # home_details = HomeDetails.objects.filter(state=True)[0]
 
