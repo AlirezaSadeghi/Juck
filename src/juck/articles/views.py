@@ -118,7 +118,7 @@ def submitted_article_description(request):
         try:
             # article_sub = ArticleSubmission.objects.values_list('article', flat=True)
             # article = Article.objects.get(pk=pk)
-            article_sub = ArticleSubmission.objects.get(article__pk=pk)
+            article_sub = ArticleSubmission.objects.get(pk=pk)
             return render_to_response('articles/submitted_article_description.html', {'article': article_sub.article, 'sub_article':article_sub},
                                       context_instance=RequestContext(request))
         except ObjectDoesNotExist:
