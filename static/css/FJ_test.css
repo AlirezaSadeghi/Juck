@@ -139,7 +139,6 @@
 .change_password{
     text-decoration: none;
     cursor: pointer;
-    position: absolute;
     left: 10px;
     top: 10px;
 }

@@ -105,7 +105,22 @@
             {% endif %}
 
             $('#edu_submit').click(function () {
-                alert('edu');
+                var univ = $("#university").val();
+                var edu = $("#edu_stat").val();
+                var univ_type = $("#uni_type").val();
+                var cert = $("#cert").val();
+                var edu_field = $("#edu_field").val();
+                var edu_major = $('#edu_major').val();
+
+                $.post('/accounts/add_education/', {csrfmiddlewaretoken: csrfToken, univ: univ, edu: edu, uni_type: univ_type, cert: cert, edu_field: edu_field, edu_major: edu_major}, function (data) {
+                    if(data.op_status == 'success'){
+                        message('سابقه تحصیلی مورد نظر با موفقیت اضافه گردید. برای مشاهده،‌لطفا صفحه را ریفرش کنید.', 'Success');
+                    }
+                    else{
+                        message(data.message, 'Warning');
+                    }
+                })
+
             });
             $('#skill_submit').click(function () {
                 alert('skill');
@@ -118,6 +133,16 @@
                 $("#change_pass_modal").modal('show');
             });
             $('#pass_submit').click(function () {
+
+                $.post('/accounts/change_user_pass/', {csrfmiddlewaretoken: csrfToken, old_password: $('#old_pass').val(),
+                    new_password: $("#new_pass").val(), new_password_repeat: $("#repeat_new_pass").val()}, function (data) {
+                    if (data.op_status == 'success') {
+                        message('رمز عبور شما با موفقیت تغییر کرد.', 'Success');
+                    }
+                    else
+                        message('شما اجازه انجام این عملیات را ندارید.', 'Error');
+                });
+
                 $(this).parents('form').submit();
             });
         });
@@ -130,11 +155,6 @@
     <div class="center">
     <div class="ctn-box">
     <div class="fj_profile" style="position: relative;">
-        {#        {% if self_profile %}#}
-        <a class="change_password">
-            تغییر رمز عبور
-        </a>
-        {#        {% endif %}#}
         <div class=" ui small rounded image ">
             <img src="{{ jobseeker.profile.image.thumbnail.url|default:'/static/images/user.png' }}"/>
         </div>
@@ -163,7 +183,12 @@
         اطلاعات کلی
         {% if self_profile %}
             <a class="fj_link edit_profile_accordion" onclick="window.location='{% url "js_edit_profile" %}'">ویرایش
-            </a>{% endif %}
+            </a>
+            <a class="fj_link edit_profile_accordion change_password">
+                تغییر رمز عبور
+            </a>
+        {% endif %}
+
     </div>
     <div class="active content general_info" id="first">
 
@@ -493,7 +518,7 @@
                         <label>مدرک: </label>
 
                         <div class="ui field ">
-                            <select>
+                            <select id="cert">
                                 <option value="diploma">دیپلم</option>
                                 <option value="under_grad">کارشناسی</option>
                                 <option value="grad">کارشناسی ارشد</option>
@@ -504,7 +529,7 @@
                     </div>
                     <div class="ui field fj_select_absolute">
                         <label>نوع دانشگاه: </label>
-                        <select>
+                        <select id="uni_type">
                             <option value="dolati">دولتی</option>
                             <option value="azad">آزاد</option>
                             <option value="payam_nur">پیام نور</option>
@@ -514,7 +539,7 @@
                     </div>
                     <div class="ui field fj_select_absolute">
                         <label>وضعیت تحصیل: </label>
-                        <select>
+                        <select id="edu_stat">
                             <option value="student">دانشجو</option>
                             <option value="gratuated">فارق‌التحصیل</option>
                         </select>
@@ -642,15 +667,15 @@
                     <div class="ui form">
                         <div class="ui field">
                             <label>رمز قدیمی: </label>
-                            <input type="text" id="old_pass">
+                            <input type="password" id="old_pass">
                         </div>
                         <div class="ui field">
                             <label>رمز جدید: </label>
-                            <input type="text" id="new_pass">
+                            <input type="password" id="new_pass">
                         </div>
                         <div class="ui field">
                             <label>تکرار رمز جدید: </label>
-                            <input type="text" id="repeat_new_pass">
+                            <input type="password" id="repeat_new_pass">
                         </div>
                     </div>
                 </div>

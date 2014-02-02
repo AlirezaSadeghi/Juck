@@ -791,8 +791,21 @@ def employer_edit_profile(request):
     return render_to_response('accounts/employer_edit_form.html', {'form': form},
                               context_instance=RequestContext(request))
 
+
 @login_required
 def jobseeker_edit_profile(request):
+    pass
+
+@login_required
+def add_education(request):
+    pass
+
+@login_required
+def add_skill(request):
+    pass
+
+@login_required
+def add_exp(request):
     pass
 
 
@@ -850,9 +863,19 @@ def edit_js_profile(request):
 
 
 def change_user_pass(request):
-    if request.method == "post":
-        pass
+    if request.is_ajax():
+        old_password = request.POST.get('old_password', '')
+        new_password = request.POST.get('new_password', '')
+        new_password_repeat = request.POST.get('new_password_repeat', '')
 
+        user = auth.authenticate(username=request.user.email, password=old_password)
+        if user.is_authenticated():
+            if new_password == new_password_repeat:
+                user.set_password(new_password)
+                user.save()
+                return json_response({'op_status': 'success'})
+
+    return render_to_response({'op_status': 'fail'})
 
 
 def create_manager_confirm_html(function):

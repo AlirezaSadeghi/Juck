@@ -109,7 +109,6 @@ class RequestListFilter:
                         certificate=cert_list[i])
 
         else:
-            print("why ???")
             requests = Request.objects.none()
 
         print(requests)
