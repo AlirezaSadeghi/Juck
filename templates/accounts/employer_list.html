@@ -13,28 +13,12 @@
 
 {% block js %}
     <script src="{% static 'js/rf.js' %}"></script>
+    <script src="{% static 'js/help.js' %}"></script>
     <script>
-        $(document).ready(function () {
-            $(".Sina_help").each(function () {
-                $(this).hide();
-            })
-
-            icons = $(".help.icon")
-            icons.each(function () {
-                        x = this;
-                        num = this.getAttribute('help-id');
-                        id = "#msg_div" + num;
-                        var help = $(id)
-                        $(this).hover(function () {
-                            help.show();
-                            var h = help[0];
-                            h.style.display = 'inline-table';
-                        }, function () {
-                            help.hide()
-                        })
-                    }
-            );
-        });
+        function mySina() {
+            x = $("#submit_button")[0];
+            x.click();
+        }
     </script>
 
 
@@ -46,7 +30,7 @@
     <form id="employer_list_form">
         <div class="ui icon input left small" onkeypress="submit_employer_list(event)">
             {{ search_form.search_input }}
-            <i class="inverted search icon"></i>
+            <i class="inverted search icon" onclick="mySina()" style="cursor: pointer"></i>
         </div>
 
         <small class="advanced_search">جستجوی پیشرفته</small>
@@ -115,7 +99,7 @@
 
                         <div class="search_buttons">
                             <input class="inline ui button" type="reset" value="پاک کردن">
-                            <input class="inline ui button" type="submit" value="جستجو">
+                            <input class="inline ui button" type="submit" id="submit_button" value="جستجو">
                         </div>
                     </div>
                 </div>
@@ -152,7 +136,7 @@
                         {% if user_type == 'manager' %}
                             {% if approved %}
                                 <div class="ui icon tiny linkedin button rf-button"
-                                        onclick='window.location="{% url 'show_profile' %}?pk={{ employer.pk }}"'>
+                                     onclick='window.location="{% url 'show_profile' %}?pk={{ employer.pk }}"'>
                                     <i class=" user icon"></i><br/>
                                     پروفایل
                                 </div>
@@ -186,7 +170,8 @@
                                 <i class=" user icon"></i><br/>
                                 پروفایل
                             </div>
-                            <div class="ui icon tiny green button rf-button" onclick='window.location="{% url 'add_request' 'jReq' %}?pk={{ employer.pk }}"'>
+                            <div class="ui icon tiny green button rf-button"
+                                 onclick='window.location="{% url 'add_request' 'jReq' %}?pk={{ employer.pk }}"'>
                                 <i class=" add icon"></i>
 
                                 <div>
@@ -199,7 +184,8 @@
                                 <i class=" user icon"></i><br/>
                                 پروفایل
                             </div>
-                            <div class="ui icon tiny green button rf-button" onclick='window.location="{% url 'add_request' 'eReq' %}?pk={{ employer.pk }}"'>
+                            <div class="ui icon tiny green button rf-button"
+                                 onclick='window.location="{% url 'add_request' 'eReq' %}?pk={{ employer.pk }}"'>
                                 <i class=" add icon"></i>
 
                                 <div>

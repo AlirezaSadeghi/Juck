@@ -7,6 +7,14 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/FJ.css' %}"/>
+    <style type="text/css">
+        .fj_samane_esmi{
+            margin-left: -80px;
+            font-size: 12px;
+            margin-top: 13px;
+            display: inline-block;
+        }
+    </style>
 {% endblock %}
 
 {% block js %}
@@ -16,7 +24,7 @@
 {% block content %}
     <div class="center">
         <div class="ctn-box">
-
+        <form>
 
             <div class="ui top attached tabular menu">
                 <a class="active item faq_list_tab fj_green">
@@ -45,8 +53,8 @@
                         </div>
 
                         <div class="ui segment javab_box">
-                            <div class="user_info2">
-                                <span class="question_date">پرسیده شده در:<span>{{ question.timestamp }}</span></span>
+                            <div class="fj_samane_esmi">
+                                <span class="question_date" style="margin-left: 100px;">پرسیده شده در:<span>{{ question.get_persian_date }}</span></span>
                                 {% if question.answer %}
                                     <span class="question_replier">پاسخ از:<span>{{ question.answer.responder }}</span></span>
                                 {% else %}
@@ -98,6 +106,7 @@
                     </div>
                 {% endif %}
             </div>
+        </form>
 
             <div class="display_none faq_add">
                     <div class="ui form segment">
