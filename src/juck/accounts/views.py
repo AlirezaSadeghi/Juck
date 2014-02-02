@@ -849,6 +849,11 @@ def edit_js_profile(request):
                               context_instance=RequestContext(request, ))
 
 
+def change_user_pass(request):
+    if request.method == "post":
+
+
+
 def create_manager_confirm_html(function):
     mail_content = ''
     if function == 'approve':
