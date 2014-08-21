@@ -31,6 +31,11 @@ urlpatterns = patterns('juck.accounts.views',
                        url(r'show_profile/emp/edit/$', 'employer_edit_profile', {}, name='employer_edit_profile'),
                        url(r'show_profile/js/edit/$', 'jobseeker_edit_profile', {}, name='jobseeker_edit_profile'),
 
+
+                       url(r'add_edu/$', 'add_edu'),
+                       url(r'add_exp/$', 'add_exp'),
+                       url(r'add_skill/$', 'add_skill'),
+
                        url(r'check_catpcha/$', 'check_catpcha', {}, name='check_catpcha'),
 
                        url(r'jobseeker_addedu/$', 'jobseeker_addedu'),

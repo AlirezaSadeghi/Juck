@@ -20,6 +20,7 @@ $(document).ready(function () {
     $('.del_q').click(function () {
         var id = $(this).parents('.ui.single_question').attr('qid');
         send_ajax({csrfmiddlewaretoken: csrfToken, pk: id, del: 'True'}, '/question/answer_question/');
+        location.reload();
     });
 
     $('.del_common_q').click(function(){

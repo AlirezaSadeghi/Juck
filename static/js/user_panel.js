@@ -1,10 +1,10 @@
 $(document).ready(function () {
 
-  $(".manager-state .num").each(function() {
-      $(this).data('count', parseInt($(this).html(), 10));
-      $(this).html('0');
-      count($(this));
-  });
+//  $(".manager-state .num").each(function() {
+//      $(this).data('count', parseInt($(this).html(), 10));
+//      $(this).html('0');
+////      count($(this));
+//  });
 
 
 	// $(".manager-state").hover(function() { 
@@ -18,10 +18,10 @@ $(document).ready(function () {
 
 });
 
-function count($this){
-        var current = parseInt($this.html(), 10);
-        $this.html(++current);
-        if(current !== $this.data('count')){
-            setTimeout(function(){count($this)}, 10);
-        }
-    }
+//function count($this){
+//        var current = parseInt($this.html(), 10);
+//        $this.html(++current);
+//        if(current !== $this.data('count')){
+//            setTimeout(function(){count($this)}, 10);
+//        }
+//    }

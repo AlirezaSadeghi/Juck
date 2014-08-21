@@ -14,6 +14,7 @@ from django.contrib import auth
 from django.conf import settings
 from juck.accounts.models import *
 from juck.log.models import ActionLog
+from juck.requests.models import DiscussionThread
 from utils import json_response, send_html_mail
 import hashlib
 import time
@@ -47,7 +48,8 @@ def homepage(request):
 
         not_acc = ArticleSubmission.objects.filter(is_accepted=False).values_list('article', flat=True)
         articles = Article.objects.all().order_by('-publish_date').exclude(pk__in=set(not_acc))[0:5]
-
+        dis_count = DiscussionThread.objects.all()
+        sign_up = JuckUser.objects.filter(date_joined__gte=datetime.now()-timedelta(days=1))[0:5]
         art_sub = ArticleSubmission.objects.filter(is_accepted=False)[0:5]
 
         if check_user_type(request.user.pk, 'manager'):
@@ -58,7 +60,8 @@ def homepage(request):
             user_type = 'job_seeker'
 
         return render_to_response("accounts/user_panel.html",
-                                  {'user_type': user_type, 'news': news, 'article': articles, 'art_sub': art_sub},
+                                  {'user_type': user_type, 'news': news, 'article': articles, 'art_sub': art_sub,
+                                  'dis_count': dis_count, 'sign_up': sign_up},
                                   context_instance=RequestContext(request, ))
         # home_details = HomeDetails.objects.filter(state=True)[0]
 
@@ -795,6 +798,71 @@ def employer_edit_profile(request):
 @login_required
 def jobseeker_edit_profile(request):
     pass
+
+@login_required
+def add_edu(request):
+    if request.method == 'POST':
+        try:
+            print('hi')
+            certificate = request.POST.get('certificate','')
+            status = request.POST.get('status','')
+            major = request.POST.get('major','')
+            orientation = request.POST.get('orientation','')
+            university_name = request.POST.get('university_name','')
+            university_type = request.POST.get('university_type','')
+            print('why')
+            edu = Education(certificate=certificate,status=status,major=major,orientation=orientation,
+                            university_name=university_name,university_type=university_type)
+            edu.save()
+            u = JobSeeker.objects.get(pk=request.user.pk)
+            u.resume.education.add(edu)
+            return json_response({'op_status':'success', 'message':u'با موفقیت انجام شد. لطفا صفحه را دوباره بارگذاری کنید.'})
+        except:
+            return json_response({'op_status':'failed', 'message':u'مشکلی پیش آمده است.'})
+    return render_to_response('messages.html', {
+        'message': u'صفحه موردنظر وجود ندارد.'},
+                              context_instance=RequestContext(request))
+
+@login_required
+def add_exp(request):
+    if request.method == 'POST':
+        try:
+            title = request.POST.get('title','')
+            place = request.POST.get('place','')
+            from_date = request.POST.get('from_date','')
+            to_date = request.POST.get('to_date','')
+            cooperation_type = request.POST.get('cooperation_type','')
+            edu = Experience(title=title, place=place, from_date=from_date, to_date=to_date,
+                             cooperation_type=cooperation_type)
+            edu.save()
+            u = JobSeeker.objects.get(pk=request.user.pk)
+            u.resume.experience.add(edu)
+            return json_response({'op_status':'success', 'message':u'با موفقیت انجام شد. لطفا صفحه را دوباره بارگذاری کنید.'})
+        except:
+            return json_response({'op_status':'failed', 'message':u'مشکلی پیش آمده است.'})
+    return render_to_response('messages.html', {
+        'message': u'صفحه موردنظر وجود ندارد.'},
+                              context_instance=RequestContext(request))
+
+@login_required
+def add_skill(request):
+    if request.method == 'POST':
+        try:
+            # print('hi')
+            title = request.POST.get('title','')
+            level = request.POST.get('level','')
+            description = request.POST.get('description','')
+            edu = Skill(title=title, level=level, description=description)
+            edu.save()
+            u = JobSeeker.objects.get(pk=request.user.pk)
+            u.resume.skill.add(edu)
+            return json_response({'op_status':'success', 'message':u'با موفقیت انجام شد. لطفا صفحه را دوباره بارگذاری کنید.'})
+        except:
+            return json_response({'op_status':'failed', 'message':u'مشکلی پیش آمده است.'})
+    return render_to_response('messages.html', {
+        'message': u'صفحه موردنظر وجود ندارد.'},
+                              context_instance=RequestContext(request))
+
 
 
 @user_passes_test(lambda user: check_user_type(user.pk, 'jobseeker'))
